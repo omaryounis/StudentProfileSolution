@@ -1,0 +1,15 @@
+﻿@using System.Web.UI.WebControls
+
+@Html.DevExpress().CallbackPanel(settings =>
+{
+    settings.Name = "PayRollStudentsReportCallBack";
+    settings.CallbackRouteValues = new { Controller = "PayRollStudents", Action = "PayRollStudentsReportCallBack" };
+    settings.Width = Unit.Percentage(100);
+    settings.SetContent(() =>
+    {
+        if (Request.IsAjaxRequest())
+        {
+            Html.RenderAction("ReportViewerPartial");
+        }
+    });
+}).GetHtml()

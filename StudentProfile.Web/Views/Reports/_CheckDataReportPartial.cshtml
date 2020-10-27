@@ -1,0 +1,14 @@
+﻿@model CheckDataRPT
+
+@Html.DevExpress().DocumentViewer(settings =>
+{
+    settings.Name = "CheckDataRPT";
+    settings.CallbackRouteValues = new { Controller = "Reports", Action = "CheckDataReport" };
+    settings.ExportRouteValues = new { Controller = "Reports", Action = "CheckDataReportExport" };
+    settings.Report = Model;
+    settings.ToolbarMode = DocumentViewerToolbarMode.Ribbon;
+    settings.SettingsReportViewer.UseIFrame = false;
+    settings.SettingsReportViewer.TableLayout = false;
+    settings.ClientSideEvents.BeforeExportRequest = "CheckDataReportExportRequest";
+    settings.ClientSideEvents.Init = "onDocumetnViewerInit";
+}).GetHtml()

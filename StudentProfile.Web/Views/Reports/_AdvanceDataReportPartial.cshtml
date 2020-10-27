@@ -1,0 +1,14 @@
+﻿@model AdvanceDataRPT
+
+@Html.DevExpress().DocumentViewer(settings =>
+{
+    settings.Name = "AdvanceDataRPT";
+    settings.CallbackRouteValues = new { Controller = "Reports", Action = "AdvanceDataReport" };
+    settings.ExportRouteValues = new { Controller = "Reports", Action = "AdvanceDataReportExport" };
+    settings.Report = Model;
+    settings.ToolbarMode = DocumentViewerToolbarMode.Ribbon;
+    settings.SettingsReportViewer.UseIFrame = false;
+    settings.SettingsReportViewer.TableLayout = false;
+    settings.ClientSideEvents.BeforeExportRequest = "AdvanceDataReportExportRequest";
+    settings.ClientSideEvents.Init = "onDocumetnViewerInit";
+}).GetHtml()

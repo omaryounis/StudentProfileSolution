@@ -1,0 +1,426 @@
+﻿@using System.Web.UI.WebControls
+@using StudentProfile.Web.Controllers;
+@using DevExpress.Web.FormLayout;
+@{
+    ViewBag.Title = "إسناد دورة للطلاب";
+}
+<script>
+    function CheckValidation(e) {
+        debugger;
+        if (!ASPxClientEdit.ValidateEditorsInContainer(ContentFormLayout.GetMainElement()))
+        { 
+            return false;
+        }
+    }
+    function validate(s,e) {
+        s.validate;
+    }
+    function FillStudentsPerFaculty(s, e) {
+
+        var facid = s.GetSelectedItem().value;
+        var SelectedTokens = StudentsListBox.GetTokenCollection();
+        var selected = SelectedTokens.join('#');
+        
+        $.ajax({
+            url: '/Students/_StudentsPerFacultyListBox',
+            data: { facid: facid, selectedStudents: selected },
+            success: function (data) {
+                $('#tokendivv').html(data);
+                StudentsListBox.SetTokenCollection(SelectedTokens);
+            }
+        })
+    }
+    function OnEmpCoursesAttachmentsFilesUploadComplete(s, e) {
+        debugger;
+        var data = e.callbackData.split('|');
+        for (var i = 0; i < data.length; i += 2) {
+            var file = data[i];
+            var url = data[i + 1];
+            var link = document.createElement('A');
+            link.innerHTML = file;
+            link.setAttribute('href', url);
+            link.setAttribute('target', '_blank');
+            var fileContainer = document.getElementById('filesContain');
+            fileContainer.appendChild(link);
+            fileContainer.appendChild(document.createElement('BR'));
+        }
+    }
+    var textSeparator = ";";
+    function OnListBoxSelectionChanged(listBox, args) {
+        debugger;
+        if (args.index == -1)
+            args.isSelected ? listBox.SelectAll() : listBox.UnselectAll();
+        UpdateSelectAllItemState();
+        UpdateText();
+    }
+    function UpdateSelectAllItemState() {
+        IsAllSelected() ? StudentsListBox.SelectIndices([-1]) : StudentsListBox.UnselectIndices([-1]);
+    }
+
+    function IsAllSelected() {
+        for (var i = 1; i < StudentsListBox.GetItemCount() ; i++)
+            if (!StudentsListBox.GetItem(i).selected)
+                return false;
+        return true;
+    }
+
+    function UpdateText() {
+        var selectedItems = StudentsListBox.GetSelectedItems();
+        StudentsListBox.SetText(GetSelectedItemsText(selectedItems));
+    }
+
+    function SynchronizeListBoxValues(dropDown, args) {
+        StudentsListBox.UnselectAll();
+        var texts = dropDown.GetText().split(textSeparator);
+        var values = GetValuesByTexts(texts);
+        StudentsListBox.SelectValues(values);
+        UpdateSelectAllItemState();
+        UpdateText(); // for remove non-existing texts
+    }
+
+    function GetSelectedItemsText(items) {
+        var texts = [];
+        for (var i = 0; i < items.length; i++)
+            if (items[i].index != -1)
+                texts.push(items[i].text);
+        return texts.join(textSeparator);
+    }
+
+    function GetValuesByTexts(texts) {
+        var actualValues = []; var item;
+        for (var i = 0; i < texts.length; i++) {
+            item = StudentsListBox.FindItemByText(texts[i]);
+            if (item != null)
+                actualValues.push(item.value);
+        }
+        return actualValues;
+    }
+    function RefreshGrid() {
+        debugger;
+        $("#filesContain").html();
+        ASPxClientEdit.ClearEditorsInContainer();
+        AllCoursesGridView.PerformCallback();
+    }
+</script>
+<style>
+    .dxflItem_MetropolisBlue {
+        padding-top:5px !important
+    }
+</style>
+<div class="container-fluid container-fullw">
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="panel bg-white">
+                <div class="breadcrumb-wrapper text-right">
+                    <h4 class="no-margin"> اسناد دورات للطلاب</h4>
+                </div>
+                <div class="panel-body">
+                    @using (Ajax.BeginForm(new AjaxOptions { OnComplete = "RefreshGrid", OnBegin="CheckValidation"}))
+                    {
+
+
+                        Html.DevExpress().FormLayout(settings =>
+                        {
+                            Html.EnableUnobtrusiveJavaScript(false);
+                            Html.EnableClientValidation(false);
+                            settings.Name = "ContentFormLayout";
+                            settings.Width = Unit.Percentage(100);
+                            settings.ColCount = 4;
+                            settings.UseDefaultPaddings = false;
+                            settings.SettingsItemCaptions.Location = LayoutItemCaptionLocation.Top;
+                            settings.Styles.LayoutItem.Paddings.PaddingTop = Unit.Pixel(20);
+
+                            settings.Items.Add(item =>
+                            {
+                                item.Caption = "اسم الدورة";
+                                item.FieldName = "CourseNames";
+                                item.CssClass = "p-l-25";
+
+                                item.NestedExtension().TextBox(control =>
+                                {
+                                    control.Name = "CourseName";
+                                    control.Properties.ValidationSettings.RequiredField.IsRequired = true;
+                                    control.Properties.ValidationSettings.RequiredField.ErrorText = "حقل اجبارى";
+                                    control.Properties.ClientSideEvents.LostFocus = "validate";
+                                    control.Width = Unit.Percentage(100);
+                                });
+                            });
+                            settings.Items.Add(item =>
+                            {
+                                item.Caption = "مكان الدورة";
+                                item.FieldName = "CoursePlaces";
+                                item.CssClass = "p-l-25";
+                                item.NestedExtension().TextBox(control =>
+                                {
+                                    control.Name = "CoursePlace";
+                                    control.Properties.ValidationSettings.RequiredField.IsRequired = true;
+                                    control.Properties.ValidationSettings.RequiredField.ErrorText = "حقل اجبارى";
+                                    control.Properties.ClientSideEvents.LostFocus = "validate";
+                                    control.Width = Unit.Percentage(100);
+                                });
+                            });
+                            settings.Items.Add(item =>
+                            {
+                                item.Caption = "عدد الأيام";
+                                item.CssClass = "p-l-25";
+                                item.FieldName = "CoursesDays";
+                                item.RequiredMarkDisplayMode = FieldRequiredMarkMode.Required;
+                                item.NestedExtension().SpinEdit(control =>
+                                {
+
+                                    control.Properties.ValidationSettings.RequiredField.IsRequired = true;
+                                    control.Properties.ValidationSettings.RequiredField.ErrorText = "حقل اجبارى";
+                                    control.Name = "CourseDays";
+                                    control.Properties.MinValue = 0;
+                                    control.Properties.ClientSideEvents.LostFocus = "validate";
+                                    control.Properties.MaxValue = 100;
+                                    control.Width = Unit.Percentage(100);
+                                });
+                            });
+                            settings.Items.Add(item =>
+                            {
+                                item.Caption = "نوع الدورة";
+                                item.FieldName = "CourseTypes";
+                                item.CssClass = "p-l-25";
+                                item.RequiredMarkDisplayMode = FieldRequiredMarkMode.Required;
+
+                                //item.Properties.ValidationSettings.RequiredField.ErrorText = "حقل اجبارى";
+                                item.NestedExtension().ComboBox(control =>
+                                {
+                                    control.Name = "CourseTypes_ID";
+                                    control.Width = Unit.Pixel(163);
+                                    control.Properties.ValidationSettings.RequiredField.IsRequired = true;
+                                    control.Properties.ValidationSettings.RequiredField.ErrorText = "حقل اجبارى";
+                                    control.SelectedIndex = 2;
+                                    control.Width = Unit.Percentage(100);
+                                    control.Properties.DataSource = StudentsController.GetCoursesTypes();
+                                    control.Properties.TextField = "Text";
+                                    control.Properties.ValueField = "Value";
+                                    control.Properties.ValueType = typeof(string);
+                                });
+                            });
+                            settings.Items.Add(item =>
+                            {
+                                item.Caption = "الدرجة";
+                                item.FieldName = "Degrees";
+                                item.CssClass = "p-l-25";
+                                item.RequiredMarkDisplayMode = FieldRequiredMarkMode.Required;
+                                item.NestedExtension().ComboBox(control =>
+                                {
+                                    control.Name = "Degree";
+                                    control.Properties.ValidationSettings.RequiredField.IsRequired = true;
+                                    control.Properties.ValidationSettings.RequiredField.ErrorText = "حقل اجبارى";
+                                    control.Width = Unit.Pixel(163);
+
+                                    control.SelectedIndex = 2;
+                                    control.Width = Unit.Percentage(100);
+                                    control.Properties.DataSource = new List<SelectListItem>
+{
+                        new SelectListItem {Text = "ممتاز", Value = "ممتاز"},
+                        new SelectListItem {Text = "جيد جدا", Value = "جيد جدا"},
+                        new SelectListItem {Text = "جيد", Value = "جيد"},
+                        new SelectListItem {Text = "مقبول", Value = "مقبول"},
+                        new SelectListItem {Text = "راسب", Value = "راسب"}
+};
+                                    control.Properties.TextField = "Text";
+                                    control.Properties.ValueField = "Value";
+                                    control.Properties.ValueType = typeof(string);
+                                });
+                            });
+                            settings.Items.Add(item =>
+                            {
+                                item.Caption = "النسبة المئوية";
+                                item.CssClass = "p-l-25";
+                                item.FieldName = "DegreePercentage";
+                                item.RequiredMarkDisplayMode = FieldRequiredMarkMode.Required;
+                                item.NestedExtension().SpinEdit(control =>
+                                {
+
+                                    control.Properties.ValidationSettings.RequiredField.IsRequired = true;
+                                    control.Properties.ValidationSettings.RequiredField.ErrorText = "حقل اجبارى";
+                                    control.Properties.ClientSideEvents.LostFocus = "validate";
+                                    control.Name = "DegreePercentage";
+                                    control.Properties.MinValue = 0;
+                                    control.Properties.MaxValue = 100;
+                                    control.Width = Unit.Percentage(100);
+                                });
+                            });
+                            settings.Items.Add(item =>
+                            {
+                                item.FieldName = "StartDate";
+                                item.CssClass = "p-l-25";
+                                item.Caption = "تاريخ بداية المشاركة";
+                                item.NestedExtensionType = FormLayoutNestedExtensionItemType.DateEdit;
+                                item.RequiredMarkDisplayMode = FieldRequiredMarkMode.Required;
+                                item.NestedExtension().DateEdit(control =>
+                                {
+                                    control.Name= "StartDate";
+                                    control.Properties.ValidationSettings.RequiredField.IsRequired = true;
+                                    control.Properties.ValidationSettings.RequiredField.ErrorText = "حقل اجبارى";
+                                    control.Properties.ClientSideEvents.LostFocus = "validate";
+                                    control.Width = Unit.Percentage(100);
+                                });
+                            });
+                            settings.Items.Add(item =>
+                            {
+                                item.FieldName = "EndDate";
+                                item.CssClass = "p-l-25";
+                                item.Caption = "تاريخ نهاية المشاركة";
+                                item.NestedExtensionType = FormLayoutNestedExtensionItemType.DateEdit;
+                                item.RequiredMarkDisplayMode = FieldRequiredMarkMode.Required;
+                                item.NestedExtension().DateEdit(control =>
+                                {
+                                    control.Name = "EndDate";
+                                    control.Properties.ValidationSettings.RequiredField.IsRequired = true;
+                                    control.Properties.ValidationSettings.RequiredField.ErrorText = "حقل اجبارى";
+                                    control.Properties.ClientSideEvents.LostFocus = "validate";
+                                    control.Width = Unit.Percentage(100);
+                                });
+                            });
+                            settings.Items.Add(item =>
+                            {
+                                item.Caption = "كلية:";
+                                item.FieldName = "FacultyID";
+                                item.CssClass = "p-l-50";
+                                item.RequiredMarkDisplayMode = FieldRequiredMarkMode.Required;
+                                item.NestedExtension().ComboBox(control =>
+                                {
+                                    control.Name = "FacultyIDcomboBox";
+                                    control.Width = Unit.Percentage(100);
+                                    control.SelectedIndex = 2;
+                                    control.Properties.DataSource = ViewBag.Faculties;
+                                    control.Properties.TextField = "Text";
+                                    control.Properties.ValueField = "Value";
+                                    control.Properties.ValueType = typeof(string);
+                                    control.Properties.EnableClientSideAPI = true;
+                                    control.Properties.ClientSideEvents.SelectedIndexChanged = "FillStudentsPerFaculty";
+                                    control.Properties.ClientSideEvents.LostFocus = "validate";
+                                });
+                            });
+                            settings.Items.Add(item =>
+                            {
+                                item.FieldName = "EmployeeID";
+                                item.ColSpan = 2;
+                                item.Caption = "اسم الطالب";
+                                item.CssClass = "p-l-25";
+                                item.RequiredMarkDisplayMode = FieldRequiredMarkMode.Required;
+                                item.NestedExtensionType = FormLayoutNestedExtensionItemType.TokenBox;
+                                //item.Width = Unit.Percentage(100);
+                                item.SetNestedContent(() => {
+                                    ViewContext.Writer.Write("<div id='tokendivv'>");
+                                    Html.RenderAction("_StudentsPerFacultyListBox");
+                                    ViewContext.Writer.Write("</div>");
+                                });
+
+                                //{
+                                //    //control.Width = Unit.Percentage(50);
+                                //    //control.Properties.AllowCustomTokens = false;
+                                //    //control.Properties.IncrementalFilteringMode = IncrementalFilteringMode.Contains;
+                                //    //control.Properties.ShowDropDownOnFocus = ShowDropDownOnFocusMode.Always;
+                                //    //control.Properties.DataSource = ViewData["Students"];
+                                //    control.Properties.TextField = "StudentName";
+                                //    control.Properties.ValueField = "StudentID";
+                                //    control.Name = "StudentsListBox";
+                                //    //dropdown.Properties.NullText = "اختر";
+                                //    //dropdown.Properties.ValidationSettings.RequiredField.IsRequired = true;
+                                //    //dropdown.Properties.ValidationSettings.RequiredField.ErrorText = "حقل اجبارى";
+                                //    //dropdown.Width = Unit.Percentage(100);
+                                //    //dropdown.SetDropDownWindowTemplateContent(control =>
+                                //    //{
+                                //    //    Html.DevExpress().ListBox(listBoxSettings =>
+                                //    //    {
+                                //    //        listBoxSettings.Name = "StudentsListBox";
+                                //    //        listBoxSettings.Properties.ValidationSettings.RequiredField.IsRequired = true;
+                                //    //        listBoxSettings.Properties.ValidationSettings.RequiredField.ErrorText = "حقل اجبارى";
+                                //    //        listBoxSettings.Properties.EnableSelectAll = true;
+                                //    //        listBoxSettings.Properties.SelectAllText = "اختيار الكل";
+                                //    //        //st.Style.Add("float", "left");
+                                //    //        listBoxSettings.Width = Unit.Percentage(100);
+                                //    //        listBoxSettings.Height = Unit.Pixel(250);
+                                //    //        listBoxSettings.Properties.EnableClientSideAPI = true;
+                                //    //        listBoxSettings.Properties.SelectionMode = ListEditSelectionMode.CheckColumn;
+                                //    //        listBoxSettings.Properties.TextField = "StudentName";
+                                //    //        listBoxSettings.Properties.ValueField = "StudentID";
+                                //    //        listBoxSettings.Properties.ClientSideEvents.SelectedIndexChanged = "OnListBoxSelectionChanged";
+                                //    //        listBoxSettings.Properties.ClientSideEvents.LostFocus = "validate";
+                                //    //        listBoxSettings.Properties.ValueType = typeof(string);
+                                //    //        listBoxSettings.SelectedIndex = 0;
+                                //    //    }).BindList(ViewData["Students"]).Render();
+                                //    //    dropdown.Properties.ClientSideEvents.KeyDown = "validate";
+                                //    //    dropdown.Properties.ClientSideEvents.TextChanged = "SynchronizeListBoxValues";
+                                //    //    dropdown.Properties.ClientSideEvents.DropDown = "SynchronizeListBoxValues";
+
+                                //});
+                            });
+                            settings.Items.Add(item =>
+                            {
+                                item.FieldName = "CourseImagePath";
+                                item.Caption = "المرفقات";
+                                item.NestedExtensionType = FormLayoutNestedExtensionItemType.UploadControl;
+                                item.NestedExtension().UploadControl(control =>
+                                {
+
+
+                                    control.Name = "AllStudentsCoursesAttachments";
+                                    control.EnableTheming = true;
+                                    control.UploadMode = UploadControlUploadMode.Advanced;
+                                    control.ShowAddRemoveButtons = false;
+                                    control.AdvancedModeSettings.EnableFileList = false;
+                                    // control.Styles.Theme = Th
+                                    control.AdvancedModeSettings.EnableMultiSelect = false;
+                                    control.ShowProgressPanel = true;
+                                    control.ShowClearFileSelectionButton = true;
+                                    control.AutoStartUpload = false;
+                                    control.CallbackRouteValues = new { Controller = "Students", Action = "AllStudentsCoursesFilesUpload" };
+                                    control.RightToLeft = DefaultBoolean.True;
+                                    control.ShowUploadButton = true;
+                                    control.UploadButton.Image.IconID = IconID.ActionsUp232x32;
+                                    control.UploadButton.ImagePosition = ImagePosition.Right;
+                                    control.BrowseButton.Text = "استعراض...";
+                                    control.NullText = "اختر مرفقات...";
+                                    control.UploadButton.Text = "رفع";
+                                    control.AddButton.Text = "اضافة";
+                                    control.RemoveButton.Text = "حذف";
+                                    control.ClientEnabled = true;
+                                    control.ClientSideEvents.FilesUploadComplete = "OnEmpCoursesAttachmentsFilesUploadComplete";
+
+                                });
+
+
+
+
+
+                                Session["AllStudentsCoursesFileNames"] = "";
+
+                            });
+                            settings.Items.Add(item =>
+                            {
+                                item.Caption = "";
+                                item.SetNestedContent("<div id='filesContain'></div>");
+                            });
+
+                        }).GetHtml();
+                        <div class="form-group col-md-12 col-sm-12 col-xs-12">
+                            <input type="submit" class="btn btn-success" value="حفظ" />
+                        </div>
+                        
+                    }
+                    @using (Ajax.BeginForm(new AjaxOptions()))
+                    {
+
+                    
+                    @Html.Action("_AllStudentsCourses");
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    td.dxflNestedControlCell_MetropolisBlue {
+        width:362px !important
+    }
+    td, th {
+        vertical-align:top !important
+    }
+</style>

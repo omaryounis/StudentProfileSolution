@@ -1,0 +1,139 @@
+﻿
+@{
+    ViewBag.Title = "تهيئة الاثاث";
+    Layout = "~/Views/Shared/_DevextremeLayout.cshtml";
+}
+@*<script src="~/Scripts/Musafer/StudentsDesiresByAdminServices.js"></script>*@
+<script src="~/Scripts/Housing/HousingFurnitureServices.js"></script>
+<script src="~/Scripts/Housing/HousingFurnitureController.js"></script>
+
+
+<div class="container-fluid container-fullw text-right">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel bg-white">
+                <div class="breadcrumb-wrapper text-right">
+                    <h4 class="no-margin"> تهيئة الاثاث  </h4>
+                </div>
+                <div id="HousingContent" ng-controller="HousingFurnitureCtrl">
+                    <div class="panel-body">
+
+                        <form id="form" class="row" ng-submit="SaveHousingFurnitures($event)">
+
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 form-group">
+                                <label class="col-lg-12 col-sm-12 col-xs-12 label-control text-right">تصنيف الاثاث</label>
+                                <div class="col-lg-10 col-sm-10 col-xs-10 ">
+                                    <div dx-select-box="furnitureCategorySelectBox" dx-validator="validationRequired"></div>
+                                </div>
+                                <div class="col-lg-2 col-sm-2 col-xs-2 text-left">
+                                    <div id="btnOpenPoup" class="btn btn-primary btn-sm" dx-button="btnOpenPoup">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 form-group">
+                                <label class="col-lg-12 col-sm-12 col-xs-12 label-control text-right">اسم الاثاث</label>
+                                <div class="col-lg-12 col-sm-12 col-xs-12 ">
+                                    <div class="width_100" dx-text-box="FurnitureName_TextBox"  dx-validator="validationRequired"
+                                       ></div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                                <label class="col-lg-12 col-sm-12 col-xs-12 label-control text-right">ملاحظات</label>
+                                <div class="col-lg-12 col-sm-12 col-xs-12 ">
+                                    <div class="width_100" dx-text-area="FurnitureNotes_TextArea"></div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                                <label class="col-lg-12 col-sm-12 col-xs-12 label-control text-right"></label>
+                                <div class="col-lg-12 col-sm-12 col-xs-12 ">
+                                    <div id="btnSave" class="btn btn-success" dx-button="btnSave"></div>
+                                </div>
+                            </div>
+                        </form>
+
+                        <!--List-->
+                        <div class="row">
+                            <div id="List" class="col-lg-12 col-sm-12 col-xs-12">
+                                <div class="dx-viewport dx-tree-st">
+                                    <div class="demo-container">
+                                        <div id="gridHousingFurnitures" dx-data-grid="gridHousingFurnitures"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+
+
+                        <!--PoupHousingFurnitureCategories-->
+                        <div class="row">
+                            <div class="col-lg-12 col-sm-12 col-xs-12">
+                                <div id="PoupHousingFurnitureCategories" dx-popup="PoupHousingFurnitureCategories">
+                                    <div style="height:500px;overflow-y:auto;overflow-x:hidden" data-options="dxTemplate: { name : 'information' }">
+                                        <div>
+                                            <div dir="rtl">
+                                                <h4 id="myModalLabel">اضافة تصنيف اثاث</h4>
+                                            </div>
+                                            <div dir="rtl">
+                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 form-group">
+                                                    <label class="col-lg-12 col-sm-12 col-xs-12 control-label">الاسم</label>
+                                                    <div class="col-lg-12 col-sm-12 col-xs-12 ">
+                                                        <div class="required-ds" dx-text-box="txtFurnitureCategoryName"></div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 form-group">
+                                                    <label class="col-lg-12 col-sm-12 col-xs-12 control-label">الاختصار</label>
+                                                    <div class="col-lg-12 col-sm-12 col-xs-12">
+                                                        <div class="required-ds"  maxlength="5" ng-keypress="LimitTyping($event);"
+                                                             dx-text-box="txtFurnitureCategoryPrefix"></div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-lg-12 col-sm-12 col-xs-12 form-group">
+                                                    <label class="col-lg-12 col-sm-12 col-xs-12 label-control text-right">ملاحظات</label>
+                                                    <div class="col-lg-12 col-sm-12 col-xs-12 ">
+                                                        <div class="width_100" dx-text-area="txtFurnitureCategoryNotes"></div>
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                                                    <div id="btnSaveFurnitureCategory" class="btn btn-success" dx-button="btnSaveFurnitureCategory"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--List-->
+
+                                        <div id="List" class="col-lg-12 col-sm-12 col-xs-12">
+                             
+                                                    <div id="gridHousingFurnituresCategory" dx-data-grid="gridHousingFurnituresCategory"></div>
+                                                </div>
+                                            </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    -->
+</div>
+
+
+@*<style>
+        .dx-tree-st .dx-overlay-content {
+        z-index: 1502;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    left: 0px;
+    top: 0px;
+    transform: translate(0px, 0px);
+        }
+    </style>*@

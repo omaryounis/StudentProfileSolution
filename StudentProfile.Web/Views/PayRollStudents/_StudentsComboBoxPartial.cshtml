@@ -1,0 +1,21 @@
+﻿@using System.Drawing
+@using System.Web.UI.WebControls
+
+@Html.DevExpress().ComboBox(settings => {
+    settings.Name = "StudentsComboBox";
+    settings.Width = Unit.Percentage(100);
+    settings.SelectedIndex = -1;
+    settings.Properties.CallbackPageSize = 15;
+    //settings.Properties.ValidationSettings.RequiredField.IsRequired = true;
+    settings.Properties.ValidationSettings.ErrorTextPosition = ErrorTextPosition.Bottom;
+    settings.CallbackRouteValues = new { Controller = "PayRollStudents", Action = "StudentsComboBoxPartial"};
+    settings.Properties.ClientSideEvents.BeginCallback = "GetStudentsComboBoxValue";
+    settings.Properties.FilterMinLength = 2;
+    settings.Properties.CallbackPageSize = 25;
+    settings.Properties.ClearButton.Visibility = AutoBoolean.True;
+    settings.Properties.ClearButton.DisplayMode = ClearButtonDisplayMode.Auto;
+    settings.Properties.ClearButton.Enabled = true;
+    settings.Properties.EnableClientSideAPI = true;
+    settings.Properties.NullText = "اسم الطالب - الرقم الجامعي - رقم الهوية";
+    //settings.Properties.ClientSideEvents.SelectedIndexChanged = "function (s,e){if(s.GetValue() == null){s.SetText(null);}else{getStudentPayrollByNationalID(s.GetValue());}}";
+}).BindList(Model).GetHtml()

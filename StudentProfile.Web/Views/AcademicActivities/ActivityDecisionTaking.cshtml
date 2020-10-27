@@ -1,0 +1,297 @@
+﻿@{
+    ViewBag.Title = "متابعة واعتماد طلبات المشاركات";
+    Layout = "~/Views/Shared/_DevextremeLayout.cshtml";
+}
+
+<script src="~/Scripts/AcademicActivities/AcademicActivitiesService.js"></script>
+<script src="~/Scripts/AcademicActivities/ActivityDecisionTakingController.js"></script>
+@*<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>*@
+
+<style>
+
+    .dx-tree-st td .dx-button-has-icon .dx-button-content {
+        padding: 3px !important;
+    }
+
+    .master-detail-caption-st {
+        padding-top: 0px;
+        padding-bottom: 12px;
+        text-align: center;
+        font-size: medium;
+        font-weight: 900;
+    }
+
+    .swal-text {
+        text-align: center;
+    }
+
+    .dx-popup-title {
+        border-bottom: 1px solid #0e70a052 !important;
+        background: #ffffff !important;
+        color: #0e70a0 !important;
+    }
+
+        .dx-popup-title.dx-toolbar .dx-toolbar-label {
+            font-size: 20px !important;
+        }
+
+        .dx-popup-title.dx-toolbar {
+            padding: 12px 20px !important;
+        }
+
+        .dx-popup-title .dx-closebutton .dx-icon {
+            color: #0e70a0 !important;
+            text-align: center !important;
+        }
+
+    .dx-item-content dx-toolbar-item-content {
+        text-align: center !important;
+    }
+
+    td.dx-command-edit {
+        text-align: center !important
+    }
+
+    .tb-title {
+        position: absolute;
+        top: 10px;
+        right: 15px;
+        z-index: 1;
+        font-size: 16px;
+        color: #0e70a0 !important;
+    }
+
+    .popup-test .dx-popup-title {
+        padding: 1px 15px !important;
+        border-bottom: 0 !important
+    }
+
+    .popup-test .dx-popup-content {
+        padding-top: 0 !important;
+    }
+
+    .dx-tree-st td .dx-button-has-icon .dx-icon.dark-text {
+        color: #333 !important
+    }
+</style>
+
+
+<div class="container-fluid container-fullw">
+    <div ng-controller="ActivityDecisionTakingCtrl">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel bg-white">
+                    <div class="breadcrumb-wrapper text-right">
+                        <h2>متابعة واعتماد طلبات المشاركات</h2>
+                    </div>
+                    <div class="panel-body">
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <div class="row">
+                                    @* الصفحة الرئيسية *@
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                        <div dx-data-grid="ActivityRequestsGrid" class="dx-tree-st" id="gridContainer" dx-item-alias="ActivityRequestItem"></div>
+                                    </div>
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                        @* شاشة تفاصيل طلب المشاركة *@
+                                        <div class="popup popup-test" dx-popup="ActivityDetailsPopup">
+                                            <div dx-scroll-view="{
+                                                 height: 608,
+                                                 direction: 'both'
+                                             }">
+                                                <div class="row" style="padding-top:15px;padding-bottom:0px">
+
+                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                                                        <div class="tb-title">البيانات الأكاديمية</div>
+                                                        <div dx-data-grid="StudentBasicDataGrid()"></div>
+                                                    </div>
+
+                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 dx-tree-st dx-tree-st-green form-group" style="padding-bottom:15px">
+                                                        <div class="tb-title">تفاصيل طلب المشاركة</div>
+                                                        <div id="grid2Container" dx-data-grid="StudentActivityRequestGrid()"></div>
+                                                    </div>
+
+                                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 dx-tree-st22-in">
+                                                        <div class="tb-title">متابعة المشاركات المعتمدة</div>
+                                                        <div dx-data-grid="StudentActivitiesApprovedGrid()"></div>
+                                                    </div>
+                                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 dx-tree-st22-in">
+
+                                                        <div class="tb-title">متابعة حالة الإعتماد</div>
+                                                        <div dx-data-grid="ActivityRequestPhasesGrid()"></div>
+                                                    </div>
+
+                                                    <div class="form-group col-md-12 col-sm-12 col-xs-12 text-center" style="padding-top:10px;padding-bottom:0px">
+                                                        <div dx-button="AcceptButton" style="height:36px"></div>
+                                                        <div dx-button="RefuseButton" style="height:36px"></div>
+                                                        <div dx-button="CloseButton" style="height:36px"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="popup" dx-popup="ConfirmationPopup">
+            @* Acceptance PupUp *@
+            <div data-options="dxTemplate: {name: 'acceptPopupContent'}">
+                 
+                        <form ng-submit="onFormSubmit($event)">
+                            @Html.AntiForgeryToken()
+
+                            <div class="row" style="padding-top:15px;padding-bottom:0px">
+                                <div class="col-md-12">
+
+                                    <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                        <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+                                            <div dx-text-area="recommendationsOfAcceptTextArea"></div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+                                        <div dx-button="ConfirmButton" class="btn-block"></div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </form>
+                
+
+            </div>
+
+            @* Refusal PupUp *@
+            <div data-options="dxTemplate: {name: 'refusePopupContent'}">
+
+               
+                <form ng-submit="onFormSubmit($event)">
+                    @Html.AntiForgeryToken()
+
+                    <div class="row" style="padding-top:15px;padding-bottom:0px">
+                        <div class="col-md-12">
+
+                            <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+                                    <div dx-text-area="recommendationsOfRefuseTextArea"></div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+                                <div dx-button="ConfirmButton" class="btn-block"></div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </form>
+                
+
+            </div>
+
+
+        </div>
+
+        <div dx-popup="EditingActivity.PopupOptions">
+            <div data-options="dxTemplate: { name : 'EditingActivityPopupContent' }">
+
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-7" style="border-left:1px solid #ddd">
+
+                                <div class="row">
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group table-responsive">
+
+                                        <table class="table table-st table-sm-f table-inverse table-bordered table-center">
+                                            <tbody>
+                                                <tr>
+                                                    <td>
+                                                        إسم المشاركة
+                                                    </td>
+
+                                                    <td>
+                                                        <div dx-text-box="EditingActivity.TB_ActivityName" dx-validator="EditingActivity.VR_Required"></div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        مكان المشاركة
+                                                    </td>
+                                                    <td>
+                                                        <div dx-text-box="EditingActivity.TB_ActivityLocation" dx-validator="EditingActivity.VR_Required"></div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        التقييم أو الدرجة
+                                                    </td>
+                                                    <td>
+                                                        <div dx-text-box="EditingActivity.TB_ActivityDegree" dx-validator="EditingActivity.VR_Required"></div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        النسبة
+                                                    </td>
+                                                    <td>
+                                                        <div dx-number-box="EditingActivity.NB_ActivityRatio" dx-validator="EditingActivity.VR_Required"></div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        عدد الساعات
+                                                    </td>
+                                                    <td>
+                                                        <div dx-text-box="EditingActivity.TB_ActivityDuration" dx-validator="EditingActivity.VR_Required"></div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        نوع المشاركة
+                                                    </td>
+                                                    <td>
+                                                        <div dx-text-box="EditingActivity.TB_ActivityType" dx-validator="EditingActivity.VR_Required"></div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col-md-5">
+                                <div class="row">
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                                        <label class="col-md-12 col-sm-12 col-xs-12 text-right control-label">تاريخ بداية المشاركة</label>
+                                        <div class="col-md-12 col-sm-12 col-xs-12">
+                                            <div style="width:100%" dx-date-box="EditingActivity.DB_ActivityStartDate" dx-validator="EditingActivity.VR_Required"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                                        <label class="col-md-12 col-sm-12 col-xs-12 text-right control-label">تاريخ نهاية المشاركة</label>
+                                        <div class="col-md-12 col-sm-12 col-xs-12">
+                                            <div style="width:100%" dx-date-box="EditingActivity.DB_ActivityEndDate" dx-validator="EditingActivity.VR_Required"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="padding-right: 20px;padding-left: 20px;">
+                                        <div dx-button="EditingActivity.btnSaveOptions" class="btn-block"></div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

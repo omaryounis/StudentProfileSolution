@@ -1,0 +1,8 @@
+﻿@model  StudentProfile.Web.Reports.StudentNotesRpt
+
+
+@Html.DevExpress().WebDocumentViewer(settings =>
+{
+    settings.Name = "PrintStudentsTravel";
+
+}).Bind(Model).GetHtml()

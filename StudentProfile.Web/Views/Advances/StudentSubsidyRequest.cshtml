@@ -1,0 +1,52 @@
+﻿@{
+    ViewBag.Title = "إضافة طلب اعانة";
+    Layout = "~/Views/Shared/_DevextremeLayout.cshtml";
+}
+<script type="text/javascript" src="~/Scripts/Advances/StudentSubsidyRequest.js"></script>
+<div class="container-fluid container-fullw">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel">
+                <div class="breadcrumb-wrapper text-right">
+                    <h4 class=" no-margin">إضافة طلب اعانة</h4>
+                </div>
+                <div class="panel-body">
+                    <div ng-controller="StudentSubsidyRequestCtrl">
+                        <form ng-submit="onFormSubmit($event)">
+                            @Html.AntiForgeryToken()
+                            <div class="form-group col-md-6">
+                                <label class="control-label col-lg-12 col-sm-12 col-md-12 col-xs-12 text-right">نوع الاعانة</label>
+                                <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+                                    <div dx-select-box="Advance.AdvanceType" dx-validator="Advance.ValidationRules.AdvanceType"></div>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label class="control-label col-lg-12 col-sm-12 col-md-12 col-xs-12 text-right">المبلغ</label>
+                                <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+                                    <div dx-text-box="Advance.AdvanceValue" dx-validator="Advance.ValidationRules.AdvanceValue"></div>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label class="control-label col-lg-12 col-sm-12 col-md-12 col-xs-12 text-right">تاريخ الطلب</label>
+                                <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+                                    <div dx-date-box="Advance.AdvanceDate" dx-validator="Advance.ValidationRules.AdvanceDate">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label class="control-label col-lg-12 col-sm-12 col-md-12 col-xs-12 text-right">المرفقات</label>
+                                <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+                                    <div dx-file-uploader="Advance.Attachments">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12 modal-footer text-left">
+                                <div dx-button="Advance.SaveButton"></div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

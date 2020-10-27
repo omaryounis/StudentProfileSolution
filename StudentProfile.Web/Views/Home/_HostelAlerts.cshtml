@@ -1,0 +1,54 @@
+﻿@model List<StudentProfile.DAL.Models.StudentsAlertList>
+<div>
+    <div class="my-msg dash-item">
+        <h6 class="item-title"> اشعارات السكن </h6>
+        <div class="inner-item">
+            @if (Model != null && Model.Count > 0)
+            {
+                string imgSrc = "../assets/images/user.png";
+                foreach (var item in Model)
+                {
+                    HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(
+       "https://cas.iu.edu.sa/cas/MahedStudentEmoployee/FacultyPhoto/" + item.StudentId + ".jpg");
+                    request.Method = "HEAD";
+
+                    bool exists;
+                    try
+                    {
+                        request.GetResponse();
+                        exists = true;
+                        imgSrc = "https://cas.iu.edu.sa/cas/MahedStudentEmoployee/FacultyPhoto/" + item.StudentId +
+                                         ".jpg";
+                    }
+                    catch (Exception ex)
+                    {
+                        exists = false;
+                        imgSrc = "/assets/images/user.png";
+                    }
+
+
+                    <div class="msg-item">
+                        <div class="col-xs-2 clear-padding">
+                            <img src="imgSrc" alt="user">
+                        </div>
+                        <div class="col-xs-10">
+                            <p class="title">@item.StudentName</p>
+                            <p class="sent-by">تاريخ الانتهاء: @item.IdentityExpireDate.Value.ToString("dd/MM/yyyy")</p>
+                            @*<p class="msg-desc">نص تجريبي من الممكن تغييره.</p>*@
+                            <p class="timestamp"> <i> @item.IdentityExpireDate - @DateTime.Now</i> <i class="fa fa-clock-o"></i></p>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                }
+            }
+            else
+            {
+                <div class="msg-item">
+                    لا توجد اشعارات
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+

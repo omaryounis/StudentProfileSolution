@@ -1,0 +1,499 @@
+﻿
+@{
+    ViewBag.Title = "دليل المواقع";
+    Layout = "~/Views/Shared/_DevextremeLayout.cshtml";
+}
+
+<script src="~/Scripts/Asset/AssetLocationService.js"></script>
+<script src="~/Scripts/Asset/AssetLocationController.js"></script>
+
+
+<div class="container-fluid container-fullw text-right">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel bg-white">
+                <div class="breadcrumb-wrapper text-right">
+                    <h4 class="no-margin">دليل المواقع</h4>
+                </div>
+                <div class="panel-body" ng-controller="AssetLocationsCtrl">
+
+                    <div class="col-md-12">
+                        <div id="divMsg">
+                            <p>{{AlertMessage}}</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="panel panel-white">
+                                <div class="panel-body" style="padding-top: 0;">
+                                    <div class="col-lg-12">
+                                        <div class="row">
+                                            <div class="form-group col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                                <label class="col-md-12 col-sm-12 col-xs-12 control-label p-l-0">
+                                                    الوحدة الإدارية
+                                                </label>
+                                                <div class="col-md-10 col-sm-10 col-xs-10 required-ds">
+                                                    <div id="dxSelect_BranchId" class='col-lg-12' dx-select-box='MDL_AdministrativeUnitt'></div>
+                                                </div>
+
+                                                <div class="col-md-2 col-sm-2 col-xs-2 text-left">
+                                                    <a href="#" ng-click="ShowNewBranchPopUp()" class="btn btn-primary btn-sm">
+                                                        <i class="fa fa-plus"></i>
+                                                    </a>
+
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                                <label class="col-md-12 col-sm-12 col-xs-12 control-label">
+                                                    القسم
+                                                </label>
+                                                <div class="col-md-10 col-sm-10 col-xs-10 required-ds">
+                                                    <div id="DepartmentId" class='col-lg-12' dx-select-box='DepartmentIddd'></div>
+                                                </div>
+
+                                                <div class="col-md-2 col-sm-2 col-xs-2 text-left">
+                                                    <a href="#" ng-click="ShowNewDepartmentPopUp()" class="btn btn-primary btn-sm">
+                                                        <i class="fa fa-plus"></i>
+                                                    </a>
+                                                </div>
+
+                                            </div>
+                                            <div class="form-group col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                                <label class="col-md-12 col-sm-12 col-xs-12 control-label">
+                                                    الدور
+                                                </label>
+                                                <div class="col-md-10 col-sm-10 col-xs-10 required-ds">
+
+
+                                                    <div id="FloorId" class='col-lg-12' dx-select-box='FloorIddd'></div>
+                                                </div>
+                                                <div class="col-md-2 col-sm-2 col-xs-2 text-left">
+                                                    <a href="#" ng-click="ShowNewFloorPopUp()" class="btn btn-primary btn-sm">
+                                                        <i class="fa fa-plus"></i>
+                                                    </a>
+                                                </div>
+
+                                            </div>
+                                            <div class="form-group col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                                <label class="col-md-12 col-sm-12 col-xs-12 p-l-0 control-label">
+                                                    الموقع الفرعى
+                                                </label>
+                                                <div class="col-md-10 col-sm-10 col-xs-10 required-ds">
+
+                                                    <div class='col-lg-12' dx-text-box='SiteIddddd'></div>
+
+
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                                <label class="col-md-12 col-sm-12 col-xs-12 p-l-0 control-label">
+                                                    رقم الموقع الفرعى
+                                                </label>
+                                                <div class="col-md-10 col-sm-10 col-xs-10 required-ds">
+
+                                                    <div class='col-lg-12' dx-text-box='SiteNumber'></div>
+
+
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                                <label class="col-md-12 col-sm-12 col-xs-12 control-label p-l-0">
+                                                    تصنيف الموقع
+                                                </label>
+                                                <div class="col-md-10 col-sm-10 col-xs-10 required-ds">
+                                                    <div id="dxSelect_AssetLocationId" dx-select-box='AssetLocationClassSelectBox'></div>
+                                                </div>
+
+                                                <div class="col-md-2 col-sm-2 col-xs-2 text-left">
+                                                    <a href="#" ng-click="togglePopupAssetLocationClass()" class="btn btn-primary btn-sm">
+                                                        <i class="fa fa-plus"></i>
+                                                    </a>
+                                                </div>
+
+                                            </div>
+                                            <div class="form-group col-lg-4 col-md-4 col-sm-12 col-xs-12">
+
+                                                <div class="col-md-10 col-sm-10 col-xs-10 required-ds">
+                                                    <div class="row">
+                                                        <div class="form-group col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                                            <label class="control-label">
+                                                                الطول
+                                                            </label>
+                                                            <div class="required-ds">
+                                                                <div class="required-ds" id="txtHeight" dx-number-box="txtHeight.Height"></div>
+
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                                            <label class="control-label">
+                                                                العرض
+                                                            </label>
+                                                            <div class="required-ds">
+                                                                <div class="required-ds" id="txtWidth" dx-number-box="txtWidth.Width"></div>
+
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                                            <label class="control-label">
+                                                                الارتفاع
+                                                            </label>
+                                                            <div class="required-ds">
+                                                                <div class="required-ds" id="txtDepth" dx-number-box="txtDepth.Depth"></div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                                <label class="control-label col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                    السعة السريرية
+                                                </label>
+                                                <div class="col-md-10 col-sm-10 col-xs-10 required-ds">
+                                                         <div class="required-ds" id="txtBedsPerRoom" dx-number-box="txtBedsPerRoom.BedsPerRoom"></div>
+                                                  </div>
+                                            </div>
+
+
+                                             
+                                            <div class="col-md-4 col-sm-12 col-xs-12 text-left">
+                                                <label class="control-label col-md-10 col-sm-12 col-xs-12 ">
+                                                    <br />
+                                                </label>
+                                                <div class="clearfix"></div>
+
+                                                <div class="col-md-12 col-sm-12 col-xs-12 ">
+                                                    <button class="btn btn-success btn-sm" type="button" ng-show="SaveSiteButtonShow" ng-click="SaveSite()" ng-init="SaveSiteButtonShow=true">حفظ</button>
+
+                                                    <button class="btn btn-warning btn-sm" type="button" ng-show="UpdateSiteButtonShow" ng-click="UpdateSite()">تعديل</button>
+
+                                                    <button class="btn btn-info btn-sm" type="button" ng-show="NewSiteButtonShow" ng-click="NewSite()">جديد</button>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- PopUpBranchies -->
+                                        <div class="popup"
+                                             dx-popup="PopUpBranchies">
+                                            <div data-options="dxTemplate: { name:'info' }">
+                                                <label class="col-sm-12 col-xs-12 control-label p-l-0">
+                                                    اسم الوحدة الإدارية
+                                                </label>
+                                                <div class="col-sm-12  col-xs-12 p-l-0">
+                                                    <div id="DepartmentId" class='col-lg-12' dx-select-box='NewBranchIdSelectBox'></div>
+                                                </div>
+
+                                                <div class="clearfix"></div>
+                                                <label class="col-sm-12 col-xs-12 control-label p-l-0">
+                                                    اسم الوحدة الإدارية فى دليل المواقع
+                                                </label>
+                                                <div class="col-sm-12 col-xs-12 p-l-0">
+                                                    <div class='col-lg-12' dx-text-box='NewBranchName'></div>
+                                                </div>
+
+                                                <div class="form-group col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                                    <label class="control-label col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                        نوع السكن فردي - عائلي
+                                                    </label>
+                                                    <div class="required-ds">
+                                                        <div  dx-radio-group="CheckIsFamilial"></div>
+                                                        @*<div id="CheckIsFamilial" class='col-lg-12' dx-select-box='NewBranchIdSelectBox'></div>*@
+
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="form-group col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                                    <label class="control-label">
+                                                        رقم الوحدة
+                                                    </label>
+                                                    <div class="required-ds">
+                                                        <div class="required-ds" id="txtUnitNumber" dx-text-box="txtUnitNumber.UnitNumber"></div>
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="clearfix"></div>
+
+                                                <div class="modal-footer" style="padding:15px 0">
+
+                                                    <button type="button" class="btn btn-success" ng-show="SaveNewBranchButtonShow" ng-click="AddNewBranchToAssetLocations()">حفظ</button>
+
+                                                    <button type="button" class="btn btn-success" ng-show="UpDateNewBranchButtonShow" ng-click="UpDateBranchLocation()">تعديل</button>
+
+                                                    <button type="button" class="btn btn-danger" ng-show="DeleteNewBranchButtonShow" ng-click="DeleteNewBranchToAssetLocations()">حذف</button>
+
+                                                    <button type="button" class="btn btn-info" ng-show="AddNewBranchButtonShow" ng-click="AddNewBrach()">جديد</button>
+
+                                                    <button type="button" class="btn btn-danger" ng-click="ResetNewBranchPopupControls()">اغلاق</button>
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+
+                                        <!-- ModalDepartment -->
+
+
+                                        <div class="popup" dx-popup="PopUpDepartments">                                           
+                                            <div data-options="dxTemplate: { name:'info' }">
+                                                <div class="modal-body">
+                                                    <div class="form-group col-lg-12">
+                                                        <label class="col-sm-3 control-label p-l-0">
+                                                            اسم الوحدة الإدارية
+                                                        </label>
+                                                        <div class="col-sm-7 p-l-0">
+                                                            <div id="DepartmentBranchId" class='col-lg-12' dx-select-box='DepartmentBranchSelectBox'></div>
+                                                        </div>
+                                                    </div>
+
+
+                                                    <div class="form-group col-lg-12">
+                                                        <label class="col-sm-3 control-label p-l-0">
+                                                            اسم القسم
+                                                        </label>
+                                                        <div class="col-sm-7 p-l-0">
+                                                            <div class='col-lg-12' dx-text-box='NewDepartmentNameTxt'></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="clearfix"></div>
+                                                </div>
+
+                                                <div class="modal-footer">
+
+                                                    <button type="button" class="btn btn-success" ng-show="SaveNewDepartmentButtonShow" ng-click="AddNewDepartmentToAssetLocations()">حفظ</button>
+
+                                                    <button type="button" class="btn btn-success" ng-show="UpDateNewDepartmentButtonShow" ng-click="UpDateDepartment()">تعديل</button>
+
+                                                    <button type="button" class="btn btn-danger" ng-show="DeleteNewDepartmentButtonShow" ng-click="DeleteNewDepartmentToAssetLocations()">حذف</button>
+
+                                                    <button type="button" class="btn btn-info" ng-show="AddNewDepartmentButtonShow" ng-click="PrepareAddingDepartment()">جديد</button>
+
+                                                    <button type="button" class="btn btn-primary" ng-click="DepartmentPopUpShow=false">اغلاق</button>
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                        <!-- PopUpClass -->
+                                        <style>
+                                            .close-icon-display .dx-popup-normal.dx-popup-draggable {
+                                                height: auto !important;
+                                                min-height: 200px !important;
+                                                width: 40% !important
+                                            }
+                                        </style>
+                                        <div id="popupClass" class="close-icon-display" title="اضافة تصنيف موقع" dx-popup="popupAssetLocationClass">
+                                            <div class="modal-body">
+                                                <div class="form-group col-md-10 col-sm-10 col-xs-10">
+                                                    <label class="col-sm-3 col-xs-3 col-md-3 control-label">اسم التصنيف</label>
+                                                    <div class="col-md-9 col-sm-9 col-xs-9">
+                                                        <div class="required-ds" id="txtLocationName" dx-text-box="txtLocationName.LocationName"
+                                                             dx-validator="validationRequired"></div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group col-md-2 col-sm-2 col-xs-2">
+                                                    <input type="button" class="btn btn-success" value="حفظ"
+                                                           ng-click="SaveAssetLocationClass()" />
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+
+                                        <!-- ModalFloor -->
+                                        <div class="popup"
+                                             dx-popup="PopUpFloors">
+                                            <div data-options="dxTemplate: { name:'info' }">
+
+
+                                                <div class="modal-body">
+
+                                                    <div class="form-group col-lg-12">
+                                                        <label class="col-sm-3 control-label p-l-0">
+                                                            اسم الوحدة الإدارية
+                                                        </label>
+                                                        <div class="col-sm-7 p-l-0">
+
+                                                            <div id="FloorBranchId" class='col-lg-12' dx-select-box='FloorBranchSelectBox'></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group col-lg-12">
+                                                        <label class="col-sm-3 control-label p-l-0">
+                                                            اسم القسم
+                                                        </label>
+                                                        <div class="col-sm-7 p-l-0">
+
+                                                            <div id="FloorDepartmentId" class='col-lg-12' dx-select-box='FloorDepartmentSelectBox'></div>
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group col-lg-12">
+                                                        <label class="col-sm-3 control-label p-l-0">
+                                                            اسم الدور
+                                                        </label>
+                                                        <div class="col-sm-7 p-l-0">
+
+                                                            <div class='col-lg-12' dx-text-box='NewFloorNameTxt'></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group col-lg-12">
+                                                        <label class="col-sm-3 control-label p-l-0">
+                                                            رقم الدور
+                                                        </label>
+                                                        <div class="col-sm-7 p-l-0">
+
+                                                            <div class='col-lg-12' dx-text-box='NewFloorNumberTxt'></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="clearfix"></div>
+                                                </div>
+
+                                                <div class="modal-footer">
+
+                                                    <button type="button" class="btn btn-success" ng-show="SaveNewFloorButtonShow" ng-click="AddNewFloorToAssetLocations()">حفظ</button>
+
+                                                    <button type="button" class="btn btn-success" ng-show="UpDateNewFloorButtonShow" ng-click="UpDateNewFloorButton()">تعديل</button>
+
+                                                    <button type="button" class="btn btn-danger" ng-show="DeleteNewFloorButtonShow" ng-click="DeleteNewFloorToAssetLocations()">حذف</button>
+
+                                                    <button type="button" class="btn btn-info" ng-show="AddNewFloorButtonShow" ng-click="PrepareAddingFloors()">جديد</button>
+
+                                                    <button type="button" class="btn btn-primary" ng-click="FloorPopUpShow=false">اغلاق</button>
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+
+                                        <!-- Modal HosuingFurniture -->
+                                        <div class="popup"
+                                             dx-popup="PopUpHosuingFurniture">
+                                            <div data-options="dxTemplate: { name:'info' }">
+
+
+                                                <div class="modal-body">
+
+                                                    <div class="form-group col-lg-12">
+                                                        <label class="col-sm-3 control-label p-l-0">
+                                                            تصنيف الاثاث
+                                                        </label>
+                                                        <div class="col-sm-7 p-l-0">
+
+                                                            <div id="HosuingFurnitureCategoryId" class='col-lg-12' dx-select-box='HosuingFurnitureCategorySelectBox'></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group col-lg-12">
+                                                        <label class="col-sm-3 control-label p-l-0">
+                                                            الاثاث
+                                                        </label>
+                                                        <div class="col-sm-7 p-l-0">
+
+                                                            <div id="HosuingFurnitureId" class='col-lg-12' dx-select-box='HosuingFurnitureSelectBox'></div>
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group col-lg-12">
+
+                                                        <label class="col-sm-3 control-label p-l-0">
+                                                            عدد القطع
+                                                        </label>
+                                                        <div class="col-sm-7 p-l-0">
+                                                            <div class='col-lg-12' dx-number-box='txtFurnitureCount'></div>
+
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="clearfix"></div>
+                                                </div>
+
+                                                <div class="modal-footer">
+
+                                                    <button type="button" class="btn btn-success" ng-click="AddNewHosuingFurniture()">حفظ</button>
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="panel panel-white">
+                                        <div class="panel-body">
+                                            <div class="form-group text-right">
+                                                <div class="col-lg-12 bt-li">
+
+                                                    <button class="btn btn-dark-blue" title="تصدير Excel" onclick="ExportLocationsTree('EXCEL');">
+                                                        <i class="fa fa-file-excel-o"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                            <div dir="rtl" style="width: 100%">
+                                                <div id="AssetLocations" class="dx-tree-st" dx-tree-list="treeListOptions"></div>
+                                            </div>
+                                            <input id="DepartmentIdHidden" type="hidden" value="" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="display:none;direction:rtl;" id="LocationsExportDiv">
+                                @{ Html.RenderAction("_LocationsTree");}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function ExportLocationsTree(type) {
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("_LocationsTree", "Asset")',
+            datatype: 'json',
+
+            success: function (treelist) {
+                debugger;
+                $("LocationsExportDiv").html(treelist);
+                if (type == "PDF") {
+                    LocationsTree.ExportTo(ASPxClientTreeListExportFormat.Pdf);
+                }
+                else if (type == "EXCEL") {
+                    LocationsTree.ExportTo(ASPxClientTreeListExportFormat.Xls);
+                }
+
+
+            },
+            error: function (ex) {
+            }
+        });
+    }
+</script>
+<style>
+    .popup .dx-overlay-content.dx-popup-normal {
+        height: auto !important
+    }
+
+    .dx-popup-title {
+        border-bottom: 1px solid #2196f3 !important;
+        background: #2196F3 !important;
+        color: #fff !important;
+    }
+
+        .dx-popup-title .dx-closebutton .dx-icon {
+            color: #fff !important;
+        }
+
+        .dx-popup-title .dx-closebutton.dx-state-hover, .dx-popup-title .dx-closebutton.dx-state-focused, .dx-popup-title .dx-closebutton.dx-state-selected, .dx-popup-title .dx-closebutton.dx-state-active {
+            border-bottom: 1px solid #2196f3 !important;
+            background: #2196F3 !important;
+            color: #fff !important;
+        }
+</style>

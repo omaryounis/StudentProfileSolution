@@ -1,0 +1,148 @@
+﻿@using System.Web.UI.WebControls;
+@using StudentProfile.Cls
+<style>
+    img.dxWeb_pcCloseButton_MetropolisBlue {
+        /*position: absolute !important;*/
+        clip: rect(0, 10px, 200px, 0) !important;
+        /* clip: shape(top, right, bottom, left); NB 'rect' is the only available option */
+    }
+    .upload-dd > table {
+        width:100% !important
+    }
+</style>
+<script>
+
+    function OnFilesUploadComplete(s, e) {
+        debugger;
+        var data = e.callbackData.split('|');
+        for (var i = 0; i < data.length; i += 2) {
+            var file = data[i];
+            var url = data[i + 1];
+            var link = document.createElement('A');
+            link.innerHTML = file;
+            link.setAttribute('href', url);
+            link.setAttribute('target', '_blank');
+            var fileContainer = document.getElementById('filesContain');
+            fileContainer.appendChild(link);
+            fileContainer.appendChild(document.createElement('BR'));
+            
+        }
+    }
+</script>
+<br/>
+
+<div class="col-lg-12" id="NoteSection">
+    <div class="row">
+        <div class='form-group text-right col-lg-4 col-md-4 col-sm-12 col-xs-12'>
+            <div class='row'>
+                <label class="control-label col-lg-3 col-md-3 col-sm-12 col-xs-12">الموضوع</label>
+                <div class="col-lg-7 col-md-7 col-sm-12 col-xs-12">
+                    @Html.DevExpress().ComboBox(settings =>
+                    {
+                        settings.Name = "IssuesComboBox";
+                        settings.Properties.IncrementalFilteringMode = IncrementalFilteringMode.StartsWith;
+                        settings.Properties.DropDownStyle = DropDownStyle.DropDown;
+                        settings.Properties.TextField = "Text";
+                        settings.Properties.ValueField = "Value";
+                        //settings.Properties.ClientSideEvents.SelectedIndexChanged = "OnSelectedBranchChanged";
+                    }).BindList(ViewBag.Issues).GetHtml()
+                </div>
+                <div class="col-md-2 col-sm-12 text-left col-xs-12">
+                    <a data-toggle="tooltip" data-placement="top" title="اضافة مواضيع" class="btn btn-sm btn-danger" onclick="OpenPopUp()">
+                        <i class="fa fa-plus"></i>
+                    </a>
+                </div>
+
+            </div>
+
+        </div>
+        <div class='form-group text-right col-lg-4 col-md-4 col-sm-12 col-xs-12'>
+            <div class='row'>
+                <label class="control-label  col-md-4 col-sm-12 col-xs-12"> تاريخ الملاحظة</label>
+                <div class="col-lg-7 col-md-7 col-sm-12 col-xs-12">
+                    @Html.DevExpress().DateEdit(settings => { settings.Name = "NoteDate"; }).GetHtml()
+                </div>
+            </div>
+        </div>
+        @*<div class='form-group text-right col-lg-4 col-md-4 col-sm-12 col-xs-12'>
+                <div class='row'>
+                    <label class="control-label  col-md-4 col-sm-12 col-xs-12">سلبى / ايجابى</label>
+                    <div class="col-lg-7 col-md-7 col-sm-12 col-xs-12">
+                        @Html.DevExpress().ComboBox(settings =>
+                        {
+                            settings.Name = "evaluation";
+                            settings.Properties.DropDownStyle = DropDownStyle.DropDown;
+                            settings.Properties.TextField = "Value";
+                            settings.Properties.ValueField = "Key";
+                            settings.SelectedIndex = 1;
+                        }).BindList(ViewData["Evaluation"]).GetHtml()
+                    </div>
+                </div>
+
+            </div>*@
+            <div class='form-group text-right col-lg-4 col-md-4 col-sm-12 col-xs-12'>
+                <div class='row upload-dd' >
+                    @Html.DevExpress().UploadControl(settings =>
+               {
+                   settings.Name = "myFile";
+                   settings.CallbackRouteValues = new { Action = "GetFiles", Controller = "Students" };
+                   settings.ShowAddRemoveButtons = true;
+                   settings.AdvancedModeSettings.EnableFileList = true;
+                   settings.AdvancedModeSettings.EnableMultiSelect = true;
+                   settings.UploadMode = UploadControlUploadMode.Advanced;
+                   settings.Width = Unit.Percentage(100);
+                   //settings.ValidationSettings.Assign(Cls_Utils.GetValidatingSettings());
+                   settings.ShowProgressPanel = true;
+                   settings.ShowClearFileSelectionButton = true;
+                   settings.ShowUploadButton = true;
+                   settings.UploadButton.Text = "رفع";
+                   settings.NullText = "اختر مرفقات....";
+                   settings.ClientEnabled = true;
+                   settings.ClientSideEvents.FilesUploadComplete = "OnFilesUploadComplete";
+                   // settings.ClientSideEvents.FileUploadComplete = "onFileUploadCompelete";
+                   //settings.ClientSideEvents.TextChanged = "onTextChanged";
+                   //settings.Size = 100;
+               }).GetHtml()
+                    <div id="filesContain">
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12">
+                <div class='form-group text-right col-lg-12 col-xs-12'>
+                    <div class='row'>
+                        <label class="control-label  col-md-12 col-sm-12 col-xs-12">وصف المشكلة</label>
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <textarea rows='4' name='Note' id='Note' class='form-control'></textarea>
+                        </div>
+
+                    </div>
+                </div>
+                <div class='clearfix'></div>
+                <div class='form-group text-right col-lg-6 col-xs-6'>
+                    <div class='row'>
+                        <label class='control control-checkbox'>
+                            سري
+                            <input type='checkbox' id='Secret' name='Secret' />
+                            <div class='control_indicator'></div>
+                        </label>
+                    </div>
+                </div>
+
+
+                @if (ViewBag.NotesDataCreate != null)
+                {
+                    if (ViewBag.NotesDataCreate == true)
+                    {
+                        <div class='form-group text-left col-lg-6 col-xs-6'>
+                            <div class='row'>
+                                <input type='submit' class='btn btn-success' value='حفظ' />
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+
+        </div>
+    </div>
+

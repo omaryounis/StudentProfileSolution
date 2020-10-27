@@ -1,0 +1,6 @@
+﻿
+
+@Html.DevExpress().ReportDesigner(settings =>
+{
+    settings.Name = "ReportDesigner";
+}).Bind(new StudentsTravel()).GetHtml()

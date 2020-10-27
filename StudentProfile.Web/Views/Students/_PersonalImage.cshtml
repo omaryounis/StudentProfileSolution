@@ -1,0 +1,20 @@
+﻿@*@using (Ajax.BeginForm("BinaryImageColumnPhotoUpdate", "Students", new {idNumber = ViewBag.NationalID}, new AjaxOptions {UpdateTargetId = "PersonalImage", InsertionMode = InsertionMode.Replace}))
+{*@
+
+    @Html.DevExpress().BinaryImage(c =>
+    {
+        c.Name = "myImage";
+        c.Properties.ImageHeight = 170;
+        c.Properties.ImageWidth = 160;
+        c.Properties.EditingSettings.Enabled = true;
+        c.Properties.EnableServerResize = true;
+        c.Properties.ImageSizeMode = ImageSizeMode.FitProportional;
+        //c.CallbackRouteValues = new {Action = "BinaryImageColumnPhotoUpdate", Controller = "Students", idNumber = "0"};
+        // c.Properties.ClientSideEvents.EndCallback = "OnImageUpload()";
+        c.Properties.EditingSettings.Enabled = true;
+        c.ContentBytes = ViewBag.Image;
+        
+        c.Properties.EditingSettings.UploadSettings.UploadValidationSettings.MaxFileSize = 4194304;
+    }).GetHtml()
+    @*<button type="submit" class="btn btn-danger"><i class="fa fa-upload"></i>رفع</button>*@
+@*}*@

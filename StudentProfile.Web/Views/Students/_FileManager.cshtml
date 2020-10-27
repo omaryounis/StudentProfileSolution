@@ -1,0 +1,40 @@
+﻿@model string
+@{ string folderName = ViewBag.StudentID.ToString();}
+@using (Html.BeginForm())
+{
+@Html.DevExpress().FileManager(settings =>
+{
+    settings.Name = "fileManager";
+    settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    settings.Height = System.Web.UI.WebControls.Unit.Pixel(250);
+    //settings.Settings.ThumbnailFolder = Url.Content(@"~/Content/UserFiles/");
+    settings.SettingsEditing.AllowDownload = true;
+    settings.CallbackRouteValues = new { Controller = "Students", Action = "_FileManager", stID = ViewBag.StudentID };
+
+    settings.DownloadRouteValues = new { Controller = "Students", Action = "_FilesDownload", id = ViewBag.StudentID };
+    settings.SettingsEditing.AllowDownload = true;
+
+    settings.Settings.ThumbnailFolder = Url.Content("~/Content/UserFiles/" + folderName);
+    settings.SettingsFileList.ShowFolders = true;
+    //settings.SettingsToolbar.ShowPath = false;
+    settings.SettingsFileList.ShowParentFolder = false;
+    settings.SettingsEditing.TemporaryFolder = "...";
+    settings.SettingsFolders.HideAspNetFolders = true;
+    settings.SettingsFolders.Visible = false;
+    settings.SettingsToolbar.ShowPath = false;
+    settings.SettingsEditing.AllowCreate = false;
+    settings.SettingsEditing.AllowRename = false;
+    settings.SettingsEditing.AllowMove = false;
+    settings.SettingsEditing.AllowDelete = false;
+    settings.SettingsUpload.Enabled = false;
+    settings.SettingsUpload.UseAdvancedUploadMode = false;
+    settings.SettingsUpload.AdvancedModeSettings.EnableMultiSelect = false;
+
+    settings.SettingsFileList.View = DevExpress.Web.FileListView.Thumbnails;
+    //settings.Settings.InitialFolder = folderName;
+    // settings.Settings.ThumbnailFolder = Url.Content("~/Content/UserFiles/"+folderName);
+    settings.ClientSideEvents.BeginCallback = "FileManager_OnBeginCallBack";
+    //settings.ClientSideEvents.FileDownloading = "FileManager_OnDownLoading";
+
+}).BindToFolder(Model).GetHtml()
+}

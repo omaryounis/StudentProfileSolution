@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="2afa9e27c1574552ae0b2ce5de5b2b9f" Name="Diagram1" ZoomLevel="31">
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.Absence" Width="1.5" PointX="5.75" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.CourseTypes" Width="1.5" PointX="2.75" PointY="1.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.Documents" Width="1.5" PointX="7.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.EmpCourses" Width="1.5" PointX="5" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.EmpDocument" Width="1.5" PointX="7.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.Employees" Width="1.5" PointX="0.75" PointY="1.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.Relatives" Width="1.5" PointX="3" PointY="6" IsExpanded="true" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK__EmpCourse__Cours__4D94B965" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_Relatives_Employees" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

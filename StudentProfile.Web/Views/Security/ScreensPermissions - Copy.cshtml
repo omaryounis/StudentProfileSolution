@@ -1,0 +1,49 @@
+﻿@{
+    ViewBag.Title = "صلاحيات الشاشات";
+    Layout = "~/Views/Shared/_DevextremeLayout.cshtml";
+
+}
+<script src="~/Scripts/Security/ScreensPermissions.js"></script>
+<div class="container-fluid container-fullw">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-white">
+                <div class="breadcrumb-wrapper text-right">
+                    <h4 class="mainTitle no-margin">صلاحيات الشاشات</h4>
+                </div>
+                <div class="panel-body">
+                    <div ng-controller="ScreensPermissionsCtrl">
+                        <form id="form" ng-submit="onFormSubmit($event)">
+                            <div class="form-group  col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                <label class="col-lg-4 col-md-4 col-sm-12 col-xs-12 control-label">اسم المجموعة</label>
+                                <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 required-ds">
+                                    <div dx-select-box="UserGroup.Groups" dx-validator="GroupValidationRules"></div>
+                                </div>
+                            </div>
+                            <div class="form-group col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                <button dx-button="SaveButton"></button>
+                            </div>
+                        </form>
+                        <div class="clearfix"></div>
+                        <br/>
+                        <div class="clearfix"></div>
+                        <fieldset>
+                            <div id="GroupScreens" class="dx-tree-st" dx-data-grid="dataGridOptions"></div>
+                            <div class="clearfix"></div>
+                            <br />
+                            <div class="clearfix"></div>
+                            <div class="text-right">
+                                <div id="autoExpand" dx-check-box="checkBoxOptions"></div>
+                            </div>
+                        </fieldset>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    DevExpress.config({
+        rtlEnabled: true
+    });
+</script>

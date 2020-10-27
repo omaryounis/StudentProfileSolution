@@ -1,0 +1,90 @@
+﻿@model List<StudentProfile.DAL.Models.INTEGRATION_All_Students>
+@using System.Web.UI.WebControls;
+@{
+    var yearLimit = 0;
+    var semesterLimit = 0;
+    string Studentid = Model.FirstOrDefault().STUDENT_ID.ToString();
+}
+@if (ViewBag.AcademicDataRead != null)
+{
+    if (ViewBag.AcademicDataRead == true)
+    {
+        @Html.DevExpress().GridView(settings =>
+   {
+       settings.Name = "AcademicHistory";
+       settings.KeyFieldName = "STUDENT_ID";
+       settings.Styles.Table.CssClass = "dx-table-ds";
+       settings.SettingsDetail.AllowOnlyOneMasterRowExpanded = false;
+       settings.SettingsDetail.ShowDetailRow = true;
+       // settings.Theme= r.
+       settings.Width = Unit.Percentage(100);
+       settings.CallbackRouteValues = new { Action = "_AcademicHistory", Controller = "Students", Studentid };
+       settings.Columns.Add("STUDENT_ID").Caption = "الرقم الاكاديمي";
+       settings.Columns.Add("DEGREE_DESC").Caption = "الدرجة العلمية";
+       settings.Columns.Add("FACULTY_NAME").Caption = "الكلية";
+       settings.Columns.Add("MAJOR_NAME").Caption = "التخصص";
+       settings.Columns.Add(column =>
+       {
+           column.Caption = "سنة الالتحاق";
+           column.Width = Unit.Percentage(15);
+           column.SetDataItemTemplateContent(c =>
+           {
+               var year = "__";
+               var Fullsemester = DataBinder.Eval(c.DataItem, "JOIN_SEMESTER");
+               if(Fullsemester != null && Fullsemester.ToString().Length > 2) {
+                   yearLimit = Fullsemester.ToString().Length - 1;
+                   year = Fullsemester.ToString().Substring(0, yearLimit);
+                   year = "14" + year;
+                   int semester = int.Parse(year.Substring(yearLimit + 1));
+                   if(semester == 1)
+                   {
+                       year = year + "/ الفصل الأول";
+                   }
+                   else
+                   {
+                       year = year + "/ الفصل الثاني";
+                   }
+               }
+               ViewContext.Writer.Write("<div>" + year + "</div>");
+           });
+       });
+       settings.Columns.Add(column =>
+       {
+           column.Caption = "سنة التخرج";
+           column.Width = Unit.Percentage(15);
+           column.SetDataItemTemplateContent(c =>
+           {
+               var year = "__";
+               var Fullsemester = DataBinder.Eval(c.DataItem, "GRADUATION_SEMESTER");
+               settings.SettingsDetail.AllowOnlyOneMasterRowExpanded = false;
+               settings.SettingsDetail.ShowDetailRow = true;
+               if (Fullsemester != null && Fullsemester.ToString().Length > 2)
+               {
+                   yearLimit = Fullsemester.ToString().Length - 1;
+                   year = Fullsemester.ToString().Substring(0, yearLimit);
+                   year = "14" + year;
+                   int semester = int.Parse(year.Substring(yearLimit + 1));
+                   if (semester == 1)
+                   {
+                       year = year + "/ الفصل الأول";
+                   }
+                   else
+                   {
+                       year = year + "/ الفصل الثاني";
+                   }
+               }
+               ViewContext.Writer.Write("<div>" + year + "</div>");
+           });
+       });
+       settings.SetDetailRowTemplateContent(c =>
+       {
+           string degree = DataBinder.Eval(c.DataItem, "DEGREE_DESC")?.ToString();
+           degree = $"طباعة السجل الأكاديمي المفصل-{degree}";
+           ViewContext.Writer.Write("<br/><a class='btn btn-primary btn-sm' style='color: white!important' href=" + Url.Action("DetailedAcademicRecords", "Students", new { stid = DataBinder.Eval(c.DataItem, "STUDENT_ID")?.ToString() }) + " ><i class='fa fa-print' style='color: white!important'></i>"+degree+"</a>");
+           Html.RenderAction("_AcademicData", "Students", new { studentid = DataBinder.Eval(c.DataItem, "STUDENT_ID")?.ToString() });
+       });
+       settings.SettingsLoadingPanel.Mode = GridViewLoadingPanelMode.Disabled;
+       settings.EnableCallbackAnimation = false;
+   }).Bind(Model).GetHtml()
+    }
+}

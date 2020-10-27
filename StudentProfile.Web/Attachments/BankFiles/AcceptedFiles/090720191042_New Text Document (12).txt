@@ -1,0 +1,61 @@
+                        $scope.DL_NationalityInstance.repaint();
+                        //$timeout(function () {
+                        //    if ($scope.DL_NationalityInstance) {
+                        //        $scope.DL_NationalityInstance.option("value", data.data.RewardNationaltities);
+                        //        $scope.DL_NationalityInstance.repaint();
+                        //    }
+                        //});
+
+
+  $http({
+                            method: "GET",
+                            url: "/Rewards/GetAllNationalities"
+                        }).then(function (data) {
+                            if (data.data !== "") {
+                                $timeout(function () {
+                                    DataSourceNationalities.reload();
+                                });
+                            }
+                        });
+
+                    //var x = $scope.DL_NationalityInstance;
+                    //x.option("values", data.data.RewardNationaltities);
+
+
+
+
+        $scope.NationalityListDS = function () {
+            debugger;
+            $http({
+                method: "Get",
+                url: "/Rewards/GetAllNationalities"
+            }).then(function (data) {
+                $scope.NationalityList = data.data;
+            });
+        };
+        //$scope.NationalityListDS();
+
+                    ////var tagBox = $("#DL_NationalityId").dxTagBox("instance");
+                    ////tagBox.reset();
+                    ////tagBox.option("values", data.data.RewardNationaltities);
+
+
+
+
+
+
+
+                //return $http({
+                //    method: "Get",
+                //    url: "/Rewards/GetAllNationalities"
+                //}).then(function (data) {
+                //    $scope.DL_NationalityInstance.option("values", Array.from([1]));
+                //    //$scope.MDL_NationalityId = "1";
+                //    return data.data;
+                //});
+
+
+                    $timeout(function () {
+                        $scope.DL_NationalityInstance.repaint;
+                        $scope.DL_NationalityInstance.repaint();
+                    });

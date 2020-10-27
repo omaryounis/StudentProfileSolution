@@ -1,0 +1,302 @@
+@using System.Web.UI.WebControls
+@using DevExpress.Export
+@model List<StudentProfile.DAL.Models.Relatives>
+@{
+    Html.EnableClientValidation();
+    Html.EnableUnobtrusiveJavaScript();
+    var grid = Html.DevExpress().GridView(settings =>
+    {
+        settings.Name = "RelativesGridView";
+        settings.KeyFieldName = "ID";
+        settings.CallbackRouteValues = new {Controller = "Students", Action = "RelativesGridViewPartial"};
+
+        settings.Styles.Table.CssClass = "dx-table-ds";
+        settings.Styles.Header.Wrap = DefaultBoolean.True;
+
+        settings.Width = Unit.Percentage(100);
+        settings.RightToLeft = DefaultBoolean.True;
+
+        settings.Settings.ShowGroupPanel = false;
+        settings.Settings.ShowFilterRow = false;
+
+        settings.SettingsBehavior.ConfirmDelete = true;
+        settings.SettingsBehavior.AllowFocusedRow = false;
+        settings.SettingsBehavior.AllowSelectByRowClick = true;
+
+        settings.SettingsEditing.Mode = GridViewEditingMode.EditForm;
+        settings.SettingsEditing.AddNewRowRouteValues = new {Controller = "Students", Action = "RelativesGridViewPartialAddNew"};
+        settings.SettingsEditing.UpdateRowRouteValues = new {Controller = "Students", Action = "RelativesGridViewPartialUpdate"};
+        settings.SettingsEditing.DeleteRowRouteValues = new {Controller = "Students", Action = "RelativesGridViewPartialDelete"};
+
+        //Columns
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "Name";
+            c.Caption = "ÇáÇÓã";
+            c.EditorProperties().TextBox(p => { p.ClientInstanceName = "Name"; });
+        });
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "IDNumber";
+            c.Caption = "ÑÞã ÇáåæíÉ";
+            c.EditorProperties().TextBox(p =>
+            {
+                p.ClientInstanceName = "IDNumber";
+                p.Style.CssClass = "textcell";
+            });
+        });
+        settings.Columns.Add(c =>
+        {
+            c.ColumnType = MVCxGridViewColumnType.ComboBox;
+            var comboBoxProperties = c.PropertiesEdit as ComboBoxProperties;
+            if (comboBoxProperties != null)
+            {
+                comboBoxProperties.DataSource = ViewData["Relationship"];
+            }
+            c.FieldName = "Relationship";
+            c.Caption = "ÕáÉ ÇáÞÑÇÈÉ";
+        });
+
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "PassportNumber";
+            c.Caption = "ÑÞã ÌæÇÒ ÇáÓÝÑ";
+            c.EditorProperties().TextBox(p =>
+            {
+                p.ClientInstanceName = "PassportNumber";
+                p.Style.CssClass = "textcell";
+            });
+        });
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "PassExpDate";
+            c.Caption = "ÊÇÑíÎ ÇäÊåÇÁ ÌæÇÒ ÇáÓÝÑ";
+            c.EditorProperties().DateEdit(p => { p.ClientInstanceName = "PassExpDate"; });
+        });
+
+        if (ViewBag.RelativesDataPreviewAttachments != null)
+        {
+            if (ViewBag.RelativesDataPreviewAttachments == true)
+            {
+                settings.Columns.Add(c =>
+                {
+                    c.FieldName = "PassImage";
+                    c.Caption = "ÕæÑÉ ÌæÇÒ ÇáÓÝÑ";
+                    c.Settings.AllowSort = DefaultBoolean.False;
+                    c.Settings.AllowAutoFilter = DefaultBoolean.False;
+                    c.EditorProperties().BinaryImage(p => { p.ClientInstanceName = "upload-images-ds"; });
+                    c.SetEditItemTemplateContent(q =>
+                    {
+                        var studentid = int.Parse(Session["StudentID"].ToString());
+
+
+                        var imageName = "";
+                        if (DataBinder.Eval(q.DataItem, "PassImage") != null)
+                        {
+                            imageName = DataBinder.Eval(q.DataItem, "PassImage").ToString();
+                        }
+                        if (Directory.Exists(Server.MapPath($@"~/Content/UserFiles/{studentid}/ÇáãÑÇÝÞíä/"))) { 
+                        var pathList = Directory.GetFiles(Server.MapPath($@"~/Content/UserFiles/{studentid}/ÇáãÑÇÝÞíä/"));
+                        var path = pathList.Where(x => Path.GetFileName(x) == imageName).FirstOrDefault();
+                        if (File.Exists(path))
+                        {
+                            var b = File.ReadAllBytes(path);
+                            ViewData["PassImage"] = b;
+                        }
+                        }
+                        using (Html.BeginForm())
+                        {
+                            Html.RenderPartial("_PassImage");
+                        }
+                    });
+                    c.SetDataItemTemplateContent(dd =>
+                    {
+                        var studentid = int.Parse(Session["StudentID"].ToString());
+
+                        var imageString = "";
+                        var imageName = "";
+                        if (DataBinder.Eval(dd.DataItem, "PassImage") != null)
+                        {
+                            imageName = DataBinder.Eval(dd.DataItem, "PassImage").ToString();
+                        }
+                        if (!Directory.Exists(Server.MapPath($@"~/Content/UserFiles/{studentid}/ÇáãÑÇÝÞíä/")))
+                        {
+                            Directory.CreateDirectory(Server.MapPath($@"~/Content/UserFiles/{studentid}/ÇáãÑÇÝÞíä/"));
+                        }
+                        var pathList = Directory.GetFiles(Server.MapPath($@"~/Content/UserFiles/{studentid}/ÇáãÑÇÝÞíä/"));
+
+                        var path = pathList.Where(x => Path.GetFileName(x) == imageName).FirstOrDefault();
+                        if (File.Exists(path))
+                        {
+                            var b = File.ReadAllBytes(path);
+                            imageString = Convert.ToBase64String(b);
+                            ViewData["PassImage"] = b;
+                        }
+                        if (ViewData["PassImage"] != null)
+                        {
+                            ViewContext.Writer.Write("<img src='data:image/Bmp;base64," + imageString + "' class='img img-thumbnail'/>");
+                        }
+                    });
+                });
+            }
+        }
+        if (ViewBag.RelativesDataDownloadAttachments != null)
+        {
+            if (ViewBag.RelativesDataDownloadAttachments == true)
+            {
+                settings.Columns.Add(c =>
+                {
+                    c.Caption = "ÊÍãíá ÇáÕæÑÉ";
+                    c.Settings.AllowSort = DefaultBoolean.False;
+                    c.Settings.AllowAutoFilter = DefaultBoolean.False;
+                    c.EditFormSettings.Visible = DefaultBoolean.False;
+                    c.SetDataItemTemplateContent(i =>
+                    {
+                        var imageName = string.Empty;
+                        var image = DataBinder.Eval(i.DataItem, "PassImage");
+                        if (image != null)
+                        {
+                            imageName = image.ToString();
+                        }
+
+                        if (string.IsNullOrEmpty(imageName))
+                        {
+                            return;
+                        }
+                        var link =
+                            Html.ActionLink(" ", "DownloadRelativeImage", new {relativeId = DataBinder.Eval(i.DataItem, "ID")},
+                                new {@class = "fa fa-download btn-ds-ico btn btn-success", title = "ÊÍãíá ÇáÕæÑÉ"}).ToHtmlString();
+                        ViewContext.Writer.Write(link);
+                    });
+                });
+            }
+        }
+
+        settings.InitNewRow = (s, e) => { e.NewValues["PassExpDate"] = DateTime.Now; };
+
+        settings.ControlStyle.CssClass = "GridViewRootClassName";
+        /*Command Column Emulation*/
+        settings.Columns.Add(column =>
+        {
+            column.Caption = "#";
+            column.Settings.AllowSort = DefaultBoolean.False;
+            column.Settings.AllowAutoFilter = DefaultBoolean.False;
+            column.EditFormSettings.Visible = DefaultBoolean.False;
+            /*DataItemTemplate*/
+            /*New - Edit - Delete Buttons*/
+            column.SetDataItemTemplateContent(c =>
+            {
+                //ViewContext.Writer.Write("<span class=\"fa fa-plus fa-ds\" onclick=\"{0}.AddNewRow();\" title='ÇÖÇÝÉ'></span>", settings.Name);
+
+                //ViewContext.Writer.Write("&nbsp;");
+
+
+                if (ViewBag.RelativesDataUpdate != null)
+                {
+                    if (ViewBag.RelativesDataUpdate == true)
+                    {
+                        //ViewContext.Writer.Write("<span class=\"fa fa-pencil btn-ds-ico btn btn-success  \" onclick=\"{0}.StartEditRow('{1}');\" title='ÊÚÏíá'></span>", settings.Name, c.VisibleIndex);
+                        //ViewContext.Writer.Write("&nbsp;");
+
+
+                        ViewContext.Writer.Write("<span class=\"fa fa-pencil btn-ds-ico btn btn-success  \" onclick=\"EditRelative('{0}');\" title='ÊÚÏíá'></span>", c.VisibleIndex);
+                        ViewContext.Writer.Write("&nbsp;");
+                    }
+                }
+                if (ViewBag.RelativesDataDelete != null)
+                {
+                    if (ViewBag.RelativesDataDelete == true)
+                    {
+                        ViewContext.Writer.Write("<span class=\"fa fa-trash btn-ds-ico btn btn-danger  \" onclick=\"DeleteRelative('{0}')\" title='ÍÐÝ'></span>", c.KeyValue.ToString());
+                    }
+                }
+            });
+            /*DataItemTemplate*/
+
+            /*EditItemTemplate*/
+            //column.SetEditItemTemplateContent(c =>
+            //{
+            //    ViewContext.Writer.Write("<span class=\"fa fa-check fa-ds \" onclick=\"{0}.UpdateEdit();\" title='ÍÝÙ'></span>", settings.Name);
+
+            //    ViewContext.Writer.Write("&nbsp;");
+
+            //    ViewContext.Writer.Write("<span class=\"fa fa-undo fa-ds \" onclick=\"{0}.CancelEdit();\" title='ÇáÛÇÁ'></span>", settings.Name);
+            //});
+            /*EditItemTemplate*/
+        });
+        /*Command Column Emulation*/
+
+        //EditForm
+        settings.SettingsPopup.EditForm.SettingsAdaptivity.Mode = PopupControlAdaptivityMode.OnWindowInnerWidth;
+        settings.SettingsPopup.EditForm.SettingsAdaptivity.SwitchAtWindowInnerWidth = 500;
+        settings.SettingsPopup.EditForm.SettingsAdaptivity.MaxWidth = 500;
+
+        settings.EditFormLayoutProperties.SettingsAdaptivity.AdaptivityMode = FormLayoutAdaptivityMode.SingleColumnWindowLimit;
+        settings.EditFormLayoutProperties.SettingsAdaptivity.SwitchToSingleColumnAtWindowInnerWidth = 400;
+        settings.EditFormLayoutProperties.ColCount = 3;
+
+        //SettingsPager
+        settings.SettingsPager.Visible = true;
+        settings.SettingsPager.EnableAdaptivity = true;
+        settings.SettingsPager.EnableAdaptivity = true;
+        settings.SettingsPager.PageSize = 10;
+
+        //SettingsText
+        settings.SettingsText.CommandNew = "ÇÖÇÝÉ";
+        settings.SettingsText.CommandUpdate = "ÍÝÙ";
+        settings.SettingsText.CommandCancel = "ÇáÛÇÁ";
+        settings.SettingsText.CommandEdit = "ÍÝÙ";
+        settings.SettingsText.CommandDelete = "ÍÐÝ";
+        settings.SettingsText.ConfirmDelete = "åá ÊÑíÏ ÍÐÝ åÐÇ ÇáÚäÕÑ¿";
+        settings.SettingsText.EmptyDataRow = "áÇ ÊæÌÏ ÈíÇäÇÊ";
+        settings.SettingsLoadingPanel.Text = "ÊÍãíá ...";
+
+        settings.SettingsAdaptivity.AdaptivityMode = GridViewAdaptivityMode.Off;
+        settings.SettingsAdaptivity.AdaptiveColumnPosition = GridViewAdaptiveColumnPosition.Right;
+        settings.SettingsAdaptivity.AdaptiveDetailColumnCount = 1;
+        settings.SettingsAdaptivity.AllowOnlyOneAdaptiveDetailExpanded = false;
+        settings.SettingsAdaptivity.HideDataCellsAtWindowInnerWidth = 0;
+
+        settings.SettingsExport.EnableClientSideExportAPI = true;
+        settings.SettingsExport.ExcelExportMode = ExportType.DataAware;
+
+        //Toolbars
+        if (ViewBag.RelativesDataCreate != null)
+        {
+            if (ViewBag.RelativesDataCreate == true)
+            {
+                settings.Toolbars.Add(toolbar =>
+                {
+                    toolbar.Enabled = true;
+                    toolbar.Position = GridToolbarPosition.Top;
+                    toolbar.ItemAlign = GridToolbarItemAlign.Right;
+                    toolbar.Items.Add(i =>
+                    {
+                        i.Command = GridViewToolbarCommand.New;
+                        i.Text = "ÇÖÇÝÉ";
+                        i.ItemStyle.CssClass = "btn btn-primary";
+                    });
+                });
+            }
+        }
+
+        //CommandColumn
+        settings.CommandColumn.Visible = false;
+        settings.CommandColumn.ShowNewButton = true;
+        settings.CommandColumn.ShowDeleteButton = false;
+        settings.CommandColumn.ShowEditButton = false;
+        settings.CommandColumn.ShowNewButtonInHeader = false;
+        //settings.CommandColumn.VisibleIndex = settings.Columns.Count + 1;
+    });
+    if (ViewData["EditError"] != null)
+    {
+        grid.SetEditErrorText((string) ViewData["EditError"]);
+    }
+}
+@if (ViewBag.RelativesDataRead != null)
+{
+    if (ViewBag.RelativesDataRead == true)
+    {
+        @grid.Bind(Model).GetHtml()
+    }
+}

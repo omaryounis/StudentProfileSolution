@@ -1,0 +1,185 @@
+﻿@model List<StudentProfile.DAL.Models.Usp_GetFreeTravelRequests_Result>
+@using System.Web.UI.WebControls;
+@{
+    int? radioList = 0;
+    int? AdID = null;
+    if (ViewData["type"] != null)
+    {
+        radioList = (int)ViewData["type"];
+    }
+    if (ViewData["AdID"] != null && string.IsNullOrEmpty(ViewData["AdID"].ToString()))
+    {
+        AdID = (int)ViewData["AdID"];
+    }
+}
+    @Html.DevExpress().GridView(settings =>
+{
+    settings.Name = "TravelFreeRequests";
+    settings.KeyFieldName = "ID";
+    //settings.Styles.Table.CssClass = "dx-table-ds";
+    // settings.Theme= r.
+
+    settings.Width = Unit.Percentage(100);
+    settings.Settings.ShowFilterRow = true;
+    settings.Settings.ShowFilterRowMenu = true;
+    settings.SettingsBehavior.AllowFixedGroups = true;
+    settings.Settings.ShowGroupPanel = true;
+    settings.Settings.GroupFormat ="1";
+    settings.Settings.VerticalScrollBarMode = ScrollBarMode.Visible;
+    settings.Settings.VerticalScrollableHeight = 300;
+    settings.SettingsPager.Mode = GridViewPagerMode.ShowPager;
+    settings.SettingsBehavior.AllowSelectByRowClick = false;
+    settings.SettingsDataSecurity.AllowReadUnlistedFieldsFromClientApi = DefaultBoolean.True;
+    settings.CommandColumn.Visible = true;
+    settings.CommandColumn.Width = Unit.Percentage(5);
+    settings.CommandColumn.ShowSelectCheckbox = true;
+    settings.CommandColumn.SelectAllCheckboxMode = GridViewSelectAllCheckBoxMode.AllPages;
+    settings.CallbackRouteValues = new { Action = "_GetFreeTravelRequests", Controller = "TravelOrders", AdID , radioList };
+
+    settings.SettingsExport.EnableClientSideExportAPI = true;
+    settings.SettingsExport.ExcelExportMode = DevExpress.Export.ExportType.WYSIWYG;
+    settings.Settings.ShowFilterRow = true;
+    settings.SettingsSearchPanel.Visible = true;
+    settings.Settings.ShowHeaderFilterButton = true;
+
+    settings.Toolbars.Add(t =>
+    {
+        t.EnableAdaptivity = true;
+
+        t.Items.Add(GridViewToolbarCommand.ExportToPdf);
+        t.Items.Add(GridViewToolbarCommand.ExportToXls);
+        t.Items.Add(GridViewToolbarCommand.ExportToXlsx);
+        t.Items.Add(GridViewToolbarCommand.ExportToDocx);
+        t.Items.Add(GridViewToolbarCommand.ExportToRtf);
+        t.Items.Add(GridViewToolbarCommand.ExportToCsv);
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "اسم الاعلان";
+        column.Width = Unit.Percentage(15);
+        column.FieldName = "AdName";
+        //column.GroupIndex = 0;
+
+
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "خط السير";
+        column.Width = Unit.Percentage(15);
+        column.FieldName = "TravelLine";
+        // column.GroupIndex = 0;
+
+
+    });
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "الرقم الاكاديمي";
+        column.Width = Unit.Percentage(15);
+        column.FieldName = "Student_ID";
+
+    });
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "رقم الهوية";
+        column.Width = Unit.Percentage(15);
+        column.FieldName = "National_ID";
+
+
+    });
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "اسم الطالب";
+        column.Width = Unit.Percentage(15);
+        column.FieldName = "Student_Name";
+
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "عدد الساعات";
+        column.Width = Unit.Percentage(15);
+        column.FieldName = "REMAININGCREDITHOURSCOUNT";
+
+    });
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "اسم الطالب لاتيني";
+        column.Width = Unit.Percentage(15);
+        column.FieldName = "Student_Name_S";
+
+    });
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "الجنسية";
+        column.Width = Unit.Percentage(15);
+        column.FieldName = "NATIONALITY_DESC";
+
+    });
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "جهة الدراسة";
+        column.Width = Unit.Percentage(15);
+        column.FieldName = "Faculty_Name";
+
+
+    });
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "المرحلة التعليمية";
+        column.Width = Unit.Percentage(15);
+        column.FieldName = "DEGREE_DESC";
+
+
+    });
+    settings.Columns.Add(column =>
+    {
+        column.Caption ="الحالة الأكاديمية";
+        column.Width = Unit.Percentage(15);
+        column.FieldName = "STATUS_DESC";
+
+
+    });
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "المستوى";
+        column.Width = Unit.Percentage(15);
+        column.FieldName = "Level_Desc";
+
+
+    });
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "تاريخ بداية الرحلة";
+        column.Width = Unit.Percentage(15);
+        column.FieldName = "DepartingDate";
+        column.PropertiesEdit.DisplayFormatString = "dd/MM/yyyy";
+    });
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "تاريخ نهاية الرحلة";
+        column.Width = Unit.Percentage(15);
+        column.FieldName = "ReturningDate";
+        column.PropertiesEdit.DisplayFormatString = "dd/MM/yyyy";
+
+    });
+    settings.PreRender = (s, e) =>
+    {
+        MVCxGridView grid = s as MVCxGridView;
+        if (grid != null)
+            grid.ExpandAll();
+    };
+    settings.SettingsLoadingPanel.Mode = GridViewLoadingPanelMode.Default;
+    settings.ClientSideEvents.SelectionChanged = "SelectionChanged";
+    settings.EnableCallbackAnimation = false;
+    //settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Count, "AdName");
+    settings.TotalSummary.Add(new ASPxSummaryItem()
+    {
+        SummaryType = DevExpress.Data.SummaryItemType.Count,
+        FieldName = "AdName",
+        DisplayFormat = "العدد: {0}"
+    });
+    settings.Settings.ShowFooter = true;
+}).Bind(Model).GetHtml()
+

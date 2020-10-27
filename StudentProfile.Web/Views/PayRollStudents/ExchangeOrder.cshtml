@@ -1,0 +1,48 @@
+﻿
+@{
+    ViewBag.Title = "اوامر الصرف";
+    Layout = "~/Views/Shared/_DevextremeLayout.cshtml";
+}
+<script src="~/Scripts/ExchangeOrder/ExchangeOrderController.js"></script>
+<script src="~/Scripts/ExchangeOrder/ExchangeOrderSrv.js"></script>
+<div class="container-fluid container-fullw ng-scope" ng-controller="ExchangeOrderController">
+    <div class="col-md-12">
+
+        <div class="panel bg-white">
+            <div class="breadcrumb-wrapper text-right">
+                <h4 class="no-margin"> اوامر الصرف </h4>
+            </div>
+            <div class="panel-body text-right">
+                @*<form id="form" action="your-action" ng-submit="saveChanges($event)">*@
+                <form id="form" ng-submit="saveChanges($event)">
+                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                        <label class="control-label">اسم امر الصرف</label>
+                        <div dx-text-box="textBox.ExchangeOrder" dx-validator="validationRequired"></div>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                        <label class="control-label">ارقام المسيرات</label>
+                        <div dx-tag-box="PayrollOptions" dx-validator="validationRequired"></div>
+                    </div>
+
+                    @if (ViewBag.Create != null)
+                    {
+                        if (ViewBag.Create)
+                        {
+                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                <label class="label-control col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-12"><br /></label>
+                                <div dx-button="submitButtonOptions"></div>
+                            </div>
+                        }
+                    }
+                </form>
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 dx-tree-st">
+                    <div dx-data-grid="PayRollExchaneOrdersGrid"> </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+

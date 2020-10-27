@@ -1,0 +1,929 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_DevextremeLayout.cshtml";
+}
+@using System.Web.UI.WebControls
+<script>
+
+    function EditEmpdocument(id) {
+        swal({
+            title: "تعديل المستند ",
+            text: "هل تريد تعديل المستند",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonClass: "btn btn-success",
+            cancelButtonClass: "btn btn-danger",
+            buttonsStyling: false,
+            reverseButtons: true,
+            confirmButtonText: "نعم",
+            cancelButtonText: "لأ"
+        }).then(result => {
+            if (result.value) {
+                EmpDocumentGridView.StartEditRow(id);
+            }
+        });
+    };
+    function OnBeginCallback(s, e)
+    {
+        debugger;
+        var firstName = StudentFirstName.GetText();
+        e.customArgs['firstName'] = firstName;
+        e.customArgs['txt'] = s.stateObject.rawValue;
+        e.customArgs['lastName'] = '';
+    }
+
+    function RefreshFiles(s, e) { $('#uploadDiv').load('@Url.Action("UploadedFiles", "Students")'); }
+
+    function IsTopSecretValueChanged(s, e) {
+
+        var isTopSecret = IsTopSecret.GetValue();
+        var isSecret = IsSecret.GetValue();
+        if (isTopSecret === true) {
+            IsSecret.SetValue(true);
+        } else {
+            IsSecret.SetValue(false);
+        }
+    }
+
+    function IsSecretValueChanged(s, e) {
+
+        var isTopSecret = IsTopSecret.GetValue();
+        if (isTopSecret === true) {
+
+            IsSecret.SetValue(true);
+        }
+        //else {
+        //
+        //    IsSecret.SetValue(false);
+        //}
+    }
+
+
+    function DeleteEmpDocument(docId) {
+        swal({
+            title: 'تأكيد الحذف',
+            text: "هل تريد حذف هذا المستند؟!",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'نعم',
+            cancelButtonText: 'لأ'
+        }).then((result) => {
+            if (result.value) {
+                $.ajax({
+                    url: "@Url.Action("EmpDocumentGridViewPartialDelete", "Students")",
+                    method: "POST",
+                    data: { id: docId }
+                }).success(function(data) {
+                    if (data === "") {
+                        swal(
+                            'تم الحذف!',
+                            'تم الحذف بنجاح',
+                            'success'
+                        );
+                        EmpDocumentGridView.PerformCallback();
+                    } else {
+                        swal({
+                            title: 'خطأ',
+                            text: data,
+                            type: 'warning',
+                            showCloseButton: true,
+                            showCancelButton: true,
+                            focusConfirm: false,
+                            confirmButtonColor: '#3085d6',
+                            cancelButtonColor: '#d33',
+                            confirmButtonText: 'نعم',
+                            cancelButtonText: 'لأ'
+                        });
+                    }
+                });
+            }
+        });
+
+
+        //var result = DevExpress.ui.dialog.confirm("هل تريد حذف هذا المستند؟!", "تأكيد الحذف");
+        //result.done(function (dialogResult) {
+        //    if (dialogResult === true) {
+        //        $.ajax({
+        //            url: "/Students/EmpDocumentGridViewPartialDelete",
+        //            method: "POST",
+        //            data: { id: docId }
+        //        }).success(function (data) {
+        //            if (data === "") {
+        //                DevExpress.ui.notify({
+        //                    message: "تم الحذف بنجاح",
+        //                    type: "success",
+        //                    displayTime: 3000,
+        //                    closeOnClick: true
+        //                });
+        //                EmpDocumentGridView.PerformCallback();
+        //            } else {
+        //                DevExpress.ui.notify({
+        //                    message: data,
+        //                    type: "error",
+        //                    displayTime: 3000,
+        //                    closeOnClick: true
+        //                });
+        //            }
+        //        });
+        //    }
+        //});
+
+    }
+
+
+    function EditRelative(noteId) {
+        swal({
+            title: "تعديل المرافق ",
+            text: "هل تريد تعديل المرافق",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonClass: "btn btn-success",
+            cancelButtonClass: "btn btn-danger",
+            buttonsStyling: false,
+            reverseButtons: true,
+            confirmButtonText: "نعم",
+            cancelButtonText: "لأ"
+        }).then(result => {
+            if (result.value) {
+                RelativesGridView.StartEditRow(noteId);
+            }
+        });
+    }
+
+    function DeleteRelative(id) {
+
+        swal({
+            title: 'تأكيد الحذف',
+            text: "هل تريد حذف هذا المرافق؟!",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonClass: 'btn btn-success',
+            cancelButtonClass: 'btn btn-danger',
+            buttonsStyling: false,
+            reverseButtons: true,
+            confirmButtonText: 'نعم',
+            cancelButtonText: 'لأ'
+        }).then((result) => {
+            if (result.value) {
+                $.ajax({
+                    url: "@Url.Action("RelativesGridViewPartialDelete", "Students")",
+                    method: "POST",
+                    data: { id: id }
+                }).success(function(data) {
+                    if (data === "") {
+
+                        swal(
+                            'تم الحذف!',
+                            'تم الحذف بنجاح',
+                            'success'
+                        );
+                        RelativesGridView.PerformCallback();
+                    } else {
+                        swal({
+                            title: 'خطأ',
+                            text: data,
+                            type: 'warning',
+                            timer: 10000,
+                            showCloseButton: true,
+                            showCancelButton: true,
+                            focusConfirm: false,
+                            confirmButtonColor: '#3085d6',
+                            cancelButtonColor: '#d33',
+                            confirmButtonText: 'نعم',
+                            cancelButtonText: 'لأ'
+                        });
+                    }
+                });
+            }
+        });
+
+
+        //var result = DevExpress.ui.dialog.confirm("هل تريد حذف هذا المستند؟!", "تأكيد الحذف");
+        //result.done(function (dialogResult) {
+        //    if (dialogResult === true) {
+        //        $.ajax({
+        //            url: "/Students/EmpDocumentGridViewPartialDelete",
+        //            method: "POST",
+        //            data: { id: docId }
+        //        }).success(function (data) {
+        //            if (data === "") {
+        //                DevExpress.ui.notify({
+        //                    message: "تم الحذف بنجاح",
+        //                    type: "success",
+        //                    displayTime: 3000,
+        //                    closeOnClick: true
+        //                });
+        //                EmpDocumentGridView.PerformCallback();
+        //            } else {
+        //                DevExpress.ui.notify({
+        //                    message: data,
+        //                    type: "error",
+        //                    displayTime: 3000,
+        //                    closeOnClick: true
+        //                });
+        //            }
+        //        });
+        //    }
+        //});
+
+    }
+
+    function DeleteStudentNote(noteId) {
+
+        swal({
+            title: 'تأكيد الحذف',
+            text: "هل تريد حذف هذه الملاحظة؟!",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonClass: 'btn btn-success',
+            cancelButtonClass: 'btn btn-danger',
+            buttonsStyling: false,
+            reverseButtons: true,
+            confirmButtonText: 'نعم',
+            cancelButtonText: 'لأ'
+        }).then((result) => {
+            if (result.value) {
+                $.ajax({
+                    url: "@Url.Action("StudentNotesGridViewPartialDelete", "Students")",
+                    method: "POST",
+                    data: { NoteId: noteId }
+                }).success(function(data) {
+                    if (data === "") {
+
+                        swal(
+                            'تم الحذف!',
+                            'تم الحذف بنجاح',
+                            'success'
+                        );
+                        StudentNotesGridView.PerformCallback();
+                    } else {
+                        swal({
+                            title: 'خطأ',
+                            text: data,
+                            type: 'warning',
+                            timer: 10000,
+                            showCloseButton: true,
+                            showCancelButton: false,
+                            focusConfirm: false,
+                            confirmButtonColor: '#3085d6',
+                            cancelButtonColor: '#d33',
+                            confirmButtonText: 'نعم',
+                            cancelButtonText: 'لأ'
+                        });
+                    }
+                });
+            }
+        });
+
+
+        //var result = DevExpress.ui.dialog.confirm("هل تريد حذف هذا المستند؟!", "تأكيد الحذف");
+        //result.done(function (dialogResult) {
+        //    if (dialogResult === true) {
+        //        $.ajax({
+        //            url: "/Students/EmpDocumentGridViewPartialDelete",
+        //            method: "POST",
+        //            data: { id: docId }
+        //        }).success(function (data) {
+        //            if (data === "") {
+        //                DevExpress.ui.notify({
+        //                    message: "تم الحذف بنجاح",
+        //                    type: "success",
+        //                    displayTime: 3000,
+        //                    closeOnClick: true
+        //                });
+        //                EmpDocumentGridView.PerformCallback();
+        //            } else {
+        //                DevExpress.ui.notify({
+        //                    message: data,
+        //                    type: "error",
+        //                    displayTime: 3000,
+        //                    closeOnClick: true
+        //                });
+        //            }
+        //        });
+        //    }
+        //});
+
+    }
+
+    function HideLoader() {
+        $(".se-pre-con").fadeOut(2000);
+    }
+
+    $(document).ready(function() {
+        var isOk = $('#Ok').val();
+        if (isOk == 1) {
+            for (var i = 1; i < 5; i++) {
+                if (i == 1) {
+
+                    $('#' + i).submit();
+                    $('#link' + i).addClass('active');
+                } else {
+                    $('#link' + i).removeClass('active');
+                }
+            }
+        } else {
+            HideLoader();
+        }
+    });
+
+    function SubmitForm(id) {
+
+        for (var i = 1; i < 5; i++) {
+            if (id == i) {
+                $('#' + i).submit();
+                $('#link' + i).addClass('active');
+            } else {
+                $('#link' + i).removeClass('active');
+            }
+        }
+        return false;
+    }/*
+
+    jQuery(document).ready(function() {
+        $(".dropdown").hover(
+            function() {
+                $('.dropdown-menu', this).fadeIn("fast");
+            },
+            function() {
+                $('.dropdown-menu', this).fadeOut("fast");
+            });
+    });*/
+
+    function OnBeginCallback2(s, e) {
+        if (s.stateObject) {
+            e.customArgs['txt'] = s.stateObject.rawValue;
+        }
+    }
+
+    function onTextChanged(s, e) {
+
+        myFile.GetText();
+    }
+
+    function onFileUploadCompelete(s, e) {
+
+        var id = @ViewBag.StudentID;
+        var ss = FileManager;
+        FileManager.callbackCustomArgs["stID"] = id;
+        FileManager.Refresh();
+    }
+
+
+    function OnImageUpload(s, e) {
+
+        var imgSrc = $('#myImage_DXPreview').attr('src');
+        var imgControl = myImage;
+
+    }
+
+    function FileManager_OnBeginCallBack(s, e) {
+        if (e != undefined) {
+
+            var id = @ViewBag.StudentID;
+            e.customArgs["stID"] = id;
+        }
+    }
+
+    function OnSelectedFileOpened(s, e) {
+
+        var folder = s.GetCurrentFolderPath();
+        var imageName = e.file.name;
+        var imgUrl = "/Content/UserFiles/" + folder + "/" + imageName;
+        DxImage.SetImageUrl(imgUrl);
+        PopupControl.Show();
+    }
+
+    function IsNumber(evt) {
+
+        var id = window.event.currentTarget;
+        evt = (evt) ? evt : window.event;
+        var charCode = (evt.which) ? evt.which : evt.keyCode;
+        //var val = this.value + evt.key;
+        if (charCode > 31 &&
+            (charCode < 48 || charCode > 57) &&
+            (charCode < 96 || charCode > 105) &&
+            (charCode != 38 && charCode != 40)) {
+            return false;
+        } else if (Number(id.value) > Number(id.max)) {
+            id.value = id.max;
+            return false;
+        } else if (Number(id.value) < Number(id.min)) {
+            id.value = id.min;
+            return false;
+        }
+        return true;
+    }
+
+    function OpenPopUp() {
+
+        pcModalMode.Show();
+    }
+
+    var DownloadFiles = function (data) {
+        debugger;
+        if(data=="")
+            DevExpress.ui.notify({ rtlEnabled:true, message: "حدث خطأ", type: "error", displayTime: 3000, closeOnClick: true });
+        else if (data == "0")
+            DevExpress.ui.notify({ rtlEnabled: true, message: "لا توجد مستندات محفوظة", type: "error", displayTime: 3000, closeOnClick: true });
+        else
+        window.location = data;
+    }
+
+    function OnFilesUploadComplete(s, e) {
+
+        var data = e.callbackData.split('|');
+        for (var i = 0; i < data.length; i += 2) {
+            debugger;
+            var file = data[i];
+            var url = data[i + 1];
+            var link = document.createElement('A');
+            link.innerHTML = file;
+            link.setAttribute('href', url);
+            link.setAttribute('target', '_blank');
+            var fileContainer = document.getElementById('filesContain');
+            fileContainer.appendChild(link);
+            fileContainer.appendChild(document.createElement('BR'));
+        }
+    }
+
+
+    (function() {
+        'use strict';
+        window.dxConfirm = function(text) {
+            if (text && text.length)
+                ConfirmLabel.SetText(text);
+            ConfirmYes.Click.ClearHandlers();
+            ConfirmYes.Click.AddHandler(Hide);
+            ConfirmPopup.Show();
+            return {
+                success: function(onSuccess) {
+                    ConfirmYes.Click.AddHandler(onSuccess);
+                }
+            };
+        };
+
+        function Hide() {
+            ConfirmPopup.Hide();
+        }
+    })();
+
+    function Validate() {
+        debugger;
+        var stid = StudentId.GetText();
+        var stphone = StudentPhoneNumber.GetText();
+        var stnationality = StudentIdNumber.GetText();
+        var stidentity = StudentIdentityNumber.GetText();
+        if (stid == "" && stphone == "" && stnationality == "" && stidentity == "") {
+            $('#searchw')
+                .append('<div class="alert alert-danger text-center">من فضلك اختر معيار واحد على الأقل للبحث</div>')
+            return false;
+        }
+        //return true;
+    }
+
+    // المساهمات و المشاركات
+    function OnEmpCoursesAttachmentsFilesUploadComplete(s, e) {
+        debugger;
+        var data = e.callbackData.split('|');
+        for (var i = 0; i < data.length; i += 2) {
+            var file = data[i];
+            var url = data[i + 1];
+            var link = document.createElement('A');
+            link.innerHTML = file;
+            link.setAttribute('href', url);
+            link.setAttribute('target', '_blank');
+            var fileContainer = document.getElementById('filesContain');
+            fileContainer.appendChild(link);
+            fileContainer.appendChild(document.createElement('BR'));
+        }
+    }
+
+    function EditEmpCourse(id) {
+        swal({
+            title: 'تعديل المساهمة',
+            text: "هل تريد تعديل المساهمة",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonClass: 'btn btn-success',
+            cancelButtonClass: 'btn btn-danger',
+            buttonsStyling: false,
+            reverseButtons: true,
+            confirmButtonText: 'نعم',
+            cancelButtonText: 'لأ'
+        }).then((result) => {
+            if (result.value) {
+                EmpCoursesGridView.StartEditRow(id);
+            }
+        });
+    }
+
+    function DeleteEmpCourse(id) {
+        swal({
+            title: 'تأكيد الحذف',
+            text: "هل تريد حذف هذه المساهمة؟!",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonClass: 'btn btn-success',
+            cancelButtonClass: 'btn btn-danger',
+            buttonsStyling: false,
+            reverseButtons: true,
+            confirmButtonText: 'نعم',
+            cancelButtonText: 'لأ'
+        }).then((result) => {
+            if (result.value) {
+                $.ajax({
+                    url: "@Url.Action("EmpCoursesGridViewPartialDelete", "Students")",
+                    method: "POST",
+                    data: { id: id }
+                }).success(function(data) {
+                    if (data === "") {
+                        swal('تم الحذف!', 'تم الحذف بنجاح', 'success');
+                        EmpCoursesGridView.PerformCallback();
+                    } else {
+                        swal({
+                            title: 'خطأ',
+                            text: data,
+                            type: 'warning',
+                            timer: 10000,
+                            showCloseButton: true,
+                            showCancelButton: true,
+                            focusConfirm: false,
+                            confirmButtonColor: '#3085d6',
+                            cancelButtonColor: '#d33',
+                            confirmButtonText: 'نعم',
+                            cancelButtonText: 'لأ'
+                        });
+                    }
+                });
+            }
+        });
+    }
+
+    $(document).ajaxComplete(function(event, request, settings) {
+
+
+        //if (FileManager != undefined){
+        //var id = StudentLbl.GetText();
+        //var path = settings.url;
+        //if(!path.includes('FileManagerPartial')){
+        //FileManager.callbackCustomArgs["stID"] = id;
+        //FileManager.Refresh();
+        //}
+        //}
+    });
+</script>
+
+
+<script>
+    function EditStudentCustomField(id) {
+        swal({
+            title: "تعديل الحقل ",
+            text: "هل تريد تعديل الحقل",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonClass: "btn btn-success",
+            cancelButtonClass: "btn btn-danger",
+            buttonsStyling: false,
+            reverseButtons: true,
+            confirmButtonText: "نعم",
+            cancelButtonText: "لأ"
+        }).then(result => {
+            if (result.value) {
+                debugger;
+                StudentsCustomFieldsGridView.StartEditRow(id);
+            }
+        });
+    };
+
+    function DeleteStudentCustomField(id) {
+        swal({
+            title: 'تأكيد الحذف',
+            text: "هل تريد حذف هذا الحقل؟!",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'نعم',
+            cancelButtonText: 'لأ'
+        }).then((result) => {
+            if (result.value) {
+                StudentsCustomFieldsGridView.DeleteItemByKey(id);
+            }
+        });
+    }
+    function OnSelectedCountryChanged() {
+        StudentsCustomFieldsGridView.GetEditor("CustomFieldId").PerformCallback();
+    }
+
+    function CityComboBox_BeginCallback(s, e) {
+        e.customArgs["customFieldId"] = StudentsCustomFieldsGridView.GetEditor("parent").GetValue();
+    }
+</script>
+@if (ViewBag.StudentID > 0)
+{
+    int? studentID = int.Parse((ViewBag.StudentID).ToString());
+    string idNumber = ViewBag.IdNumber;
+    <input type="hidden" value="1" id="Ok" />
+}
+
+
+<div id="StDetails" class="x_panel p_b_30">
+    @if (ViewBag.StudentID > 0)
+    {
+        int? studentID = int.Parse((ViewBag.StudentID).ToString());
+        Html.RenderAction("_StDetails", new { Studentid = studentID });
+    }
+    else
+    {
+        using (Ajax.BeginForm("SubmitSearch", "Students", new AjaxOptions { OnBegin = "return Validate()", UpdateTargetId = "StDetails" }))
+        {
+            Html.EnableClientValidation(false);
+            <div class="col-lg-6 col-sm-12 col-xs-12 col-md-6 col-md-offset-3 col-lg-offset-3 search-block" style="background-color: white">
+
+                <div class="col-lg-12 col-md-12 col-xs-12 ">
+                    <div class="row">
+                        <div class="form-group col-lg-12 col-sm-12 col-xs-12 col-md-12 StudentsSearch ">
+                            @Html.DevExpress().TextBox(
+                                settings =>
+                                {
+                                    settings.Name = "StudentFirstName";
+                                    settings.Width = Unit.Percentage(100);
+                                    //settings.Properties.ClientSideEvents.TextChanged = "StudentPhoneNumberChanged";
+                                    settings.Properties.NullText = "ادخل الاسم الأول";
+                                }).GetHtml()
+                        </div>
+                        <div class="form-group col-lg-12 col-sm-12 col-xs-12 col-md-12 ">
+                            @Html.Partial("_StudentsSearch")
+                        </div>
+                        <div class="form-group col-lg-12 col-sm-12 col-xs-12 col-md-12 StudentsSearch ">
+                            @Html.DevExpress().TextBox(
+                                settings =>
+                                {
+                                    settings.Name = "StudentPhoneNumber";
+                                    settings.Width = Unit.Percentage(100);
+                                    settings.Properties.ClientSideEvents.TextChanged = "StudentPhoneNumberChanged";
+                                    settings.Properties.NullText = "ادخل الجوال";
+                                }).GetHtml()
+                        </div>
+                        <div class="form-group col-lg-12 col-sm-12 col-xs-12 col-md-12 StudentsSearch ">
+                            @Html.DevExpress().TextBox(
+                                settings =>
+                                {
+                                    settings.Name = "StudentIdNumber";
+                                    settings.Width = Unit.Percentage(100);
+                                    settings.Properties.ClientSideEvents.TextChanged = "StudentIdNumberChanged";
+
+                                    settings.Properties.NullText = "ادخل الرقم الجامعى";
+                                }).GetHtml()
+                        </div>
+                        <div class="form-group col-lg-12 col-sm-12 col-xs-12 col-md-12 StudentsSearch ">
+                            @Html.DevExpress().TextBox(
+                                settings =>
+                                {
+                                    settings.Name = "StudentIdentityNumber";
+                                    settings.Width = Unit.Percentage(100);
+                                    settings.Properties.ClientSideEvents.TextChanged = "StudentIdentityNumberChanged";
+                                    settings.Properties.NullText = "ادخل رقم الهوية";
+                                }).GetHtml()
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="col-lg-12 col-sm-12 col-xs-12 col-md-12 text-right">
+                    <input type="submit" class="btn btn-success btn-block" value="بحث" />
+                </div>
+                <div class="col-lg-12 col-md-12 col-xs-12 " id="searchw"></div>
+            </div>
+        }
+    }
+
+
+</div>
+@Html.DevExpress().PopupControl(settings =>
+{
+    settings.Name = "PopupControl";
+    settings.AllowResize = true;
+    settings.ShowHeader = true;
+    settings.ShowOnPageLoad = false;
+    settings.Width = Unit.Pixel(500);
+    settings.AllowDragging = true;
+    settings.HeaderText = "";
+    settings.CloseAction = CloseAction.OuterMouseClick;
+    settings.CloseOnEscape = true;
+    settings.Modal = true;
+    settings.SetContent(() =>
+    {
+        Html.DevExpress().Image(image =>
+        {
+            image.Name = "DxImage";
+            image.Width = Unit.Percentage(100);
+            //image.Height = System.Web.UI.WebControls.Unit.Percentage(100);
+            image.Properties.EnableClientSideAPI = true;
+        }).GetHtml();
+        //ViewContext.Writer.Write("gdddd0");
+    });
+}).GetHtml()
+@Html.DevExpress().PopupControl(settings =>
+{
+    settings.Name = "ConfirmPopup";
+    settings.HeaderText = "حذف";
+    settings.PopupVerticalAlign = PopupVerticalAlign.WindowCenter;
+    settings.PopupHorizontalAlign = PopupHorizontalAlign.WindowCenter;
+    settings.SetContent(() =>
+    {
+        Html.DevExpress().FormLayout(form =>
+        {
+            form.Name = "ConfirmForm";
+            form.ColCount = 2;
+            form.SettingsItems.ShowCaption = DefaultBoolean.False;
+            form.Items.Add(i =>
+            {
+                i.NestedExtension().Label(label =>
+                {
+                    label.Name = "ConfirmLabel";
+                    label.Properties.EnableClientSideAPI = true;
+                    label.Text = "هل أنت متأكد?";
+                });
+                i.ColSpan = 2;
+            });
+            form.Items.Add(i =>
+            {
+                i.NestedExtension().Button(button =>
+                {
+                    button.Name = "ConfirmYes";
+                    button.Text = "نعم";
+                });
+            });
+            form.Items.Add(i =>
+            {
+                i.NestedExtension().Button(button =>
+                {
+                    button.Name = "ConfirmNo";
+                    button.Text = "لأ";
+                    button.ClientSideEvents.Click = "function(){ ConfirmPopup.Hide(); }";
+                });
+            });
+        }).Render();
+    });
+}).GetHtml()
+
+
+<script type="text/javascript">
+    var visibleIndex;
+    var command = "";
+
+    function OnCustomButtonClick(s, e) {
+        var message = "";
+        switch (e.buttonID) {
+            case "deleteButton":
+                command = "delete";
+                message = "تأكيد الحذف؟";
+                break;
+            case "newButton":
+                command = "new";
+                message = "هل انت متأكد من اضافة عنصر جديد؟";
+                break;
+            case "editButton":
+                command = "edit";
+                message = "هل انت متأكد من تعديل هذا العنصر؟";
+                break;
+            default:
+                break;
+        }
+        ShowPopup(e.visibleIndex, message);
+    }
+
+    function ShowPopup(index, message) {
+        visibleIndex = index;
+        popup.SetHeaderText(message);
+        popup.Show();
+    }
+
+    function OnClickYes(s, e) {
+
+        switch (command) {
+            case "delete":
+                StudentNotesGridView.DeleteRow(visibleIndex);
+                break;
+            case "new":
+                StudentNotesGridView.AddNewRow();
+                break;
+            case "edit":
+                StudentNotesGridView.StartEditRow(visibleIndex);
+                break;
+            case "save":
+                StudentNotesGridView.UpdateEdit();
+                break;
+            default:
+                break;
+        }
+
+        ClosePopup();
+    }
+
+    function OnClickNo(s, e) {
+        ClosePopup();
+    }
+
+    function ClosePopup() {
+        command = "";
+        message = "";
+        popup.Hide();
+    }
+
+    function OnUpdateButtonClick() {
+        command = "save";
+        ShowPopup(-1, "هل انت متأكد من حفظ التعديلات؟");
+    }
+</script>
+
+
+<script>
+    function EditStudentNote(noteId) {
+        swal({
+            title: 'تعديل الملاحظة ',
+            text: "هل تريد تعديل الملاحظة",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonClass: 'btn btn-success',
+            cancelButtonClass: 'btn btn-danger',
+            buttonsStyling: false,
+            reverseButtons: true,
+            confirmButtonText: 'نعم',
+            cancelButtonText: 'لأ'
+        }).then((result) => {
+            if (result.value) {
+                StudentNotesGridView.StartEditRow(noteId);
+            }
+        });
+    }
+
+
+
+    function StudentNotesGridViewBeginCallback(s, e) {
+        if (e.command === "CANCELEDIT") {
+            $.post("@Url.Action("RemoveNotesFilesSession", "Students")");
+        }
+    }
+    function EmpCoursesGridViewBeginCallback(s, e) {
+        if (e.command === "CANCELEDIT") {
+            $.post("@Url.Action("RemoveEmpCoursesFilesSession", "Students")");
+        }
+    }
+</script>
+
+
+@Html.DevExpress().PopupControl(settings =>
+{
+    settings.Name = "popup";
+    settings.ShowHeader = true;
+    settings.AllowDragging = true;
+    settings.AllowResize = true;
+    settings.PopupAction = PopupAction.None;
+    settings.PopupElementID = "GridView";
+    settings.PopupVerticalAlign = PopupVerticalAlign.Middle;
+    settings.PopupHorizontalAlign = PopupHorizontalAlign.Center;
+    settings.RightToLeft = DefaultBoolean.True;
+
+    settings.HeaderText = "تأكيد الحذف؟";
+
+    settings.SetContent(() =>
+    {
+        @Html.DevExpress().Button(buttonSettings =>
+        {
+            buttonSettings.Name = "ButtonYes";
+            buttonSettings.Text = "نعم";
+            buttonSettings.UseSubmitBehavior = false;
+            buttonSettings.RightToLeft = DefaultBoolean.True;
+            buttonSettings.ClientSideEvents.Click = "OnClickYes";
+        }).Render();
+        @Html.DevExpress().Button(buttonSettings =>
+        {
+            buttonSettings.Name = "ButtonNo";
+            buttonSettings.Text = "لا";
+            buttonSettings.UseSubmitBehavior = false;
+            buttonSettings.RightToLeft = DefaultBoolean.True;
+            buttonSettings.ClientSideEvents.Click = "OnClickNo";
+        }).Render();
+    });
+}).GetHtml()

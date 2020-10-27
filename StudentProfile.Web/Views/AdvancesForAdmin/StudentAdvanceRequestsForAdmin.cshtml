@@ -1,0 +1,190 @@
+﻿@{
+    ViewBag.Title = "إضافة السلف";
+    Layout = "~/Views/Shared/_DevextremeLayout.cshtml";
+}
+
+<script src="~/Scripts/Advances/StudentAdvanceRequestsForAdminController.js"></script>
+<script src="~/Scripts/Advances/StudentAdvanceForAdminService.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+<div class="container-fluid container-fullw" ng-controller="StudentAdvanceRequestsForAdminController">
+    
+    <div class="col-md-12">
+        <div class="col-md-12">
+            <div class="panel bg-white">
+                <div class="panel-body list-item-ds">
+                    <div dx-list="MenuOptions"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="popup" dx-popup="PopupOptions">
+
+            <div data-options="dxTemplate: {name: 'Controls'}">
+                <div dx-scroll-view="{
+                                                height: 500,
+                                                direction: 'both'
+                                            }">
+                    <div class="col-md-12">
+                        <div class="panel bg-white">
+                            <div class="panel-body">
+                                <form ng-submit="onFormSubmit($event)">
+                                    @Html.AntiForgeryToken()
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="panel bg-white">
+                                                <div class="panel-body">
+
+                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                                                        <label class="col-lg-12 col-sm-12 col-xs-12 label-control text-right">اسم الطالب</label>
+                                                        <div class="col-lg-12 col-sm-12 col-xs-12 ">
+                                                            <div id="Students" dx-select-box="Advance.StudentsSelectBox" dx-validator="Advance.ValidationRules.AdvanceValue">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                                        <label class="control-label col-lg-12 col-sm-12 col-md-12 col-xs-12 text-right">نوع السلفة</label>
+                                                        <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+                                                            <div dx-select-box="Advance.AdvanceType" dx-validator="Advance.ValidationRules.AdvanceType"></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                                        <label class="control-label col-lg-12 col-sm-12 col-md-12 col-xs-12 text-right">مبلغ السلفة</label>
+                                                        <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+                                                            <div dx-number-box="Advance.AdvanceValue" dx-validator="Advance.ValidationRules.AdvanceValue"></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                        <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+                                                            <div dx-text-area="Advance.AdvanceRequestNotes"></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12 text-left">
+                                                        <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+                                                            <div dx-button="Advance.SaveButton"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            @*<div data-options="dxTemplate: {name: 'Grid'}">
+                <div dx-scroll-view="{
+                                                height: 400,
+                                                direction: 'both'
+                                            }">
+                    <div class="col-md-12">
+                        <div class="dx-tree-st dx-tree-st22" dx-data-grid="AdvanceRequestsGrid" dx-item-alias="AdvancesRequestItem">
+
+                            <div data-options="dxTemplate: { name : 'RemainAmountDetailContent' }">
+
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 dx-tree-st22-in">
+
+                                    <div class="master-detail-caption-st">تفاصيل المبالغ المتبقية</div>
+                                    <div dx-data-grid="GetRemainAmountDetailGrid(AdvancesRequestItem.key)">
+
+                                        <div data-options="dxTemplate: { name : 'PaidAmountDetailGridContent' }">
+
+                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 dx-tree-st22-in dx-tree-st22-in-yellow">
+
+                                                <div class="master-detail-caption-st">تفاصيل المبالغ المسددة</div>
+                                                <div dx-data-grid="GetPaidAmountDetailGrid(AdvancesRequestItem.key)"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>*@
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+<style>
+    .list-item-ds {
+        text-align: center;
+    }
+
+        .list-item-ds .dx-list-item {
+            width: 220px !important;
+            height: 140px;
+            border: 1px solid #ddd;
+            margin: 45px 15px;
+            display: inline-block !important
+        }
+
+            .list-item-ds .dx-list-item .dx-list-item-content {
+                display: block !important;
+                line-height: 28px;
+            }
+
+                .list-item-ds .dx-list-item .dx-list-item-content i {
+                    font-size: 32px;
+                    color: #757c7d;
+                    margin-top: 18px;
+                }
+
+            .list-item-ds .dx-list-item.dx-state-hover {
+                background: #0e70a0 !important;
+                color: #fff !important
+            }
+
+                .list-item-ds .dx-list-item.dx-state-hover .dx-list-item-content i, .list-item-ds .dx-list-item.dx-state-focused .dx-list-item-content i {
+                    color: #fff !important
+                }
+
+    td.dx-command-edit {
+        text-align: center !important
+    }
+    /*.popup.dx-popup-wrapper.dx-overlay-modal .dx-popup-title {
+        background: #ffffff;
+        color: #313131;
+    }
+        .popup.dx-popup-wrapper.dx-overlay-modal .dx-popup-title .dx-closebutton .dx-icon {
+            color: #313131;
+        }*/
+
+
+    .dx-popup-title.dx-toolbar .dx-toolbar-label {
+        font-size: 22px !important;
+    }
+
+    .dx-popup-title.dx-toolbar {
+        padding: 12px 20px !important;
+    }
+
+    .dx-popup-title .dx-closebutton .dx-icon {
+        color: #0e70a0 !important;
+    }
+
+    .swal-text {
+        text-align: center;
+    }
+
+    .dx-popup-title {
+        border-bottom: 1px solid #0e70a052 !important;
+        background: #ffffff !important;
+        color: #0e70a0 !important;
+    }
+
+    td.dx-command-edit {
+        text-align: center !important
+    }
+</style>

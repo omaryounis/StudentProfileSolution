@@ -1,0 +1,16 @@
+﻿@model SandCheckRPT
+@{ 
+    int payrollID = int.Parse(Session["PayrollIDParam"].ToString());
+}
+@Html.DevExpress().DocumentViewer(settings =>
+{
+    settings.Name = "SandCheckRPT";
+    settings.CallbackRouteValues = new { Controller = "Reports", Action = "SandCheckReport", payrollID = @payrollID };
+    settings.ExportRouteValues = new { Controller = "Reports", Action = "SandCheckReportExport" };
+    settings.Report = Model;
+    settings.ToolbarMode = DocumentViewerToolbarMode.Ribbon;
+    settings.SettingsReportViewer.UseIFrame = false;
+    settings.SettingsReportViewer.TableLayout = false;
+    settings.ClientSideEvents.BeforeExportRequest = "SandCheckReportExportRequest";
+    settings.ClientSideEvents.Init = "onDocumetnViewerInit";
+}).GetHtml()

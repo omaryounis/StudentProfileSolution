@@ -1,0 +1,6 @@
+﻿@model InstituteTravelStudentsDetailsReport
+@Html.DevExpress().WebDocumentViewer(settings =>
+{
+    settings.Name = "TravelStudentsReportDesigner";
+    //settings.ClientSideEvents.Init = "function init(s, e) {s.ShowPreview();}";
+}).Bind(Model).GetHtml()

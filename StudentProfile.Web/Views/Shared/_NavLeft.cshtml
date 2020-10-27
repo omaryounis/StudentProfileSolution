@@ -1,0 +1,183 @@
+﻿@model List<StudentProfile.DAL.Models.proc_GetAlertsCount_Result>
+@{
+
+    int? totalCount = Model.ToList().Sum(x => x.row_count);
+    //int? totalCount = 0;
+
+
+    var CurrentUser = Session["UserId"] as StudentProfile.DAL.Models.DashBoard_Users;
+
+}
+<ul class="nav top-nav-ds pull-left">
+    <li class="dropdown pull-left">
+        <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+            <img src="~/assets/images/user.png" alt="">@CurrentUser.Username
+            <span class=" fa fa-angle-down"></span>
+        </a>
+        <ul class="dropdown-menu dropdown-usermenu pull-right">
+            <li>
+                <a href="@Url.Action("LogOut", "Login")"><i class="fa fa-sign-out pull-right"></i> خروج</a>
+            </li>
+        </ul>
+    </li>
+    <li class="pull-left">
+        @if (ViewBag.violationAlertsRead == true || ViewBag.resdintialAlertsRead == true || ViewBag.passportAlertsRead == true || ViewBag.trafficAlertsRead == true || ViewBag.visaAlertsRead == true || ViewBag.runawayAlertsRead == true)
+        {
+            <a href="javascript:;" class="user-profile notifications-ds dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+
+                @if (totalCount != null && totalCount > 0)
+                {
+                    <i class="fa fa-bell">
+                        <span class="badge">@totalCount</span>
+                    </i>
+                }
+                else
+                {
+                    <span class="fa fa-bell-slash-o"></span>
+                }
+            </a>
+        }
+        <ul class="dropdown-menu dropdown-usermenu notifications-ul-ds pull-right">
+            @foreach (var item in Model)
+            {
+                switch (item.view_name)
+                {
+                    case "_ViolationAlerts":
+                        if (ViewBag.violationAlertsRead != null)
+                        {
+                            if (ViewBag.violationAlertsRead == true)
+                            {
+                                <li>
+                                    <div class="dropdown-header">@item.alert_name</div>
+                                    <div class="dropdown-menu-right">
+
+                                        @if (item.row_count != null && item.row_count > 0)
+                                        {
+                                            <a href="@Url.Action("Index", "Home", new {section = item.view_name})" target="_blank">@item.row_count اشعار</a>
+                                        }
+                                        else
+                                        {
+                                            <span>لا توجد اشعارات</span>
+                                        }
+                                    </div>
+                                </li>
+                            }
+                        }
+                        break;
+                    case "_ResdintialAlerts":
+                        if (ViewBag.resdintialAlertsRead != null)
+                        {
+                            if (ViewBag.resdintialAlertsRead == true)
+                            {
+                                <li>
+                                    <div class="dropdown-header">@item.alert_name</div>
+                                    <div class="dropdown-menu-right">
+                                        @if (item.row_count != null && item.row_count > 0)
+                                        {
+                                            <a href="@Url.Action("Index", "Home", new {section = item.view_name})" target="_blank">@item.row_count اشعار</a>
+                                        }
+                                        else
+                                        {
+                                            <span>لا توجد اشعارات</span>
+                                        }
+                                    </div>
+                                </li>
+                            }
+                        }
+                        break;
+                    case "_PassportAlerts":
+                        if (ViewBag.passportAlertsRead != null)
+                        {
+                            if (ViewBag.passportAlertsRead == true)
+                            {
+                                <li>
+                                    <div class="dropdown-header">@item.alert_name</div>
+                                    <div class="dropdown-menu-right">
+                                        @if (item.row_count != null && item.row_count > 0)
+                                        {
+                                            <a href="@Url.Action("Index", "Home", new {section = item.view_name})" target="_blank">@item.row_count اشعار</a>
+                                        }
+                                        else
+                                        {
+                                            <span>لا توجد اشعارات</span>
+                                        }
+                                    </div>
+                                </li>
+                            }
+                        }
+                        break;
+                    case "_TrafficAlerts":
+                        if (ViewBag.trafficAlertsRead != null)
+                        {
+                            if (ViewBag.trafficAlertsRead == true)
+                            {
+                                <li>
+                                    <div class="dropdown-header">@item.alert_name</div>
+                                    <div class="dropdown-menu-right">
+                                        @if (item.row_count != null && item.row_count > 0)
+                                        {
+                                            <a href="@Url.Action("Index", "Home", new {section = item.view_name})" target="_blank">@item.row_count اشعار</a>
+                                        }
+                                        else
+                                        {
+                                            <span>لا توجد اشعارات</span>
+                                        }
+                                    </div>
+                                </li>
+                            }
+                        }
+                        break;
+                    case "_VisaAlerts":
+                        if (ViewBag.visaAlertsRead != null)
+                        {
+                            if (ViewBag.visaAlertsRead == true)
+                            {
+                                <li>
+                                    <div class="dropdown-header">@item.alert_name</div>
+                                    <div class="dropdown-menu-right">
+                                        @if (item.row_count != null && item.row_count > 0)
+                                        {
+                                            <a href="@Url.Action("Index", "Home", new {section = item.view_name})" target="_blank">@item.row_count اشعار</a>
+                                        }
+                                        else
+                                        {
+                                            <span>لا توجد اشعارات</span>
+                                        }
+                                    </div>
+                                </li>
+                            }
+                        }
+                        break;
+                    case "_RunawayAlerts":
+                        if (ViewBag.runawayAlertsRead != null)
+                        {
+                            if (ViewBag.runawayAlertsRead == true)
+                            {
+                                <li>
+                                    <div class="dropdown-header">@item.alert_name</div>
+                                    <div class="dropdown-menu-right">
+                                        @if (item.row_count != null && item.row_count > 0)
+                                        {
+                                            <a href="@Url.Action("Index", "Home", new {section = item.view_name})" target="_blank">@item.row_count اشعار</a>
+                                        }
+                                        else
+                                        {
+                                            <span>لا توجد اشعارات</span>
+                                        }
+                                    </div>
+                                </li>
+                            }
+                        }
+                        break;
+                }
+                if (ViewBag.basicDataRead != null)
+                {
+                    if (ViewBag.basicDataRead == true)
+                    {
+                    }
+                }
+            }
+
+        </ul>
+    </li>
+</ul>

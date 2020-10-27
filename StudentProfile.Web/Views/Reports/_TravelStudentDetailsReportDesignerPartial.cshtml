@@ -1,0 +1,23 @@
+@using System.Drawing
+@using System.Web.UI.WebControls
+@using StudentProfile.Web.Controllers
+@model  InstituteTravelStudentsDetailsReport
+@*@Html.DevExpress().WebDocumentViewer(settings =>
+    {
+        settings.Name = "TravelStudentsWebDocumentViewer";
+    }).Bind(Model).GetHtml()*@
+
+@Html.DevExpress().DocumentViewer(settings =>
+{
+    settings.Name = "PrintStudentsTravelDetalies";
+    settings.CallbackRouteValues = new { Controller = "Reports", Action = "TravelStudentDetailsReportCallBack" };
+    settings.ExportRouteValues = new { Controller = "Reports", Action = "TravelStudentDetailsReportExport" };
+    settings.Report = Model;
+    settings.ToolbarMode = DocumentViewerToolbarMode.Ribbon;
+
+    //settings.SettingsReportViewer.UseIFrame = false;
+    // settings.SettingsReportViewer.TableLayout = false;
+    settings.ClientSideEvents.BeforeExportRequest = "TravelStudentDEtaliesDocumentViewerBeforeExportRequest";
+    settings.ClientSideEvents.BeginCallback = "TravelStudentDEtaliesDocumentViewerBeforeExportRequest";
+    settings.ClientSideEvents.Init = "onDocumetnViewerInit";
+}).GetHtml()

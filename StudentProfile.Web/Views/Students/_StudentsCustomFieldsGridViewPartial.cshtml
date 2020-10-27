@@ -1,0 +1,220 @@
+@model List<StudentProfile.DAL.Models.StudentsCustomFields>
+@using System.Web.UI.WebControls
+@using StudentProfile.Web.Controllers
+@using StudentProfile.DAL.Models
+@using DevExpress.Data
+
+@{
+    var grid = Html.DevExpress().GridView(settings =>
+    {
+        string idNumber = Model.FirstOrDefault() != null ? Model.FirstOrDefault().NationalId : null;
+        settings.Name = "StudentsCustomFieldsGridView";
+        settings.CallbackRouteValues = new {Controller = "Students", Action = "StudentsCustomFieldsGridViewPartial", idNumber };
+
+        settings.SettingsEditing.AddNewRowRouteValues = new {Controller = "Students", Action = "StudentsCustomFieldsGridViewPartialAddNew"};
+        settings.SettingsEditing.UpdateRowRouteValues = new {Controller = "Students", Action = "StudentsCustomFieldsGridViewPartialUpdate"};
+        settings.SettingsEditing.DeleteRowRouteValues = new {Controller = "Students", Action = "StudentsCustomFieldsGridViewPartialDelete"};
+        settings.SettingsEditing.Mode = GridViewEditingMode.EditFormAndDisplayRow;
+        settings.SettingsBehavior.ConfirmDelete = true;
+
+        settings.KeyFieldName = "StudentCustomFieldId";
+
+        settings.SettingsPager.Visible = true;
+        settings.Settings.ShowGroupPanel = false;
+        settings.Settings.ShowFilterRow = false;
+        settings.SettingsBehavior.AllowSelectByRowClick = true;
+
+        settings.SettingsAdaptivity.AdaptivityMode = GridViewAdaptivityMode.Off;
+        settings.SettingsAdaptivity.AdaptiveColumnPosition = GridViewAdaptiveColumnPosition.Right;
+        settings.SettingsAdaptivity.AdaptiveDetailColumnCount = 1;
+        settings.SettingsAdaptivity.AllowOnlyOneAdaptiveDetailExpanded = false;
+        settings.SettingsAdaptivity.HideDataCellsAtWindowInnerWidth = 0;
+
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "parent";
+            column.Visible = true;
+            column.ToolTip = "ÍÞá ãÎÕÕ";
+            column.PropertiesEdit.ClientInstanceName = "parent";
+            column.Caption = "ÍÞá ÑÆíÓí";
+            column.Settings.AllowAutoFilter = DefaultBoolean.False;
+            column.UnboundType = UnboundColumnType.String;
+            column.Settings.ShowEditorInBatchEditMode = true;
+            column.CellStyle.HorizontalAlign = HorizontalAlign.Right;
+            column.EditorProperties().ComboBox(p =>
+            {
+                p.ClientInstanceName = "parent";
+                p.TextField = "Key";
+                p.ValueField = "CustomFieldId";
+                p.DataSource = StudentsController.GetParnetCustomFields();
+                p.EnableClientSideAPI = true;
+                p.ClientSideEvents.SelectedIndexChanged = "OnSelectedCountryChanged";
+                p.ValidationSettings.RequiredField.IsRequired = true;
+                p.ValidationSettings.RequiredField.ErrorText = "ÍÞá ÇÌÈÇÑì";
+            });
+        });
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "CustomFieldId";
+            //column.Name = "CustomFieldId";
+            //column.PropertiesEdit.ClientInstanceName = "CustomFieldId";
+            column.Settings.AllowSort = DefaultBoolean.False;
+            column.Settings.AllowAutoFilter = DefaultBoolean.False;
+            column.Visible = true;
+            column.ToolTip = "ÍÞá ÝÑÚí";
+            column.Caption = "ÍÞá ÝÑÚí";
+            column.UnboundType = UnboundColumnType.String;
+            column.Settings.ShowEditorInBatchEditMode = true;
+            column.CellStyle.HorizontalAlign = HorizontalAlign.Right;
+            column.ColumnType = MVCxGridViewColumnType.ComboBox;
+            column.EditorProperties().ComboBox(p =>
+            {
+                p.ClientInstanceName = "child";
+                p.CallbackRouteValues = new {Controller = "Students", Action = "GetChildCustomFields", TextField = "Value" };
+                p.TextField = "Text";
+                p.ValueField = "Value";
+                //p.ValueType = typeof(int);
+                p.ValidationSettings.CausesValidation = false;
+                p.ValidationSettings.EnableCustomValidation = false;
+                p.ValidationSettings.SetFocusOnError = true;
+                //p.DataSource = StudentsController.GetChildCustomFiled(null);
+
+                p.BindList(StudentsController.GetChildCustomFiled(null));
+                //p.LoadDropDownOnDemand = true;
+                p.ClientSideEvents.BeginCallback = "CityComboBox_BeginCallback";
+                //p.EnableClientSideAPI = true;
+                //p.ValidationSettings.RequiredField.IsRequired = true;
+                //p.ValidationSettings.RequiredField.ErrorText = "ÍÞá ÇÌÈÇÑì";
+            });
+        });
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "Note";
+            column.Caption = "ãáÇÍÙÇÊ";
+            column.Settings.AllowSort = DefaultBoolean.False;
+            column.Settings.AllowAutoFilter = DefaultBoolean.False;
+            column.ColumnType = MVCxGridViewColumnType.TextBox;
+            column.EditorProperties().TextBox(p =>
+            {
+                p.ValidationSettings.RequiredField.IsRequired = false;
+                p.ValidationSettings.RequiredField.ErrorText = "ÍÞá ÇÌÈÇÑì";
+            });
+        });
+        settings.Columns.Add(column =>
+        {
+            column.Caption = "#";
+            column.Settings.AllowSort = DefaultBoolean.False;
+            column.Settings.AllowAutoFilter = DefaultBoolean.False;
+            column.EditFormSettings.Visible = DefaultBoolean.False;
+            column.SetDataItemTemplateContent(c =>
+            {
+                if (ViewBag.Update != null)
+                {
+                    if (ViewBag.Update == true)
+                    {
+                        ViewContext.Writer.Write("<span class=\"fa fa-pencil btn-ds-ico btn btn-success  \" onclick=\"EditStudentCustomField('{0}');\" title='ÊÚÏíá'></span>", c.VisibleIndex);
+                        ViewContext.Writer.Write("&nbsp;");
+                    }
+                }
+                if (ViewBag.Delete != null)
+                {
+                    if (ViewBag.Delete == true)
+                    {
+                        ViewContext.Writer.Write("<span class=\"fa fa-trash btn-ds-ico btn btn-danger  \" onclick=\"DeleteStudentCustomField('{0}')\" title='ÍÐÝ'></span>", c.KeyValue.ToString());
+                    }
+                }
+            });
+        });
+
+        settings.CustomUnboundColumnData = (s, e) =>
+        {
+            if (e.Column.FieldName == "parent")
+            {
+                var customFieldId = e.GetListSourceFieldValue("CustomFieldId").ToString();
+                if (!string.IsNullOrEmpty(customFieldId))
+                {
+                    var childId = int.Parse(customFieldId);
+                    using (var db = new SchoolAccGam3aEntities())
+                    {
+                        var childCustomField = db.CustomFields.SingleOrDefault(x => x.CustomFieldId == childId);
+                        var parentId = childCustomField?.ParentId;
+                        if (parentId != null)
+                        {
+                            var paentCustomField = db.CustomFields.SingleOrDefault(x => x.CustomFieldId == parentId);
+                            if (paentCustomField != null)
+                            {
+                                e.Value = paentCustomField.Key;
+                            }
+                        }
+                    }
+                }
+            }
+            else
+            {
+                if (e.Column.FieldName == "child")
+                {
+                    string customFieldId = e.GetListSourceFieldValue("CustomFieldId").ToString();
+                    if (!string.IsNullOrEmpty(customFieldId))
+                    {
+                        var childId = int.Parse(customFieldId);
+                        using (var db = new SchoolAccGam3aEntities())
+                        {
+                            var parentCustomField = db.CustomFields.SingleOrDefault(x => x.CustomFieldId == childId);
+                            if (parentCustomField != null)
+                            {
+                                e.Value = parentCustomField.Key;
+                            }
+                        }
+                    }
+                }
+            }
+        };
+
+        settings.CommandColumn.Visible = false;
+        settings.CommandColumn.ShowDeleteButton = true;
+        settings.CommandColumn.ShowEditButton = true;
+
+        settings.SettingsCommandButton.EditButton.Styles.Style.CssClass = "btn-update";
+        settings.SettingsCommandButton.DeleteButton.Styles.Style.CssClass = "btn-delete";
+        //SettingsText
+        settings.SettingsCommandButton.EditButton.Image.IconID = IconID.EditCopy16x16;
+        settings.SettingsCommandButton.DeleteButton.Image.IconID = IconID.ActionsDelete16x16gray;
+        settings.SettingsText.CommandNew = "ÇÖÇÝÉ";
+        settings.SettingsText.CommandUpdate = "ÍÝÙ";
+        settings.SettingsText.CommandCancel = "ÇáÛÇÁ";
+        settings.SettingsText.CommandEdit = " ";
+        settings.SettingsText.CommandDelete = " ";
+        settings.SettingsText.ConfirmDelete = "åá ÊÑíÏ ÍÐÝ åÐÇ ÇáÚäÕÑ¿";
+        settings.SettingsText.EmptyDataRow = "áÇ ÊæÌÏ ÈíÇäÇÊ";
+        settings.SettingsLoadingPanel.Text = "ÊÍãíá ...";
+        settings.Styles.Table.CssClass = "dx-table-ds";
+        settings.Styles.Header.Wrap = DefaultBoolean.True;
+        settings.Width = Unit.Percentage(100);
+        settings.RightToLeft = DefaultBoolean.True;
+        settings.EditFormLayoutProperties.AlignItemCaptionsInAllGroups = true;
+        settings.EditFormLayoutProperties.AlignItemCaptions = true;
+        if (ViewBag.Create != null)
+        {
+            if (ViewBag.Create == true)
+            {
+                settings.Toolbars.Add(toolbar =>
+                {
+                    toolbar.Enabled = true;
+                    toolbar.Position = GridToolbarPosition.Top;
+                    toolbar.ItemAlign = GridToolbarItemAlign.Right;
+                    toolbar.Items.Add(i =>
+                    {
+                        i.Command = GridViewToolbarCommand.New;
+                        i.Text = "ÇÖÇÝÉ";
+                        i.ItemStyle.CssClass = "btn btn-primary";
+                    });
+                });
+            }
+        }
+    });
+    if (ViewData["EditError"] != null)
+    {
+        grid.SetEditErrorText((string) ViewData["EditError"]);
+    }
+}
+@grid.Bind(Model).GetHtml()

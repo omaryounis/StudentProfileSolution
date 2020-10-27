@@ -1,0 +1,66 @@
+﻿
+@font-face {
+    font-family: "JF Flat Regular";
+    src: url('../fonts/JF-Flat-regular.eot');
+    src: url('../fonts/JF-Flat-regular.eot?#iefix') format('embedded-opentype'),
+    url('../fonts/JF-Flat-regular.svg#JF Flat Regular') format('svg'),
+    url('../fonts/JF-Flat-regular.woff') format('woff'),
+    url('../fonts/JF-Flat-regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Droid Arabic Kufi';
+  font-style: normal;
+  font-weight: 400;
+  src: url(../fonts/DroidKufi-Regular.eot);
+  src: url(../fonts/DroidKufi-Regular.eot?#iefix) format('embedded-opentype'),
+       url(../fonts/DroidKufi-Regular.woff2) format('woff2'),
+       url(../fonts/DroidKufi-Regular.woff) format('woff'),
+       url(../fonts/DroidKufi-Regular.ttf) format('truetype');
+}
+
+body {
+   font-family: "JF Flat Regular";
+	}
+.login_content h1 {
+   font-family: "JF Flat Regular" !important; 
+}
+.login_content form input[type=text], .login_content form input[type=email], .login_content form input[type=password] {
+    text-align:right;
+}
+.modal-dialog {
+    top: 35% !important;
+    left: 50% !important;
+    transform: translate(-50% ,-50% ) !important;
+    position: fixed !important;    
+    margin:0 !important;
+    width: 400px !important;
+}
+.form-control {
+    box-shadow: 0 1px 0 #fff, 0 -2px 5px rgba(0, 0, 0, .08) inset;
+    border: 1px solid #c8c8c8;
+    color: #777;
+    text-align:right;
+}
+.modal-dialog i {
+    color: #006fa2;
+}
+.modal-dialog .btn-default {
+    background: #006fa2;
+    color: #fff;
+    border: 1px solid #006fa2;
+    border-radius: 2px;
+}
+.error {
+    color:#ff0000;
+}        
+.input-group-addon {
+    position:relative;
+}
+.input-group-addon:after {
+    content: "\f01e";
+    font-family:FontAwesome;
+    color: #006fa2;
+}

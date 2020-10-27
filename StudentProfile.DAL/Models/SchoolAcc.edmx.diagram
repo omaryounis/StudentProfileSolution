@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="7e6685aa442f40c38928e924453410ba" Name="Diagram1" ZoomLevel="37">
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.AcademicCommittee" Width="1.5" PointX="12.75" PointY="8.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.ActivityApprovedPhases" Width="1.5" PointX="5.25" PointY="67.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.ActivityConfig" Width="1.5" PointX="3" PointY="57.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.ActivityPhases" Width="1.5" PointX="3" PointY="81.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.ActivityRequestDetails" Width="1.5" PointX="8.25" PointY="65" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.ActivityRequestMaster" Width="1.5" PointX="8.25" PointY="69.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.ActivityRequestMasterAttachments" Width="1.5" PointX="16.5" PointY="70.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.ActivityRequestsArchive" Width="1.5" PointX="3" PointY="61.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.ActivityRequestsArchiveAttachments" Width="1.5" PointX="5.25" PointY="62.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.ActivityUsers" Width="1.5" PointX="3" PointY="70.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.AdvanceApprovedPhases" Width="1.5" PointX="6" PointY="71.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.AdvancePaymentDetails" Width="1.5" PointX="5.25" PointY="76.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.AdvancePaymentMaster" Width="1.5" PointX="3" PointY="73.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.AdvancePhases" Width="1.5" PointX="0.75" PointY="62.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.AdvanceReceiveDetails" Width="1.5" PointX="10.25" PointY="83.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.AdvanceReceiveMaster" Width="1.5" PointX="8" PointY="76.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.AdvanceRequest" Width="1.5" PointX="9.75" PointY="12.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.AdvanceRequestDetails" Width="1.5" PointX="11.75" PointY="12.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.AdvanceRequests" Width="1.5" PointX="11" PointY="69.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.AdvanceRequestsAttachment" Width="1.5" PointX="13.25" PointY="81.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.AdvanceSettingConfig" Width="1.5" PointX="13.75" PointY="12.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.AdvanceSettings" Width="1.5" PointX="8.75" PointY="93.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.AdvancesPremiums" Width="1.5" PointX="15.75" PointY="8.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.AdvanceUsers" Width="1.5" PointX="3" PointY="67.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.AirPort" Width="1.5" PointX="11.75" PointY="33.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.AllResidents" Width="1.5" PointX="11.75" PointY="15.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.BankAttachments" Width="1.5" PointX="10" PointY="9" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.BankCodes" Width="1.5" PointX="7.75" PointY="9.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.BrotherDiscountSetting" Width="1.5" PointX="15.75" PointY="13.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.Bus" Width="1.5" PointX="13.75" PointY="16.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.Checks" Width="1.5" PointX="3" PointY="91.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.ClearanceOfSudents" Width="1.5" PointX="15.75" PointY="16.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.Country" Width="1.5" PointX="9.5" PointY="47.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.CountryPopulation" Width="1.5" PointX="17.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.CustomFields" Width="1.5" PointX="12.75" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.Dashboard_FilterGroups" Width="1.5" PointX="0.75" PointY="78.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.Dashboard_FilterGroupUsers" Width="1.5" PointX="3" PointY="78.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.DashBoard_Groups" Width="1.5" PointX="8.75" PointY="44.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.Dashboard_SecretPermissions" Width="1.5" PointX="3" PointY="98.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.DashBoard_UserGroups" Width="1.5" PointX="11" PointY="66.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.DocumentTypes" Width="1.5" PointX="5.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.Emergency" Width="1.5" PointX="14" PointY="49.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.EmergencyRelatives" Width="1.5" PointX="5.75" PointY="17.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.ExchangeOrder" Width="1.5" PointX="8.75" PointY="55.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.ExchangeOrdersChecks" Width="1.5" PointX="5.25" PointY="91.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.FinalExit" Width="1.5" PointX="17.75" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.GroupPermission" Width="1.5" PointX="15" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.Groups" Width="1.5" PointX="12.75" PointY="5.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.HousingFurnitureCategories" Width="1.5" PointX="3" PointY="103.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.HousingFurnitures" Width="1.5" PointX="5.25" PointY="103.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.HousingFurnituresOfStudent" Width="1.5" PointX="7.5" PointY="103.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.HousingLocationFurniture" Width="1.5" PointX="7.5" PointY="109.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.HousingOfSudents" Width="1.5" PointX="9.75" PointY="86.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.HousingSupervisors" Width="1.5" PointX="3" PointY="107.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.HousingSupervisorsRooms" Width="1.5" PointX="3" PointY="111.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.INTEGRATION_All_Graduate_Students" Width="1.5" PointX="17.75" PointY="10.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.INTEGRATION_All_STUDENTS_EXPECTED_GRADUATES" Width="1.5" PointX="0.75" PointY="18.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.INTEGRATION_All_STUDENTS_EXTRA_CHANCES" Width="1.5" PointX="2.75" PointY="18.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.INTEGRATION_All_STUDENTS_SEMESTER_TRANS" Width="1.5" PointX="17.75" PointY="18.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.Issues" Width="1.5" PointX="3" PointY="114.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.IssuesCategories" Width="1.5" PointX="8.75" PointY="98.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.IssuessCategoriesPermissions" Width="1.5" PointX="11" PointY="75.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.MessagesLog" Width="1.5" PointX="19.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.Month" Width="1.5" PointX="19.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.Nationality" Width="1.5" PointX="9.5" PointY="50.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.OperationTypes" Width="1.5" PointX="7.5" PointY="86.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.Payroll" Width="1.5" PointX="11" PointY="54.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.PayrollApproval" Width="1.5" PointX="13.25" PointY="58.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.PayrollChecks" Width="1.5" PointX="11" PointY="60.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.PayrollPhases" Width="1.5" PointX="5.75" PointY="59.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.PayrollPhasesUsers" Width="1.5" PointX="8" PointY="61.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.PayrollRefusal" Width="1.5" PointX="14" PointY="40.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.PhasesUsers" Width="1.5" PointX="11" PointY="79" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.PunishmentOrder" Width="1.5" PointX="19.75" PointY="8.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.ReportsTemplates" Width="1.5" PointX="9.75" PointY="19.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.ReservedVisa" Width="1.5" PointX="19.75" PointY="11.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.ResidentViolations" Width="1.5" PointX="19.75" PointY="15.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.RewardCategory" Width="1.5" PointX="7.75" PointY="3.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.RewardDetails" Width="1.5" PointX="14" PointY="20.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.RewardItemExpensesTypes" Width="1.5" PointX="9.5" PointY="39.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.RewardItems" Width="1.5" PointX="11.75" PointY="39.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.RewardItemTypes" Width="1.5" PointX="9.5" PointY="41.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.RewardMaster" Width="1.5" PointX="10" PointY="2" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.RewardNationaltity" Width="1.5" PointX="10" PointY="5.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.Row" Width="1.5" PointX="0.75" PointY="6.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.RowLevel" Width="1.5" PointX="3" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.RunawayAliens" Width="1.5" PointX="19.75" PointY="18.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.SarafDownloaded" Width="1.5" PointX="7.75" PointY="12.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.ScMessages" Width="1.5" PointX="4.75" PointY="20.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.ScreenActions" Width="1.5" PointX="3" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.Screens" Width="1.5" PointX="0.75" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.ScreenSctionsGroup" Width="1.5" PointX="11" PointY="22.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.ST_AcademicData" Width="1.5" PointX="21.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.ST_ScoialMediaAccounts" Width="1.5" PointX="21.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.StDetails" Width="1.5" PointX="5.25" PointY="5.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.StTravelRequest" Width="1.5" PointX="5.25" PointY="147.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.StudentBasicData" Width="1.5" PointX="3" PointY="11" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.StudentDocuments" Width="1.5" PointX="14" PointY="69.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.StudentDocumentsLog" Width="1.5" PointX="14" PointY="63.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.StudentFiles" Width="1.5" PointX="7.5" PointY="121" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.StudentNotes" Width="1.5" PointX="5.25" PointY="120.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.StudentPayroll" Width="1.5" PointX="14" PointY="75.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.StudentsCustomFields" Width="1.5" PointX="15" PointY="0.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.StudentsTicketsDetails" Width="1.5" PointX="9.75" PointY="148.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.StudentsTravelOrder" Width="1.5" PointX="7.5" PointY="147.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.TransportationTracking" Width="1.5" PointX="3" PointY="143.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.TravelAdvertisement" Width="1.5" PointX="3" PointY="146.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.TravelOrderDetails" Width="1.5" PointX="16.25" PointY="79.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.TravelOrderPhase" Width="1.5" PointX="8.75" PointY="112.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.TravelOrders" Width="1.5" PointX="14" PointY="84.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.UniversityStudents" Width="1.5" PointX="11.75" PointY="47.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.UpdateStudentLog" Width="1.5" PointX="6.75" PointY="21.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.ViolationForwords" Width="1.5" PointX="7.5" PointY="90" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.ViolationOfStudents" Width="1.5" PointX="5.25" PointY="111.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.ViolationOfStudentsAttachment" Width="1.5" PointX="7.5" PointY="116" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.ViolationsDecisions" Width="1.5" PointX="3" PointY="159" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.Year" Width="1.5" PointX="21.75" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.Countries" Width="1.5" PointX="21.75" PointY="11.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.INTEGRATION_All_Students" Width="1.5" PointX="21.75" PointY="14.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.Purposes" Width="1.5" PointX="0.75" PointY="22.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.ESOL_ACADEMIC_RECORDS" Width="1.5" PointX="16.75" PointY="22.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.V_SIS_VIOLATION_SINGLE" Width="1.5" PointX="18.75" PointY="22.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.vw_Get_AdvanceSetting_DSource" Width="1.5" PointX="23.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.vw_GetAllRewardCategories" Width="1.5" PointX="2.75" PointY="23.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.vw_GetAllRewards" Width="1.5" PointX="23.75" PointY="4.75" IsExpanded="true" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_ActivityApprovedPhases_ActivityPhases" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_ActivityApprovedPhases_ActivityRequests" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_ActivityRequestDetails_ActivityConfig" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_ActivityRequestMaster_ActivityConfig" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_ActivityRequestMaster_ActivityConfig1" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_ActivityRequestMaster_ActivityConfig2" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_ActivityUsers_ActivityPhases" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_ActivityRequestDetails_ActivityRequestMaster" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_ActivityRequestMaster_ActivityRequestMaster" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_ActivityRequestMaster_ActivityRequestMaster1" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_ActivityRequestMasterAttachments_ActivityRequestMaster" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_ActivityRequestsAttachment_ActivityRequests" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_AdvanceApprovedPhases_AdvancePhases" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_AdvanceApprovedPhases_AdvanceRequests" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_AdvancePaymentDetails_AdvancePaymentMaster" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_AdvancePaymentDetails_AdvanceRequests" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_AdvanceReceiveDetails_AdvancePaymentDetails" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_AdvanceUsers_AdvancePhases" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_AdvanceReceiveDetails_AdvanceReceiveMaster" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_AdvanceReceiveMaster_Payroll" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_AdvanceRequests_AdvanceRequests" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_AdvanceRequestsAttachment_AdvanceRequests" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_AirPort_Country" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_BankCodeId" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_SarafDownloadedID" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_ExchangeOrdersChecks_ExchangeOrdersChecks" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_Nationality_Country" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_UniversityStudents_Country" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_StudentsCustomFields_CustomFields" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK__Dashboard__filte__4424207E" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_DashBoard_UserGroups_DashBoard_Groups" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_ScreenSctionsGroup_DashBoard_Groups" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_Emergency_UniversityStudents" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_ExchangeOrdersChecks_ExchangeOrder" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_Payroll_ExchangeOrder" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_GroupPermission_Groups" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_HousingFurnitures_HosuingFurnitureCategories" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_HousingFurnituresOfStudent_HousingLocationFurniture" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_HousingLocation_HousingFurnitures" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_HousingFurnituresOfStudent_HousingOfSudents" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_HousingOfSudents_HousingLocationFurniture" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_HousingOfSudents_OperationTypes" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_Issues_IssuesCategories" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_StudentNotes_Issues" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_ViloationOfStudents_IssuesCategories" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK__IssuessCa__Categ__6B28DF06" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_UniversityStudents_Nationality" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.TransportationTracking_Nationality_ID_FK" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_PayrollApproval_Payroll" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_StudentPayroll_Payroll" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.PayrollChecks_PayrollID_FK" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_PayrollApproval_PayrollPhasesUsers" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_PayrollPhasesUsers_PayrollPhases" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_Item_ID" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_PhasesUsers_Phases" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_TravelOrderDetails_TravelOrderPhase" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK__RewardNat__Rewar__316651C5" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_RewardMaster_RewardCategory" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_RewardDetails_RewardItems" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_RewardDetails_RewardMaster" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_RewardItemExpensesTypeId" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_RewardItemTypeId" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_StudentPayroll_RewardItems" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_RowLevel_Row" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_StDetails_RowLevel" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_ScreenActions_Screens" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_ScreenSctionsGroup_ScreenActions" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.Screens_ParentId_FK" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_StDetails_StudentBasicData" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_StTravelRequest_TravelAdvertisement" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_StudentsTravelOrder_StTravelRequest" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.StTravelRequest_TransportationTrackingID_FK" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_StudentDocuments_UniversityStudents" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_StudentDocumentsLog_UniversityStudents" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_StudentFiles_StudentNotes" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_StudentsTicketsDetails_StudentsTravelOrder" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_StudentsTravelOrder_TravelOrders" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_TravelOrderDetails_TravelOrders" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_ViolationForwords_ViolationOfStudents" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_ViloationOfStudents_ViolationsDecisions" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_ViolationOfStudentsAttachment_ViolationOfStudents" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.config" Width="1.5" PointX="5.375" PointY="24.75" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.DashBoard_Users" Width="1.5" PointX="0.75" PointY="99.375" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_ActivityApprovedPhases_DashBoard_Users" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_ActivityConfig_DashBoard_Users" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_ActivityRequestDetails_DashBoard_Users" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_ActivityRequestMaster_DashBoard_Users" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_ActivityRequestMaster_DashBoard_Users1" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_ActivityRequestMasterAttachments_DashBoard_Users" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_ActivityRequests_DashBoard_Users" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_ActivityUsers_DashBoard_Users" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_AdvanceApprovedPhases_DashBoard_Users" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_AdvancePaymentMaster_DashBoard_Users" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_AdvanceReceiveMaster_DashBoard_Users" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_AdvanceRequests_DashBoard_Users" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_AdvanceUsers_DashBoard_Users" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_Checks_DeliveredBy_User" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_Checks_DeliveredTo_User" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_Checks_InsertBy_User" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK__Dashboard__userI__451844B7" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_Dashboard_SecretPermissions_DashBoard_Users" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_DashBoard_UserGroups_DashBoard_Users" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK__IssuessCa__UserI__6C1D033F" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_HosingSupervisorsRooms_DashBoard_Users" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_HosuingFurnitureCategories_DashBoard_Users" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_HosuingFurnitureCategories_DashBoard_Users1" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_HousingOfSudents_DashBoard_Users" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_HousingOfSudents_DashBoard_Users1" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_HousingSupervisors_InsertionUser" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_HousingSupervisors_SuperVisorUser" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_PayrollPhasesUsers_DashBoard_Users" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_PhasesUsers_Users" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_StudentDocuments_Users" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_StudentDocumentsLog_Users" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_TravelAdvertisement_Users" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_ViloationOfStudents_DashBoard_Users" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_ViolationForwords_InserBy" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_ViolationForwords_Users" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_ViolationOfStudents_DashBoard_Users" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_ViolationsDecisions_DashBoard_Users" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_ViolationsDecisions_DashBoard_Users1" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.PayrollChecks_BeneficiaryID_FK" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.Users_BeneficiaryID_fk" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.AcademicCommitteeUsers" Width="1.5" PointX="3" PointY="87.375" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.AcademicCommitteeUsersPerm" Width="1.5" PointX="3" PointY="118.25" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_AcademicCommitteeUsers_Users" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_AcademicCommitteeUsersPerm_Users" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.INTEGRATION_All_STUDENTS_GRADUATES_WARNING" Width="1.5" PointX="7.375" PointY="24.75" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

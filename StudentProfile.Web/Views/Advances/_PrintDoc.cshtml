@@ -1,0 +1,51 @@
+﻿@model  PaidDocRPT
+
+@{
+    ViewBag.Title = "طباعة سندات الصرف النقدي";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="container-fluid container-fullw">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel bg-white">
+                <div class="breadcrumb-wrapper text-right">
+                    <h4 class="no-margin">طباعة سندات الصرف النقدي </h4>
+                </div>
+                <div>
+
+                    @Html.DevExpress().WebDocumentViewer(settings => {
+                           settings.Name = "PrintDocRPT";
+
+                    }).Bind(Model).GetHtml()
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@*@model string
+    @using DevExpress.XtraReports.Web.DocumentViewer.Ribbon;
+    @using DevExpress.Web.ASPxThemes;
+    @using StudentProfile.Reports;*@
+
+@*@Html.DevExpress().DocumentViewer(settings =>
+    {
+        settings.Name = "PrintDocRPT";
+        settings.CallbackRouteValues = new { Controller = "Advances", Action = "_PrintDoc", DocMasterIds= Model };
+        settings.ExportRouteValues = new { Controller = "Advances", Action = "_PrintDoc", DocMasterIds= Model };
+        settings.Report = (PaidDocRPT)ViewData["Report"];
+        settings.ToolbarMode = DocumentViewerToolbarMode.Ribbon;
+
+        settings.SettingsReportViewer.UseIFrame = true;
+
+        settings.SettingsReportViewer.TableLayout = false;
+        //settings.ClientSideEvents.BeforeExportRequest = "OnBeginCallback";
+        //settings.ClientSideEvents.BeginCallback = "OnBeginCallback";
+        // settings.ClientSideEvents.Init = "onDocumetnViewerInit";
+    }).GetHtml()*@
+
+
+
+
+

@@ -1,0 +1,215 @@
+﻿@{
+    ViewBag.Title = "المشاركات والدورات";
+    Layout = "~/Views/Shared/_DevextremeLayout.cshtml";
+}
+
+<script src="~/Scripts/AcademicActivities/AcademicActivitiesService.js"></script>
+<script src="~/Scripts/AcademicActivities/StudentActivityRequestsController.js"></script>
+@*<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>*@
+
+
+<style>
+    .swal-text {
+        text-align: center;
+    }
+
+    .dx-overlay-content .dx-popup-content > .dx-template-wrapper {
+        border-style: dashed;
+    }
+
+    .form-avatar {
+        height: 50px;
+        width: 50px;
+        margin-right: 10px;
+        border: 1px solid #d2d3d5;
+        border-radius: 50%;
+        background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR6gRS2AEhwmgZTGscnzjonBchilEAYrrmQwXf2-6G-g1rqOvIW&s');
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+        display: inline-block
+    }
+
+    .dx-list-item-content, .dx-list .dx-empty-message {
+        padding: 15px 10px;
+    }
+
+    .listOptions-ds .dx-list-item-content {
+        font-weight: normal;
+        padding: 15px 10px 15px 10px;
+    }
+
+    .selected-item-ds {
+        border: 1px solid #ddd;
+        padding: 15px;
+    }
+
+        .selected-item-ds ul {
+            padding-right: 0;
+        }
+
+            .selected-item-ds ul li {
+                line-height: 30px;
+            }
+
+                .selected-item-ds ul li span.pull-right {
+                    color: #1e72a3;
+                    margin-left: 5px;
+                }
+
+    td.dx-command-edit {
+        text-align: center !important
+    }
+</style>
+
+
+<div class="container-fluid container-fullw" ng-controller="AcademicActivitiesCtrl">
+    <div class="col-md-12">
+        <div class="col-md-2 col-lg-2 col-sm-2 col-xs-2">
+            <div class="panel bg-white">
+                <div class="breadcrumb-wrapper text-center">
+                    <div class='form-avatar'></div>
+                </div>
+
+                <div class="panel-body" style="background-color: #a3c0e821;height: 70vh;text-align: center;">
+                    <div dx-list="ActivitylistOptions"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-10 col-lg-10 col-sm-10 col-xs-10">
+            <div class="panel panel-default">
+                <div class="panel-body" ng-show="IsSelected">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+
+                            <div data-options="dxTemplate: {name: 'ControlsTemplate'}">
+                                <div class="row">
+                                    <div class="col-md-6" style="border-left:1px solid #ddd">
+
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                                            <label class="col-md-12 col-sm-12 col-xs-12 text-right control-label">إسم المشاركة</label>
+                                            <div class="col-md-12 col-sm-12 col-xs-12 ">
+                                                <div dx-text-box="Activity.TB_ActivityName" dx-validator="Activity.VR_Required"></div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                                            <label class="col-md-12 col-sm-12 col-xs-12 text-right control-label">مكان المشاركة</label>
+                                            <div class="col-md-12 col-sm-12 col-xs-12 ">
+                                                <div dx-text-box="Activity.TB_ActivityLocation" dx-validator="Activity.VR_Required"></div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                                            <div class="row">
+
+                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                                    <label class="col-md-12 col-sm-12 col-xs-12 text-right control-label">التقييم أو الدرجة</label>
+                                                    <div class="col-md-12 col-sm-12 col-xs-12 ">
+                                                        <div dx-text-box="Activity.TB_ActivityDegree" dx-validator="Activity.VR_Required"></div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                                    <label class="col-md-12 col-sm-12 col-xs-12  text-right control-label">النسبة</label>
+                                                    <div class="col-md-12 col-sm-12 col-xs-12 ">
+                                                        <div dx-number-box="Activity.NB_ActivityRatio" dx-validator="Activity.VR_Required"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                                            <label class="col-md-12 col-sm-12 col-xs-12 text-right control-label">عدد الساعات</label>
+                                            <div class="col-md-12 col-sm-12 col-xs-12 ">
+                                                <div dx-number-box="Activity.NB_ActivityDuration" dx-validator="Activity.VR_Required"></div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                                            <label class="col-md-12 col-sm-12 col-xs-12 text-right control-label">نوع المشاركة</label>
+                                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                                <div dx-text-box="Activity.TB_ActivityType" dx-validator="Activity.VR_Required"></div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="col-md-6">
+
+
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                                            <label class="col-md-12 col-sm-12 col-xs-12 text-right control-label">تاريخ بداية المشاركة</label>
+                                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                                <div style="width:100%" dx-date-box="Activity.DB_ActivityStartDate" dx-validator="Activity.VR_Required"></div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                                            <label class="col-md-12 col-sm-12 col-xs-12 text-right control-label">تاريخ نهاية المشاركة</label>
+                                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                                <div style="width:100%" dx-date-box="Activity.DB_ActivityEndDate" dx-validator="Activity.VR_Required"></div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group text-right">
+                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                <div dx-button="Activity.btnSaveOptions"></div>
+                                                <div dx-button="btnUploadOptions"></div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div data-options="dxTemplate: {name: 'GridTemplate'}" ng-show="!IsSelected">
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="panel panel-default">
+                                <div class="panel panel-body">
+                                    <div class="dx-tree-st dx-tree-st22" dx-data-grid="ActivitiesGrid"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div dx-popup="Activity.UploadFilePopupOptions">
+            @* صفحة رفع الملفات *@
+            <div data-options="dxTemplate: { name : 'UploadFileContent' }">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div dx-file-uploader="FileUploadingOptions">
+                            <span class="note">Allowed file extensions: <span>.Pdf</span>.</span>
+                        </div>
+                        <div>
+                            <div class="text-right" ng-if="MDL_UploadingFilesvalue.length > 0">
+                                <h4>الملفات المختارة</h4>
+                            </div>
+                            <div ng-repeat="val in MDL_UploadingFilesvalue">
+                                <div class="selected-item selected-item-ds text-right">
+                                    <ul class="list-unstyled" dir="rtl">
+                                        <li><span class="pull-right"> اسم الملف:</span> <span>{{val.name}}</span></li>
+                                        <li><span class="pull-right">حجم الملف:</span> <span>{{val.size}}</span> bytes</li>
+                                        <li><span class="pull-right">نوع الملف:</span>  <span>{{val.type}}</span></li>
+                                    </ul>
+                                    <a class="btn btn-danger" href="" ng-click="RemoveUploadingFile(val.$$hashKey)">
+                                        حذف الملف <i class="fa fa-trash-o"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

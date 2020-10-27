@@ -1,0 +1,153 @@
+﻿@using System.Drawing
+@using System.Web.UI.WebControls
+@{
+    ViewBag.Title = "تقرير بحالة الشيكات";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    table.dxeRoot_MetropolisBlue {
+        width: 100%;
+    }
+</style>
+
+<script>
+    function CheckDataReportExportRequest(s, e) {
+        e.customArgs["UserID"] = UserID.GetValue();
+        e.customArgs["CheckNumber"] = CheckNumber.GetValue();
+        e.customArgs["DateFrom"] = DateFrom.GetValue();
+        e.customArgs["DateTo"] = DateTo.GetValue();
+        e.customArgs["PayrollID"] = PayrollID.GetValue();
+    }
+
+</script>
+
+<div class="container-fluid container-fullw">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel bg-white">
+                <div class="breadcrumb-wrapper text-right">
+                    <h4 class="no-margin">تقرير بحالة الشيكات</h4>
+                </div>
+                <div class="panel-body">
+                    @using (Ajax.BeginForm("CheckDataReport", new AjaxOptions
+                    {
+                        UpdateTargetId = "CheckDataReportDesigner"
+                    }))
+                    {
+
+                        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 form-group">
+                            <label>تاريخ إصدار الشيك من</label>
+                            <div class="editor">
+                                @Html.DevExpress().DateEdit(settings =>
+                    {
+                        settings.Name = "DateFrom";
+                        settings.Properties.NullText = "MM/dd/yyyy";
+                        settings.Properties.EditFormat = EditFormat.Custom;
+                        settings.Properties.EditFormatString = "MM/dd/yyyy";
+                        settings.Width = Unit.Percentage(100);
+                        settings.Properties.CalendarProperties.FastNavProperties.DisplayMode = FastNavigationDisplayMode.Inline;
+                        //settings.Properties.ValidationSettings.RequiredField.IsRequired = true;
+                        //settings.Date = DateTime.Now;
+                        settings.Width = Unit.Percentage(100);
+                    }).GetHtml()
+                            </div>
+
+                        </div>
+
+                        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 form-group">
+                            <label>تاريخ إصدار الشيك إلي</label>
+                            <div class="editor">
+                                @Html.DevExpress().DateEdit(settings =>
+                      {
+                          settings.Name = "DateTo";
+                          settings.Properties.NullText = "MM/dd/yyyy";
+                          settings.Properties.EditFormat = EditFormat.Custom;
+                          settings.Properties.EditFormatString = "MM/dd/yyyy";
+                          settings.Width = Unit.Percentage(100);
+                          settings.Properties.CalendarProperties.FastNavProperties.DisplayMode = FastNavigationDisplayMode.Inline;
+                          //settings.Properties.ValidationSettings.RequiredField.IsRequired = true;
+                          //settings.Date = DateTime.Now;
+                          settings.Width = Unit.Percentage(100);
+                      }).GetHtml()
+                            </div>
+
+                        </div>
+
+                        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 form-group">
+                            <label>اسم المندوب</label>
+
+                            @Html.DevExpress().ComboBox(settings => {
+                           settings.Name = "UserID";
+                           settings.Width = Unit.Percentage(100);
+                           settings.SelectedIndex = -1;
+                           settings.Properties.NullText = "اختر";
+                           //settings.Properties.ValidationSettings.RequiredField.IsRequired = true;
+                           settings.Properties.ValidationSettings.ErrorTextPosition = ErrorTextPosition.Bottom;
+                        }).BindList(ViewBag.BenefName).GetHtml()
+
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 form-group">
+                            <label>رقم المسير</label>
+
+                            @Html.DevExpress().ComboBox(settings => {
+                           settings.Name = "PayrollID";
+                           settings.Width = Unit.Percentage(100);
+                           settings.SelectedIndex = -1;
+                           settings.Properties.NullText = "اختر";
+                           //settings.Properties.ValidationSettings.RequiredField.IsRequired = true;
+                           settings.Properties.ValidationSettings.ErrorTextPosition = ErrorTextPosition.Bottom;
+                        }).BindList(ViewBag.Payroll).GetHtml()
+
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 form-group">
+                            <label>رقم الشيك</label>
+                            @Html.DevExpress().SpinEdit(settings =>
+                        {
+                            settings.Name = "CheckNumber";
+                            settings.Width = Unit.Percentage(100);
+                            settings.Properties.ValidationSettings.Display = Display.Dynamic;
+                        }).GetHtml()
+                        </div>
+
+
+                        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 form-group">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="margin-bottom: 6px;">
+                                <br />
+                            </div>
+                            @Html.DevExpress().Button(settings =>
+                   {
+                       settings.Name = "btnView";
+                       settings.ControlStyle.CssClass = "btn btn-success";
+                       settings.Text = "عرض";
+                       settings.UseSubmitBehavior = true;
+                   }).GetHtml()
+                        </div>
+
+
+                        <div class="row">
+                            <br />
+                            <br />
+                            <br />
+                            <div id="CheckDataReportDesigner">
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .dxbButton_MetropolisBlue.btn-success {
+        background-color: #26B99A !important;
+        border: 1px solid #169F85 !important;
+        color: #fff !important
+    }
+
+    .dxbButton_MetropolisBlue {
+        padding: 5px !important;
+        font-family: "JF Flat Regular" !important;
+    }
+</style>
+

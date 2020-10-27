@@ -1,0 +1,163 @@
+﻿@using System.Web.UI.WebControls
+@{
+    ViewBag.Title = "Semesters";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script>
+    $(document).ready(function () {
+        if (FirstSemesterStartDate.GetDate() == null)
+        {
+            FirstSemesterStartDate.SetMinDate(new Date());
+            FirstSemesterStartDate.SetMaxDate(new Date());
+        }
+        if (FirstSemesterEndDate.GetDate() == null)
+        {
+            FirstSemesterEndDate.SetMinDate(new Date());
+            FirstSemesterEndDate.SetMaxDate(new Date());
+        }
+        if (SecondSemesterStartDate.GetDate() == null)
+        {
+            SecondSemesterStartDate.SetMinDate(new Date());
+            SecondSemesterStartDate.SetMaxDate(new Date()); 
+        }
+        if (SecondSemesterEndDate.GetDate() == null)
+        {
+            SecondSemesterEndDate.SetMinDate(new Date());
+            SecondSemesterEndDate.SetMaxDate(new Date());
+        }
+    });
+    function SetMinMaxDateToEnd(s, e)
+    {
+        debugger;
+        var controlName = s.name;
+        var toControl = ASPxClientControl.GetControlCollection().GetByName(controlName.replace('Start', 'End'));
+        var minDate = s.GetDate();
+        var maxDate = new Date(minDate.getFullYear(), minDate.getMonth() + 6, minDate.getDay());
+        toControl.SetMinDate(minDate);
+        toControl.SetMaxDate(maxDate);
+
+    }
+    function SetMinDateToNext(s, e) {
+        debugger;
+        var minDate = s.GetDate();
+        var maxDate = new Date(minDate.getFullYear(), minDate.getMonth() + 6, minDate.getDay());
+        SecondSemesterStartDate.SetMinDate(minDate);
+        SecondSemesterStartDate.SetMaxDate(maxDate);
+
+    }
+</script>
+<div class="container-fluid container-fullw">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel">
+                <div class="breadcrumb-wrapper text-right">
+                    <h4 class=" no-margin">تهيئة مواعيد الفصول الدراسية</h4>
+                </div>
+                <div class="panel-body">
+                    <div>
+                        @using (Html.BeginForm("SemestersPost", "Config"))
+                        {
+                            DateTime frststart;
+                            DateTime.TryParse(ViewBag.FirstSemesterStartDate, out frststart);
+                            DateTime scondstart;
+                            DateTime.TryParse(ViewBag.SecondSemesterStartDate, out scondstart);
+                            DateTime frstend;
+                            DateTime.TryParse(ViewBag.FirstSemesterEndDate, out frstend);
+                            DateTime scondend;
+                            DateTime.TryParse(ViewBag.SecondSemesterEndDate, out scondend);
+                            <div class="form-group col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                <label class="col-lg-4 col-md-4 col-sm-12 col-xs-12 control-label">تاريخ بداية الفصل الدراسي الأول</label>
+                                <div class="col-md-8 col-sm-12 col-xs-12 ">
+                                    @Html.DevExpress().DateEdit(settings =>
+                               {
+                                   settings.Name = "FirstSemesterStartDate";
+                                   settings.Properties.NullText = "MM/dd/yyyy";
+                                   settings.Properties.EditFormat = EditFormat.Custom;
+                                   settings.Properties.EditFormatString = "MM/dd/yyyy";
+                                   settings.Width = Unit.Percentage(100);
+                                   settings.Properties.CalendarProperties.FastNavProperties.DisplayMode = FastNavigationDisplayMode.Inline;
+                                   //settings.Properties.ValidationSettings.RequiredField.IsRequired = true;
+                                   settings.Date = frststart;
+                                   settings.Width = Unit.Percentage(100);
+                                   settings.ClientEnabled = true;
+                                   settings.Properties.EnableClientSideAPI = true;
+                                   //settings.Properties.ClientSideEvents.DateChanged = "SetMinDateToAll";
+                                   settings.Properties.ClientSideEvents.DateChanged = "SetMinMaxDateToEnd";
+                               }).GetHtml();
+                                </div>
+                            </div>
+                            <div class="form-group col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                <label class="col-lg-4 col-md-4 col-sm-12 col-xs-12 control-label">تاريخ نهاية الفصل الدراسي الأول</label>
+                                <div class="col-md-8 col-sm-12 col-xs-12 ">
+                                    @Html.DevExpress().DateEdit(settings =>
+                               {
+                                   settings.Name = "FirstSemesterEndDate";
+                                   settings.Properties.NullText = "MM/dd/yyyy";
+                                   settings.Properties.EditFormat = EditFormat.Custom;
+                                   settings.Properties.EditFormatString = "MM/dd/yyyy";
+                                   settings.Width = Unit.Percentage(100);
+                                   settings.Properties.CalendarProperties.FastNavProperties.DisplayMode = FastNavigationDisplayMode.Inline;
+                                   //settings.Properties.ValidationSettings.RequiredField.IsRequired = true;
+                                   settings.Date = frstend;
+                                   settings.Width = Unit.Percentage(100);
+                                   //settings.Properties.ClientSideEvents.DateChanged = "SetMinDateToAll";
+                                   settings.Properties.ClientSideEvents.DateChanged = "SetMinDateToNext";
+                               }).GetHtml();
+                                </div>
+                            </div>
+                            <div class="form-group col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                <label class="col-lg-4 col-md-4 col-sm-12 col-xs-12 control-label">تاريخ بداية الفصل الدراسي الثاني</label>
+                                <div class="col-md-8 col-sm-12 col-xs-12 ">
+                                    @Html.DevExpress().DateEdit(settings =>
+                              {
+                                  settings.Name = "SecondSemesterStartDate";
+                                  settings.Properties.NullText = "MM/dd/yyyy";
+                                  settings.Properties.EditFormat = EditFormat.Custom;
+                                  settings.Properties.EditFormatString = "MM/dd/yyyy";
+                                  settings.Width = Unit.Percentage(100);
+                                  settings.Properties.CalendarProperties.FastNavProperties.DisplayMode = FastNavigationDisplayMode.Inline;
+                                  //settings.Properties.ValidationSettings.RequiredField.IsRequired = true;
+                                  settings.Date = scondstart;
+                                  settings.Properties.ClientSideEvents.DateChanged = "SetMinMaxDateToEnd";
+                                  settings.Width = Unit.Percentage(100);
+                              }).GetHtml();
+                                </div>
+                            </div>
+                            <div class="form-group col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                <label class="col-lg-4 col-md-4 col-sm-12 col-xs-12 control-label">تاريخ نهاية الفصل الدراسي الثاني</label>
+                                <div class="col-md-8 col-sm-12 col-xs-12 ">
+                                    @Html.DevExpress().DateEdit(settings =>
+                              {
+                                  settings.Name = "SecondSemesterEndDate";
+                                  settings.Properties.NullText = "MM/dd/yyyy";
+                                  settings.Properties.EditFormat = EditFormat.Custom;
+                                  settings.Properties.EditFormatString = "MM/dd/yyyy";
+                                  settings.Width = Unit.Percentage(100);
+                                  settings.Properties.CalendarProperties.FastNavProperties.DisplayMode = FastNavigationDisplayMode.Inline;
+                                  //settings.Properties.ValidationSettings.RequiredField.IsRequired = true;
+
+                                  settings.Date = scondend;
+                                  settings.Width = Unit.Percentage(100);
+                              }).GetHtml();
+                                </div>
+                            </div>
+
+                            <div>
+                                @Html.DevExpress().Button(buttonSettings =>
+                           {
+                               buttonSettings.Name = "UsersbuttonClose";
+                               buttonSettings.Text = "اغلاق";
+                               buttonSettings.UseSubmitBehavior = true;
+                           }).GetHtml();
+                            </div>
+                        };
+                        <div class="clearfix"></div>
+                        <br />
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

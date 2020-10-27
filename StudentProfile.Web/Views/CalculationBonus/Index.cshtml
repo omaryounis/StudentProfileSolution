@@ -1,0 +1,184 @@
+﻿
+@{
+    ViewBag.Title = "إحتساب المكافئات";
+    Layout = "~/Views/Shared/_DevextremeLayout.cshtml";
+}
+<style>
+    fieldset {
+        border: none;
+        margin: 2px 0;
+        padding: 8px 0 5px 0;
+        border: 1px solid #33333329;
+        position: relative;
+        border-radius: 5px;
+        background: #e6e6e6;
+    }
+
+    .fieldset-dds {
+        line-height: 20px;
+    }
+</style>
+
+<script src="~/Scripts/CalculationBonus/CalculationBonusService.js"></script>
+<script src="~/Scripts/CalculationBonus/CalculationBonusController.js"></script>
+
+<div class="container-fluid container-fullw">
+    @*<div class="row">
+        <div class="col-md-12">
+            @{Html.RenderAction("UpdateDate", "Home");}
+        </div>
+    </div>*@
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel bg-white">
+                    <div class="breadcrumb-wrapper text-right">
+                        <h4 class="no-margin"> إحتساب المكافئات </h4>
+                    </div>
+                    <div class="panel-body">
+                        <div id="CalculationBonusContent" ng-controller="CalculationBonusCtrl">
+
+                            <form id="form" class="row" ng-submit="SaveCalculationBonus($event)">
+                                <fieldset style="background: #f5f5f5;">
+                                    <div class="row">
+                                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 ">
+                                            <label class="col-lg-12 col-sm-12 col-xs-12 control-label text-right"> </label>
+                                            <div class="col-lg-12 col-sm-12 col-xs-12 ">
+                                                <fieldset>
+                                                    <div id="widget2"> </div>
+                                                </fieldset>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 ">
+                                            <label class="col-lg-12 col-sm-12 col-xs-12 control-label text-right"> </label>
+                                            <div class="col-lg-12 col-sm-12 col-xs-12 ">
+                                                <fieldset>
+                                                    <div id="widget3"> </div>
+                                                </fieldset>
+                                            </div>
+                                        </div>
+                                        <div class="row col-lg-4 col-md-4 col-sm-12 col-xs-12 ">
+                                            <label class="col-lg-3 col-sm-3 col-xs-3 control-label text-right">
+                                            الحالة الأكاديمية
+                                            </label>
+                                            <div class="col-md-9 col-sm-9 col-xs-9">
+                                                <div id="dxSelect_StudentStatusAcademyId" class='col-lg-12' @*dx-validator="VR_StudentStatusAcademyId"*@ dx-tag-box='DL_StudentStatusAcademyId'></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 form-group">
+                                        <label class="col-lg-12 col-sm-12 col-xs-12 control-label text-right"> الكليات</label>
+                                        <div class="col-lg-12 col-sm-12 col-xs-12  ">
+                                            <div id="FacultionSelectBox" dx-tag-box="FacultionSelectBox" style="width:100%;height: 34px;"
+                                                 dx-validator="validationRequired"></div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 form-group">
+                                        <label class="col-lg-12 col-sm-12 col-xs-12 control-label text-right"> الدرجات العلمية</label>
+                                        <div class="col-lg-12 col-sm-12 col-xs-12  ">
+                                            <div id="DegreeSelectBox" dx-tag-box="DegreeSelectBox" style="width:100%;height: 34px;"
+                                                 dx-validator="validationRequired"></div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 form-group">
+                                        <label class="col-lg-12 col-sm-12 col-xs-12 control-label text-right"> الطلاب</label>
+                                        <div class="col-lg-12 col-sm-12 col-xs-12  ">
+                                            <div id="StudentSelect" dx-select-box="StudentSelectBox" style="width:100%;height: 34px;"
+                                                 dx-validator="validationRequired"></div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 form-group">
+                                        <label class="col-lg-12 col-sm-12 col-xs-12 control-label text-right"> تاريخ الاحتساب</label>
+                                        <div class="col-lg-12 col-sm-12 col-xs-12 ">
+                                            <div dx-date-box="DtBounsDate" style="width:100%" dx-validator="validationRequired"> </div>
+                                        </div>
+                                    </div>
+
+
+
+
+                                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 form-group">
+                                        <label class="col-lg-12 col-sm-12 col-xs-12 control-label text-right"> بنود المكافئات</label>
+                                        <div class="col-lg-12 col-sm-12 col-xs-12 ">
+                                            <div class="required-ds" dx-tag-box="DL_RewardItems"> </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 form-group">
+                                        <label class="col-lg-12 col-sm-12 col-xs-12 control-label text-right"> رقم المسير</label>
+                                        <div class="col-lg-12 col-sm-12 col-xs-12 ">
+                                            <div class="required-ds" id="txtPayRoll" style="width:100%"
+                                                 dx-text-box="txtPayRollNum"
+                                                 dx-validator="validationRequired"></div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 ">
+
+                                        <div class="col-lg-12 col-sm-12 col-xs-12 ">
+                                            <fieldset>
+                                                <div id="widget"> </div>
+                                            </fieldset>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 form-group">
+                                        <div class="col-lg-12 col-sm-12 col-xs-12 ">
+                                            <div id="btnSave" class="btn btn-success" dx-button="btnSave"> </div>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                            </form>
+
+                            <div class="row">
+                                <div class="col-12" style="position:relative">
+                                    <div class="btn-fixed">
+                                    </div>
+                                    <div id="List" class="col-lg-12 col-sm-12 col-xs-12">
+                                        <div class="dx-viewport dx-tree-st">
+                                            <div class="demo-container">
+                                                <div id="gridStudentPayroll" dx-data-grid="gridStudentPayroll" dx-item-alias="PayrollItem">
+
+                                                    <div data-options="dxTemplate: { name : 'StudentPayrollGridContent' }">
+                                                        <div class="row">
+                                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 dx-tree-st22-in">
+                                                                <div class="master-detail-caption-st">تفاصيل المسير</div>
+                                                                <div dx-data-grid="getstDetailGrid(PayrollItem.key)"></div>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div dx-popup="popupOptions">
+                                <div data-options="dxTemplate: { name:'info' }">
+
+                                    <div class="alert alert-success" role="alert" style="color: #155724;background-color: #d4edda;border-color: #c3e6cb;">
+                                        <h4 class="alert-heading">{{message}}</h4>
+                                        <p>لعدد : {{studentCount}} طالب </p>
+                                        <hr>
+                                    </div>
+
+                                    <p>
+                                        <div dx-button="btnViewPayRoll" class="col-lg-12 col-md-12 btn-block"> </div>
+                                        <div dx-button="btnAdd" class="col-lg-12 col-md-12 btn-block"> </div>
+                                        <div dx-button="btnClose" class="col-lg-12 col-md-12 btn-block"> </div>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

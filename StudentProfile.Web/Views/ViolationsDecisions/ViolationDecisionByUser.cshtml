@@ -1,0 +1,92 @@
+﻿
+@{
+    ViewBag.Title = "المخالفات الموجة";
+    Layout = "~/Views/Shared/_DevextremeLayout.cshtml";
+}
+
+<script src="~/Scripts/ViolationsDecisions/ViolationDescisionByUserService.js"></script>
+<script src="~/Scripts/ViolationsDecisions/ViolationDescisionByUserController.js"></script>
+
+<div class="container-fluid container-fullw">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel bg-white">
+                <div class="breadcrumb-wrapper text-right">
+                    <h2>المخالفات الموجة</h2>
+                </div>
+                <div class="panel-body">
+                    <div ng-controller="ViolationDescisionByUserCtrl">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div>
+                                <form id="form" class="row">
+                                    <div id="gridContainer" class="dx-tree-st" dx-data-grid="violationsGridView"></div>
+
+                                    <div id="accept" class="popup" dx-popup="acceptPopup">
+                                        <div style="overflow-y:auto; max-height:500px;padding-bottom:50px">
+                                            <div class="form-group col-md-12 col-sm-12 col-xs-12">
+                                                <table class="table table-bordered table-refusePopup">
+                                                    <tbody>
+                                                        <tr>
+                                                            <th>مسلسل</th>
+                                                            <td>{{violationToBeEditted.Id}}</td>
+                                                            <th>الطالب</th>
+                                                            <td>{{violationToBeEditted.studentName}}</td>
+                                                            <th> تاريخ و وقت المخالفة</th>
+                                                            <td>{{violationToBeEditted.ViolationDate}}</td>
+                                                            <th>تاريخ الادخال</th>
+                                                            <td>{{violationToBeEditted.InsertDate}}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>رقم المخالفة</th>
+                                                            <td>{{violationToBeEditted.ViolationNumber}}</td>
+                                                            <th>نوع المخالفة</th>
+                                                            <td>{{violationToBeEditted.IssueDescription}}</td>
+                                                            <th>قسم المخالفة</th>
+                                                            <td>{{violationToBeEditted.IssuesCategory}}</td>
+                                                            <th>تفاصيل المخالفة</th>
+                                                            <td>{{violationToBeEditted.ViolationDescription}}</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                            <div class="form-group col-md-12 col-sm-12 col-xs-12">
+                                                <div dx-text-area="recommendationsOfAcceptTextArea"></div>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                            <div class="form-group col-md-12 col-sm-12 col-xs-12">
+                                                <div id="decisionsDDL" dx-select-box="decisionsSelectBox"></div>
+                                            </div>
+
+                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                                                <label class="col-lg-12 col-sm-12 col-xs-12 control-label">رفع ملف</label>
+                                                <div dx-file-uploader="fileUploadViolationForwords">
+                                                    <span class="note">Allowed file extensions: <span>image</span>.</span>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="clearfix"></div>
+                                            <div class="form-group col-md-12 col-sm-12 col-xs-12 text-center">
+                                                <div dx-button="acceptButton"></div>
+                                            </div>
+                                            <div class="clearfix"></div>
+
+
+                                        </div>
+
+                                    </div>
+
+
+                                </form>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

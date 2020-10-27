@@ -1,0 +1,1048 @@
+﻿@model StudentProfile.DAL.Models.VM.StudentDocumentsVM
+@using System.Web.UI.WebControls
+@using DevExpress.Export
+@using System.Drawing
+
+<div class="row">
+
+    <div class="panel panel-default text-right col-md-4">
+        <div class="panel-heading">
+            <h3 class="panel-title">  بيانات جواز السفر</h3>
+        </div>
+        <div class="panel-body">
+            @using (Ajax.BeginForm("SavePasportData", "Students", FormMethod.Post, new AjaxOptions { OnComplete = "" }, new { id = "StPasportForm" }))
+            {
+                @Html.HiddenFor(model => model.PassportID)
+
+                Html.DevExpress().FormLayout(settings =>
+                {
+                    settings.Name = "StPassportFormLayout";
+                    settings.SettingsItems.ShowCaption = DefaultBoolean.True;
+                    settings.SettingsItemCaptions.Location = LayoutItemCaptionLocation.Top;
+                    settings.AlignItemCaptionsInAllGroups = false;
+                    settings.SettingsAdaptivity.SwitchToSingleColumnAtWindowInnerWidth = 500;
+                    settings.Width = Unit.Percentage(100);
+                    settings.UseDefaultPaddings = false;
+                    settings.EncodeHtml = false;
+                    settings.UseDefaultPaddings = false;
+                    settings.RightToLeft = DefaultBoolean.True;
+                    settings.ColCount = 1;
+
+
+                    var groupItemPasport = settings.Items.AddGroupItem(i =>
+                    {
+                        i.Caption = "بيانات جواز السفر";
+                        i.ColCount = 2;
+                        i.GroupBoxStyle.Caption.Font.Bold = true;
+                        i.GroupBoxStyle.Caption.Font.Size = 16;
+                        i.VerticalAlign = FormLayoutVerticalAlign.Top;
+                        i.SettingsItemHelpTexts.Position = HelpTextPosition.Bottom;
+                        i.GroupBoxDecoration = GroupBoxDecoration.None;
+                    });
+
+
+                    groupItemPasport.Items.Add(i =>
+                    {
+                        i.Caption = "رقم جواز السفر";
+                        i.FieldName = "PassportNumber";
+                        i.NestedExtension().TextBox(x =>
+                        {
+                            x.Name = "PassportNumber";
+                            //x.Properties.ValidationSettings.RegularExpression.ErrorText = "من فضلك أدخل صيغة صحيحة";
+                            //  x.Properties.ValidationSettings.RequiredField.IsRequired = true;
+                            //x.Properties.ValidationSettings.RegularExpression.ValidationExpression = @"^([\s\d]+)$";
+                            x.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.Text;
+                            x.Properties.ValidationSettings.ErrorTextPosition = ErrorTextPosition.Bottom;
+                            x.Properties.HelpTextStyle.CssClass = "alert alert-success text-center";
+                            // x.Properties.ValidationSettings.RequiredField.ErrorText = "من فضلك هذا الحقل مطلوب";
+                            x.Properties.HelpTextSettings.Position = HelpTextPosition.Bottom;
+                            x.Properties.HelpTextStyle.ForeColor = Color.Green;
+                            x.Properties.ValidationSettings.ValidateOnLeave = false;
+                            x.Properties.ClientSideEvents.TextChanged = "function (s,e) { $('#PassportNo').val(s.GetText())    }";
+                            x.Properties.ClientSideEvents.ValueChanged = "function (s,e) { $('#PassportNo').val(s.GetText())    }";
+                            //x.Properties.ClientSideEvents.Validation = "function(s,e){validateSAID('2');}";
+                        });
+
+                    });
+
+                    groupItemPasport.Items.Add(i =>
+                    {
+                        i.Caption = "صورة جواز السفر";
+                        i.FieldName = "PassportImageName";
+                        i.RowSpan = 2;
+                        i.SetNestedContent(() =>
+                        {
+
+                            Html.DevExpress().BinaryImage(c =>
+                            {
+                                c.Name = "PassportImageName";
+                                c.Properties.ImageHeight = 170;
+                                c.Properties.ImageWidth = 160;
+                                c.Properties.EditingSettings.Enabled = true;
+                                c.Properties.EnableServerResize = true;
+                                c.Properties.ImageSizeMode = ImageSizeMode.FitProportional;
+                                // c.Properties.ValidationSettings.RequiredField.IsRequired = true;
+                                //c.Properties.ValidationSettings.RequiredField.ErrorText = "من فضلك هذا الحقل مطلوب";
+                                c.Properties.EditingSettings.Enabled = true;
+                                c.Properties.EmptyImage.AlternateText = "لا توجد صورة";
+                                c.Properties.EmptyImage.Url = "~/assets/images/passport.png";
+                                c.CallbackRouteValues = new { Controller = "Students", Action = "StudentPhoto" };
+                                c.ContentBytes = ViewBag.PassportImageName;
+                                c.Properties.EditingSettings.UploadSettings.UploadValidationSettings.MaxFileSize = 200000;
+                                c.Properties.ClientSideEvents.ValueChanged = "function(s, e) { getDetailsErrorInfoHtml(s,e); }";
+
+                            }).GetHtml();
+
+                        });
+                    });
+                    groupItemPasport.Items.Add(i =>
+                    {
+                        i.Caption = "تاريخ الانتهاء";
+
+                        i.FieldName = "PassportExpiryDate";
+                        i.NestedExtension().DateEdit(x =>
+                        {
+                            x.Name = "PassportExpiryDate";
+                            x.Properties.DropDownButton.Image.IconID = IconID.SchedulingCalendar16x16office2013;
+                            //  x.Properties.ValidationSettings.RequiredField.IsRequired = true;
+                            x.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.Text;
+                            x.Properties.ValidationSettings.ErrorTextPosition = ErrorTextPosition.Bottom;
+                            //    x.Properties.ValidationSettings.RequiredField.ErrorText = "من فضلك هذا الحقل مطلوب";
+                            x.Properties.HelpTextSettings.Position = HelpTextPosition.Bottom;
+                            x.Properties.HelpTextStyle.ForeColor = Color.Green;
+                            x.Properties.AllowUserInput = false;
+                            x.Properties.ValidationSettings.ValidateOnLeave = true;
+                            x.Properties.MinDate = DateTime.Now.AddMonths(6);
+                        });
+                    });
+                    groupItemPasport.Items.Add(itemSettings =>
+                    {
+
+                        itemSettings.ColSpan = 1;
+                        itemSettings.CssClass = "text-right col-lg-12";
+                        itemSettings.FieldName = "UniversityStudent_ID";
+                        itemSettings.ShowCaption = DefaultBoolean.False;
+                        itemSettings.ParentContainerStyle.CssClass = "mobileAlign";
+                        itemSettings.SetNestedContent(() =>
+                        {
+                            Html.DevExpress().TextBox(x =>
+                            {
+                                x.Name = "PassportUniversityStudent_ID";
+                                x.Text = Model != null ? Model.UniversityStudentID.ToString() : "";
+                                x.ClientEnabled = true;
+                                x.ClientVisible = false;
+                                //    x.Properties.ValidationSettings.RequiredField.IsRequired = false;
+                            }).GetHtml();
+                            //ViewContext.Writer.Write("<intput type='hidden' name='UniversityStudent_ID' id='UniversityStudent_ID' value=" + Model.UniversityStudentID + "/>");
+                            Html.DevExpress().Button(s =>
+                        {
+                            s.Name = "PassportSave";
+                            s.Styles.Style.CssClass = "ActionsSearch_button";
+                            s.RightToLeft = DefaultBoolean.True;
+                            s.Text = "حفظ";
+                            //s.ClientSideEvents.Click = "EscapeStep";
+                            //s.Images.Image.IconID = IconID.SaveSave16x16;
+                            s.UseSubmitBehavior = false;
+                            s.ClientSideEvents.Click = "function(s,e){SubmitForm('StPasportForm');}";
+                        }).GetHtml();
+
+
+                        });
+
+
+
+                    });
+
+                }).GetHtml();
+            }
+
+        </div>
+    </div>
+    <div class="col-md-4"></div>
+    <div class="panel panel-default text-right  col-md-4">
+        <div class="panel-heading">
+            <h3 class="panel-title"> بيانات الهوية</h3>
+        </div>
+        <div class="panel-body">
+            @using (Ajax.BeginForm("SaveIdentityData", "Students", FormMethod.Post, new AjaxOptions { OnComplete = "" }, new { id = "StIdentityForm" }))
+            {
+                @Html.HiddenFor(model => model.IdentityID)
+                @Html.HiddenFor(model => model.IdentityNo)
+                @Html.HiddenFor(model => model.PassportNo)
+                Html.DevExpress().FormLayout(settings =>
+                {
+                    settings.Name = "StIdentityFormLayout";
+
+                    settings.SettingsItems.ShowCaption = DefaultBoolean.True;
+                    settings.SettingsItemCaptions.Location = LayoutItemCaptionLocation.Top;
+                    settings.AlignItemCaptionsInAllGroups = false;
+                    settings.SettingsAdaptivity.SwitchToSingleColumnAtWindowInnerWidth = 500;
+                    settings.Width = Unit.Percentage(100);
+                    settings.UseDefaultPaddings = false;
+
+                    settings.EncodeHtml = false;
+                    settings.UseDefaultPaddings = false;
+                    settings.RightToLeft = DefaultBoolean.True;
+                    settings.ColCount = 1;
+
+
+                    var groupItem = settings.Items.AddGroupItem(i =>
+                    {
+                        //i.Caption = "بيانات الهوية";
+                        i.ColCount = 2;
+                        i.GroupBoxStyle.Caption.Font.Bold = true;
+                        i.GroupBoxStyle.Caption.Font.Size = 16;
+                        i.VerticalAlign = FormLayoutVerticalAlign.Top;
+                        i.SettingsItemHelpTexts.Position = HelpTextPosition.Bottom;
+                        i.GroupBoxDecoration = GroupBoxDecoration.None;
+                    });
+
+                    groupItem.Items.Add(i =>
+                    {
+                        i.Caption = "ID";
+                        i.FieldName = "IdentityID";
+                        i.Visible = false;
+                        i.NestedExtension().TextBox(x =>
+                        {
+                            x.Name = "IdentityID";
+                            x.Properties.ValidationSettings.RegularExpression.ErrorText = "من فضلك أدخل صيغة صحيحة";
+                            // x.Properties.ValidationSettings.RequiredField.IsRequired = true;
+                            x.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.Text;
+                            x.Properties.ValidationSettings.ErrorTextPosition = ErrorTextPosition.Bottom;
+                            x.Properties.HelpTextStyle.CssClass = "alert alert-success text-center";
+                            //x.Properties.ValidationSettings.RequiredField.ErrorText = "من فضلك هذا الحقل مطلوب";
+                            x.Properties.HelpTextSettings.Position = HelpTextPosition.Bottom;
+                            x.Properties.HelpTextStyle.ForeColor = Color.Green;
+                            x.Properties.ValidationSettings.ValidateOnLeave = false;
+                        });
+
+                    });
+                    groupItem.Items.Add(i =>
+                    {
+                        i.Caption = "رقم الهوية";
+                        i.FieldName = "IdentityNumber";
+                        i.NestedExtension().TextBox(x =>
+                        {
+                            x.Name = "IdentityNumber";
+                            x.Properties.ValidationSettings.RegularExpression.ErrorText = "من فضلك أدخل صيغة صحيحة";
+                            // x.Properties.ValidationSettings.RequiredField.IsRequired = true;
+                            x.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.Text;
+                            x.Properties.ValidationSettings.ErrorTextPosition = ErrorTextPosition.Bottom;
+                            x.Properties.HelpTextStyle.CssClass = "alert alert-success text-center";
+                            // x.Properties.ValidationSettings.RequiredField.ErrorText = "من فضلك هذا الحقل مطلوب";
+                            x.Properties.HelpTextSettings.Position = HelpTextPosition.Bottom;
+                            x.Properties.HelpTextStyle.ForeColor = Color.Green;
+                            x.Properties.ValidationSettings.ValidateOnLeave = false;
+                            x.Properties.ClientSideEvents.Validation = "validateNationalID";
+                            x.Properties.ClientSideEvents.TextChanged = "function (s,e) { $('#IdentityNo').val(s.GetText())    }";
+
+                        });
+
+                    });
+
+                    groupItem.Items.Add(i =>
+                    {
+                        i.Caption = "صورة الهوية";
+                        i.FieldName = "IdentityImageName";
+                        i.RowSpan = 2;
+                        i.SetNestedContent(() =>
+                        {
+
+                            Html.DevExpress().BinaryImage(c =>
+                            {
+                                c.Name = "IdentityImageName";
+                                c.Properties.ImageHeight = 170;
+                                c.Properties.ImageWidth = 160;
+                                c.Properties.EditingSettings.Enabled = true;
+                                c.Properties.EnableServerResize = true;
+                                c.Properties.ImageSizeMode = ImageSizeMode.FitProportional;
+                                // c.Properties.ValidationSettings.RequiredField.IsRequired = true;
+                                //c.Properties.ValidationSettings.RequiredField.ErrorText = "من فضلك هذا الحقل مطلوب";
+                                c.Properties.EditingSettings.Enabled = true;
+                                c.Properties.EmptyImage.AlternateText = "لا توجد صورة";
+                                c.Properties.EmptyImage.Url = "~/assets/images/id-card.png";
+                                c.CallbackRouteValues = new { Controller = "Students", Action = "StudentPhoto" };
+                                c.ContentBytes = ViewBag.IdentityImageName;
+                                c.Properties.EditingSettings.UploadSettings.UploadValidationSettings.MaxFileSize = 200000;
+                            }).GetHtml();
+
+                        });
+                    });
+
+                    groupItem.Items.Add(i =>
+                    {
+                        i.Caption = "تاريخ الانتهاء";
+                        i.FieldName = "IdentityExpiryDate";
+                        i.NestedExtension().DateEdit(x =>
+                        {
+                            x.Name = "IdentityExpiryDate";
+                            x.Properties.DropDownButton.Image.IconID = IconID.SchedulingCalendar16x16office2013;
+                            //   x.Properties.ValidationSettings.RequiredField.IsRequired = true;
+                            x.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.Text;
+                            x.Properties.ValidationSettings.ErrorTextPosition = ErrorTextPosition.Bottom;
+                            //  x.Properties.ValidationSettings.RequiredField.ErrorText = "من فضلك هذا الحقل مطلوب";
+                            x.Properties.HelpTextSettings.Position = HelpTextPosition.Bottom;
+                            x.Properties.HelpTextStyle.ForeColor = Color.Green;
+                            x.Properties.AllowUserInput = false;
+                            x.Properties.CalendarProperties.FastNavProperties.DisplayMode = FastNavigationDisplayMode.Inline;
+                        });
+
+                    });
+
+                    groupItem.Items.Add(itemSettings =>
+                    {
+
+                        itemSettings.ColSpan = 1;
+                        itemSettings.CssClass = "text-right col-lg-12";
+                        itemSettings.FieldName = "UniversityStudentID";
+                        itemSettings.ShowCaption = DefaultBoolean.False;
+                        itemSettings.ParentContainerStyle.CssClass = "mobileAlign";
+                        itemSettings.SetNestedContent(() =>
+                        {
+                            Html.DevExpress().TextBox(x =>
+                            {
+                                x.Name = "IdentityUniversityStudent_ID";
+                                x.Text = Model != null ? Model.UniversityStudentID.ToString() : "";
+                                x.ClientEnabled = true;
+                                x.ClientVisible = false;
+                                //      x.Properties.ValidationSettings.RequiredField.IsRequired = false;
+                            }).GetHtml();
+                            //ViewContext.Writer.Write("<intput type='hidden' name='UniversityStudent_ID' id='UniversityStudent_ID' value=" + Model.UniversityStudentID + "/>");
+                            Html.DevExpress().Button(s =>
+                                {
+                                    s.Name = "IdentitySave";
+                                    s.Styles.Style.CssClass = "ActionsSearch_button";
+                                    s.RightToLeft = DefaultBoolean.True;
+                                    s.Text = "حفظ";
+                                    s.ClientSideEvents.Click = "function(s,e){SubmitForm('StIdentityForm');}";
+                                    //s.Images.Image.IconID = IconID.SaveSave16x16;
+                                    s.UseSubmitBehavior = false;
+                                }).GetHtml();
+
+
+                        });
+
+
+
+                    });
+
+                }).GetHtml();
+            }
+
+        </div>
+    </div>
+
+</div>
+
+<!--Student Documents List-->
+<div class="clearfix"></div>
+<div id="StudentDocumentsDiv">@{Html.RenderAction("_StudentDocuments", new { id = Model.Student_ID });}</div>
+<div class="clearfix"></div>
+
+
+
+
+@*<div class="panel panel-default text-right">
+        <div class="panel-heading">
+            <h3 class="panel-title">  بيانات تاشيرة الدخول</h3>
+        </div>
+        <div class="panel-body">
+            @using (Ajax.BeginForm("SaveVisaData", "Students", FormMethod.Post, new AjaxOptions { OnComplete = "" }, new { id = "StVisaForm" }))
+            {
+                @Html.HiddenFor(model => model.VisaID)
+
+
+                Html.DevExpress().FormLayout(settings =>
+                {
+                    settings.Name = "StVisaFormLayout";
+                    settings.SettingsItems.ShowCaption = DefaultBoolean.True;
+                    settings.SettingsItemCaptions.Location = LayoutItemCaptionLocation.Top;
+                    settings.AlignItemCaptionsInAllGroups = false;
+                    settings.SettingsAdaptivity.SwitchToSingleColumnAtWindowInnerWidth = 500;
+                    settings.Width = Unit.Percentage(100);
+                    settings.UseDefaultPaddings = false;
+                    settings.EncodeHtml = false;
+                    settings.UseDefaultPaddings = false;
+                    settings.RightToLeft = DefaultBoolean.True;
+                    settings.ColCount = 1;
+
+                    var groupItemVisa = settings.Items.AddGroupItem(i =>
+                    {
+                        i.Caption = "بيانات تاشيرة الدخول";
+                        i.ColCount = 2;
+                        i.GroupBoxStyle.Caption.Font.Bold = true;
+                        i.GroupBoxStyle.Caption.Font.Size = 16;
+                        i.VerticalAlign = FormLayoutVerticalAlign.Top;
+                        i.SettingsItemHelpTexts.Position = HelpTextPosition.Bottom;
+                        i.GroupBoxDecoration = GroupBoxDecoration.None;
+                    });
+
+
+                    groupItemVisa.Items.Add(i =>
+                    {
+                        i.Caption = "رقم التاشيرة";
+                        i.FieldName = "VisaNumber";
+                        i.NestedExtension().TextBox(x =>
+                        {
+                            x.Name = "VisaNumber";
+                            x.Properties.ValidationSettings.RegularExpression.ErrorText = "من فضلك أدخل صيغة صحيحة";
+                            x.Properties.ValidationSettings.RequiredField.IsRequired = true;
+                            x.Properties.ValidationSettings.RegularExpression.ValidationExpression = @"^([\s\d]+)$";
+                            x.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.Text;
+                            x.Properties.ValidationSettings.ErrorTextPosition = ErrorTextPosition.Bottom;
+                            x.Properties.HelpTextStyle.CssClass = "alert alert-success text-center";
+                            x.Properties.ValidationSettings.RequiredField.ErrorText = "من فضلك هذا الحقل مطلوب";
+                            x.Properties.HelpTextSettings.Position = HelpTextPosition.Bottom;
+                            x.Properties.HelpTextStyle.ForeColor = Color.Green;
+                            x.Properties.ValidationSettings.ValidateOnLeave = false;
+                        //x.Properties.ClientSideEvents.Validation = "function(s,e){validateNationalID('1');}";
+                    });
+
+                    });
+
+                    groupItemVisa.Items.Add(i =>
+                    {
+                        i.Caption = "صورة التاشيرة";
+                        i.FieldName = "VisaImageName";
+                        i.RowSpan = 2;
+                        i.SetNestedContent(() =>
+                        {
+
+                            Html.DevExpress().BinaryImage(c =>
+                            {
+                                c.Name = "VisaImageName";
+                                c.Properties.ImageHeight = 170;
+                                c.Properties.ImageWidth = 160;
+                                c.Properties.EditingSettings.Enabled = true;
+                                c.Properties.EnableServerResize = true;
+                                c.Properties.ImageSizeMode = ImageSizeMode.FitProportional;
+                                c.Properties.ValidationSettings.RequiredField.IsRequired = true;
+                                c.Properties.ValidationSettings.RequiredField.ErrorText = "من فضلك هذا الحقل مطلوب";
+                                c.Properties.EditingSettings.Enabled = true;
+                                c.Properties.EmptyImage.AlternateText = "لا توجد صورة";
+                                c.Properties.EmptyImage.Url = "~/assets/images/user.png";
+                                c.CallbackRouteValues = new { Controller = "Students", Action = "StudentPhoto" };
+                                c.ContentBytes = ViewBag.VisaImageName;
+                                c.Properties.EditingSettings.UploadSettings.UploadValidationSettings.MaxFileSize = 200;
+                            }).GetHtml();
+                        });
+                    });
+                    groupItemVisa.Items.Add(i =>
+                    {
+                        i.Caption = "تاريخ الانتهاء";
+                        i.FieldName = "VisaExpiryDate";
+                        i.NestedExtension().DateEdit(x =>
+                        {
+                            x.Name = "VisaExpiryDate";
+                            x.Properties.ValidationSettings.RequiredField.IsRequired = true;
+                            x.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.Text;
+                            x.Properties.ValidationSettings.ErrorTextPosition = ErrorTextPosition.Bottom;
+                            x.Properties.ValidationSettings.RequiredField.ErrorText = "من فضلك هذا الحقل مطلوب";
+                            x.Properties.HelpTextSettings.Position = HelpTextPosition.Bottom;
+                            x.Properties.HelpTextStyle.ForeColor = Color.Green;
+                            x.Properties.ValidationSettings.ValidateOnLeave = false;
+                        });
+                    });
+
+                    groupItemVisa.Items.Add(itemSettings =>
+                    {
+
+                        itemSettings.ColSpan = 1;
+                        itemSettings.CssClass = "text-right col-lg-12";
+                        itemSettings.FieldName = "UniversityStudentID";
+                        itemSettings.ShowCaption = DefaultBoolean.False;
+                        itemSettings.ParentContainerStyle.CssClass = "mobileAlign";
+                        itemSettings.SetNestedContent(() =>
+                        {
+                            Html.DevExpress().TextBox(x =>
+                            {
+                                x.Name = "VisaUniversityStudent_ID";
+                                x.Text = Model != null ? Model.UniversityStudentID.ToString() : "";
+                                x.ClientEnabled = true;
+                                x.ClientVisible = false;
+                                x.Properties.ValidationSettings.RequiredField.IsRequired = false;
+                            }).GetHtml();
+                        //ViewContext.Writer.Write("<intput type='hidden' name='UniversityStudent_ID' id='UniversityStudent_ID' value=" + Model.UniversityStudentID + "/>");
+                        Html.DevExpress().Button(s =>
+                            {
+                                s.Name = "VisaSave";
+                                s.Styles.Style.CssClass = "ActionsSearch_button";
+                                s.RightToLeft = DefaultBoolean.True;
+                                s.Text = "حفظ";
+                            //s.ClientSideEvents.Click = "EscapeStep";
+                            s.Images.Image.IconID = IconID.SaveSave16x16;
+                                s.ClientSideEvents.Click = "function(s,e){SubmitForm('StVisaForm');}";
+                                s.UseSubmitBehavior = false;
+                            }).GetHtml();
+
+
+                        });
+
+
+
+                    });
+                }).GetHtml();
+            }
+
+        </div>
+    </div>*@
+
+
+
+@*@{
+        var grid = Html.DevExpress().GridView(settings =>
+        {
+            settings.Name = "StudentDocumentGridView";
+            settings.KeyFieldName = "StudentDocumentID";
+            settings.Styles.Table.CssClass = "dx-table-ds";
+            settings.Styles.Header.Wrap = DefaultBoolean.True;
+            settings.Width = Unit.Percentage(100);
+            settings.RightToLeft = DefaultBoolean.True;
+            settings.CallbackRouteValues = new { Action = "_IdentityDocuments", Controller = "Students" };
+            settings.SettingsEditing.AddNewRowRouteValues = new { Action = "AddStudentDocument", Controller = "Students" };
+            settings.SettingsEditing.UpdateRowRouteValues = new { Action = "AddStudentDocument", Controller = "Students" };
+            //settings.SettingsEditing.DeleteRowRouteValues = new {Action = "EmpDocumentGridViewPartialDelete", Controller = "Students"};
+            settings.SettingsEditing.Mode = GridViewEditingMode.EditForm;
+            //settings.SettingsBehavior.ConfirmDelete = true;
+            settings.SettingsPager.PageSize = 10;
+            settings.Settings.ShowGroupPanel = false;
+            settings.Settings.ShowFilterRow = false;
+            //settings.SettingsBehavior.ConfirmDelete = true;
+            settings.SettingsBehavior.AllowFocusedRow = false;
+            settings.SettingsBehavior.AllowSelectByRowClick = true;
+            //SettingsText
+            settings.SettingsText.CommandNew = "اضافة";
+            settings.SettingsText.CommandUpdate = "تعديل";
+            settings.SettingsText.CommandCancel = "الغاء";
+            settings.SettingsText.CommandEdit = "تعديل";
+            //settings.SettingsText.CommandDelete = "حذف";
+            //settings.SettingsText.ConfirmDelete = "هل تريد حذف هذا العنصر؟";
+            settings.SettingsText.EmptyDataRow = "لا توجد بيانات";
+            settings.SettingsLoadingPanel.Text = "تحميل ...";
+
+            settings.Columns.Add(c =>
+            {
+                c.FieldName = "UniversityStudent_ID";
+                c.Caption = "الرقم الأكاديمي";
+                //c.ReadOnly = true;
+                c.Visible = false;
+                c.EditFormSettings.Visible = DefaultBoolean.False;
+            });
+            settings.Columns.Add(c =>
+            {
+                c.FieldName = "IdentityNumber";
+                c.Caption = "رقم الهوية";
+                c.ColumnType = MVCxGridViewColumnType.TextBox;
+                var txtProperties = c.PropertiesEdit as TextBoxProperties;
+                txtProperties.ValidationSettings.RequiredField.IsRequired = true;
+                txtProperties.ValidationSettings.RequiredField.ErrorText = "هذا الحقل مطلوب";
+                txtProperties.ValidationSettings.EnableCustomValidation = true;
+                //txtProperties.ClientSideEvents.Validation = "validateNationalID";
+            });
+
+            settings.Columns.Add(c =>
+            {
+                c.FieldName = "Document_ID";
+                c.Caption = "نوع المستند";
+                c.ColumnType = MVCxGridViewColumnType.ComboBox;
+                c.Visible = false;
+                var comboBoxProperties = c.PropertiesEdit as ComboBoxProperties;
+                comboBoxProperties.DataSource = Dashboard_StudentProfile.Controllers.StudentsController.GetStDocuments();
+                comboBoxProperties.TextField = "DocumentName";
+                comboBoxProperties.ValueField = "DocumentID";
+                comboBoxProperties.ClientInstanceName = "Document_ID";
+                comboBoxProperties.ValidationSettings.RequiredField.IsRequired = true;
+                comboBoxProperties.ValidationSettings.RequiredField.ErrorText = "هذا الحقل مطلوب";
+                comboBoxProperties.EnableClientSideAPI = true;
+                comboBoxProperties.ValueType = typeof(int);
+
+            });
+            //settings.Columns.Add(c =>
+            //{
+            //    c.FieldName = "IssueDate";
+            //    c.Caption = "تاريخ الاصدار";
+            //    c.ColumnType = MVCxGridViewColumnType.DateEdit;
+            //    c.EditFormSettings.Visible = DefaultBoolean.True;
+            //    var dateProperties = c.PropertiesEdit as DateEditProperties;
+            //    dateProperties.ValidationSettings.RequiredField.IsRequired = true;
+            //    dateProperties.ValidationSettings.RequiredField.ErrorText = "هذا الحقل مطلوب";
+            //    dateProperties.EnableClientSideAPI = true;
+            //    dateProperties.ClientInstanceName = "IssueDate";
+            //    dateProperties.ValidationSettings.EnableCustomValidation = true;
+            //    dateProperties.ClientSideEvents.Validation = "validateDate";
+            //    //c.Visible = false;
+            //});
+
+            settings.Columns.Add(c =>
+            {
+                c.FieldName = "ExpiryDate";
+                c.Caption = "تاريخ الانتهاء";
+                c.ColumnType = MVCxGridViewColumnType.DateEdit;
+                var dateProperties = c.PropertiesEdit as DateEditProperties;
+                dateProperties.ClientInstanceName = "ExpiryDate";
+                dateProperties.ValidationSettings.RequiredField.IsRequired = true;
+                dateProperties.ValidationSettings.RequiredField.ErrorText = "هذا الحقل مطلوب";
+            });
+
+
+            settings.Columns.Add(c =>
+            {
+                c.FieldName = "IsActive";
+                c.Caption = "مستند افتراضي";
+                c.ColumnType = MVCxGridViewColumnType.CheckBox;
+                c.EditFormSettings.Visible = DefaultBoolean.False;
+            });
+
+            settings.Columns.Add(c =>
+            {
+                c.FieldName = "DocumentImage";
+                c.Settings.AllowSort = DefaultBoolean.False;
+                c.Settings.AllowAutoFilter = DefaultBoolean.False;
+                c.Caption = "صورة الهوية";
+                c.ColumnType = MVCxGridViewColumnType.BinaryImage;
+                c.EditorProperties().BinaryImage(p =>
+                {
+
+                    p.ImageHeight = 50;
+                    //p.ImageWidth = 160;
+                    p.EnableServerResize = true;
+                    p.ImageSizeMode = ImageSizeMode.FitProportional;
+                    p.CallbackRouteValues = new { Action = "StudentPhoto", Controller = "Students" };
+                    p.EditingSettings.Enabled = true;
+                    p.EditingSettings.UploadSettings.UploadValidationSettings.MaxFileSize = 4194304;
+                    p.AlternateText = "صورة الهوية";
+                    p.ImageAlign = ImageAlign.Middle;
+                    p.ValidationSettings.RequiredField.IsRequired = true;
+                    p.ValidationSettings.RequiredField.ErrorText = "هذا الحقل ضروري";
+                });
+                c.SetDataItemTemplateContent(q =>
+                {
+                    var studentid = int.Parse(Session["UserID"].ToString());
+                    var iustString = DataBinder.Eval(q.DataItem, "UniversityStudent_ID")?.ToString();
+                    var iuStID = 0;
+                    if (!string.IsNullOrEmpty(iustString))
+                    {
+                        iuStID = int.Parse(iustString);
+                    }
+                    var imageString = "";
+                    var imageName = DataBinder.Eval(q.DataItem, "DocumentImage")?.ToString();
+                    var isActive = DataBinder.Eval(q.DataItem, "IsActive")?.ToString();
+                    var serverPath = Server.MapPath($@"~\Content\UserFiles\{studentid}\المستندات");
+                    if (!Directory.Exists(serverPath))
+                    {
+                        Directory.CreateDirectory(serverPath);
+                    }
+                    var pathList = Directory.GetFiles(serverPath);
+                    var path = pathList.FirstOrDefault(x => Path.GetFileName(x) == imageName);
+                    if (File.Exists(path))
+                    {
+                        if (path != null)
+                        {
+                            var b = File.ReadAllBytes(path);
+                            imageString = Convert.ToBase64String(b);
+                            ViewData["DocImagePath"] = b;
+                        }
+                    }
+                    if (ViewData["DocImagePath"] != null)
+                    {
+                        ViewContext.Writer.Write("<img src='data:image/Bmp;base64," + imageString + "' class='img img-thumbnail' />");
+                        ViewContext.Writer.Write($"<input type='hidden' value={iuStID} name='UniversityStudent_ID' id='UniversityStudent_ID'/>" +
+                              $"<input type='hidden' value={imageName} name='DocumentImage' id='DocumentImage'/>" +
+                              $"<input type='hidden' value={ViewData["StudentID"]} name='stID' id='stID'/>" +
+                              $"<input type='hidden' value={isActive} name='IsActive' id='IsActive'/>");
+                    }
+                });
+                c.SetEditItemTemplateContent(q =>
+                {
+                    var studentid = int.Parse(Session["UserID"].ToString());
+                    var imageName = DataBinder.Eval(q.DataItem, "DocumentImage")?.ToString();
+                    var isActive = DataBinder.Eval(q.DataItem, "IsActive")?.ToString();
+                    var iustString = DataBinder.Eval(q.DataItem, "UniversityStudent_ID")?.ToString();
+                    var iuStID = 0;
+                    if (!string.IsNullOrEmpty(iustString)) {
+                        iuStID = int.Parse(iustString);
+                    }
+                    var pathList = Directory.GetFiles(Server.MapPath($@"~\Content\UserFiles\{studentid}\المستندات"));
+                    var path = pathList.FirstOrDefault(x => Path.GetFileName(x) == imageName);
+                    if (File.Exists(path))
+                    {
+                        if (path != null)
+                        {
+                            var b = File.ReadAllBytes(path);
+                            ViewData["DocImagePath"] = b;
+                        }
+                    }
+                    ViewContext.Writer.Write($"<input type='hidden' value={iuStID} name='UniversityStudent_ID' id='UniversityStudent_ID'/>" +
+                          $"<input type='hidden' value={imageName} name='DocumentImage' id='DocumentImage'/>"+
+                          $"<input type='hidden' value={ViewData["StudentID"]} name='stID' id='stID'/>" +
+                          $"<input type='hidden' value={isActive} name='IsActive' id='IsActive'/>");
+                    using (Html.BeginForm())
+                    {
+                        Html.RenderPartial("_DocImage");
+                    }
+                });
+            });
+
+            //جواز السفر
+
+            settings.Columns.Add(c =>
+            {
+                c.FieldName = "PasportNumber";
+                c.Caption = "رقم جواز السفر";
+                c.ColumnType = MVCxGridViewColumnType.TextBox;
+                var txtProperties = c.PropertiesEdit as TextBoxProperties;
+                txtProperties.ValidationSettings.RequiredField.IsRequired = true;
+                txtProperties.ValidationSettings.RequiredField.ErrorText = "هذا الحقل مطلوب";
+                txtProperties.ValidationSettings.EnableCustomValidation = true;
+                //txtProperties.ClientSideEvents.Validation = "validateNationalID";
+            });
+
+            settings.Columns.Add(c =>
+            {
+                c.FieldName = "PasportExpiryDate";
+                c.Caption = "تاريخ الانتهاء";
+                c.ColumnType = MVCxGridViewColumnType.DateEdit;
+                var dateProperties = c.PropertiesEdit as DateEditProperties;
+                dateProperties.ClientInstanceName = "ExpiryDate";
+                dateProperties.ValidationSettings.RequiredField.IsRequired = true;
+                dateProperties.ValidationSettings.RequiredField.ErrorText = "هذا الحقل مطلوب";
+            });
+
+            settings.Columns.Add(c =>
+            {
+                c.FieldName = "PasportImage";
+                c.Settings.AllowSort = DefaultBoolean.False;
+                c.Settings.AllowAutoFilter = DefaultBoolean.False;
+                c.Caption = "صورة جواز السفر";
+                c.ColumnType = MVCxGridViewColumnType.BinaryImage;
+                c.EditorProperties().BinaryImage(p =>
+                {
+
+                    p.ImageHeight = 50;
+                    //p.ImageWidth = 160;
+                    p.EnableServerResize = true;
+                    p.ImageSizeMode = ImageSizeMode.FitProportional;
+                    p.CallbackRouteValues = new { Action = "StudentPhoto", Controller = "Students" };
+                    p.EditingSettings.Enabled = true;
+                    p.EditingSettings.UploadSettings.UploadValidationSettings.MaxFileSize = 4194304;
+                    p.AlternateText = "صورة جواز السفر";
+                    p.ImageAlign = ImageAlign.Middle;
+                    p.ValidationSettings.RequiredField.IsRequired = true;
+                    p.ValidationSettings.RequiredField.ErrorText = "هذا الحقل ضروري";
+                });
+                c.SetDataItemTemplateContent(q =>
+                {
+                    var studentid = int.Parse(Session["UserID"].ToString());
+                    var iustString = DataBinder.Eval(q.DataItem, "UniversityStudent_ID")?.ToString();
+                    var iuStID = 0;
+                    if (!string.IsNullOrEmpty(iustString))
+                    {
+                        iuStID = int.Parse(iustString);
+                    }
+                    var imageString = "";
+                    var imageName = DataBinder.Eval(q.DataItem, "PasportDocumentImage")?.ToString();
+                    var isActive = DataBinder.Eval(q.DataItem, "IsActive")?.ToString();
+                    var serverPath = Server.MapPath($@"~\Content\UserFiles\{studentid}\المستندات");
+                    if (!Directory.Exists(serverPath))
+                    {
+                        Directory.CreateDirectory(serverPath);
+                    }
+                    var pathList = Directory.GetFiles(serverPath);
+                    var path = pathList.FirstOrDefault(x => Path.GetFileName(x) == imageName);
+                    if (File.Exists(path))
+                    {
+                        if (path != null)
+                        {
+                            var b = File.ReadAllBytes(path);
+                            imageString = Convert.ToBase64String(b);
+                            ViewData["DocImagePath"] = b;
+                        }
+                    }
+                    if (ViewData["DocImagePath"] != null)
+                    {
+                        ViewContext.Writer.Write("<img src='data:image/Bmp;base64," + imageString + "' class='img img-thumbnail' />");
+                        ViewContext.Writer.Write($"<input type='hidden' value={iuStID} name='UniversityStudent_ID' id='UniversityStudent_ID'/>" +
+                              $"<input type='hidden' value={imageName} name='DocumentImage' id='DocumentImage'/>" +
+                              $"<input type='hidden' value={ViewData["StudentID"]} name='stID' id='stID'/>" +
+                              $"<input type='hidden' value={isActive} name='IsActive' id='IsActive'/>");
+                    }
+                });
+                c.SetEditItemTemplateContent(q =>
+                {
+                    var studentid = int.Parse(Session["UserID"].ToString());
+                    var imageName = DataBinder.Eval(q.DataItem, "DocumentImage")?.ToString();
+                    var isActive = DataBinder.Eval(q.DataItem, "IsActive")?.ToString();
+                    var iustString = DataBinder.Eval(q.DataItem, "UniversityStudent_ID")?.ToString();
+                    var iuStID = 0;
+                    if (!string.IsNullOrEmpty(iustString))
+                    {
+                        iuStID = int.Parse(iustString);
+                    }
+                    var pathList = Directory.GetFiles(Server.MapPath($@"~\Content\UserFiles\{studentid}\المستندات"));
+                    var path = pathList.FirstOrDefault(x => Path.GetFileName(x) == imageName);
+                    if (File.Exists(path))
+                    {
+                        if (path != null)
+                        {
+                            var b = File.ReadAllBytes(path);
+                            ViewData["DocImagePath"] = b;
+                        }
+                    }
+                    ViewContext.Writer.Write($"<input type='hidden' value={iuStID} name='UniversityStudent_ID' id='UniversityStudent_ID'/>" +
+                          $"<input type='hidden' value={imageName} name='DocumentImage' id='DocumentImage'/>" +
+                          $"<input type='hidden' value={ViewData["StudentID"]} name='stID' id='stID'/>" +
+                          $"<input type='hidden' value={isActive} name='IsActive' id='IsActive'/>");
+                    using (Html.BeginForm())
+                    {
+                        @Html.DevExpress().BinaryImage(p =>
+                        {
+                            p.Name = "UploadedPasportmage";
+                            p.Properties.ImageHeight = 170;
+                            p.Properties.ImageWidth = 160;
+                            p.Properties.EditingSettings.Enabled = true;
+                            p.Properties.EnableServerResize = true;
+                            p.Properties.ImageSizeMode = ImageSizeMode.FitProportional;
+                            p.CallbackRouteValues = new { Action = "StudentPhoto", Controller = "Students" };
+                            p.Properties.EditingSettings.Enabled = true;
+                            p.ContentBytes = (byte[])ViewData["DocImagePath"];
+                            p.Properties.EditingSettings.UploadSettings.UploadValidationSettings.MaxFileSize = 4194304;
+                        }).GetHtml();
+                    }
+                });
+            });
+
+
+            //تاشيرة الدخول
+
+            settings.Columns.Add(c =>
+            {
+                c.FieldName = "VisaNumber";
+                c.Caption = "رقم تاشيرة الدخول";
+                c.ColumnType = MVCxGridViewColumnType.TextBox;
+                var txtProperties = c.PropertiesEdit as TextBoxProperties;
+                txtProperties.ValidationSettings.RequiredField.IsRequired = true;
+                txtProperties.ValidationSettings.RequiredField.ErrorText = "هذا الحقل مطلوب";
+                txtProperties.ValidationSettings.EnableCustomValidation = true;
+                //txtProperties.ClientSideEvents.Validation = "validateNationalID";
+            });
+
+            settings.Columns.Add(c =>
+            {
+                c.FieldName = "VisaExpiryDate";
+                c.Caption = "تاريخ التاشيرة";
+                c.ColumnType = MVCxGridViewColumnType.DateEdit;
+                var dateProperties = c.PropertiesEdit as DateEditProperties;
+                dateProperties.ClientInstanceName = "ExpiryDate";
+                dateProperties.ValidationSettings.RequiredField.IsRequired = true;
+                dateProperties.ValidationSettings.RequiredField.ErrorText = "هذا الحقل مطلوب";
+            });
+
+            settings.Columns.Add(c =>
+            {
+                c.FieldName = "VisaImage";
+                c.Settings.AllowSort = DefaultBoolean.False;
+                c.Settings.AllowAutoFilter = DefaultBoolean.False;
+                c.Caption = "صورة التاشيرة";
+                c.ColumnType = MVCxGridViewColumnType.BinaryImage;
+                c.EditorProperties().BinaryImage(p =>
+                {
+
+                    p.ImageHeight = 50;
+                    //p.ImageWidth = 160;
+                    p.EnableServerResize = true;
+                    p.ImageSizeMode = ImageSizeMode.FitProportional;
+                    p.CallbackRouteValues = new { Action = "StudentPhoto", Controller = "Students" };
+                    p.EditingSettings.Enabled = true;
+                    p.EditingSettings.UploadSettings.UploadValidationSettings.MaxFileSize = 4194304;
+                    p.AlternateText = "صورة التاشيرة";
+                    p.ImageAlign = ImageAlign.Middle;
+                    p.ValidationSettings.RequiredField.IsRequired = true;
+                    p.ValidationSettings.RequiredField.ErrorText = "هذا الحقل ضروري";
+                });
+                c.SetDataItemTemplateContent(q =>
+                {
+                    var studentid = int.Parse(Session["UserID"].ToString());
+                    var iustString = DataBinder.Eval(q.DataItem, "UniversityStudent_ID")?.ToString();
+                    var iuStID = 0;
+                    if (!string.IsNullOrEmpty(iustString))
+                    {
+                        iuStID = int.Parse(iustString);
+                    }
+                    var imageString = "";
+                    var imageName = DataBinder.Eval(q.DataItem, "DocumentImage")?.ToString();
+                    var isActive = DataBinder.Eval(q.DataItem, "IsActive")?.ToString();
+                    var serverPath = Server.MapPath($@"~\Content\UserFiles\{studentid}\المستندات");
+                    if (!Directory.Exists(serverPath))
+                    {
+                        Directory.CreateDirectory(serverPath);
+                    }
+                    var pathList = Directory.GetFiles(serverPath);
+                    var path = pathList.FirstOrDefault(x => Path.GetFileName(x) == imageName);
+                    if (File.Exists(path))
+                    {
+                        if (path != null)
+                        {
+                            var b = File.ReadAllBytes(path);
+                            imageString = Convert.ToBase64String(b);
+                            ViewData["DocImagePath"] = b;
+                        }
+                    }
+                    if (ViewData["DocImagePath"] != null)
+                    {
+                        ViewContext.Writer.Write("<img src='data:image/Bmp;base64," + imageString + "' class='img img-thumbnail' />");
+                        ViewContext.Writer.Write($"<input type='hidden' value={iuStID} name='UniversityStudent_ID' id='UniversityStudent_ID'/>" +
+                              $"<input type='hidden' value={imageName} name='DocumentImage' id='DocumentImage'/>" +
+                              $"<input type='hidden' value={ViewData["StudentID"]} name='stID' id='stID'/>" +
+                              $"<input type='hidden' value={isActive} name='IsActive' id='IsActive'/>");
+                    }
+                });
+                c.SetEditItemTemplateContent(q =>
+                {
+                    var studentid = int.Parse(Session["UserID"].ToString());
+                    var imageName = DataBinder.Eval(q.DataItem, "DocumentImage")?.ToString();
+                    var isActive = DataBinder.Eval(q.DataItem, "IsActive")?.ToString();
+                    var iustString = DataBinder.Eval(q.DataItem, "UniversityStudent_ID")?.ToString();
+                    var iuStID = 0;
+                    if (!string.IsNullOrEmpty(iustString))
+                    {
+                        iuStID = int.Parse(iustString);
+                    }
+                    var pathList = Directory.GetFiles(Server.MapPath($@"~\Content\UserFiles\{studentid}\المستندات"));
+                    var path = pathList.FirstOrDefault(x => Path.GetFileName(x) == imageName);
+                    if (File.Exists(path))
+                    {
+                        if (path != null)
+                        {
+                            var b = File.ReadAllBytes(path);
+                            ViewData["DocImagePath"] = b;
+                        }
+                    }
+                    ViewContext.Writer.Write($"<input type='hidden' value={iuStID} name='UniversityStudent_ID' id='UniversityStudent_ID'/>" +
+                          $"<input type='hidden' value={imageName} name='DocumentImage' id='DocumentImage'/>" +
+                          $"<input type='hidden' value={ViewData["StudentID"]} name='stID' id='stID'/>" +
+                          $"<input type='hidden' value={isActive} name='IsActive' id='IsActive'/>");
+                    using (Html.BeginForm())
+                    {
+                        @Html.DevExpress().BinaryImage(p =>
+                        {
+                            p.Name = "UploadedVisamage";
+                            p.Properties.ImageHeight = 170;
+                            p.Properties.ImageWidth = 160;
+                            p.Properties.EditingSettings.Enabled = true;
+                            p.Properties.EnableServerResize = true;
+                            p.Properties.ImageSizeMode = ImageSizeMode.FitProportional;
+                            p.CallbackRouteValues = new { Action = "StudentPhoto", Controller = "Students" };
+                            p.Properties.EditingSettings.Enabled = true;
+                            p.ContentBytes = (byte[])ViewData["DocImagePath"];
+                            p.Properties.EditingSettings.UploadSettings.UploadValidationSettings.MaxFileSize = 200000;
+                        }).GetHtml();
+                    }
+                });
+            });
+
+
+
+            settings.ControlStyle.CssClass = "GridViewRootClassName";
+            /*Command Column Emulation*/
+            settings.Columns.Add(column =>
+            {
+                column.Caption = "#";
+                column.Settings.AllowSort = DefaultBoolean.False;
+                column.Settings.AllowAutoFilter = DefaultBoolean.False;
+                column.EditFormSettings.Visible = DefaultBoolean.False;
+                /*DataItemTemplate*/
+                /*New - Edit - Delete Buttons*/
+                column.SetDataItemTemplateContent(c =>
+                {
+
+
+                    ViewContext.Writer.Write("<span class=\"fa fa-pencil btn-ds-ico btn btn-success  \" onclick=\"EditStudentdocument('{0}');\" title='تعديل'></span>", c.VisibleIndex);
+                    ViewContext.Writer.Write("&nbsp;");
+                    ViewContext.Writer.Write("<span class=\"fa fa-trash btn-ds-ico btn btn-danger  \" onclick=\"DeleteStudentDocument('{0}')\" title='حذف'></span>", c.KeyValue.ToString());
+
+
+                });
+                /*DataItemTemplate*/
+                /*EditItemTemplate*/
+                //column.SetEditItemTemplateContent(c =>
+                //{
+                //    ViewContext.Writer.Write("<span class=\"fa fa-check fa-ds \" onclick=\"{0}.UpdateEdit();\" title='حفظ'></span>", settings.Name);
+                //    ViewContext.Writer.Write("&nbsp;");
+                //    ViewContext.Writer.Write("<span class=\"fa fa-undo fa-ds \" onclick=\"{0}.CancelEdit();\" title='الغاء'></span>", settings.Name);
+                //});
+                /*EditItemTemplate*/
+            });
+            /*Command Column Emulation*/
+            //EditForm
+            settings.SettingsPopup.EditForm.SettingsAdaptivity.Mode = PopupControlAdaptivityMode.OnWindowInnerWidth;
+            settings.SettingsPopup.EditForm.SettingsAdaptivity.SwitchAtWindowInnerWidth = 500;
+            settings.SettingsPopup.EditForm.SettingsAdaptivity.MaxWidth = 500;
+            settings.EditFormLayoutProperties.SettingsAdaptivity.AdaptivityMode = FormLayoutAdaptivityMode.SingleColumnWindowLimit;
+            settings.EditFormLayoutProperties.SettingsAdaptivity.SwitchToSingleColumnAtWindowInnerWidth = 400;
+            settings.EditFormLayoutProperties.ColCount = 4;
+            //SettingsPager
+            settings.SettingsPager.Visible = true;
+            settings.SettingsPager.EnableAdaptivity = true;
+            settings.SettingsPager.EnableAdaptivity = true;
+            settings.SettingsPager.PageSize = 10;
+            //SettingsText
+            settings.SettingsText.CommandNew = "اضافة";
+            settings.SettingsText.CommandUpdate = "حفظ";
+            settings.SettingsText.CommandCancel = "الغاء";
+            settings.SettingsText.CommandEdit = "حفظ";
+            //settings.SettingsText.CommandDelete = "حذف";
+            //settings.SettingsText.ConfirmDelete = "هل تريد حذف هذا العنصر؟";
+            settings.SettingsText.EmptyDataRow = "لا توجد بيانات";
+            settings.SettingsLoadingPanel.Text = "تحميل ...";
+            settings.SettingsAdaptivity.AdaptivityMode = GridViewAdaptivityMode.Off;
+            settings.SettingsAdaptivity.AdaptiveColumnPosition = GridViewAdaptiveColumnPosition.Right;
+            settings.SettingsAdaptivity.AdaptiveDetailColumnCount = 1;
+            settings.SettingsAdaptivity.AllowOnlyOneAdaptiveDetailExpanded = false;
+            settings.SettingsAdaptivity.HideDataCellsAtWindowInnerWidth = 0;
+            settings.SettingsExport.EnableClientSideExportAPI = true;
+            settings.SettingsExport.ExcelExportMode = ExportType.DataAware;
+
+            //CommandColumn
+            settings.CommandColumn.Visible = false;
+            settings.CommandColumn.ShowNewButton = true;
+            settings.CommandColumn.ShowDeleteButton = false;
+            settings.CommandColumn.ShowEditButton = false;
+            settings.CommandColumn.ShowNewButtonInHeader = false;
+            settings.Toolbars.Add(toolbar =>
+            {
+                toolbar.Enabled = true;
+                toolbar.Position = GridToolbarPosition.Top;
+                toolbar.ItemAlign = GridToolbarItemAlign.Right;
+                toolbar.Items.Add(i =>
+                {
+                    i.Command = GridViewToolbarCommand.New;
+                    i.Text = "اضافة";
+                    i.ItemStyle.CssClass = "btn btn-primary";
+                });
+            });
+
+            //settings.CommandColumn.VisibleIndex = settings.Columns.Count + 1;
+            //settings.DataBinding = (s, e) => { (s as ASPxGridView)?.ForceDataRowType(typeof(List<Dashboard_StudentProfile.Models.StudentDocuments>)); };
+        });
+        if (ViewData["EditError"] != null)
+        {
+            grid.SetEditErrorText((string)ViewData["EditError"]);
+        }
+    }
+    @grid.Bind(Model).GetHtml()*@
+
+<style>
+    .dxflFormLayout_MetropolisBlue {
+        font-family: "JF Flat Regular" !important;
+    }
+
+    label.dxflCaption_MetropolisBlue, label.dxDefaultCursor.dxflCaption_MetropolisBlue {
+        font-weight: normal !important;
+        font-size: 14px !important;
+    }
+
+    .dxeButtonEditButtonHover_MetropolisBlue {
+        background: none
+    }
+</style>
+

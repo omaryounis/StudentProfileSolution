@@ -1,0 +1,46 @@
+﻿@model List<StudentProfile.DAL.Models.Usp_GetTravelOrderDetails_Result>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <td>م</td>
+            @*<td>الرقم الاكاديمي</td>*@
+            <td>رقم الهوية</td>
+            <td>اسم الطالب</td>
+            @*<td>اسم الطالب لاتيني</td>*@
+            <td>الجنسية</td>
+            @*<td>جهة الدراسة</td>*@
+            <td>أرقام التذاكر</td>
+            @*<td>تاريخ المغادرة</td>*@
+            @*<td>تاريخ العودة</td>*@
+            <td>قيمة التذاكر</td>
+        </tr>
+    </thead>
+    <tbody>
+        @{ int index = 1;}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@index</td>
+                @*<td>@item.StudentID</td>*@
+                <td>@item.National_ID</td>
+                <td>@item.Student_Name</td>
+                @*<td>@item.Student_Name_S</td>*@
+                <td>@item.NATIONALITY_DESC</td>
+                @*<td>@item.Faculty_Name</td>*@
+                <td>@item.TicketNumber</td>
+                @*<td>@item.FromDate</td>
+                    <td>@item.ToDate</td>*@
+                @if (item.ApprovedAmount != null)
+                {
+                    <td>@item.ApprovedAmount</td>
+                }
+
+                else
+                {
+                    <td>@item.GivenAmount</td>
+                }
+            </tr>
+            index++;
+        }
+    </tbody>
+</table>

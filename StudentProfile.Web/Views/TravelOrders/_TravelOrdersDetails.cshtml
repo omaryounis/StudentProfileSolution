@@ -1,0 +1,173 @@
+﻿@model List<StudentProfile.DAL.Models.Usp_GetTravelOrderDetails_Result>
+@using System.Web.UI.WebControls;
+
+@{ 
+    bool hidden = (bool)ViewData["Hidden"];
+}
+<h4>امر الاركاب رقم : @ViewBag.TripNumber  - خط سير : @ViewBag.TripPath</h4>
+
+@Html.DevExpress().GridView(settings =>
+{
+    settings.Name = "TravelOrdersDetails";
+    settings.KeyFieldName = "ID";
+    settings.Styles.Table.CssClass = "dx-table-ds dx-table-ds-in";
+    // settings.Theme= r.
+    settings.Width = Unit.Percentage(100);
+    //settings.CallbackRouteValues = new { Action = "ReturnGrid", Controller = "TravelOrders", Model };
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "الرقم الاكاديمي";
+        column.Width = Unit.Percentage(15);
+        column.FieldName = "StudentID";
+        column.Visible = !hidden;
+    });
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "رقم الهوية";
+        column.Width = Unit.Percentage(15);
+        column.FieldName = "National_ID";
+        column.Visible = !hidden;
+
+    });
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "اسم الطالب";
+        column.Width = Unit.Percentage(15);
+        column.FieldName = "Student_Name";
+
+    });
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "اسم الطالب لاتيني";
+        column.Width = Unit.Percentage(15);
+        column.FieldName = "Student_Name_S";
+
+    });
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "الجنسية";
+        column.Width = Unit.Percentage(15);
+        column.FieldName = "NATIONALITY_DESC";
+
+    });
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "جهة الدراسة";
+        column.Width = Unit.Percentage(15);
+        column.FieldName = "Faculty_Name";
+        column.Visible = !hidden;
+
+    });
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "المستوى";
+        column.Width = Unit.Percentage(15);
+        column.FieldName = "Level_Desc";
+        column.Visible = !hidden;
+
+    });
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "تاريخ بداية الرحلة";
+        column.Width = Unit.Percentage(15);
+        column.FieldName = "FromDate";
+
+    });
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "تاريخ نهاية الرحلة";
+        column.Width = Unit.Percentage(15);
+        column.FieldName = "ToDate";
+        column.ColumnType = MVCxGridViewColumnType.DateEdit;
+
+    });
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "التكلفة الموضوعة";
+        column.Width = Unit.Percentage(40);
+        column.FieldName = "GivenAmount";
+        //column.Visible = !(bool)ViewData["Hidden"];
+        column.SetDataItemTemplateContent((c) =>
+        {
+            decimal money = 0;
+            string givenAmount = DataBinder.Eval(c.DataItem, "GivenAmount")?.ToString();
+            if (string.IsNullOrEmpty(givenAmount))
+                money = 0;
+            else
+                money = decimal.Parse(givenAmount);
+
+            Html.DevExpress().SpinEdit(p =>
+            {
+                p.Name = "GivenAmount_" + c.KeyValue;
+                p.Properties.DisplayFormatString = "N2";
+                p.ControlStyle.CssClass = "AmountTexts";
+                p.Properties.DisplayFormatInEditMode = true;
+                p.Properties.MinValue = 0;
+                p.ReadOnly = !hidden;
+                p.Properties.MaxValue = 1000000;
+                p.Properties.ValidationSettings.RequiredField.IsRequired = true;
+                p.Properties.ValidationSettings.RequiredField.ErrorText = "من فضلك أدخل قيمة أكبر من 0";
+                p.Properties.SpinButtons.ShowLargeIncrementButtons = false;
+                p.Properties.ClientSideEvents.ValueChanged = hidden? "TotalPriceOrderChange":"function(s,e){}";
+                p.Number = money;
+            }).GetHtml();
+
+
+        });
+    });
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "التكلفة المعتمدة";
+        //column.Width = Unit.Percentage(15);
+        column.FieldName = "ApprovedAmount";
+        column.Visible=!hidden;
+        column.SetDataItemTemplateContent((c) =>
+        {
+            decimal money = 0;
+            string givenAmount = DataBinder.Eval(c.DataItem, "GivenAmount")?.ToString();
+            string approvedAmount = DataBinder.Eval(c.DataItem, "ApprovedAmount")?.ToString();
+            //if (string.IsNullOrEmpty(approvedAmount) || Convert.ToDecimal(givenAmount) > Convert.ToDecimal(approvedAmount))
+            money = string.IsNullOrEmpty(approvedAmount) ?0: decimal.Parse(approvedAmount);
+            //else
+            //money = decimal.Parse(approvedAmount);
+
+            Html.DevExpress().SpinEdit(p =>
+            {
+                p.Name = "ApprovedAmount_" + c.KeyValue;
+                p.Properties.DisplayFormatString = "N2";
+                p.Properties.DisplayFormatInEditMode = true;
+                p.Properties.MinValue = 1;
+                p.Properties.MaxValue = 1000000;
+                p.ReadOnly = true;
+                p.Properties.SpinButtons.ShowLargeIncrementButtons = true;
+                p.Properties.ValidationSettings.RequiredField.IsRequired = true;
+                p.Properties.ValidationSettings.RequiredField.ErrorText = "من فضلك أدخل قيمة أكبر من 0";
+                p.Number = money;
+            }).GetHtml();
+
+        });
+    });
+    //settings.Columns.Add(column =>
+    //{
+    //    column.Caption = "إعتماد";
+    //    column.SetDataItemTemplateContent(c =>
+    //    {
+    //        ViewContext.Writer.Write("<input type='button' class='btn btn-success btn-sm' value='حفظ' onclick= 'SaveTripFinancial(" + c.KeyValue + ")'/>");
+    //    });
+    //});
+
+    settings.HtmlRowPrepared = (sender, e) =>
+    {
+        if (e.RowType != GridViewRowType.Data) return;
+        int GivenAmount = Convert.ToInt32(e.GetValue("GivenAmount"));
+        int ApprovedAmount = Convert.ToInt32(e.GetValue("ApprovedAmount"));
+        if (ApprovedAmount != GivenAmount  && ApprovedAmount != 0 && GivenAmount != 0)
+        {
+            e.Row.BackColor = System.Drawing.Color.Red;
+            e.Row.ForeColor = System.Drawing.Color.White;
+        }
+    };
+    settings.SettingsLoadingPanel.Mode = GridViewLoadingPanelMode.Default;
+    settings.EnableCallbackAnimation = false;
+}).Bind(Model).GetHtml()
+

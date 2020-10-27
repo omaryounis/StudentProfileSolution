@@ -1,0 +1,10 @@
+﻿
+@{
+    Html.EnableClientValidation();
+    Html.EnableUnobtrusiveJavaScript();
+}
+
+@using (Html.BeginForm())
+{
+    {Html.RenderAction("StudentsCustomFieldsGridViewPartial", "Students", new { idNumber = Model.ToString() });}
+}

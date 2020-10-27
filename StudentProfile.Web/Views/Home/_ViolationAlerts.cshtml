@@ -1,0 +1,132 @@
+﻿@using System.Drawing.Printing
+@using System.Web.UI.WebControls
+@using DevExpress.DataAccess.Sql
+@using DevExpress.Export
+@using StudentProfile.DAL.Models
+@model IEnumerable<StudentProfile.DAL.Models.INTEGRATION_All_Students>
+@Html.DevExpress().GridView(settings =>
+{
+    settings.Name = "ViolationData";
+    settings.KeyFieldName = "STUDENT_ID";
+    settings.Styles.Table.CssClass = "dx-table-ds";
+    // settings.Theme= r.
+    settings.Width = Unit.Percentage(100);
+    settings.CommandColumn.Visible = true;
+    settings.CommandColumn.VisibleIndex = 10;
+
+    settings.CommandColumn.ShowSelectCheckbox = true;
+    settings.RightToLeft = DefaultBoolean.False;
+    settings.CommandColumn.SelectAllCheckboxMode = GridViewSelectAllCheckBoxMode.AllPages;
+    settings.SettingsDetail.AllowOnlyOneMasterRowExpanded = false;
+    settings.SettingsDetail.ShowDetailRow = true;
+    settings.ClientSideEvents.SelectionChanged = "SelectionChanged";
+    settings.SettingsPager.PageSize = 25;
+    settings.CallbackRouteValues = new { Action = "_ViolationAlerts", Controller = "Home" };
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "عدد المخالفات";
+
+        //column.FieldName = "STUDENT_NAME";
+        column.SetDataItemTemplateContent(c =>
+        {
+            SchoolAccGam3aEntities db = new SchoolAccGam3aEntities();
+            var stid = int.Parse(DataBinder.Eval(c.DataItem, "STUDENT_ID").ToString());
+            var count = db.V_SIS_VIOLATION_SINGLE.Where(x => x.STUDENT_ID == stid).ToList().Count();
+            ViewContext.Writer.Write("<span>"+count+"</span>");
+        });
+    });
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "اسم الطالب";
+        column.FieldName = "STUDENT_NAME";
+        column.SetDataItemTemplateContent(c =>
+        {
+            var stid = int.Parse(DataBinder.Eval(c.DataItem, "STUDENT_ID").ToString());
+            var stname = DataBinder.Eval(c.DataItem, "STUDENT_NAME").ToString();
+            ViewContext.Writer.Write("<a href=" + Url.Action("Index", "Students", new { id = stid }) + ">" + stname + "</a>");
+        });
+    });
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "الجنسية";
+        column.FieldName = "NATIONALITY_DESC";
+    });
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "رقم الهوية";
+        column.FieldName = "NATIONAL_ID";
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "STUDENT_ID";
+        //column.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy";
+        column.Caption = "الرقم الأكاديمي";
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "رقم الجوال";
+        column.FieldName = "MOBILE_PHONE";
+    });
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "الصورة";
+        //column.Width = System.Web.UI.WebControls.Unit.Percentage(15);
+        column.SetDataItemTemplateContent(c =>
+        {
+            var imgSrc = "/assets/images/user.png";
+            var studentid = DataBinder.Eval(c.DataItem, "STUDENT_ID");
+            var request = (HttpWebRequest)WebRequest.Create(
+                "https://cas.iu.edu.sa/cas/MahedStudentEmoployee/FacultyPhoto/" + studentid + ".jpg");
+            request.Method = "HEAD";
+
+            bool exists;
+            try
+            {
+                request.GetResponse();
+                exists = true;
+                imgSrc = "https://cas.iu.edu.sa/cas/MahedStudentEmoployee/FacultyPhoto/" + studentid +
+                         ".jpg";
+            }
+            catch (Exception ex)
+            {
+                exists = false;
+                imgSrc = "/assets/images/user.png";
+            }
+            ViewContext.Writer.Write("<img src=" + imgSrc + " alt='user'>");
+        });
+    });
+    settings.SetDetailRowTemplateContent(c =>
+    {
+        Html.RenderAction("_ViolationData", "Students", new { studentid = DataBinder.Eval(c.DataItem, "STUDENT_ID")?.ToString() });
+    });
+
+
+    settings.Toolbars.Add(t =>
+    {
+
+        t.EnableAdaptivity = true;
+
+        t.Items.Add(i =>
+        {
+            i.BeginGroup = true;
+            i.SetTemplateContent(c =>
+            {
+                Html.DevExpress().Button(
+                    s =>
+                    {
+                        s.Name = "ViolationsMsg";
+                        s.Images.Image.IconID = IconID.ContactsMessage16x16devav;
+                        s.RightToLeft = DefaultBoolean.False;
+                        s.Text = "رسالة نصية";
+                        s.ClientSideEvents.Click = "SendSMS";
+                    }).Render();
+            });
+        });
+    });
+
+    settings.SettingsLoadingPanel.Mode = GridViewLoadingPanelMode.Disabled;
+    settings.EnableCallbackAnimation = false;
+    settings.RightToLeft = DefaultBoolean.True;
+
+}).Bind(Model).GetHtml()

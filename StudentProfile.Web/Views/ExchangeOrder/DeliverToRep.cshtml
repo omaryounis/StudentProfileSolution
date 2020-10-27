@@ -1,0 +1,60 @@
+﻿
+@{
+    ViewBag.Title = "إسناد الشيك لمندوبي الصرف";
+    Layout = "~/Views/Shared/_DevextremeLayout.cshtml";
+}
+
+<script src="~/Scripts/ExchangeOrder/CheckDeliveryController.js"></script>
+<script src="~/Scripts/ExchangeOrder/CheckDeliveryService.js"></script>
+<div class="container-fluid container-fullw ng-scope">
+    <div class="col-md-12" ng-controller="CheckDeliveryCtrl">
+
+        <div class="panel bg-white">
+            <div class="breadcrumb-wrapper text-right">
+                <h4 class="no-margin"> إسناد الشيك لمندوبي الصرف </h4>
+            </div>
+            
+            <div class="panel-body text-right">
+                <form id="form" class="row" ng-submit="SaveCashCheck($event)">
+                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                        <label class="control-label"> مندوب الصرف</label>
+                        <div dx-select-box="Userselectbox"  dx-validator="validationRequired"></div>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                        <label class="control-label"> رقم الشيك</label>
+                        <div dx-tag-box="Checkstagbox"  dx-validator="validationRequired"></div>
+                    </div>
+
+                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div class="col-lg-12 col-sm-12 col-xs-12 ">
+                                <div id="btnSave" dx-button="btnSave"></div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 dx-tree-st">
+                    <div dx-data-grid="RepUsersGrid" dx-item-alias="RepUser">
+                        <div data-options="dxTemplate: { name : 'DeliveredChecksToUser' }">
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 dx-tree-st22-in">
+                                    <div class="master-detail-caption-st">الشيكات المسندة للموظف</div>
+                                    <div dx-data-grid="getDeliveredChecksByUserId(RepUser.key)"></div>
+                                </div>
+
+                                @*<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 dx-tree-st22-in">
+                            <div class="master-detail-caption-st">بيانات المشاركة</div>
+                            <div dx-data-grid="get2ndDetailGrid(ActivityRequestItem.key)"></div>
+                        </div>*@
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+

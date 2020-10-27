@@ -1,0 +1,225 @@
+﻿@{
+    /**/
+
+    ViewBag.Title = "متابعة طلبات السلف";
+    Layout = "~/Views/Shared/_DevextremeLayout.cshtml";
+}
+
+<script src="~/Scripts/Advances/StudentAdvanceService.js"></script>
+<script src="~/Scripts/Advances/AdvanceDecisionTakingController.js"></script>
+@*<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>*@
+
+<style>
+
+    .dx-tree-st td .dx-button-has-icon .dx-button-content {
+        padding: 3px !important;
+    }
+
+    .master-detail-caption-st {
+        padding-top: 0px;
+        padding-bottom: 12px;
+        text-align: center;
+        font-size: medium;
+        font-weight: 900;
+    }
+
+    .swal-text {
+        text-align: center;
+    }
+
+    .dx-popup-title {
+        border-bottom: 1px solid #0e70a052 !important;
+        background: #ffffff !important;
+        color: #0e70a0 !important;
+    }
+
+        .dx-popup-title.dx-toolbar .dx-toolbar-label {
+            font-size: 20px !important;
+        }
+
+        .dx-popup-title.dx-toolbar {
+            padding: 12px 20px !important;
+        }
+
+        .dx-popup-title .dx-closebutton .dx-icon {
+            color: #0e70a0 !important;
+            text-align: center !important;
+        }
+
+    .dx-item-content dx-toolbar-item-content {
+        text-align: center !important;
+    }
+
+    td.dx-command-edit {
+        text-align: center !important
+    }
+
+    .tb-title {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        z-index: 1;
+        font-size: 16px;
+        color: #0e70a0 !important;
+    }
+
+    .popup-test .dx-popup-title {
+        padding: 1px 15px !important;
+        border-bottom: 0 !important
+    }
+
+    .popup-test .dx-popup-content {
+        padding-top: 0 !important;
+    }
+
+    .dx-tree-st td .dx-button-has-icon .dx-icon.dark-text {
+        color: #333 !important
+    }
+</style>
+
+
+<div class="container-fluid container-fullw">
+    <div ng-controller="AdvanceDecisionTakingCtrl">
+        @* الصفحة الرئيسية *@
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel bg-white">
+                    <div class="breadcrumb-wrapper text-right">
+                        <h2>متابعة واعتماد طلبات السلف</h2>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div dx-data-grid="AdvanceRequestsGrid" class="dx-tree-st" id="gridContainer" dx-item-alias="AdvanceRequestItem">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        @* Advances Details PupUp *@
+        <div class="popup" dx-popup="AdvanceDetailsPopup">
+            <div dx-scroll-view="{
+                                     height: 608
+                                 }"> 
+                    <div class="row" style="padding-top:15px;padding-bottom:0px">
+
+                        <div ng-cloak="studentExcludedDetalie !=''">
+                                <div ng-if="studentExcludedDetalie !=''" class="text-right" role="alert">
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                        <p> الطالب لا يستحق من السلف للشروط التالية :- </p>
+                                        <pre style="margin: 10px;" class="alert alert-danger">{{studentExcludedDetalie}}</pre>
+                                    </div>
+                                </div>
+                        </div>
+
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                                <div class="tb-title">البيانات الأكاديمية</div>
+                                <div id="grid2Container" dx-data-grid="StudentBasicDataGrid()"></div>
+                            </div>
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 dx-tree-st dx-tree-st-green form-group" style="padding-bottom:15px">
+                                <div class="tb-title">تفاصيل طلب السلفة</div>
+                                <div id="grid2Container" dx-data-grid="StudentAdvanceRequestGrid()"></div>
+                            </div>
+
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 dx-tree-st22-in">
+                                <div class="tb-title">متابعة السلف المصروفة</div>
+                                <div dx-data-grid="StudentAdvancesApprovedGrid()"></div>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 dx-tree-st22-in">
+
+                                <div class="tb-title">متابعة حالة الإعتماد</div>
+                                <div dx-data-grid="AdvanceRequestPhasesGrid()"></div>
+                            </div>
+                        </div>
+
+                        <div class="form-group col-md-12 col-sm-12 col-xs-12 text-center" style="padding-top:15px;padding-bottom:0px">
+                            <div dx-button="AcceptButton"></div>
+                            <div dx-button="RefuseButton"></div>
+                            <div dx-button="CloseButton"></div>
+                        </div>
+                    </div>
+             </div>
+        </div>
+        <div class="popup" dx-popup="ConfirmationPopup">
+            @* Acceptance PupUp *@
+            <div data-options="dxTemplate: {name: 'acceptPopupContent'}">
+
+                <div class="panel bg-white">
+                    <div class="panel-body">
+                        <form ng-submit="onFormSubmit($event)">
+                            @Html.AntiForgeryToken()
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                        <label class="col-md-12 col-sm-12 col-xs-12  text-right control-label">القيمة المطلوبة</label>
+                                        <div class="col-md-12 col-sm-12 col-xs-12 ">
+                                            <div dx-number-box="NB_RequestedValue"></div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                        <label class="col-md-12 col-sm-12 col-xs-12  text-right control-label">القيمة المعتمدة</label>
+                                        <div class="col-md-12 col-sm-12 col-xs-12 ">
+                                            <div dx-number-box="NB_ApprovedValue" dx-validator="VR_Required"></div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                        <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+                                            <div dx-text-area="recommendationsOfAcceptTextArea"></div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+                                        <div dx-button="ConfirmButton" class="btn-block"></div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+
+            @* Refusal PupUp *@
+            <div data-options="dxTemplate: {name: 'refusePopupContent'}">
+
+                <div class="panel bg-white">
+                    <div class="panel-body">
+                        <form ng-submit="onFormSubmit($event)">
+                            @Html.AntiForgeryToken()
+                            <div class="row">
+                                <div class="col-md-12">
+
+                                    <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                        <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+                                            <div dx-text-area="recommendationsOfRefuseTextArea"></div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+                                        <div dx-button="ConfirmButton" class="btn-block"></div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    .dx-datagrid-nowrap {
+        white-space:normal !important
+    }
+</style>

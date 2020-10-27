@@ -1,0 +1,188 @@
+﻿@using System.Drawing
+@using System.Web.UI.WebControls
+@using StudentProfile.Web.Controllers
+@model  StudentProfile.Reports.StudentsTravel
+@{
+    ViewBag.Title = "بيان بطلاب الكليات المسافرين";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<script type="text/javascript">
+
+    function TravelStudentsDocumentViewerBeforeExportRequest(s, e) {
+        debugger;
+        //   e.customArgs["nationalitiesCheckListBox"] = nationalitiesCheckListBox.GetSelectedValues();
+        e.customArgs['nationality'] = nationality.GetValue();
+        e.customArgs["studentId"] = studentId.GetValue();
+        e.customArgs["TripNumber"] = TripNumber.GetValue();
+        e.customArgs["AgentRefNumber"] = AgentRefNumber.GetValue();
+    }
+    function CloseNationality() {
+        nationality.ConfirmCurrentSelection();
+        nationality.HideDropDown();
+    }
+    function nationality_OnListBoxSelectionChanged(listBox, args) {
+        if (args.index === -1) {
+            args.isSelected ? listBox.SelectAll() : listBox.UnselectAll();
+        }
+        nationality_UpdateSelectAllItemState();
+        nationality_UpdateText();
+    }
+    function nationality_UpdateSelectAllItemState() {
+        nationality_IsAllSelected()
+            ? nationality.SelectIndices([-1])
+            : nationality.UnselectIndices([-1]);
+    }
+    function nationality_IsAllSelected() {
+        for (var i = 1; i < nationality.GetItemCount(); i++)
+            if (!nationality.GetItem(i).selected) {
+                return false;
+            }
+        return true;
+    }
+    function nationality_UpdateText() {
+        debugger;
+        var selectedItems = nationality.GetSelectedItems();
+        nationalityComboBox.SetText(GetSelectedItemsText(selectedItems));
+    }
+    function SynchronizedegreeValues(dropDown, args) {
+        nationality.UnselectAll();
+    }
+
+    //multiselect Combobox
+    var textSeparator = ";";
+
+    function OnListBoxSelectionChanged(listBox, args) {
+        if (args.index === -1) {
+            args.isSelected ? listBox.SelectAll() : listBox.UnselectAll();
+        }
+        UpdateSelectAllItemState();
+        UpdateText();
+    }
+
+    function UpdateSelectAllItemState() {
+        IsAllSelected()
+            ? nationalitiesCheckListBox.SelectIndices([-1])
+            : nationalitiesCheckListBox.UnselectIndices([-1]);
+    }
+
+    function IsAllSelected() {
+        for (var i = 1; i < nationalitiesCheckListBox.GetItemCount(); i++)
+            if (!nationalitiesCheckListBox.GetItem(i).selected) {
+                return false;
+            }
+        return true;
+    }
+
+    function UpdateText() {
+        var selectedItems = nationalitiesCheckListBox.GetSelectedItems();
+        NationalitiesComboBox.SetText(GetSelectedItemsText(selectedItems));
+    }
+
+    function SynchronizeListBoxValues(dropDown, args) {
+        nationalitiesCheckListBox.UnselectAll();
+        var texts = dropDown.GetText().split(textSeparator);
+        var values = GetValuesByTexts(texts);
+        nationalitiesCheckListBox.SelectValues(values);
+        UpdateSelectAllItemState();
+        UpdateText(); // for remove non-existing texts
+    }
+
+    function GetSelectedItemsText(items) {
+        var texts = [];
+        for (var i = 0; i < items.length; i++)
+            if (items[i].index !== -1)
+                texts.push(items[i].text);
+        return texts.join(textSeparator);
+    }
+
+    function GetValuesByTexts(texts) {
+        var actualValues = [];
+        var item;
+        for (var i = 0; i < texts.length; i++) {
+            item = nationalitiesCheckListBox.FindItemByText(texts[i]);
+            if (item != null)
+                actualValues.push(item.value);
+        }
+        return actualValues;
+    }
+</script>
+
+<div class="container-fluid container-fullw">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel bg-white">
+                <div class="breadcrumb-wrapper text-right">
+                    <h4 class="no-margin">بيان بطلاب الكليات المسافرين</h4>
+                </div>
+                <div class="panel-body">
+                    @using (Ajax.BeginForm("TravelStudentReportDesignerPartial", new AjaxOptions { UpdateTargetId = "TravelStudentsReportDesigner" }))
+                    {
+                    <div class="col-lg-3 col-lg-3 col-sm-12 col-xs-12">
+
+
+                        @{Html.RenderAction("_NationalitiesSearch", "Students");}
+
+                     
+                    </div>
+                        <div class="col-lg-3 col-lg-3 col-sm-12 col-xs-12">
+                            @Html.DevExpress().SpinEdit(
+                                settings =>
+                                {
+                                    settings.Name = "studentId";
+                                    settings.Properties.NullText = "رقم الطالب";
+                                    settings.Properties.ClearButton.DisplayMode = ClearButtonDisplayMode.OnHover;
+                                }).GetHtml()
+                        </div>
+
+                        <div class="col-lg-3 col-lg-3 col-sm-12 col-xs-12">
+                            @Html.DevExpress().SpinEdit(
+                                settings =>
+                                {
+                                    settings.Name = "TripNumber";
+                                    settings.Properties.NullText = "رقم أمر الإركاب";
+                                    settings.Properties.ClearButton.DisplayMode = ClearButtonDisplayMode.OnHover;
+                                }).GetHtml()
+                        </div>
+                        <div class="col-lg-3 col-lg-3 col-sm-12 col-xs-12">
+                            @Html.DevExpress().SpinEdit(
+                                settings =>
+                                {
+                                    settings.Name = "AgentRefNumber";
+                                    settings.Properties.NullText = "رقم أمر الإرتباط";
+                                    settings.Properties.ClearButton.DisplayMode = ClearButtonDisplayMode.OnHover;
+                                }).GetHtml()
+                           
+                        </div>
+                        <div class="row">
+                            <br />
+                            <br />
+                            <br />
+                            <div class=" col-lg-3 col-lg-3 col-sm-12 col-xs-12">
+                                <div class="pull-right">
+                                    @Html.DevExpress().Button(settings =>
+                                  {
+                                      settings.Name = "btnSearch";
+                                      settings.ControlStyle.CssClass = "btn btn-primary";
+                                      settings.Text = "بحث";
+                                      settings.Images.Image.IconID = IconID.ActionsSearch16x16devav;
+                                      settings.UseSubmitBehavior = true;
+                                  }).GetHtml()
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <br />
+                            <br />
+                            <br />
+                            <div class="dx-clearfix"></div>
+                            <div id="TravelStudentsReportDesigner">
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

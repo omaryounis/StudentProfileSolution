@@ -1,0 +1,55 @@
+﻿@{
+    ViewBag.Title = "تهيئة ضوابط عدم استحقاق السلف";
+    Layout = "~/Views/Shared/_DevextremeLayout.cshtml";
+}
+<script src="~/Scripts/Advances/StudentAdvanceSettingConfig.js"></script>
+@*<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>*@
+
+<style>
+
+    .dx-popup-title.dx-toolbar .dx-toolbar-label {
+        font-size: 22px !important;
+    }
+
+    .dx-popup-title.dx-toolbar {
+        padding: 12px 20px !important;
+    }
+
+    .dx-popup-title .dx-closebutton .dx-icon {
+        color: #0e70a0 !important;
+    }
+
+    .swal-text {
+        text-align: center;
+    }
+
+    .dx-popup-title {
+        border-bottom: 1px solid #0e70a052 !important;
+        background: #ffffff !important;
+        color: #0e70a0 !important;
+    }
+
+    td.dx-command-edit {
+        text-align: center !important
+    }
+</style>
+
+<div class="container-fluid container-fullw">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel bg-white">
+                <div class="breadcrumb-wrapper text-right">
+                    <h4 class="no-margin">تهيئة ضوابط عدم استحقاق السلف</h4>
+                </div>
+       
+                <div class="panel-body">
+                    <div ng-controller="AdvanceSettingsCtrl">
+                        <div class="col-lg-12 col-sm-12 col-xs-12">
+                            <div dx-data-grid="AdvanceSettingConfigGrid" class="dx-tree-st"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

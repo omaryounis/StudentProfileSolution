@@ -1,0 +1,94 @@
+﻿@{
+    ViewBag.Title = "رفع مرفق الشيكات";
+
+    Layout = "~/Views/Shared/_DevextremeLayout.cshtml";
+}
+
+<script src="~/Scripts/PayRollStudents/CheckFilesService.js"></script>
+<script src="~/Scripts/PayRollStudents/CheckFilesController.js"></script>
+<div class="container-fluid container-fullw">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel bg-white">
+                <div class="breadcrumb-wrapper text-right">
+                    <h4 class="no-margin">رفع مرفق الشيكات</h4>
+                </div>
+                <div class="panel-body">
+                    <div ng-controller="CheckFilesCtrl">
+                        <div class="row">
+                            <label class="col-lg-1 col-sm-12 col-xs-12 control-label">المسير</label>
+                            <div class="col-lg-3 col-sm-12 col-xs-12 ">
+                                <div id="PayrollSelectBox" dx-tag-box="PayrollSelectBox"
+                                     dx-validator="validationRequired"></div>
+                            </div>
+                            <label class="col-lg-1 col-sm-12 col-xs-12 control-label text-right"> مناديب الصرف</label>
+                            <div class="col-lg-3 col-sm-12 col-xs-12  ">
+                                <div id="UsersSelectBox" dx-tag-box="UsersSelectBox" style="width:100%;height: 34px;"
+                                     dx-validator="validationRequired"></div>
+                            </div>
+                            <div class="col-lg-2 col-sm-12 col-xs-12  ">
+                                <div class="btn btn-primary" dx-button="btnSearch"> </div>
+                            </div>
+                        </div>
+
+
+
+                        <div class="form-group col-md-12 col-sm-12 col-xs-12">
+                            <div class="dx-tree-st dx-tree-st22" dx-data-grid="gridCheckData()"></div>
+                        </div>
+
+                        @*<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                            <br />
+                            <div class="btn btn-success" dx-button="btnApprovedAll"> </div>
+                        </div>*@
+
+
+
+                        @* الجزء الخاص برفع المرفقات *@
+                        <div id="UploadFilePopupOptions" dx-popup="UploadFilePopupOptions">
+                            <div data-options="dxTemplate: { name : 'UploadFileContent' }">
+                                <div class="panel panel-default">
+                                    <div class="panel-body">
+                                        <div dx-file-uploader="FileUploadingOptions">
+                                            @*<span class="note">Allowed file extensions: <span>.Pdf</span>.</span>*@
+                                        </div>
+                                        <div>
+                                            <div class="text-right" ng-if="MDL_UploadingFilesvalue.length > 0">
+                                                <h4>الملفات المختارة</h4>
+                                            </div>
+                                            <div ng-repeat="val in MDL_UploadingFilesvalue">
+                                                <div class="selected-item selected-item-ds text-right">
+                                                    <ul class="list-unstyled" dir="rtl">
+                                                        <li><span class="pull-right"> اسم الملف:</span> <span>{{val.name}}</span></li>
+                                                        <li><span class="pull-right">حجم الملف:</span> <span>{{val.size}}</span> bytes</li>
+                                                        <li><span class="pull-right">نوع الملف:</span>  <span>{{val.type}}</span></li>
+                                                    </ul>
+                                                    <a class="btn btn-danger" href="" ng-click="RemoveUploadingFile(val.$$hashKey)">
+                                                        حذف الملف <i class="fa fa-trash-o"></i>
+                                                    </a>
+                                                    </a> <a class="btn btn-primary" href="" ng-click="SaveUploadingFile(val.$$hashKey)">
+                                                        حفظ الملف <i class="fa fa-save"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    .dx-popup-content .table-striped a.btn-info {
+        color: #fff !important;
+    }
+
+    .dx-popup-content {
+        overflow-y: scroll;
+    }
+</style>

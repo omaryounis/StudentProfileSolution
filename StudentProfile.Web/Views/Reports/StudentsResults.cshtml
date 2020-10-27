@@ -1,0 +1,211 @@
+﻿@using System.Web.UI.WebControls
+@using StudentProfile.Web.Controllers
+@{
+    ViewBag.Title = "بحث نتائج الطلاب";
+}
+
+<style>
+    .ActionsSearch_button {
+        margin-top: 25px;
+        height: 38px;
+        width: 85px !important;
+        background: #309ad4;
+        color: #fff;
+        border: 0;
+        font-weight: bold;
+    }
+</style>
+<div class="container-fluid container-fullw">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel bg-white">
+                <div class="breadcrumb-wrapper text-right">
+                    <h4 class="no-margin">بحث نتائج الطلاب</h4>
+                </div>
+                <div class="panel-body">
+                    @using (Ajax.BeginForm("StudentsResultsDocumentViewerPartial", new AjaxOptions {UpdateTargetId = "StudentsResultsRPT"}))
+                    {
+                        @Html.DevExpress().FormLayout(formLayoutSettings =>
+                        {
+                            formLayoutSettings.Name = "AdvancedSearchFormLayout";
+                            formLayoutSettings.SettingsItems.ShowCaption = DefaultBoolean.True;
+                            formLayoutSettings.SettingsItemCaptions.Location = LayoutItemCaptionLocation.Top;
+                            formLayoutSettings.AlignItemCaptionsInAllGroups = true;
+                            formLayoutSettings.SettingsAdaptivity.AdaptivityMode = FormLayoutAdaptivityMode.SingleColumnWindowLimit;
+                            formLayoutSettings.SettingsAdaptivity.SwitchToSingleColumnAtWindowInnerWidth = 500;
+                            formLayoutSettings.Width = Unit.Percentage(100);
+                            formLayoutSettings.UseDefaultPaddings = false;
+                            formLayoutSettings.EncodeHtml = false;
+                            formLayoutSettings.UseDefaultPaddings = false;
+                            formLayoutSettings.Styles.LayoutGroupBox.Caption.CssClass = "layoutGroupBoxCaption";
+                            formLayoutSettings.RightToLeft = DefaultBoolean.True;
+                            formLayoutSettings.ColCount = 1;
+                            var groupItem = formLayoutSettings.Items.AddGroupItem(i =>
+                            {
+                                i.Caption = "بحث نتائج الطلاب";
+                                i.ColCount = 8;
+                                i.GroupBoxStyle.Caption.Font.Bold = true;
+                                i.GroupBoxStyle.Caption.Font.Size = 16;
+                                i.VerticalAlign = FormLayoutVerticalAlign.Top;
+                                i.SettingsItemHelpTexts.Position = HelpTextPosition.Bottom;
+                                i.GroupBoxDecoration = GroupBoxDecoration.None;
+                            });
+                            groupItem.Items.Add(i =>
+                            {
+                                i.Caption = "الكلية";
+                                i.NestedExtension().ComboBox(s =>
+                                {
+                                    s.Name = "faculty";
+                                    s.Properties.DropDownStyle = DropDownStyle.DropDownList;
+                                    s.Properties.IncrementalFilteringMode = IncrementalFilteringMode.StartsWith;
+                                    s.Properties.DataSource = ReportsController.GetFaculties();
+                                    s.Properties.ValueField = "Value";
+                                    s.Properties.TextField = "Text";
+                                    s.Properties.ClearButton.DisplayMode = ClearButtonDisplayMode.OnHover;
+                                });
+                            });
+                            groupItem.Items.Add(i =>
+                            {
+                                i.Caption = "التخصص";
+                                i.NestedExtension().ComboBox(s =>
+                                {
+                                    s.Name = "nationality";
+                                    s.Properties.DropDownStyle = DropDownStyle.DropDownList;
+                                    s.Properties.IncrementalFilteringMode = IncrementalFilteringMode.StartsWith;
+                                    s.Properties.DataSource = ReportsController.GetMajors();
+                                    ;
+                                    s.Properties.ValueField = "Value";
+                                    s.Properties.TextField = "Text";
+                                    s.Properties.ClearButton.DisplayMode = ClearButtonDisplayMode.OnHover;
+                                    s.ShowModelErrors = false;
+                                });
+                            });
+                            groupItem.Items.Add(i =>
+                            {
+                                i.Caption = "الدرجة العلمية";
+                                i.NestedExtension().ComboBox(s =>
+                                {
+                                    s.Name = "degree";
+                                    s.Properties.DropDownStyle = DropDownStyle.DropDownList;
+                                    s.Properties.IncrementalFilteringMode = IncrementalFilteringMode.StartsWith;
+                                    s.Properties.DataSource = ReportsController.GetDegres();
+                                    s.Properties.ValueField = "Value";
+                                    s.Properties.TextField = "Text";
+                                    s.Properties.ClearButton.DisplayMode = ClearButtonDisplayMode.OnHover;
+                                });
+                            });
+                            groupItem.Items.Add(i =>
+                            {
+                                i.Caption = "المستوى";
+                                i.NestedExtension().ComboBox(s =>
+                                {
+                                    s.Name = "level";
+                                    s.Properties.DropDownStyle = DropDownStyle.DropDownList;
+                                    s.Properties.IncrementalFilteringMode = IncrementalFilteringMode.StartsWith;
+                                    s.Properties.DataSource = ReportsController.GetLevels();
+                                    s.Properties.ValueField = "Value";
+                                    s.Properties.TextField = "Text";
+                                    s.Properties.ClearButton.DisplayMode = ClearButtonDisplayMode.OnHover;
+                                });
+                            });
+                            groupItem.Items.Add(i =>
+                            {
+                                i.Caption = "الحالة";
+                                i.NestedExtension().ComboBox(s =>
+                                {
+                                    s.Name = "statusType";
+                                    s.Properties.DropDownStyle = DropDownStyle.DropDownList;
+                                    s.Properties.IncrementalFilteringMode = IncrementalFilteringMode.StartsWith;
+                                    s.Properties.DataSource = ReportsController.GetStatus();
+                                    s.Properties.ValueField = "Value";
+                                    s.Properties.TextField = "Text";
+                                    s.Properties.ClearButton.DisplayMode = ClearButtonDisplayMode.OnHover;
+                                });
+                            });
+                            groupItem.Items.Add(i =>
+                            {
+                                i.Caption = "نوع الدراسة";
+                                i.NestedExtension().ComboBox(s =>
+                                {
+                                    s.Name = "studyType";
+                                    s.Properties.DropDownStyle = DropDownStyle.DropDownList;
+                                    s.Properties.IncrementalFilteringMode = IncrementalFilteringMode.StartsWith;
+                                    s.Properties.DataSource = ReportsController.GetStudyTypes();
+                                    s.Properties.ValueField = "Value";
+                                    s.Properties.TextField = "Text";
+                                    s.Properties.ClearButton.DisplayMode = ClearButtonDisplayMode.OnHover;
+                                });
+                            });
+                            groupItem.Items.Add(i =>
+                            {
+                                i.ShowCaption = DefaultBoolean.False;
+                                i.HorizontalAlign = FormLayoutHorizontalAlign.Right;
+                                i.NestedExtension().Button(s =>
+                                {
+                                    s.Name = "search";
+                                    s.Styles.Style.CssClass = "ActionsSearch_button";
+                                    s.RightToLeft = DefaultBoolean.True;
+                                    s.Text = "بحث";
+                                    s.Images.Image.IconID = IconID.ActionsSearch16x16devav;
+                                    s.UseSubmitBehavior = true;
+                                });
+                            });
+                            //formLayoutSettings.Items.Add(i =>
+                            //{
+                            //    i.Caption = "اسم الطالب";
+                            //    i.CaptionSettings.AssociatedNestedExtensionName = "studentName";
+                            //    i.Name = "studentName";
+                            //    i.SetNestedContent(() =>
+                            //    {
+                            //        Html.DevExpress().ComboBox(comboBoxSettings =>
+                            //        {
+                            //            comboBoxSettings.Name = "studentName";
+                            //            comboBoxSettings.CallbackRouteValues = new {Controller = "Students", Action = "_StudentsSearch"};
+                            //            comboBoxSettings.Properties.ClearButton.DisplayMode = ClearButtonDisplayMode.OnHover;
+                            //            comboBoxSettings.Properties.IncrementalFilteringMode = IncrementalFilteringMode.Contains;
+                            //            comboBoxSettings.SettingsLoadingPanel.Text = "تحميل ...";
+                            //            comboBoxSettings.Properties.CallbackPageSize = 15;
+                            //            comboBoxSettings.Properties.TextField = "Text";
+                            //            comboBoxSettings.Properties.ValueField = "Value";
+                            //            comboBoxSettings.Properties.ValueType = typeof(int);
+                            //            comboBoxSettings.Properties.FilterMinLength = 3;
+                            //            comboBoxSettings.Properties.CallbackPageSize = 50;
+                            //            comboBoxSettings.Properties.ClearButton.Enabled = true;
+                            //            comboBoxSettings.Properties.DropDownStyle = DropDownStyle.DropDown;
+                            //            comboBoxSettings.Properties.ClientSideEvents.BeginCallback = "function OnBeginCallback(s, e) {e.customArgs['txt'] = s.stateObject.rawValue;}";
+                            //            comboBoxSettings.Properties.NullText = "ادخل اسم الطالب";
+                            //        }).BindList(ReportsController.GetStudentsName, ReportsController.GetStudentById).Render();
+                            //    });
+                            //});
+
+                            //groupItem.Items.Add(i =>
+                            //{
+                            //    i.Caption = "اسم الطالب";
+                            //    i.NestedExtension().ComboBox(s =>
+                            //    {
+                            //        s.Name = "studentName";
+                            //        s.CallbackRouteValues = new {Controller = "Students", Action = "_StudentsSearch"};
+                            //        s.Properties.ClearButton.DisplayMode = ClearButtonDisplayMode.OnHover;
+                            //        s.Properties.IncrementalFilteringMode = IncrementalFilteringMode.Contains;
+                            //        s.SettingsLoadingPanel.Text = "تحميل ...";
+                            //        s.Properties.CallbackPageSize = 15;
+                            //        s.Properties.TextField = "Text";
+                            //        s.Properties.ValueField = "Value";
+                            //        s.Properties.ValueType = typeof(int);
+                            //        s.Properties.FilterMinLength = 3;
+                            //        s.Properties.CallbackPageSize = 50;
+                            //        s.Properties.ClearButton.Enabled = true;
+                            //        s.Properties.DropDownStyle = DropDownStyle.DropDown;
+                            //        s.Properties.ClientSideEvents.BeginCallback = "function OnBeginCallback(s, e) {e.customArgs['txt'] = s.stateObject.rawValue;}";
+                            //        s.Properties.NullText = "ادخل اسم الطالب";
+                            //    });
+                            //});
+                        }).GetHtml()
+                        <div id="StudentsResultsRPT"></div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@*@Html.Action("StudentsResultsDocumentViewerPartial")*@

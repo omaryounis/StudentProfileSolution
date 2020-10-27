@@ -1,0 +1,44 @@
+﻿@{
+    ViewBag.Title = "صلاحيات موافقات السلف";
+    Layout = "~/Views/Shared/_DevextremeLayout.cshtml";
+}
+<script type="text/javascript" src="~/Scripts/FilterGroups/FilterGroupsNew.js"></script>
+<div class="container-fluid container-fullw">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel">
+                <div class="breadcrumb-wrapper text-right">
+                    <h4 class=" no-margin">صلاحيات موافقات السلف</h4>
+                </div>
+                <div class="panel-body">
+                    <div ng-controller="FilterGroupsCtrl">
+                        <fieldset>
+                            <form id="form" ng-submit="onFormSubmit($event)">
+                                <div class="form-group col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                    <label class="col-lg-4 col-md-4 col-sm-12 col-xs-12 control-label text-right">اسم المجموعة</label>
+                                    <div class="col-md-8 col-sm-12 col-xs-12 ">
+                                        <div dx-select-box="FilterGroup.Group" dx-validator="FilterGroup.ValidationRules.Group"></div>
+                                    </div>
+                                </div>
+                                @if (ViewBag.SavePermission != null)
+                                {
+                                    if (ViewBag.SavePermission)
+                                    {
+                                        <div class="form-group col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                            <div dx-button="FilterGroup.SaveButton"></div>
+                                        </div>
+                                    }
+                                }
+                                <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <label class="col-lg-4 col-md-4 col-sm-12 col-xs-12 text-right">المستخدمين</label>
+                                    <div dx-list="FilterGroup.Users"></div>
+                                </div>
+                            </form>
+                            <div class="clearfix"></div>
+                        </fieldset>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

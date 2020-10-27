@@ -1,0 +1,840 @@
+﻿@using System.Web.UI.WebControls
+@model StudentProfile.DAL.Models.GetStBasicDataByStudentID_Result
+<script>
+    function ShowEmergencyPC() { debugger; pcSaveEmergencyRelative.Show(); }
+</script>
+@{ string path = ViewBag.Image; }
+<div class="form-group col-lg-12 col-xs-12">
+    @if (ViewBag.BasicDataRead != null)
+    {
+        if (ViewBag.BasicDataRead == true)
+        {
+            <div class="row p-ds">
+                <div class="panel-group">
+                    <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                        <div class="panel panel-default panel-default-dds">
+                            <div class="panel-heading" role="tab" id="headingOne">
+                                <h3 class="panel-title">
+                                    <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne"> المعلومات الشخصية </a>
+                                </h3>
+                            </div>
+                            <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+                                <div class="panel-body" style=""> @*min-height: 191px;*@
+                                    <div class="row">
+                                        <div class="col-lg-10 col-md-10 col-xs-12 col-sm-12">
+                                            <div class="row">
+                                                <div class="col-lg-6 col-md-6 col-xs-12 col-sm-12">
+                                                    <div class="title-ds-1 col-lg-4 col-xs-12 col-sm-12 col-md-4">
+                                                        <label>الاسم بالعربية</label>
+                                                    </div>
+                                                    <div class="title-ds-1 title-ds-1-p  col-lg-8 col-xs-12 col-sm-12 col-md-8">
+                                                        <p>@Model.STUDENT_NAME</p>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6 col-md-6 col-xs-12 col-sm-12">
+                                                    <div class="title-ds-1 col-lg-5 col-xs-12 col-sm-12 col-md-5">
+                                                        <label>الاسم بالانجليزية</label>
+                                                    </div>
+                                                    <div class="title-ds-1 title-ds-1-p  col-lg-7 col-xs-12 col-sm-12 col-md-7">
+                                                        <p>@Model.STUDENT_NAME_S</p>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6 col-md-6 col-xs-12 col-sm-12">
+                                                    <div class="title-ds-1 col-lg-4 col-xs-12 col-sm-12 col-md-4">
+                                                        <label>مدينة الميلاد</label>
+                                                    </div>
+                                                    <div class="title-ds-1 title-ds-1-p  col-lg-8 col-xs-12 col-sm-12 col-md-8">
+                                                        <p> @Model.BIRTH_CITY_TEXT</p>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6 col-md-6 col-xs-12 col-sm-12">
+                                                    <div class="title-ds-1 col-lg-4 col-xs-12 col-sm-12 col-md-4">
+                                                        <label>تاريخ الميلاد</label>
+                                                    </div>
+                                                    <div class="title-ds-1 title-ds-1-p  col-lg-8 col-xs-12 col-sm-12 col-md-8">
+                                                        <p> @Model.BIRTH_DATE</p>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6 col-md-6 col-xs-12 col-sm-12">
+                                                    <div class="title-ds-1 col-lg-4 col-xs-12 col-sm-12 col-md-4">
+                                                        <label>الجنسية</label>
+                                                    </div>
+                                                    <div class="title-ds-1 title-ds-1-p  col-lg-7 col-xs-12 col-sm-12 col-md-8">
+                                                        <p>@Model.NATIONALITY_DESC</p>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6 col-md-6 col-xs-12 col-sm-12">
+
+                                                    <div class="title-ds-1 col-lg-5 col-xs-12 col-sm-12 col-md-5">
+
+                                                        <label>نوع الهوية</label>
+                                                    </div>
+                                                    <div class="title-ds-1 title-ds-1-p  col-lg-7 col-xs-12 col-sm-12 col-md-7">
+                                                        @if (Model.NATIONAL_ID != null)
+                                                        {
+                                                            if (Model.NATIONAL_ID.StartsWith("1"))
+                                                            {
+                                                                <p>هوية وطنية</p>
+                                                            }
+                                                            else
+                                                            {
+                                                                <p>إقامة</p>
+                                                            }
+                                                        }
+
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-2 col-md-2 col-xs-12 col-sm-12">
+                                            @if (!string.IsNullOrEmpty(Model.Student_Image))
+                                            {
+                                                if (ViewBag.ShowStudentImage == true)
+                                                {
+                                                    <div class="col-lg-12 col-md-12 col-sm-12 text-center col-xs-12" id="PersonalImage">
+                                                        <img src="@Model.Student_Image" style="height: 76px; width: 76px;" alt="صورة الطالب" />
+                                                    </div>
+                                                }
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                        <div class="panel panel-default panel-default-dds">
+                            <div class="panel-heading" role="tab" id="headingTow">
+                                <h3 class="panel-title">
+                                    <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+                                        بيانات التواصل
+                                    </a>
+                                </h3>
+                            </div>
+                            <div id="collapseTwo" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingTwo">
+                                <div class="panel-body ">
+                                    <div class="row">
+                                        <div class="col-lg-6 col-md-6 col-xs-12 col-sm-12">
+
+                                            <div class="title-ds-1 col-lg-6 col-xs-12 col-sm-12 col-md-6">
+
+                                                <label>رقم الجوال</label>
+                                            </div>
+                                            <div class="title-ds-1 title-ds-1-p  col-lg-6 col-xs-12 col-sm-12 col-md-6">
+
+                                                <p>@Model.MOBILE_PHONE</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-xs-12 col-sm-12">
+
+
+                                            <div class="title-ds-1 col-lg-6 col-xs-12 col-sm-12 col-md-6">
+
+                                                <label>حساب تويتر</label>
+                                            </div>
+
+
+                                            @if (!string.IsNullOrEmpty(Model.TwitterAccount))
+                                            {
+                                                <div class="title-ds-1 title-ds-1-p  col-lg-6 col-xs-12 col-sm-12 col-md-6">
+
+                                                    <a href="@Model.TwitterAccount">
+                                                        <i class="fa fa-lg fa-3x fa-twitter"></i>
+                                                    </a>
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                <div style="padding-right:0" class="title-ds-1 title-ds-1-p  col-lg-5 col-xs-12 col-sm-12 col-md-8">
+                                                    <p>
+                                                        @Html.DevExpress().Button(
+settings =>
+{
+    settings.Name = "btSaveTwitterAccount";
+    settings.Text = "اضافة جديد";
+    settings.ToolTip = "اضافة حساب تويتر";
+    settings.ClientSideEvents.Click = "function(s, e) { pcSaveTwitterAccount.Show(); }";
+}
+).GetHtml()
+                                                    </p>
+                                                </div>
+                                                @Html.DevExpress().PopupControl(
+settings =>
+{
+    settings.Name = "pcSaveTwitterAccount";
+    settings.Width = 320;
+    settings.AllowDragging = true;
+    settings.CloseAction = CloseAction.CloseButton;
+    // settings.RightToLeft = true;
+    settings.CloseOnEscape = true;
+    settings.PopupAnimationType = AnimationType.None;
+    settings.HeaderText = "اضافة حساب تويتر";
+    settings.Modal = true;
+    settings.AutoUpdatePosition = true;
+    settings.PopupHorizontalAlign = PopupHorizontalAlign.WindowCenter;
+    settings.PopupVerticalAlign = PopupVerticalAlign.WindowCenter;
+    settings.SetContent(() =>
+    {
+        using (Ajax.BeginForm("SaveTwitterAccount", "Students", FormMethod.Post, new AjaxOptions { UpdateTargetId = "StBasicData" }))
+
+        {
+            Html.DevExpress().FormLayout(s =>
+            {
+                s.Name = "twitterModalModeFormLayout";
+                s.RequiredMarkDisplayMode = RequiredMarkMode.None;
+                s.Width = Unit.Percentage(100);
+                s.Height = Unit.Percentage(100);
+
+                s.NestedExtensionWidth = Unit.Percentage(100);
+                s.Items.Add(i =>
+                {
+                    i.Name = "twitterAccountTextBox";
+                    i.Caption = "الحساب";
+                    i.NestedExtensionType = FormLayoutNestedExtensionItemType.TextBox;
+                });
+                s.Items.Add(i =>
+                {
+                    i.ShowCaption = DefaultBoolean.False;
+                    i.SetNestedContent(() =>
+                    {
+                        Html.DevExpress().Button(
+                            buttonSettings =>
+                            {
+                                buttonSettings.Name = "btnSaveTwitter";
+                                buttonSettings.ControlStyle.CssClass = "button";
+                                buttonSettings.Width = 80;
+                                buttonSettings.Text = "حفظ";
+                                buttonSettings.Images.Image.IconID = IconID.SaveSave32x32;
+                                buttonSettings.UseSubmitBehavior = true;
+                            }
+                            ).Render();
+                        Html.DevExpress().Button(
+                            buttonSettings =>
+                            {
+                                buttonSettings.Name = "btnCancelTwitter";
+                                buttonSettings.ControlStyle.CssClass = "button";
+                                buttonSettings.Width = 80;
+                                buttonSettings.Text = "الغاء";
+                                buttonSettings.Images.Image.IconID = IconID.ActionsClose32x32;
+                                buttonSettings.ClientSideEvents.Click = "function(s, e){ pcSaveTwitterAccount.Hide(); }";
+                            }
+                            ).Render();
+                    });
+                });
+            }).Render();
+        }
+    });
+
+    settings.ClientSideEvents.CloseUp = "function(s, e){ ASPxClientEdit.ClearEditorsInContainer(null, '', true); }";
+}).GetHtml()
+                                            }
+
+                                        </div>
+                                        <div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">
+
+                                            <div class="title-ds-1 col-lg-5 col-xs-5 col-sm-12 col-md-12">
+
+                                                <label>البريد الالكتروني</label>
+                                            </div>
+                                            <div class="title-ds-1 title-ds-1-p  col-lg-7 col-xs-12 col-sm-12 col-md-7">
+
+                                                <p>@Model.EMAIL</p>
+                                            </div>
+                                        </div>
+                                       
+                                        <div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">
+
+
+                                            <div class="title-ds-1 col-lg-4 col-xs-12 col-sm-12 col-md-4">
+                                                <label>حساب الفيسبوك</label>
+                                            </div>
+
+                                            @if (!string.IsNullOrEmpty(Model.FacebookAccount))
+                                            {
+        <div class="title-ds-1 title-ds-1-p  col-lg-8 col-xs-12 col-sm-12 col-md-8">
+            <a href="@Model.FacebookAccount">
+                <i class="fa fa-lg fa-3x fa-facebook"></i>
+            </a>
+        </div>
+                                            }
+                                            else
+                                            {
+        @Html.DevExpress().Button(
+                         settings =>
+                         {
+                             settings.Name = "btSaveFacebookAccount";
+                             settings.Text = "اضافة جديد";
+                             settings.ToolTip = "اضافة جديد";
+                             settings.ClientSideEvents.Click = "function(s, e) { pcSaveFacebookAccount.Show(); }";
+                         }
+                         ).GetHtml()
+
+
+        @Html.DevExpress().PopupControl(
+                         settings =>
+                         {
+                             settings.Name = "pcSaveFacebookAccount";
+                             settings.Width = 320;
+                             settings.AllowDragging = true;
+                             settings.CloseAction = CloseAction.CloseButton;
+                             settings.CloseOnEscape = true;
+                             settings.PopupAnimationType = AnimationType.None;
+                             settings.HeaderText = "اضافة حساب الفيسبوك";
+                             settings.Modal = true;
+                             settings.AutoUpdatePosition = true;
+                             settings.PopupHorizontalAlign = PopupHorizontalAlign.WindowCenter;
+                             settings.PopupVerticalAlign = PopupVerticalAlign.WindowCenter;
+                             settings.SetContent(() =>
+                             {
+                                 using (Ajax.BeginForm("SaveFacebookAccount", "Students", FormMethod.Post, new AjaxOptions { UpdateTargetId = "StBasicData" }))
+                                 {
+                                     Html.DevExpress().FormLayout(s =>
+                                     {
+                                         s.Name = "facebookModalModeFormLayout";
+                                         s.RequiredMarkDisplayMode = RequiredMarkMode.None;
+                                         s.Width = Unit.Percentage(100);
+                                         s.Height = Unit.Percentage(100);
+
+                                         s.NestedExtensionWidth = Unit.Percentage(100);
+                                         s.Items.Add(i =>
+                                         {
+                                             i.Name = "facebookAccountTextBox";
+                                             i.Caption = "الحساب";
+                                             i.NestedExtensionType = FormLayoutNestedExtensionItemType.TextBox;
+                                         });
+                                         s.Items.Add(i =>
+                                         {
+                                             i.ShowCaption = DefaultBoolean.False;
+                                             i.SetNestedContent(() =>
+                                             {
+                                                 Html.DevExpress().Button(
+                                                     buttonSettings =>
+                                                     {
+                                                         buttonSettings.Name = "btnSaveFacebook";
+                                                         buttonSettings.ControlStyle.CssClass = "button";
+                                                         buttonSettings.Width = 80;
+                                                         buttonSettings.Text = "حفظ";
+                                                         buttonSettings.Images.Image.IconID = IconID.SaveSave32x32;
+                                                         buttonSettings.UseSubmitBehavior = true;
+                                                     }
+                                                     ).Render();
+                                                 Html.DevExpress().Button(
+                                                     buttonSettings =>
+                                                     {
+                                                         buttonSettings.Name = "btnCancelFacebook";
+                                                         buttonSettings.ControlStyle.CssClass = "button";
+                                                         buttonSettings.Width = 80;
+                                                         buttonSettings.Text = "الغاء";
+                                                         buttonSettings.Images.Image.IconID = IconID.ActionsClose32x32;
+                                                         buttonSettings.ClientSideEvents.Click = "function(s, e){ pcSaveFacebookAccount.Hide(); }";
+                                                     }
+                                                     ).Render();
+                                             });
+                                         });
+                                     }).Render();
+                                 }
+                             });
+                             settings.ClientSideEvents.CloseUp = "function(s, e){ ASPxClientEdit.ClearEditorsInContainer(null, '', true); }";
+                         }).GetHtml()
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                        <div class="panel panel-default panel-default-dds">
+                            <div class="panel-heading" role="tab" id="heading4">
+                                <h3 class="panel-title">
+                                    <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse4" aria-expanded="true" aria-controls="collapse4">
+                                        البيانات الرقمية
+                                    </a>
+                                </h3>
+                            </div>
+                            <div id="collapse4" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading4">
+
+                                <div class="row">
+                                    <div class="panel-body" style="padding-bottom: 2px;">
+
+                                        <div class="col-lg-4 col-md-4 col-xs-12 col-sm-12">
+                                            <div class="title-ds-1 col-lg-5 col-xs-12 col-sm-12 col-md-5">
+                                                <label>الرقم الجامعي</label>
+                                            </div>
+                                            <div class="title-ds-1 title-ds-1-p  col-lg-7 col-xs-12 col-sm-12 col-md-7">
+                                                <p>@Model.STUDENT_ID</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-md-4 col-xs-12 col-sm-12">
+                                            <div class="title-ds-1 col-lg-5 col-xs-12 col-sm-12 col-md-5">
+                                                <label>رقم الهوية</label>
+                                            </div>
+                                            <div class="title-ds-1 title-ds-1-p  col-lg-7 col-xs-12 col-sm-12 col-md-7">
+                                                <p>@Model.NATIONAL_ID</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-md-4 col-xs-12 col-sm-12">
+
+                                        </div>
+                                        <div class="col-lg-4 col-md-4 col-xs-12 col-sm-12">
+                                            <div class="title-ds-1 col-lg-5 col-xs-12 col-sm-12 col-md-5">
+                                                <label>رقم البصمة</label>
+                                            </div>
+                                            <div class="title-ds-1 title-ds-1-p  col-lg-7 col-xs-12 col-sm-12 col-md-7">
+                                                <p>@Model.FingerprintID </p>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-md-4 col-xs-12 col-sm-12">
+                                            <div class="title-ds-1 col-lg-5 col-xs-12 col-sm-12 col-md-5">
+                                                <label>رقم جواز السفر</label>
+                                            </div>
+                                            <div class="title-ds-1 title-ds-1-p  col-lg-7 col-xs-12 col-sm-12 col-md-7">
+                                                <p></p>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-md-4 col-xs-12 col-sm-12">
+                                            <div class="title-ds-1 col-lg-5 col-xs-12 col-sm-12 col-md-5">
+                                                <label>باركود</label>
+                                            </div>
+                                            <div class="title-ds-1 title-ds-1-p  col-lg-7 col-xs-12 col-sm-12 col-md-7">
+                                                <p></p>
+                                            </div>
+                                        </div>  
+                                        <div class="col-lg-4 col-md-4 col-xs-12 col-sm-12">
+                                            <div class="title-ds-12">
+
+                                                <label>الحساب البنكي : </label>
+
+                                                <p>@Model.ACCOUNT_NO</p>
+                                            </div>
+                                        </div>
+                                        @*
+                                                <div class="title-ds-1 col-lg-6 col-xs-12 col-sm-12 col-md-6">
+                                                    <label>رقم الحساب البنكي</label>
+                                                </div>
+                                                <div class="title-ds-1 title-ds-1-p  col-lg-6 col-xs-12 col-sm-12 col-md-6">
+                                                    <p></p>
+                                                </div>
+                                            </div>*@
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                        <div class="panel panel-default panel-default-dds">
+                            <div class="panel-heading" role="tab" id="heading3">
+                                <h3 class="panel-title">
+                                    <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse3" aria-expanded="true" aria-controls="collapse3">
+                                        رقم الطوارئ
+                                    </a>
+                                    <a href="#" title="إضافة" onclick="ShowEmergencyPC()" class="pull-left btn btn-sm btn-default" style="margin-top: -6px;">
+                                        @if (Model.RelativeID > 0)
+                                        {
+                                            <i class="fa fa-edit"></i>
+                                        }
+                                        else
+                                        {
+                                            <i class="fa fa-plus"></i>
+                                        }
+                                    </a>
+                                </h3>
+                            </div>
+                            <div id="collapse3" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading3">
+                                <div class="panel-body">
+                                    <div class="row">
+                                        <div class="col-lg-8 col-md-8 col-xs-12 col-sm-12">
+
+                                            <div class="title-ds-12">
+                                                <label>الاسم : </label> <p>@Model.RelativeName</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-md-4 col-xs-12 col-sm-12">
+
+                                            <div class="title-ds-12">
+
+                                                <label>صلة القرابة : </label>
+
+                                                <p>@Model.RelativeRelation</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-7 col-md-7 col-xs-12 col-sm-12">
+
+                                            <div class="title-ds-12">
+
+                                                <label>البريد الالكتروني : </label>
+
+                                                <p>@Model.RelativeEmail</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-5 col-md-5 col-xs-12 col-sm-12">
+
+                                            <div class="title-ds-12">
+
+                                                <label>الهاتف : </label>
+
+                                                <p>@Model.RelativePhone</p>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="panel panel-default panel-default-dds">
+                            <div class="panel-heading" role="tab" id="heading5">
+                                <h3 class="panel-title">
+                                    <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse5" aria-expanded="true" aria-controls="collapse5">
+                                        الحالة الأكاديمية
+                                    </a>
+                                </h3>
+                            </div>
+                            <div id="collapse5" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading5">
+                                <div class="panel-body">
+                                    <div class="row">
+
+                                        <div class="col-lg-3 col-md-3 col-xs-12 col-sm-12">
+                                            <div class="title-ds-12">
+                                                <label>الحالة : </label>
+
+                                                <p>@Model.STATUS_DESC</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3 col-md-3 col-xs-12 col-sm-12">
+
+                                            <div class="title-ds-12">
+
+                                                <label> تاريخ الالتحاق : </label>
+
+                                                <p>@Model.JOIN_DATE.ToString("dd/MM/yyyy")</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3 col-md-3 col-xs-12 col-sm-12">
+
+                                            <div class="title-ds-12">
+
+                                                <label>الكلية : </label>
+
+                                                <p>@Model.FACULTY_NAME</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3 col-md-3 col-xs-12 col-sm-12">
+
+                                            <div class="title-ds-12">
+
+                                                <label>التخصص : </label>
+
+                                                <p>@Model.MAJOR_NAME</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3 col-md-3 col-xs-12 col-sm-12">
+
+                                            <div class="title-ds-12">
+
+                                                <label>الدرجة العلمية : </label>
+
+                                                <p>@Model.DEGREE_DESC</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3 col-md-3 col-xs-12 col-sm-12">
+
+                                            <div class="title-ds-12">
+
+                                                <label>المستوى : </label>
+
+                                                <p>@Model.LEVEL_DESC</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3 col-md-3 col-xs-12 col-sm-12">
+
+                                            <div class="title-ds-12">
+
+                                                <label>الدراسة : </label>
+
+                                                <p>@Model.STUDY_DESC</p>
+                                            </div>
+                                        </div>
+                                        @*<div class="col-lg-3 col-md-3 col-xs-12 col-sm-12">
+
+                                            <div class="title-ds-12">
+
+                                                <label>الساعات المتبقية : </label>
+
+                                                <p>@ViewData["REMAIN_HOURS"].ToString()</p>
+                                            </div>
+                                        </div>*@
+                                        @*<div class="col-lg-3 col-md-3 col-xs-12 col-sm-12">
+
+                                            <div class="title-ds-12">
+
+                                                <label>الفصول المطلوبة : </label>
+
+                                                <p>@ViewData["MIN_SEMESTER"].ToString()</p>
+                                            </div>
+                                        </div>*@
+                                        @*<div class="col-lg-3 col-md-3 col-xs-12 col-sm-12">
+
+                                            <div class="title-ds-12">
+
+                                                <label>الفصول المجتازة : </label>
+
+                                                <p>@ViewData["PASSED_SEMESTER"].ToString()</p>
+                                            </div>
+                                        </div>*@
+                                        <div class="col-lg-3 col-md-3 col-xs-12 col-sm-12">
+
+                                            <div class="title-ds-12">
+
+                                                <label>تاريخ التخرج : </label>
+
+                                                <p>@ViewData["GRADUATE_DATE"]</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3 col-md-3 col-xs-12 col-sm-12">
+
+                                            <div class="title-ds-12">
+
+                                                <label>يستحق المكافأة : </label>
+                                                
+                                                <p>@ViewData["IS_SCHOLORSHIP"]</p>
+                                            </div>
+                                        </div>
+                                        @*<div class="col-lg-3 col-md-3 col-xs-12 col-sm-12">
+
+                                            <div class="title-ds-12">
+
+                                                <label>نوع المنحة : </label>
+
+                                                <p>@ViewData["SPONSOR_TYPE"].ToString()</p>
+                                            </div>
+                                        </div>*@
+                                        <div class="clearfix"></div>
+                                        <div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">
+                                            <div class="row text-center">
+                                                @if (ViewData["StudyHistory"] != null)
+                                                {
+                                                    var StudyHistoryList = (List<StudentProfile.Web.Controllers.studentHistory>)ViewData["StudyHistory"];
+                                                    foreach (var item in StudyHistoryList)
+                                                    {
+                                                        string clas = "bg-dd";
+                                                        if (item.Status_Code == 1) { clas = clas + " green"; }
+                                                        <div class="col-lg-3 col-lg-3-ds col-md-3 col-xs-12 col-sm-12" style="display:inline-block;float: none;">
+                                                            <div class="@clas">
+                                                                <div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">
+                                                                    <div class="title-ds-1 title-ds-1-p text-center col-lg-12 col-xs-12 col-sm-12 col-md-12">
+                                                                        <label class="title-ds-1">@item.Student_ID</label>
+                                                                        <p style="text-align:center !important;color:#fff">@item.Degree</p>
+                                                                        <label class="title-ds-1">@item.Name</label>
+                                                                        <label class="title-ds-1">تاريخ التخرج : @item.GraduateDate</label>
+                                                                        <label class="title-ds-1">@item.Status_Desc</label>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    }
+                                                }
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    @*<div class='row'>
+                            <div class='title-ds-1 col-lg-4 col-xs-12 col-sm-12 col-md-4'>
+                                <label>الجنس</label>
+                            </div>
+                            <div class='title-ds-1 title-ds-1-p  col-lg-8 col-xs-12 col-sm-12 col-md-8'>
+                                @if (Model.GENDER == 1)
+                                {
+                                    <p>بنين</p>
+                                }
+                                else
+                                {
+                                    <p>بنات</p>
+                                }
+                            </div>
+                        </div>*@
+
+                    @Html.DevExpress().PopupControl(
+                        settings =>
+                        {
+                            settings.Name = "pcSaveEmergencyRelative";
+                            settings.Width = 600;
+                            settings.AllowDragging = true;
+                            settings.CloseAction = CloseAction.CloseButton;
+                            settings.CloseOnEscape = true;
+                            settings.PopupAnimationType = AnimationType.None;
+                            settings.HeaderText = "اضافة رقم طوارئ";
+                            settings.Modal = true;
+                            settings.CallbackRouteValues = new { Controller = "Students", Action = "_StDetails", Model.RelativeID };
+                            settings.AutoUpdatePosition = true;
+                            settings.PopupHorizontalAlign = PopupHorizontalAlign.WindowCenter;
+                            settings.PopupVerticalAlign = PopupVerticalAlign.WindowCenter;
+                            settings.SetContent(() =>
+                            {
+                                Html.RenderAction("_EmergencyRelative", "Students", new { id = Model.RelativeID, StudentIDNumber = Model.NATIONAL_ID, studentID = Model.STUDENT_ID });
+
+                            });
+                            settings.ClientSideEvents.CloseUp = "function(s, e){ ASPxClientEdit.ClearEditorsInContainer(null, '', true); }";
+                        }).GetHtml()
+
+
+
+
+                </div>
+                @*if (ViewBag.ViewCustomFields != null)
+                    {
+                        if (ViewBag.ViewCustomFields == true)
+                        {
+                            <div class="row">
+                                @{ Html.RenderPartial("CustomFields"); }
+                            </div>
+                        }
+                    }*@
+            </div>
+        }
+    }
+</div>
+
+<style>
+    .title-ds-1 {
+        padding-left: 0 !important;
+    }
+
+        .title-ds-1 label {
+            padding-left: 0 !important;
+        }
+
+    .panel-default > .panel-heading {
+        color: #ffffff;
+        background-color: #d8bf76;
+        border-color: #ddd;
+        position: relative;
+    }
+
+        .panel-default > .panel-heading::after {
+            content: "";
+            opacity: 0.3;
+            background-image: url(../../assets/images/bg2.jpg);
+            background-repeat: no-repeat;
+            background-size: cover;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            position: absolute;
+            z-index: 1;
+        }
+
+    .panel-default {
+        margin-bottom: 5px !important;
+        border-color: #d8bf76;
+    }
+
+    .panel-title {
+        position: relative;
+        z-index: 2;
+    }
+
+        .panel-title::before {
+            content: "\f100";
+            font: normal normal normal 14px/1 FontAwesome;
+            position: relative;
+        }
+
+    .bg-dd {
+        background: #5DA6C6;
+        color: #ffffff;
+        border: 1px solid #5DA6C6;
+        float: right;
+        padding: 5px;
+        border-radius: 45px;
+        margin-bottom: 15px;
+        width:100%;
+        overflow: hidden;
+        position: relative;
+    }
+
+        .bg-dd::after {
+            content: "";
+            opacity: 0.2;
+            background-image: url(../../assets/images/bg2.jpg);
+            background-repeat: no-repeat;
+            background-size: cover;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            position: absolute;
+            z-index: 0;
+        }
+
+        .bg-dd .title-ds-1-p {
+            background: none;
+        }
+
+        .bg-dd .form-group {
+            z-index: 2;
+        }
+
+    .title-ds-12 label, .title-ds-12 p {
+        display: inline;
+        position: relative;
+    }
+
+    .title-ds-12 label {
+        color: #0b7797;
+        line-height: 35px;
+        padding: 0 10px;
+    }
+
+    .title-ds-12 P {
+        font-weight: bold;
+        font-size: 12px;
+        line-height: 35px;
+    }
+
+    .title-ds-1-p p {
+        font-size: 12px;
+    }
+
+    .panel-title .btn i {
+        color: #2a3f54;
+    }
+
+    .title-ds-1 label, .title-ds-12 label {
+        color: #2a3f54;
+        font-size: 11px;
+    }
+
+    .dxtcLite_MetropolisBlue {
+        font-family: "JF Flat Regular";
+    }
+    .bg-dd p, .bg-dd label {
+        color: #fff;
+        line-height: 23px;
+        z-index: 1;
+        position: relative;
+        padding: 0;
+        text-shadow: 0 1px 3px #00000080;
+        text-align: center;
+    }
+    .bg-dd.green {
+        background: #1fb794; 
+        border: 1px solid #1fb794;
+    }
+
+
+</style>

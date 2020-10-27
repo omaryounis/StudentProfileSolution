@@ -1,0 +1,502 @@
+﻿@{
+    ViewBag.Title = "اضافة المشاركات والدورات القديمة";
+    Layout = "~/Views/Shared/_DevextremeLayout.cshtml";
+}
+
+<script src="~/Scripts/AcademicActivities/AcademicActivitiesService.js"></script>
+<script src="~/Scripts/AcademicActivities/AdminActivityRequestsController.js"></script>
+@*<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>*@
+
+<style>
+    .swal-text {
+        text-align: center;
+    }
+
+    .dx-icon-search:before {
+        content: "\f027";
+        color: white;
+    }
+    /*.dx-overlay-content .dx-popup-content > .dx-template-wrapper {
+        border-style: dashed;
+    }*/
+
+    .form-avatar {
+        margin: 29px auto;
+        position: relative;
+        width: 100%;
+        float: right;
+        overflow: hidden;
+        height: 288px;
+    }
+
+        .form-avatar img {
+            width: 90%;
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            right: 5%;
+            left: 5%;
+        }
+
+    .dx-list-item-content, .dx-list .dx-empty-message {
+        padding: 15px 10px;
+    }
+
+    .listOptions-ds .dx-list-item-content {
+        font-weight: normal;
+        padding: 15px 10px 15px 10px;
+    }
+
+    .selected-item-ds {
+        border: 1px solid #ddd;
+        padding: 15px;
+    }
+
+        .selected-item-ds ul {
+            padding-right: 0;
+        }
+
+            .selected-item-ds ul li {
+                line-height: 30px;
+            }
+
+                .selected-item-ds ul li span.pull-right {
+                    color: #1e72a3;
+                    margin-left: 5px;
+                }
+
+    td.dx-command-edit {
+        text-align: center !important
+    }
+
+    .list-item-ds {
+        text-align: center;
+    }
+
+        .list-item-ds .dx-list-item {
+            width: 220px !important;
+            height: 140px;
+            border: 1px solid #ddd;
+            margin: 45px 15px;
+            display: inline-block !important
+        }
+
+            .list-item-ds .dx-list-item .dx-list-item-content {
+                display: block !important;
+                line-height: 28px;
+            }
+
+                .list-item-ds .dx-list-item .dx-list-item-content i {
+                    font-size: 32px;
+                    color: #757c7d;
+                    margin-top: 18px;
+                }
+
+            .list-item-ds .dx-list-item.dx-state-hover {
+                background: #0e70a0 !important;
+                color: #fff !important
+            }
+
+                .list-item-ds .dx-list-item.dx-state-hover .dx-list-item-content i, .list-item-ds .dx-list-item.dx-state-focused .dx-list-item-content i {
+                    color: #fff !important
+                }
+
+    .tb-title {
+        position: absolute;
+        top: 25px;
+        right: 15px;
+        z-index: 1;
+        font-size: 16px;
+        color: #0e70a0 !important;
+    }
+
+    .dx-tree-st td .dx-button-has-icon .dx-icon.dark-text {
+        color: #333 !important
+    }
+
+    /*.dx-overlay-content .dx-popup-content > .dx-template-wrapper {
+        border-style: dashed;
+    }*/
+
+    .dx-list-item-content, .dx-list .dx-empty-message {
+        padding: 15px 10px;
+    }
+
+    .listOptions-ds .dx-list-item-content {
+        font-weight: normal;
+        padding: 15px 10px 15px 10px;
+    }
+
+    .selected-item-ds {
+        border: 1px solid #ddd;
+        padding: 15px;
+    }
+
+        .selected-item-ds ul {
+            padding-right: 0;
+        }
+
+            .selected-item-ds ul li {
+                line-height: 30px;
+            }
+
+                .selected-item-ds ul li span.pull-right {
+                    color: #1e72a3;
+                    margin-left: 5px;
+                }
+
+    td.dx-command-edit {
+        text-align: center !important
+    }
+
+    .control-label {
+        line-height: 20px;
+    }
+
+    .m-b-0 {
+        margin-bottom: 0 !important
+    }
+
+    .panel.m-b-0 {
+        box-shadow: none
+    }
+
+
+    .dx-state-readonly.dx-widget .dx-texteditor-input {
+        cursor: -webkit-grab;
+        cursor: grab;
+    }
+
+    .dx-texteditor.dx-state-readonly {
+        border-color: #ddd !important;
+    }
+
+    .list-item-ds {
+        text-align: center;
+    }
+
+        .list-item-ds .dx-list-item {
+            width: 220px !important;
+            height: 140px;
+            border: 1px solid #ddd;
+            margin: 45px 15px;
+            display: inline-block !important
+        }
+
+            .list-item-ds .dx-list-item .dx-list-item-content {
+                display: block !important;
+                line-height: 28px;
+            }
+
+                .list-item-ds .dx-list-item .dx-list-item-content i {
+                    font-size: 32px;
+                    color: #757c7d;
+                    margin-top: 18px;
+                }
+
+            .list-item-ds .dx-list-item.dx-state-hover {
+                background: #0e70a0 !important;
+                color: #fff !important
+            }
+
+                .list-item-ds .dx-list-item.dx-state-hover .dx-list-item-content i, .list-item-ds .dx-list-item.dx-state-focused .dx-list-item-content i {
+                    color: #fff !important
+                }
+
+    .tb-title {
+        position: absolute;
+        top: 25px;
+        right: 15px;
+        z-index: 1;
+        font-size: 16px;
+        color: #0e70a0 !important;
+    }
+
+    .dx-tree-st td .dx-button-has-icon .dx-icon.dark-text {
+        color: #333 !important
+    }
+
+
+    .dx-popup-title.dx-toolbar .dx-toolbar-label {
+        font-size: 22px !important;
+    }
+
+    .dx-popup-title.dx-toolbar {
+        padding: 12px 20px !important;
+    }
+
+    .dx-popup-title .dx-closebutton .dx-icon {
+        color: #0e70a0 !important;
+    }
+
+    .swal-text {
+        text-align: center;
+    }
+
+    .dx-popup-title {
+        border-bottom: 1px solid #0e70a052 !important;
+        background: #ffffff !important;
+        color: #0e70a0 !important;
+    }
+</style>
+
+<div class="container-fluid container-fullw" ng-controller="AcademicActivitiesCtrl">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel bg-white">
+                <div class="breadcrumb-wrapper text-right" style="margin:0">
+                    <h4 class="no-margin"> اضافة المشاركات والدورات القديمة</h4>
+                </div>
+
+                <div class="panel-body">
+                    <div class="row">
+
+                        <div class="col-md-3">
+                            <div class="panel panel-default" dir="rtl">
+                                <div class='form-avatar'>
+                                    <img ng-src="{{ImageSrc}}" ng-init="ImageSrc='https://cdn131.picsart.com/289212614039201.png?r1024x1024'" onerror="this.src='https://cdn131.picsart.com/289212614039201.png?r1024x1024'" alt="avatar" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="panel panel-default" dir="rtl">
+                                <div class="panel-heading" style="background-color: #ffffff;border-bottom: 1px solid #ddd;text-align: center;">
+
+                                    <div dx-select-box="Menu_StudentBasicData.DL_Students"></div>
+                                    @*<div class="clearfix"></div>*@
+                                </div>
+                                <div class="panel-body">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                <div class="long-title"><h4>البيانات الشخصية</h4></div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 form-group">
+                                                    <label class="col-md-12 col-sm-12 col-xs-12  text-right control-label">الجنسية</label>
+                                                    <div class="col-md-12 col-sm-12 col-xs-12 ">
+                                                        <div dx-Text-box="Menu_StudentBasicData.TB_Nationality"></div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 form-group">
+                                                    <label class="col-md-12 col-sm-12 col-xs-12   text-right control-label">رقم الهوية</label>
+                                                    <div class="col-md-12 col-sm-12 col-xs-12 ">
+                                                        <div dx-Text-box="Menu_StudentBasicData.TB_NationalId"></div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 form-group">
+                                                    <label class="col-md-12 col-sm-12 col-xs-12   text-right control-label">الرقم الجامعي</label>
+                                                    <div class="col-md-12 col-sm-12 col-xs-12 ">
+                                                        <div dx-Text-box="Menu_StudentBasicData.TB_StudentId"></div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 form-group">
+                                                    <label class="col-md-12 col-sm-12 col-xs-12   text-right control-label">الكلية</label>
+                                                    <div class="col-md-12 col-sm-12 col-xs-12 ">
+                                                        <div dx-Text-box="Menu_StudentBasicData.TB_Facultiy"></div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 form-group">
+                                                    <label class="col-md-12 col-sm-12 col-xs-12   text-right control-label">الدرجة العلمية</label>
+                                                    <div class="col-md-12 col-sm-12 col-xs-12 ">
+                                                        <div dx-Text-box="Menu_StudentBasicData.TB_DegreeName"></div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 form-group">
+                                                    <label class="col-md-12 col-sm-12 col-xs-12   text-right control-label">المستوي</label>
+                                                    <div class="col-md-12 col-sm-12 col-xs-12 ">
+                                                        <div dx-Text-box="Menu_StudentBasicData.TB_LevelName"></div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 form-group">
+                                                    <label class="col-md-12 col-sm-12 col-xs-12   text-right control-label">نوع الدراسة</label>
+                                                    <div class="col-md-12 col-sm-12 col-xs-12 ">
+                                                        <div dx-Text-box="Menu_StudentBasicData.TB_StudyTypeName"></div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 form-group">
+                                                    <label class="col-md-12 col-sm-12 col-xs-12 p-l-0 text-right control-label">الحالة الأكاديمية</label>
+                                                    <div class="col-md-12 col-sm-12 col-xs-12 ">
+                                                        <div dx-Text-box="Menu_StudentBasicData.TB_StatusName"></div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 form-group">
+                                                    <label class="col-md-12 col-sm-12 col-xs-12   text-right control-label">المعدل التراكمي</label>
+                                                    <div class="col-md-12 col-sm-12 col-xs-12 ">
+                                                        <div dx-Text-box="Menu_StudentBasicData.TB_StudentAverageDegree"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+
+                            <div class="clearfix"></div>
+                            <div class="row">
+                                <div class="form-group text-left col-lg-8 col-md-8 col-sm-12 col-xs-12 pull-left">
+                                    <div dx-button="Activity.btnSearchOptions"></div>
+                                  @*  <div dx-button="Activity.btnPrintOptions"></div>*@
+                                    <div dx-button="Activity.btnAddActivityOptions"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        @* الشاشة الخاصة بإضافة مشاركة للطالب *@
+        <div dx-popup="Activity.AddActivityPopupOptions">
+            <div data-options="dxTemplate: { name : 'AddActivityContent' }">
+
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-6" style="border-left:1px solid #ddd">
+
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                                    <label class="col-md-12 col-sm-12 col-xs-12 text-right control-label">إسم المشاركة</label>
+                                    <div class="col-md-12 col-sm-12 col-xs-12 ">
+                                        <div dx-text-box="Activity.TB_ActivityName" dx-validator="Activity.VR_Required"></div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                                    <label class="col-md-12 col-sm-12 col-xs-12 text-right control-label">مكان المشاركة</label>
+                                    <div class="col-md-12 col-sm-12 col-xs-12 ">
+                                        <div dx-text-box="Activity.TB_ActivityLocation" dx-validator="Activity.VR_Required"></div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                                    <div class="row">
+
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                            <label class="col-md-12 col-sm-12 col-xs-12 text-right control-label">التقييم</label>
+                                            <div class="col-md-12 col-sm-12 col-xs-12 ">
+                                                <div dx-text-box="Activity.TB_ActivityDegree" dx-validator="Activity.VR_Required"></div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                            <label class="col-md-12 col-sm-12 col-xs-12  text-right control-label">النسبة</label>
+                                            <div class="col-md-12 col-sm-12 col-xs-12 ">
+                                                <div dx-number-box="Activity.NB_ActivityRatio" dx-validator="Activity.VR_Required"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                                    <label class="col-md-12 col-sm-12 col-xs-12 text-right control-label">عدد الساعات</label>
+                                    <div class="col-md-12 col-sm-12 col-xs-12 ">
+                                        <div dx-number-box="Activity.NB_ActivityDuration" dx-validator="Activity.VR_Required"></div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                                    <label class="col-md-12 col-sm-12 col-xs-12 text-right control-label">نوع المشاركة</label>
+                                    <div class="col-md-12 col-sm-12 col-xs-12">
+                                        <div dx-text-box="Activity.TB_ActivityType" dx-validator="Activity.VR_Required"></div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col-md-6">
+
+
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                                    <label class="col-md-12 col-sm-12 col-xs-12 text-right control-label">تاريخ بداية المشاركة</label>
+                                    <div class="col-md-12 col-sm-12 col-xs-12">
+                                        <div style="width:100%" dx-date-box="Activity.DB_ActivityStartDate" dx-validator="Activity.VR_Required"></div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                                    <label class="col-md-12 col-sm-12 col-xs-12 text-right control-label">تاريخ نهاية المشاركة</label>
+                                    <div class="col-md-12 col-sm-12 col-xs-12">
+                                        <div style="width:100%" dx-date-box="Activity.DB_ActivityEndDate" dx-validator="Activity.VR_Required"></div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group text-right">
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                        <div dx-button="Activity.btnSaveOptions"></div>
+                                        <div dx-button="btnUploadOptions"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        @* الشاشة الخاصة ببحث مشاركة للطالب *@
+        <div dx-popup="Activity.SearchActivityPopupOptions">
+            <div data-options="dxTemplate: { name : 'SearchActivityContent' }">
+                <div class="panel bg-white">
+
+                    <div class="panel panel-default" dir="rtl">
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-lg-12 col-sm-12 col-xs-12">
+                                    @*  <div class="tb-title">بيانات المشاركات</div>*@
+
+                                    <div class="dx-tree-st dx-tree-st22" dx-data-grid="ActivitiesGrid"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+        @* الجزء الخاص برفع المرفقات *@
+        <div dx-popup="Activity.UploadFilePopupOptions">
+            <div data-options="dxTemplate: { name : 'UploadFileContent' }">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div dx-file-uploader="FileUploadingOptions">
+                            <span class="note">Allowed file extensions: <span>.Pdf</span>.</span>
+                        </div>
+                        <div>
+                            <div class="text-right" ng-if="MDL_UploadingFilesvalue.length > 0">
+                                <h4>الملفات المختارة</h4>
+                            </div>
+                            <div ng-repeat="val in MDL_UploadingFilesvalue">
+                                <div class="selected-item selected-item-ds text-right">
+                                    <ul class="list-unstyled" dir="rtl">
+                                        <li><span class="pull-right"> اسم الملف:</span> <span>{{val.name}}</span></li>
+                                        <li><span class="pull-right">حجم الملف:</span> <span>{{val.size}}</span> bytes</li>
+                                        <li><span class="pull-right">نوع الملف:</span>  <span>{{val.type}}</span></li>
+                                    </ul>
+                                    <a class="btn btn-danger" href="" ng-click="RemoveUploadingFile(val.$$hashKey)">
+                                        حذف الملف <i class="fa fa-trash-o"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

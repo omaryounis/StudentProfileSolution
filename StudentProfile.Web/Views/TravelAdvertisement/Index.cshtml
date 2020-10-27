@@ -1,0 +1,241 @@
+﻿
+@{
+    /**/
+
+    ViewBag.Title = "اعلانات السفر";
+    Layout = "~/Views/Shared/_DevextremeLayout.cshtml";
+}
+
+
+<script src="~/Scripts/Musafer/MusaferService.js"></script>
+<script src="~/Scripts/TravelAdvertisement/TravelAdvertisementService.js"></script>
+<script src="~/Scripts/TravelAdvertisement/TravelAdvertisementController.js"></script>
+<div class="container-fluid container-fullw">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel bg-white">
+                <div class="breadcrumb-wrapper text-right">
+                    <h4 class="no-margin">اعلانات السفر </h4>
+                </div>
+                <div class="panel-body">
+                    <div id="TravelAdvertisementContent" ng-controller="TravelAdvertisementCtrl">
+                        <form id="form" class="row" ng-submit="SaveTravelAd($event)">
+
+                            <div class="">
+                                <div class="b-adv-c right-ds">
+                                    <div class="col-md-6 col-sm-6 col-xs-6 form-group">
+                                        <label class="col-lg-12 col-sm-12 col-xs-12 control-label">اسم الاعلان</label>
+                                        <div class="col-lg-12 col-sm-12 col-xs-12 ">
+                                            <div class="required-ds" id="txtAdName" dx-text-box="txtAdName"
+                                                 dx-validator="validationRequired"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 form-group">
+                                        <label class="col-lg-12 col-sm-12 col-xs-12 control-label">طريقة الحجز</label>
+                                        <div class="col-lg-12 col-sm-12 col-xs-12 ">
+                                            <span id="radioTravelWay" dx-radio-group="radioTravelWay" dx-validator="validationRequired"></span>
+                                        </div>
+                                    </div>
+
+                                    <div class="clearfix"></div>
+
+                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 form-group">
+                                        <label class="col-lg-12 col-sm-12 col-xs-12 control-label">درجة السفر</label>
+                                        <div class="col-lg-12 col-sm-12 col-xs-12 dx-btn-group">
+                                            <div id="Levels" dx-select-box="LevelSelectBox"
+                                                 dx-validator="validationRequired"></div>
+                                            <div id="btnLevel" class="btn btn-primary" dx-button="btnLevel"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 form-group">
+                                        <label class="col-lg-12 col-sm-12 col-xs-12 control-label">غرض السفر</label>
+                                        <div class="col-lg-12 col-sm-12 col-xs-12 dx-btn-group">
+                                            <div id="Purpose" dx-select-box="PurposeSelectBox"
+                                                 dx-validator="validationRequired"></div>
+                                            <div id="btnPurpose" class="btn btn-primary" dx-button="btnPurpose">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 form-group">
+                                        <label class="col-lg-12 col-sm-12 col-xs-12 control-label">
+                                            الجنسيات
+                                        </label>
+                                        <div class="col-lg-12 col-sm-12 col-xs-12 dd-ds">
+                                            <div class="form-control" id="Nationalities" dx-tag-box="NationalityMultiTag"
+                                                 dx-validator="validationRequired">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 form-group">
+                                        <label class="col-lg-12 col-sm-12 col-xs-12 control-label">
+                                            الدرجات العلمية
+                                        </label>
+                                        <div class="col-lg-12 col-sm-12 col-xs-12 dd-ds">
+                                            <div class="form-control" id="Degrees" dx-tag-box="DegreeMultiTag"
+                                                 dx-validator="validationRequired">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 form-group">
+                                        <label class="col-lg-12 col-sm-12 col-xs-12 control-label">
+                                            حالات الطلاب
+                                        </label>
+                                        <div class="col-lg-12 col-sm-12 col-xs-12 dd-ds">
+                                            <div class="form-control" id="StStatus" dx-tag-box="StStatusMultiTag"
+                                                 dx-validator="validationRequired">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 form-group">
+                                        <label class="col-lg-12 col-sm-12 col-xs-12 control-label">
+                                            انواع المنح
+                                        </label>
+                                        <div class="col-lg-12 col-sm-12 col-xs-12 dd-ds">
+                                            <div class="form-control" id="ScholarshipTypes" dx-tag-box="ScholarshipTypeMultiTag"
+                                                 dx-validator="validationRequired">
+                                            </div>
+                                        </div>
+                                        <div style="display:none !important" class="col-lg-3 col-sm-3 col-xs-3">
+                                            <div id="btnScholarship" class="btn btn-primary" dx-button="btnScholarship"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                                        <label class="col-lg-12 col-sm-12 col-xs-12 control-label">مكتب الوكيل</label>
+                                        <div class="col-lg-12 col-sm-12 col-xs-12 dx-btn-group ">
+                                            <div id="Agent" dx-select-box="AgentSelectBox"
+                                                 dx-validator="validationRequired"></div>
+                                            <div id="btnAgent" class="btn btn-primary" dx-button="btnAgent"></div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="b-adv-c">
+                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 form-group">
+                                        <label class="col-lg-12 col-sm-12 col-xs-12 control-label">بداية الاعلان</label>
+                                        <div class="col-lg-12 col-sm-12 col-xs-12 ">
+                                            <div dx-date-box="AdDateFrom" style="width:100%" dx-validator="validationRequired"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 form-group">
+                                        <label class="col-lg-12 col-sm-12 col-xs-12 control-label">نهاية الاعلان</label>
+                                        <div class="col-lg-12 col-sm-12 col-xs-12 ">
+                                            <div dx-date-box="AdDateTo" style="width:100%" dx-validator="validationRequired"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 form-group">
+                                        <label class="col-lg-12 col-sm-12 col-xs-12 control-label">بداية السفر</label>
+                                        <div class="col-lg-12 col-sm-12 col-xs-12 ">
+                                            <div dx-date-box="DepartingStartFrom" style="width:100%" dx-validator="validationRequired"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 form-group">
+                                        <label class="col-lg-12 col-sm-12 col-xs-12 control-label">نهاية السفر</label>
+                                        <div class="col-lg-12 col-sm-12 col-xs-12 ">
+                                            <div dx-date-box="DepartingStartTo" style="width:100%" dx-validator="validationRequired"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 form-group" ng-if="TravelWay == 'R'">
+                                        <label class="col-lg-12 col-sm-12 col-xs-12 control-label">بداية العودة</label>
+                                        <div class="col-lg-12 col-sm-12 col-xs-12 ">
+                                            <div dx-date-box="DepartingEndFrom" style="width:100%"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 form-group" ng-if="TravelWay == 'R'">
+                                        <label class="col-lg-12 col-sm-12 col-xs-12 control-label">نهاية العودة</label>
+                                        <div class="col-lg-12 col-sm-12 col-xs-12 ">
+                                            <div dx-date-box="DepartingEndTo" style="width:100%"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 form-group">
+                                        <label class="col-lg-12 col-sm-12 col-xs-12 control-label">السماح للمتوقع تخرجهم بإضافة رغبه</label>
+                                        <div class="col-lg-12 col-sm-12 col-xs-12 ">
+                                            <div dx-check-box="IsAppearToExpectedGradutedPeople"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 form-group">
+                                        <label class="col-lg-12 col-sm-12 col-xs-12 control-label">الحقول الرئيسية</label>
+                                        <div class="col-lg-12 col-sm-12 col-xs-12 dx-btn-group">
+                                            <div dx-tag-box="MajorCustomFieldSelectBox"></div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                                        <label class="col-lg-12 col-sm-12 col-xs-12 control-label">الحقول المخصصه الفرعية</label>
+                                        <div class="col-lg-12 col-sm-12 col-xs-12 dx-btn-group">
+                                            <div dx-tag-box="CustomFieldSelectBox"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                                        <label class="col-lg-12 col-sm-12 col-xs-12 control-label">ملاحظات</label>
+                                        <div class="col-lg-12 col-sm-12 col-xs-12 ">
+                                            <div class="required-ds" id="txtNots" dx-text-area="txtNots"></div>
+                                        </div>
+                                    </div>
+                                    @if (ViewBag.Create != null)
+                                    {
+                                        if (ViewBag.Create)
+                                        {
+                                            <div class="col-lg-12 col-md-6 col-sm-6 col-xs-6 form-group">
+                                                <label class="col-lg-12 col-sm-12 col-xs-12 control-label">
+
+                                                    <br />
+
+                                                </label>
+                                                <div class="col-lg-12 col-sm-12 col-xs-12 ">
+                                                    <div id="btnSave" class="btn btn-success" dx-button="btnSave"></div>
+                                                </div>
+                                            </div>
+                                        }
+                                    }
+
+                                </div>
+                            </div>
+
+                        </form>
+
+                        <!--popupConfig-->
+                        <!-- Modal -->
+                        <div id="popupConfig" dx-popup="popupConfig">
+                            <div data-options="dxTemplate: { name : 'information' }">
+                                <div dx-scroll-view style="height: 100%">
+                                    <div dir="rtl">
+                                        <h4 id="myModalLabel">اضافة</h4>
+                                    </div>
+                                    <div dir="rtl">
+                                        <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 form-group">
+                                            <label class="col-lg-3 col-sm-3 col-xs-3 control-label">الاسم</label>
+                                            <div class="col-lg-9 col-sm-9 col-xs-9 ">
+                                                <div class="required-ds" dx-text-box="txtConfig"></div>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 form-group">
+                                            <div id="btnSaveConfig" class="btn btn-success" dx-button="btnSaveConfig"></div>
+                                        </div>
+
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 dx-tree-st">
+                                            <div id="gridTravelConfig" dx-data-grid="gridTravelConfig"></div>
+                                        </div>
+
+                                        <div class="clearfix"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    .control-label {
+        text-align: right
+    }
+
+    .dx-button.btn-primary i {
+        color: #333 !important;
+    }
+</style>

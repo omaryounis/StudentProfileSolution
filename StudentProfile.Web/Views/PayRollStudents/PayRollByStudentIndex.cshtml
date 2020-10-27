@@ -1,0 +1,121 @@
+﻿@using System.Drawing
+@using System.Web.UI.WebControls
+@{
+    ViewBag.Title = "تقرير مسير الطالب";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    table.dxeRoot_MetropolisBlue {
+        width: 100%;
+    }
+</style>
+
+<script>
+    function PayRollByStudentDocumentViewerBeforeExportRequest(s, e) {
+        e.customArgs["StudentsComboBox"] = StudentsComboBox.GetValue();
+        e.customArgs["PayrollComboBox"] = StudentsComboBox.GetValue();
+
+    }
+
+    function GetStudentsComboBoxValue(s, e) {
+        debugger;
+        e.customArgs["Text"] = s.prevInputValue;
+    }
+
+    function getStudentPayrollByNationalID(s, e) {
+                $.ajax({
+            type: 'GET',
+            url: '@Url.Action("GetStudentPayrollByNationalID", "PayRollStudents")',
+            datatype: 'application/json"',
+            data: { NationalID: StudentsComboBox.GetValue()},
+            success: function (data) {
+                PayrollComboBox.ClearItems();
+
+                $(data).each(function (indx, obj) {
+                    PayrollComboBox.AddItem(obj.Text, obj.Value);
+                });
+            }
+        });
+    }
+
+    function removesignatureValue() {
+        $('nobr').remove(":contains('-')");
+    }
+</script>
+
+<div class="container-fluid container-fullw">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel bg-white">
+                <div class="breadcrumb-wrapper text-right">
+                    <h4 class="no-margin">تقرير مجمع بمسير الطالب</h4>
+                </div>
+                <div class="panel-body">
+                    @using (Ajax.BeginForm("PayRollByStudentReport", new AjaxOptions
+                    {
+                        UpdateTargetId = "PayRollByStudentReportDesigner",
+                        OnComplete = "removesignatureValue()"
+                    }))
+                    {
+                        <div class="clearfix"></div>
+
+                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 form-group">
+                            <label>اسم الطالب - الرقم الجامعي - رقم الهوية</label>
+                            @Html.Partial("_StudentsComboBoxPartial")
+                        </div>
+                        @*<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 form-group">
+                            <label>المسير</label>
+
+                            @Html.DevExpress().ComboBox(settings => {
+                            settings.Name = "PayrollComboBox";
+                            settings.Width = Unit.Percentage(100);
+                            settings.SelectedIndex = -1;
+                            settings.ClientEnabled = true;
+                            settings.Properties.EnableClientSideAPI = true;
+                            settings.Properties.ValueType = typeof(string);
+                            settings.Properties.ValidationSettings.ErrorTextPosition = ErrorTextPosition.Bottom;
+                        }).GetHtml()
+                        </div>*@
+
+                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 text-right form-group">
+                            <label class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-right"><br /></label>
+                            @Html.DevExpress().Button(settings =>
+                            {
+                            settings.Name = "btnView";
+                            settings.ControlStyle.CssClass = "btn btn-success";
+                            settings.Text = "عرض";
+                            settings.UseSubmitBehavior = true;
+                            }).GetHtml()
+                        </div>
+
+
+                        <div class="row">
+                            <br />
+                            <br />
+                            <br />
+                            <div id="PayRollByStudentReportDesigner">
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        .dxbButton_MetropolisBlue.btn-success {
+            background-color: #26B99A !important;
+            border: 1px solid #169F85 !important;
+            color: #fff !important
+        }
+
+        .dxbButton_MetropolisBlue {
+            padding: 5px !important;
+            font-family: "JF Flat Regular" !important;
+        }
+    </style>
+
+
+
+

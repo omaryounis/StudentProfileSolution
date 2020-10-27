@@ -1,0 +1,625 @@
+﻿@using System.Web.UI.WebControls
+@using System.Drawing
+@using StudentProfile.Web.Controllers;
+@using System.Web.UI.WebControls
+@model StudentProfile.DAL.Models.INTEGRATION_All_Students
+@{
+    Html.EnableClientValidation(true);
+    Html.EnableUnobtrusiveJavaScript(true);
+}
+
+
+@{ ViewBag.Title = "تقرير المقيمين"; }
+
+<style>
+    .ActionsSearch_button {
+        margin-top: 25px;
+        height: 38px;
+        width: 85px !important;
+        background: #309ad4;
+        color: #fff;
+        border: 0;
+        font-weight: bold;
+    }
+
+    .dxGridView_gvHeaderSortUp_MetropolisBlue.dx-vam {
+        margin-left: 0;
+        margin-right: 10px;
+        filter: brightness(90);
+    }
+    /*.dxpc-contentWrapper{
+        height:700px;
+    }*/
+    .dxgvCustDialogDragArea_MetropolisBlue {
+        height: 600px;
+        overflow-y: auto;
+    }
+</style>
+
+<script>
+    var selectedRows = [];
+
+    function AvailableTerminatedGridViewBeginCallback(s, e) {
+
+        debugger;
+        var selectedType = $('#type').val();
+        e.customArgs['Nationality'] = Nationality.GetText();
+        e.customArgs['type'] = selectedType;
+        e.customArgs['degree'] = degree.GetValue();
+        e.customArgs['restDays'] = restDays.GetValue();
+        e.customArgs['level'] = level.GetValue();
+        e.customArgs['StatusType'] = StatusType.GetValue();
+        e.customArgs['InKsa'] = InKsa.GetValue();
+        e.customArgs['IsNew'] = IsNew.GetValue();
+    }
+    function SelectionChanged(s, e) {
+        debugger;
+        s.GetSelectedFieldValues('Student_ID;IDNumber;Name;MOBILE_PHONE', SelectionCallback);
+    }
+    function checkStatus(s, e) {
+         
+        if (type.GetValue() == "1") {
+            debugger;
+            StatusType.SetValue(null);
+            StatusType.SetEnabled(false);
+            degree.SetValue(null);
+            degree.SetEnabled(false);
+            level.SetValue(null);
+            level.SetEnabled(false);
+        }
+
+        
+        else {
+            StatusType.SetEnabled(true);
+            degree.SetEnabled(true);
+            level.SetEnabled(true);
+        }
+
+    }
+    function SelectionCallback(values) {
+        selectedRows = [];
+        for (var i = 0; i < values.length; i++) {
+            var student = { Id: values[i][0], IdNumber: values[i][1], Name: values[i][2], Phone: values[i][3] }
+            selectedRows.push(student);
+        }
+
+    }
+
+    function SendSMS(s, e) {
+        debugger;
+        var type = "";
+
+        if (selectedRows.length > 0) {
+            $.ajax({
+                type: 'GET',
+                url: "/Home/smsPopUp/",
+                data: {
+                    type: type
+                },
+                success: function (data) {
+                    swal({
+                        width: 850,
+                        title: "هل تريد إرسال رسالة نصية؟",
+                        html: data,
+                        type: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: "#3085d6",
+                        cancelButtonColor: "#d33",
+                        confirmButtonClass: "btn btn-success",
+                        cancelButtonClass: "btn btn-danger",
+                        buttonsStyling: false,
+                        reverseButtons: true,
+                        confirmButtonText: "رسالة نصية",
+                        cancelButtonText: "إلغاء",
+                        preConfirm: () => {
+                            debugger;
+                            var msg = document.getElementsByName("MessageBody")[0].value;
+                            var list = JSON.stringify(selectedRows);
+                            $.ajax(
+                                {
+                                    type: "post",
+                                    url: "/Home/send_Message",
+                                    data: { message: msg, students: selectedRows },
+                                    success: function (data) {
+                                        debugger;
+                                        if (data == "True") {
+                                            swal("تأكيد", "تم إرسال الرسالة بنجاح", "success")
+                                        } else {
+                                            swal("تأكيد", "حدث خطأ أثناء الإرسال", "error");
+                                        }
+                                    },
+                                    error: function (data) {
+                                        swal("تأكيد", "حدث خطأ أثناء الإرسال", "error");
+                                    }
+
+                                }
+                            )
+
+                        }
+                    })
+                }
+            });
+            debugger;
+
+        } else {
+            swal({
+                title: "تذكير",
+                text: "من فضلك اختر طلاب أولا",
+                type: "warning",
+                showCancelButton: true,
+                showConfirmButton: false,
+                //confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                //confirmButtonClass: "btn btn-success",
+                cancelButtonClass: "btn btn-danger",
+                buttonsStyling: false,
+                //reverseButtons: true,
+                //confirmButtonText: "رسالة نصية",
+                cancelButtonText: "إغلاق"
+            });
+        }
+
+    }
+
+    //function StudentData(s, e) {
+    //    if (StudentId.GetValue() > 0) {
+    //        window.open('/Students/Index/' + StudentId.GetValue(), '_blank');
+    //    }
+    //}
+   
+    function AllocateType(s, e) {
+        debugger;
+        var type = s.GetActiveTab().name;
+        $('#type').val(type);
+        Nationality.SetValue(null);
+        degree.SetValue(null);
+        restDays.SetValue(null);
+        level.SetValue(null);
+        StatusType.SetValue(null);
+        if (type == 4 || type == 5 || type == 6 || type == 0) {
+            InKsa.SetVisible(false);
+            IsNew.SetVisible(false);
+        }
+        else if (type == 8) {
+            InKsa.SetVisible(true);
+            IsNew.SetEnabled(false);
+            level.SetEnabled(false);
+            StatusType.SetEnabled(false);
+            restDays.SetEnabled(false);
+            degree.SetEnabled(false);
+        }
+        else {
+            InKsa.SetVisible(true);
+            IsNew.SetVisible(true);
+        }
+        $('#AvailableTerminatedGridViewPartial').html('');
+    }
+</script>
+
+<script type="text/javascript">
+    //AdvancedSearchGridView Column Chooser Scripts
+    function onShowChooserClick(s, e) {
+        
+        debugger;
+        UpdateCustomizationWindowVisibility();
+    }
+
+    function grid_CustomizationWindowCloseUp(s, e) { UpdateButtonText(); }
+
+    function UpdateCustomizationWindowVisibility() {
+        debugger;
+
+        if (AvailableTerminatedGridView.IsCustomizationWindowVisible()) {
+            AvailableTerminatedGridView.HideCustomizationWindow();
+        } else {
+            AvailableTerminatedGridView.ShowCustomizationWindow();
+        }
+        UpdateButtonText();
+    }
+
+    function UpdateButtonText() {
+        debugger;
+        var text = AvailableTerminatedGridView.IsCustomizationWindowVisible() ? "اخفاء" : "اظهار";
+        text += " اختيار الاعمدة";
+        btShowColumnChooser.SetText(text);
+    }
+    var textSeparator = ";";
+
+    function OnListBoxSelectionChanged(listBox, args) {
+        if (args.index === -1) {
+            args.isSelected ? listBox.SelectAll() : listBox.UnselectAll();
+        }
+        UpdateSelectAllItemState();
+        UpdateText();
+    }
+    function fieldType_OnListBoxSelectionChanged(listBox, args) {
+        if (args.index === -1) {
+            args.isSelected ? listBox.SelectAll() : listBox.UnselectAll();
+        }
+        fieldType_UpdateSelectAllItemState();
+        fieldType_UpdateText();
+    }
+    function fieldType_UpdateSelectAllItemState() {
+        IsAllSelected()
+            ? StatusType.SelectIndices([-1])
+            : StatusType.UnselectIndices([-1]);
+    }
+    function UpdateSelectAllItemState() {
+        IsAllSelected()
+            ? StatusType.SelectIndices([-1])
+            : StatusType.UnselectIndices([-1]);
+    }
+
+    function IsAllSelected() {
+        for (var i = 1; i < StatusType.GetItemCount() ; i++)
+            if (!StatusType.GetItem(i).selected) {
+                return false;
+            }
+        return true;
+    }
+    function fieldType_UpdateText() {
+        var selectedItems = fieldType.GetSelectedItems();
+        fieldTypeComboBox.SetText(GetSelectedItemsText(selectedItems));
+    }
+
+    function UpdateText() {
+        var selectedItems = StatusType.GetSelectedItems();
+        StatusTypeComboBox.SetText(GetSelectedItemsText(selectedItems));
+    }
+    function SynchronizefieldTypeValues(dropDown, args) {
+        fieldType.UnselectAll();
+        var texts = dropDown.GetText().split(textSeparator);
+        var values = fieldType_GetValuesByTexts(texts);
+        fieldType.SelectValues(values);
+        fieldType_UpdateSelectAllItemState();
+        UpdateText(); // for remove non-existing texts
+    }
+    function SynchronizeListBoxValues(dropDown, args) {
+        StatusType.UnselectAll();
+        var texts = dropDown.GetText().split(textSeparator);
+        var values = GetValuesByTexts(texts);
+        StatusType.SelectValues(values);
+        UpdateSelectAllItemState();
+        UpdateText(); // for remove non-existing texts
+    }
+
+    function GetSelectedItemsText(items) {
+        var texts = [];
+        for (var i = 0; i < items.length; i++)
+            if (items[i].index !== -1)
+                texts.push(items[i].text);
+        return texts.join(textSeparator);
+    }
+    function fieldType_GetValuesByTexts(texts) {
+        var actualValues = [];
+        var item;
+        for (var i = 0; i < texts.length; i++) {
+            item = fieldType.FindItemByText(texts[i]);
+            if (item != null)
+                actualValues.push(item.value);
+        }
+        return actualValues;
+    }
+    function GetValuesByTexts(texts) {
+        var actualValues = [];
+        var item;
+        for (var i = 0; i < texts.length; i++) {
+            item = StatusType.FindItemByText(texts[i]);
+            if (item != null)
+                actualValues.push(item.value);
+        }
+        return actualValues;
+    }
+</script>
+
+<div class="container-fluid container-fullw">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel bg-white">
+                <div class="breadcrumb-wrapper text-right">
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        @Html.DevExpress().PageControl(
+    settings =>
+    {
+        settings.Name = "pcResidents";
+        settings.Width = Unit.Percentage(100);
+        settings.ControlStyle.CssClass = "PageControl";
+        settings.ActivateTabPageAction = ActivateTabPageAction.Click;
+        settings.TabAlign = TabAlign.Center;
+        settings.EnableTabScrolling = true;
+        settings.TabPosition = TabPosition.Top;
+        settings.Width = Unit.Percentage(100);
+        //settings.ControlStyle.CssClass = "dxtcFixed";
+        settings.TabPages.Add(p =>
+        {
+            p.Name = "0";
+            p.Text = "خروج نهائي ";
+        });
+        //settings.TabPages.Add(p =>
+        //{
+        //    p.Name = "1";
+        //    p.Text = "إقامة صالحة و غير موجودين";
+        //});
+        settings.TabPages.Add(p =>
+        {
+            p.Name = "2";
+            p.Text = "خروج وعودة ";
+        });
+        settings.TabPages.Add(p =>
+        {
+            p.Name = "8";
+            p.Text = "الهاربين";
+        });
+        //settings.TabPages.Add(p =>
+        //{
+        //    p.Name = "3";
+        //    p.Text = "منتظمين بدون إقامة صالحة";
+        //});
+        settings.TabPages.Add(p =>
+        {
+            p.Name = "4";
+            p.Text = "إقامة قاربت على الانتهاء";
+        });
+        settings.TabPages.Add(p =>
+        {
+            p.Name = "5";
+            p.Text = "جوازات سفر قاربت على الانتهاء";
+        });
+        settings.TabPages.Add(p =>
+        {
+            p.Name = "6";
+            p.Text = "المخالفات المرورية";
+        });
+        //settings.TabPages.Add(p =>
+        //{
+        //    p.Name = "7";
+        //    p.Text = "خروج وعودة - داخل المملكة";
+        //});
+
+        //settings.TabPages.Add(p =>
+        //{
+        //    p.Name = "9";
+        //    p.Text = "المستجدين";
+        //});
+        //settings.TabPages.Add(p =>
+        //{
+        //    p.Name = "10";
+        //    p.Text = "أرقام هوية غير صالحة";
+        //});
+        //settings.TabPages.Add(p =>
+        //{
+        //    p.Name = "10";
+        //    p.Text = "على كفالة الجامعة";
+        //});
+        settings.ClientSideEvents.ActiveTabChanged = "AllocateType";
+    }).GetHtml()
+                        @using (Ajax.BeginForm("_AvailableTerminated", new AjaxOptions { UpdateTargetId = "AvailableTerminatedGridViewPartial" }))
+                        {
+                            @Html.DevExpress().FormLayout(settings =>
+                       {
+                           settings.Name = "AvailableTerminatedFormLayout";
+                           settings.SettingsItems.ShowCaption = DefaultBoolean.True;
+                           settings.SettingsItemCaptions.Location = LayoutItemCaptionLocation.Top;
+
+                           settings.AlignItemCaptionsInAllGroups = true;
+                           settings.SettingsAdaptivity.AdaptivityMode = FormLayoutAdaptivityMode.SingleColumnWindowLimit;
+                           settings.SettingsAdaptivity.SwitchToSingleColumnAtWindowInnerWidth = 500;
+                           settings.Width = Unit.Percentage(100);
+                           settings.UseDefaultPaddings = false;
+                           settings.EncodeHtml = false;
+                           settings.UseDefaultPaddings = false;
+                           settings.Styles.LayoutGroupBox.Caption.CssClass = "layoutGroupBoxCaption";
+                           settings.RightToLeft = DefaultBoolean.True;
+                           settings.ColCount = 1;
+
+
+                           var groupItem = settings.Items.AddGroupItem(i =>
+                           {
+                               i.Caption = "بحث متقدم";
+                               i.ColCount = 8;
+                               i.GroupBoxStyle.Caption.Font.Bold = true;
+                               i.GroupBoxStyle.Caption.Font.Size = 16;
+                               i.VerticalAlign = FormLayoutVerticalAlign.Top;
+                               i.SettingsItemHelpTexts.Position = HelpTextPosition.Bottom;
+                               i.GroupBoxDecoration = GroupBoxDecoration.None;
+                           });
+
+                           groupItem.Items.Add(i =>
+                           {
+                               i.Caption = "";
+                               i.Width = Unit.Percentage(10);
+                               i.NestedExtension().ComboBox(s =>
+                               {
+                                   s.Properties.NullText = "الجنسية";
+                                   s.Name = "Nationality";
+                                   s.Properties.DropDownStyle = DropDownStyle.DropDownList;
+                                   s.Properties.IncrementalFilteringMode = IncrementalFilteringMode.StartsWith;
+                                   s.Properties.DataSource = ViewBag.Nationalities;
+                                   s.Properties.ValueField = "Value";
+                                   s.Properties.TextField = "Text";
+                                   s.Properties.ClearButton.DisplayMode = ClearButtonDisplayMode.OnHover;
+                                   s.ShowModelErrors = false;
+                               });
+                           });
+                           groupItem.Items.Add(i =>
+                           {
+                               i.Caption = "";
+                               i.Width = Unit.Percentage(10);
+                               //i.Width = Unit.Percentage(12.2);
+                               i.NestedExtension().ComboBox(s =>
+                               {
+                                   s.Properties.NullText = "الدرجة العلمية";
+                                   s.Name = "degree";
+                                   s.Properties.DropDownStyle = DropDownStyle.DropDownList;
+                                   s.Properties.IncrementalFilteringMode = IncrementalFilteringMode.StartsWith;
+                                   s.Properties.DataSource = ReportsController.GetDegres();
+                                   s.Properties.ValueField = "Value";
+                                   s.Properties.TextField = "Text";
+                                   s.Properties.ClearButton.DisplayMode = ClearButtonDisplayMode.OnHover;
+                               });
+                           });
+                           groupItem.Items.Add(i =>
+                           {
+                               i.Caption = "";
+                               i.Width = Unit.Percentage(10);
+                               //i.Width = Unit.Percentage(12.2);
+                               i.NestedExtension().ComboBox(s =>
+                               {
+                                   s.Properties.NullText = "الحالة الاكاديمية";
+                                   s.Name = "StatusType";
+                                   s.Properties.DropDownStyle = DropDownStyle.DropDownList;
+                                   s.Properties.IncrementalFilteringMode = IncrementalFilteringMode.StartsWith;
+                                   s.Properties.DataSource = ReportsController.GetStatus();
+                                   s.Properties.ValueField = "Value";
+                                   s.Properties.TextField = "Text";
+                                   s.Properties.ClearButton.DisplayMode = ClearButtonDisplayMode.OnHover;
+
+
+                               });
+                           });
+
+                           groupItem.Items.Add(i =>
+                           {
+                               i.Caption = "  ";
+                               i.Width = Unit.Percentage(12);
+                               //i.Width = Unit.Percentage(12.2);
+                               i.NestedExtension().SpinEdit(s =>
+                               {
+                                   s.Properties.NullText = "الأيام المتبقية أقل من يساوي";
+                                   s.Name = "restDays";
+                                   s.Properties.ClearButton.DisplayMode = ClearButtonDisplayMode.OnHover;
+                               });
+                           });
+                           groupItem.Items.Add(i =>
+                           {
+                               i.Caption = "";
+                               i.Width = Unit.Percentage(10);
+                               //i.Width = Unit.Percentage(12.2);
+                               i.NestedExtension().ComboBox(s =>
+                               {
+                                   s.Properties.NullText = "المستوى";
+                                   s.Name = "level";
+                                   s.Properties.DropDownStyle = DropDownStyle.DropDownList;
+                                   s.Properties.IncrementalFilteringMode = IncrementalFilteringMode.StartsWith;
+                                   s.Properties.DataSource = ReportsController.GetLevels();
+                                   s.Properties.ValueField = "Value";
+                                   s.Properties.TextField = "Text";
+                                   s.Properties.ClearButton.DisplayMode = ClearButtonDisplayMode.OnHover;
+                               });
+                           });
+
+
+                           groupItem.Items.Add(i =>
+                           {
+                               i.Caption = "";
+                               i.Width = Unit.Percentage(10);
+                               //i.Width = Unit.Percentage(12.2);
+                               i.NestedExtension().ComboBox(s =>
+                               {
+                                   s.Properties.NullText = "خارج -داخل المملكة";
+                                   s.Name = "InKsa";
+                                   s.ClientVisible = false;
+                                   s.Properties.DropDownStyle = DropDownStyle.DropDownList;
+                                   s.SelectedIndex = -1;
+
+                                   s.Properties.ValidationSettings.ErrorTextPosition = ErrorTextPosition.Bottom;
+                                   s.Properties.Items.Add("داخل المملكة", false);
+                                   s.Properties.Items.Add("خارج المملكة", true);
+                                   s.Properties.ValueField = "Value";
+                                   s.Properties.TextField = "Text";
+                                   s.Properties.ClearButton.DisplayMode = ClearButtonDisplayMode.OnHover;
+                               });
+                           });
+
+
+                           groupItem.Items.Add(i =>
+                           {
+                               i.Caption = "";
+                               i.Width = Unit.Percentage(10);
+                               //i.Width = Unit.Percentage(12.2);
+                               i.NestedExtension().ComboBox(s =>
+                               {
+                                   s.Properties.NullText = "نوع التأشيره";
+                                   s.Name = "IsNew";
+                                   s.ClientVisible = false;
+                                   s.Properties.DropDownStyle = DropDownStyle.DropDownList;
+                                   s.SelectedIndex = -1;
+                                   s.Properties.ValidationSettings.ErrorTextPosition = ErrorTextPosition.Bottom;
+                                   s.Properties.Items.Add("فعالة", "فعالة");
+                                   s.Properties.Items.Add("مستعملة", "مستعملة");
+                                   s.Properties.ValueField = "Value";
+                                   s.Properties.TextField = "Text";
+
+                                   s.Properties.ClearButton.DisplayMode = ClearButtonDisplayMode.OnHover;
+                               });
+                           });
+
+
+                           groupItem.Items.Add(i =>
+                           {
+                               i.Caption = " ";
+                               i.SetNestedContent(() =>
+                               {
+                                   ViewContext.Writer.Write("<input type='hidden' value='0' id='type' name='type'/>");
+                               });
+
+                           });
+                           groupItem.Items.Add(itemSettings =>
+                           {
+                               //itemSettings.Width = Unit.Percentage(4);
+                               itemSettings.ShowCaption = DefaultBoolean.False;
+                               itemSettings.HorizontalAlign = FormLayoutHorizontalAlign.Right;
+                               itemSettings.ParentContainerStyle.CssClass = "mobileAlign";
+                               itemSettings.NestedExtension().Button(s =>
+                               {
+                                   s.Name = "search";
+                                   s.Styles.Style.CssClass = "ActionsSearch_button";
+                                   s.RightToLeft = DefaultBoolean.True;
+                                   s.Text = "بحث ";
+                                   s.Images.Image.IconID = IconID.ActionsSearch16x16devav;
+                                   s.UseSubmitBehavior = true;
+                               });
+                           });
+                       }).GetHtml()
+
+                        }
+                        @using (Html.BeginForm()) {
+                                <div id="AvailableTerminatedGridViewPartial"></div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    .ActionsSearch_button {
+        margin-top: 30px !important;
+        width: 107px !important;
+        margin-bottom: 10px;
+    }
+
+    *[dir="rtl"] .dxflFloatedElConSys > div {
+        margin-bottom: 6px;
+    }
+
+    div.dxflCLTSys .dxflCaptionCellSys, div.dxflCLBSys .dxflCaptionCellSys {
+        text-align: center !important;
+    }
+
+    .dxflChildInFirstRowSys {
+    }
+
+    label, .dxDefaultCursor {
+        font-weight: bold !important;
+        font-size: 17px !important;
+    }
+
+    #AdvancedSearchFormLayout_0_4 label {
+        color: #309ad4;
+        font-weight: bolder !important;
+        font-size: 19px !important;
+    }
+</style>

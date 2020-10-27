@@ -1,0 +1,147 @@
+﻿@{
+    ViewBag.Title = "الاقارب";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@model IEnumerable<StudentProfile.DAL.Models.Relatives>
+<script src="~/Scripts/jquery-1.10.2.min.js" type="text/javascript"></script>
+<script src="~/Scripts/jquery.validate.min.js" type="text/javascript"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js" type="text/javascript"></script>
+
+<!-- top navigation -->
+<div class="top_nav">
+    <div class="nav_menu">
+        <nav>
+            <div class="edit-sc form-group col-lg-8 col-xs-12 col-sm-8 col-md-8 pull-right" style="margin: 7px 0 0 0;">
+                @using (Ajax.BeginForm("RelativesGridViewPartial", "Students", new AjaxOptions {UpdateTargetId = "StRelatives"}))
+                {
+                    <div class="col-lg-12 col-xs-12 col-sm-12 col-6-12 form-group" style="margin: 0">
+                        <div class="col-lg-11 col-sm-12 col-xs-12 col-md-11 StudentsSearch ">
+                            @Html.Partial("_StudentsSearch")
+                        </div>
+                        <div class="col-lg-1 col-sm-12 col-xs-12 col-md-11 text-right">
+                            <button class="btn btn-success">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                }
+            </div>
+            <div id="sidebar-menu" class="main_menu_side hidden-print main_menu pull-right">
+                <div class="menu_section">
+                    <ul class="nav side-menu" style="display: none">
+                        <li>
+                            <a href="#"><i class="fa fa-users"></i> المستخدمين </a>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-list-alt"></i> المجموعات </a>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-check-circle-o"></i>صلاحيات المجموعات </a>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-list"></i> مجموعات المستخدمين </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <ul class="nav navbar-nav navbar-right">
+                <li class="">
+                    <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                        <img src="~/assets/images/user.png" alt="">admin
+                        <span class=" fa fa-angle-down"></span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-usermenu pull-right">
+                        <li>
+                            <a href="@Url.Action("LogOut")"><i class="fa fa-sign-out pull-right"></i> خروج</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="">
+                    <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                        <span class="fa fa-globe"></span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-usermenu pull-right">
+                        <li class="dropdown-header">اشعارات السكن والهويات</li>
+                        <li role="separator" class="divider"></li>
+                        @{
+
+                            var dbSC = new SchoolAccGam3aEntities();
+
+                            var dbHR = new HRMadinaEntities();
+                            var modelList = dbSC.usp_Students_Select_byUnitID(null, null, 0).ToList();
+                            var nationality_Expiredate = new DateTime();
+                            var Passport_Expiredate = new DateTime();
+                            var Nationalitydoc = dbHR.Documents.Where(x => x.ID == 1).SingleOrDefault();
+                            if (Nationalitydoc != null)
+                            {
+                                nationality_Expiredate = DateTime.Now.AddDays(Nationalitydoc.AlertDays.Value);
+                            }
+                            else
+                            {
+                                nationality_Expiredate = DateTime.Now.AddDays(90);
+                            }
+                            var nationalityList = dbHR.EmpDocument.Where(x => x.ExpDate >= nationality_Expiredate).Select(x => x.IdentityNum).ToList();
+                            var nationality_StudentsList = dbSC.StudentBasicData.Where(x => nationalityList.Any(p => p == x.IDNumber)).ToList();
+                            var Passportdoc = dbHR.Documents.Where(x => x.ID == 2).SingleOrDefault();
+                            if (Passportdoc != null)
+                            {
+                                Passport_Expiredate = DateTime.Now.AddDays(Nationalitydoc.AlertDays.Value);
+                            }
+                            else
+                            {
+                                Passport_Expiredate = DateTime.Now.AddDays(90);
+                            }
+                            var PassportList = dbHR.EmpDocument.Where(x => x.ExpDate >= Passport_Expiredate).Select(x => x.IdentityNum).ToList();
+                            var Passport_StudentsList = dbSC.StudentBasicData.Where(x => nationalityList.Any(p => p == x.IDNumber)).ToList();
+                            if (modelList.Count > 0 || nationalityList.Count > 0 || Passport_StudentsList.Count > 0)
+                            {
+                                foreach (var item in modelList)
+                                {
+                                    <li>
+                                        <a href="@Url.Action("Index", "Students", new {id = item.StDetailID})">الطالب @item.Name تم فصله ومازال بالسكن</a>
+                                    </li>
+                                }
+
+                                foreach (var item in nationality_StudentsList)
+                                {
+                                    <li>
+                                        <a href="@Url.Action("Index", "Students", new {id = item.StDetails.LastOrDefault().StDetailID})">الطالب @item.FisrtName ستنتهي هويته خلال شهرين</a>
+                                    </li>
+                                }
+                                foreach (var item in Passport_StudentsList)
+                                {
+                                    <li>
+                                        <a href="@Url.Action("Index", "Students", new {id = item.StDetails.LastOrDefault().StDetailID})">الطالب @item.FisrtName سينتهي جواز سفره خلال شهرين</a>
+                                    </li>
+                                }
+                            }
+                            else
+                            {
+                                <li>
+                                    <a href="#">لا توجد اشعارات</a>
+                                </li>
+                            }
+                        }
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>
+<!-- /top navigation -->
+
+<div class="x_panel p_b_30">
+    <div class="x_title">
+        <h2>
+            العنوان
+        </h2>
+    </div>
+    <div class="x_content ">
+        <div id="StRelatives" class="col-lg-12 col-sm-12 col-xs-12 col-md-12">
+            @using (Html.BeginForm())
+            {
+                Html.RenderAction("RelativesGridViewPartial", "Students");
+            }
+        </div>
+    </div>
+</div>

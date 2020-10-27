@@ -1,0 +1,82 @@
+﻿
+@{
+    ViewBag.Title = "تقرير الطلاب المسجلين في الاعلان";
+    Layout = "~/Views/Shared/_DevextremeLayout.cshtml";
+}
+<script src="~/Scripts/Reports/MusaferReportsService.js"></script>
+<script src="~/Scripts/Reports/MusaferReportsController.js"></script>
+<div class="container-fluid container-fullw">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel bg-white">
+                <div class="breadcrumb-wrapper text-right">
+                    <h4 class="no-margin">تقرير الطلاب المسجلين في الاعلان</h4>
+                </div>
+                <div class="panel-body">
+                    <div ng-controller="MusaferReportsCtrl">
+
+                        <form ng-submit="GetAllStudentsByAdvertisement($event)">
+                            <div class="col-lg-7 col-md-7 col-sm-12 col-xs-12 form-group">
+                                <label class="col-lg-3 col-sm-3 col-xs-3 control-label text-right">الاعلان</label>
+                                <div class="col-lg-9 col-sm-9 col-xs-9 ">
+                                    <div id="Students" dx-select-box="AdvertisementSelectBox"
+                                         dx-validator="validationRequired"></div>
+                                </div>
+                            </div>
+
+
+                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 form-group">
+                                <div class="col-lg-12 col-sm-12 col-xs-12 text-right ">
+                                    <div id="btnView" class="btn btn-primary" dx-button="btnView"></div>
+                                </div>
+                            </div>
+                        </form>
+                        <div class="clearfix"></div>
+                        <br />
+                        <div class="clearfix"></div>
+
+                        <div id="btnPrint" class="btn btn-default" dx-button="btnPrint" style="margin-left:15px;"></div>
+
+
+                        <div  class="col-lg-12 col-sm-12 col-xs-12">
+                            <div class="table-responsive">
+                                <div class="dx-viewport dx-tree-st">
+                                    <div class="demo-container">
+                                        <div id="gridReportAdvertisement" dx-data-grid="gridReportAdvertisement"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="ReportAdvertisementList" style="display:none">
+                            <table class="table table-bordered table-ds">
+                                <tr>
+                                    <th>اسم الطالب</th>
+                                    <th>اسم جواز السفر</th>
+                                    <th>رقم الهوية</th>
+                                    <th>الجنسية</th>
+                                    <th>الحالة الأكاديمية</th>
+                                    <th>رقم الجوال</th>
+                                    <th>البريد الالكتروني</th>
+                                    <th>خط السير</th>
+                                </tr>
+                                <tr ng-repeat="item in ReportAdvertisementList">
+                                    <td>{{item.IdentityName}}</td>
+                                    <td>{{item.PassportName}}</td>
+                                    <td>{{item.National_ID}}</td>
+                                    <td>{{item.Nationality}}</td>
+                                    <td>{{item.STATUS_DESC}}</td>
+                                    <td>{{item.MobileNumber}}</td>
+                                    <td>{{item.UniversityEmail}}</td>
+                                    <td>{{item.Tracking}}</td>
+                                </tr>
+                            </table>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

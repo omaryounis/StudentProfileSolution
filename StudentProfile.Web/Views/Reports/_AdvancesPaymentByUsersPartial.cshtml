@@ -1,0 +1,17 @@
+﻿@model StudentProfile.Web.Reports.AdvancesPaymentByUsersReport
+@using DevExpress.Web.Mvc
+@using DevExpress.Web.Mvc.UI
+@Html.DevExpress().DocumentViewer(settings =>
+{
+    settings.Name = "AdvancesPaymentByUsersReport";
+    settings.CallbackRouteValues = new { Controller = "Reports", Action = "AdvancesPaymentByUsersCallBack" };
+    settings.ExportRouteValues = new { Controller = "Reports", Action = "AdvancesPaymentByUsersExport" };
+    settings.Report = Model;
+    settings.ToolbarMode = DocumentViewerToolbarMode.Ribbon;
+    settings.SettingsReportViewer.UseIFrame = false;
+    settings.SettingsReportViewer.TableLayout = false;
+    settings.ClientSideEvents.BeforeExportRequest = "AdvancesPaymentByUsersReportExportRequest";
+    settings.ClientSideEvents.BeginCallback = "AdvancesPaymentByUsersReportExportRequest";
+
+    settings.ClientSideEvents.Init = "onDocumetnViewerInit";
+}).GetHtml()

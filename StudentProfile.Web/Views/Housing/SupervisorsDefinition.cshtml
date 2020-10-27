@@ -1,0 +1,128 @@
+﻿
+@{
+    ViewBag.Title = "SupervisorsDefinition";
+    Layout = "~/Views/Shared/_DevextremeLayout.cshtml";
+}
+
+<script src="~/Scripts/Housing/SupervisorsDefinitionServices.js"></script>
+<script src="~/Scripts/Housing/SupervisorsDefinitionController.js"></script>
+
+
+<div class="container-fluid container-fullw text-right">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel bg-white">
+                <div class="breadcrumb-wrapper text-right">
+                    <h4 class="no-margin"> تهيئة المشرفين</h4>
+                </div>
+                <div class="panel-body">
+                    <div ng-controller="SupervisorsDefinitionsCtrl">
+                        <div id="form">
+                            <div class="form-group col-md-3 col-sm-12 col-xs-12">
+                                <label class="control-label col-md-12 col-sm-12 col-xs-12">
+                                    اسم المشرف
+                                </label>
+                                <div class="col-md-12 col-sm-12 col-xs-12" dx-select-box="UserSelectBox">
+
+                                </div>
+                            </div>
+
+                            <div class="form-group col-md-3 col-sm-12 col-xs-12">
+                                <label class="control-label col-md-12 col-sm-12 col-xs-12">
+                                    الرقم الوظيفي
+                                </label>
+                                <div dx-validator="txtFileNumberValidator" class="col-md-12 col-sm-12 col-xs-12" dx-text-box="txtFileNumber"></div>
+                            </div>
+                            <div class="form-group col-md-3 col-sm-12 col-xs-12">
+                                <label class="control-label col-md-12 col-sm-12 col-xs-12">
+                                    رقم الهاتف
+                                </label>
+                                <div dx-validator="txtTelephoneNumberValidator" class="col-md-12 col-sm-12 col-xs-12" dx-text-box="txtTelephoneNumber"></div>
+                            </div>
+
+
+
+                            <div class="form-group col-md-3 col-sm-12 col-xs-12">
+                                <label class="control-label col-md-12 col-sm-12 col-xs-12">
+                                    مكان التسكين
+                                </label>
+                                <div class="col-md-12 col-sm-12 col-xs-12" dx-select-box="locationsSelectBox">
+
+                                </div>
+                            </div>
+
+
+                            <div class="form-group col-md-3 col-sm-12 col-xs-12">
+                                <label class="control-label col-md-12 col-sm-12 col-xs-12">
+                                    مبنى التسكين
+                                </label>
+                                <div class="col-md-12 col-sm-12 col-xs-12" dx-select-box="BuildingSelectBox">
+
+                                </div>
+                            </div>
+
+                            <div class="form-group col-md-3 col-sm-12 col-xs-12">
+                                <label class="control-label col-md-12 col-sm-12 col-xs-12">
+                                    دور التسكين
+                                </label>
+                                <div class="col-md-12 col-sm-12 col-xs-12" dx-select-box="FloorSelectBox">
+
+                                </div>
+                            </div>
+
+
+                            <div class="form-group col-md-3 col-sm-12 col-xs-12">
+                                <label class="control-label col-md-12 col-sm-12 col-xs-12">
+                                    غرف التسكين
+                                </label>
+                                <div class="roomsList_class col-md-12 col-sm-12 col-xs-12">
+                                    <div class="col-md-12 col-sm-12 col-xs-12" dx-list="roomsList"></div>
+                                </div>
+                            </div>
+
+                                <div class="form-group col-md-3 col-sm-12 col-xs-12">
+                                    <label class="control-label col-md-12 col-sm-12 col-xs-12">
+                                        <br />
+                                    </label>
+                                    <label class="control-label col-md-12 col-sm-12 col-xs-12">
+                                        رئيس وحدة اشراف <span dx-check-box="isPresidentCheckBox"></span>
+                                    </label>
+                                </div>
+
+
+                                <div class="clearfix"></div>
+                                <div class="form-group col-md-12 col-sm-12 col-xs-12">
+                                    <label class="control-label col-md-12 col-sm-12 col-xs-12">
+                                        ملاحظات
+                                    </label>
+                                    <div class="col-md-12 col-sm-12 col-xs-12" dx-text-area="txtNotes"></div>
+                                </div>
+
+                                <div class="form-group col-md-12 col-sm-12 col-xs-12">
+
+                                    <div dx-button="saveButton"></div>
+                                </div>
+
+
+                                <div class="form-group col-md-12 col-sm-12 col-xs-12">
+                                    <label class="control-label col-md-12 col-sm-12 col-xs-12">
+                                        المشرفين المتاحين
+                                    </label>
+                                    <div class="col-md-12 col-sm-12 col-xs-12">
+
+                                        <div style="width:100% !important" id="gridContainer" class="dx-tree-st" dx-data-grid="supervisorsDataGrid" dx-item-alias="supervisor">
+
+                                            <div data-options="dxTemplate: {name: 'detail'}">
+
+                                               <div dx-data-grid="getRoomsForeachSupervisor(supervisor.key)">
+
+                                               </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+            </div>
+        </div>
+    </div>
+</div>

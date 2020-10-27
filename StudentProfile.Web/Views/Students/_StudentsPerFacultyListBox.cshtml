@@ -1,0 +1,22 @@
+﻿@model List<StudentProfile.DAL.Models.PR_GetStudentsByFacandMaj_Result>
+@using System.Web.UI.WebControls
+
+@(Html.DevExpress().TokenBox(tb =>{
+
+    tb.Properties.TextField = "StudentName";
+    tb.Width = Unit.Percentage(100);
+    tb.ClientEnabled = true;
+    tb.Properties.EnableClientSideAPI = true;
+    tb.Properties.ValueField = "StudentID";
+    tb.Name = "StudentsListBox";
+
+    tb.Properties.NullText = "اختر";
+    tb.Properties.ValidationSettings.RequiredField.IsRequired = true;
+    tb.Properties.ValidationSettings.RequiredField.ErrorText = "حقل اجبارى";
+    //tb.Properties.AllowCustomTokens = true;
+    //tb.Properties.ClientSideEvents.TextChanged = "SynchronizeListBoxValues";
+    //tb.Properties.ClientSideEvents.DropDown = "SynchronizeListBoxValues";
+    tb.Properties.ClientSideEvents.LostFocus = "validate";
+    //item.NestedExtension().TokenBox(control =>
+}).BindList(Model).GetHtml()
+)

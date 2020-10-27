@@ -1,0 +1,24 @@
+﻿<script>
+
+  
+    function customizeMenuActions(s, e) {
+        // Get the "Save" action and hide it.
+        var saveAction = e.GetById("dxrd-save");
+     
+        if (saveAction)
+            saveAction.visible = false;
+    }
+
+
+</script>
+@Html.DevExpress().ReportDesigner(settings =>
+{
+    settings.Name = "Dynamic Report";
+    settings.DataSources.Add("StudentData",Model.DataSrc);
+
+    settings.ClientSideEvents.CustomizeMenuActions = "customizeMenuActions";
+
+
+}).Bind(new XtraReport()).GetHtml()
+
+

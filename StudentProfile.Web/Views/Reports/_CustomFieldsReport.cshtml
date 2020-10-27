@@ -1,0 +1,318 @@
+﻿@using System.Drawing.Printing
+@using System.Web.UI.WebControls
+@using DevExpress.Export
+@{
+    var grid = Html.DevExpress().GridView(settings =>
+    {
+        settings.Name = "CustomFieldsGridView";
+        settings.CallbackRouteValues = new { Controller = "Reports", Action = "_CustomFieldsReport" };
+        settings.SettingsEditing.DeleteRowRouteValues = new { Controller = "Reports", Action = "DeleteCustomFields" };
+        settings.KeyFieldName = "StudentCustomFieldID";
+        settings.SettingsPager.PageSize = 30;
+        settings.SettingsPager.Visible = true;
+        settings.Settings.ShowGroupPanel = false;
+        settings.SettingsBehavior.AllowSelectByRowClick = false;
+        settings.CommandColumn.Visible = true;
+        settings.CommandColumn.ShowSelectCheckbox = true;
+        settings.CommandColumn.SelectAllCheckboxMode = GridViewSelectAllCheckBoxMode.AllPages;
+        settings.ClientSideEvents.SelectionChanged = "SelectionChanged";
+        settings.SettingsAdaptivity.AdaptivityMode = GridViewAdaptivityMode.Off;
+        settings.SettingsAdaptivity.AdaptiveColumnPosition = GridViewAdaptiveColumnPosition.Left;
+        settings.SettingsAdaptivity.AdaptiveDetailColumnCount = 1;
+        settings.SettingsAdaptivity.AllowOnlyOneAdaptiveDetailExpanded = false;
+        settings.SettingsAdaptivity.HideDataCellsAtWindowInnerWidth = 0;
+        settings.SettingsSearchPanel.Visible = false;
+        settings.CommandColumn.ShowClearFilterButton = true;
+        settings.Settings.ShowFilterRow = true;
+        settings.SettingsText.CommandClearFilter = "الغاء";
+        settings.SettingsText.ContextMenuShowFilterRow = "يبدأ ب";
+        settings.Settings.ShowFilterRowMenu = true;
+        settings.SettingsCustomizationDialog.ShowColumnChooserPage = true;
+        settings.SettingsCustomizationDialog.ShowFilteringPage = false;
+        settings.SettingsCustomizationDialog.ShowGroupingPage = false;
+        settings.SettingsCustomizationDialog.ShowSortingPage = false;
+        settings.SettingsText.CustomizationDialogColumnChooserTab = "اختيار الاعمدة";
+        settings.SettingsPopup.CustomizationWindow.AllowResize = true;
+
+        settings.SettingsPopup.CustomizationWindow.MinHeight = Unit.Pixel(300);
+        settings.SettingsPopup.CustomizationWindow.Height = Unit.Pixel(700);
+        settings.SettingsText.ToolbarShowCustomizationDialog = "إظهار / إخفاء أعمدة";
+        //settings.SettingsText.Fil
+        settings.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+        settings.SettingsCustomizationDialog.Enabled = true;
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "StudentCustomFieldID";
+
+            c.Visible = false;
+        });
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "STUDENT_NAME";
+            c.Caption = "اسم الطالب";
+            c.VisibleIndex = 10;
+
+            c.Settings.AllowSort = DefaultBoolean.True;
+            c.Settings.AllowAutoFilter = DefaultBoolean.True;
+            c.ColumnType = MVCxGridViewColumnType.TextBox;
+            c.SetDataItemTemplateContent(container =>
+            {
+                Html.DevExpress().HyperLink(hyperlink =>
+                {
+                    //var keyValue = container.KeyValue;
+                    var name = DataBinder.Eval(container.DataItem, "STUDENT_NAME");
+                    var keyValue = DataBinder.Eval(container.DataItem, "STUDENT_ID");
+
+                    hyperlink.Name = "hl" + keyValue.ToString() + DateTime.Now.TimeOfDay.ToString();
+                    hyperlink.RightToLeft = DefaultBoolean.True;
+                    hyperlink.ToolTip = "تفاصيل";
+                    hyperlink.Properties.Target = "_blank";
+                    hyperlink.Properties.Text = name.ToString();
+                    hyperlink.NavigateUrl = Url.Action("Index", "Students", new { id = keyValue });
+                }).Render();
+            });
+        });
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "NATIONALITY_DESC";
+            c.Caption = "الجنسية";
+            c.VisibleIndex = 9;
+            c.Visible = true;
+            c.Settings.AllowSort = DefaultBoolean.True;
+            c.Settings.AllowAutoFilter = DefaultBoolean.False;
+            c.ColumnType = MVCxGridViewColumnType.TextBox;
+            c.EditorProperties().TextBox(tb =>
+            {
+                tb.ValidationSettings.RequiredField.IsRequired = true;
+                tb.ValidationSettings.RequiredField.ErrorText = "حقل اجبارى";
+            });
+        });
+
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "NATIONAL_ID";
+            c.Caption = "رقم الهوية";
+            c.Visible = true;
+
+            c.Settings.AllowSort = DefaultBoolean.True;
+            c.Settings.AllowAutoFilter = DefaultBoolean.True;
+            c.ColumnType = MVCxGridViewColumnType.TextBox;
+            c.EditorProperties().TextBox(tb =>
+            {
+                tb.ValidationSettings.RequiredField.IsRequired = true;
+                tb.ValidationSettings.RequiredField.ErrorText = "حقل اجبارى";
+            });
+        }); settings.Columns.Add(c =>
+        {
+            c.FieldName = "STATUS_DESC";
+            c.Caption = "الحالة الإكاديمية";
+            c.Visible = true;
+
+            c.Settings.AllowSort = DefaultBoolean.True;
+            c.Settings.AllowAutoFilter = DefaultBoolean.True;
+            c.ColumnType = MVCxGridViewColumnType.TextBox;
+            c.EditorProperties().TextBox(tb =>
+            {
+                tb.ValidationSettings.RequiredField.IsRequired = true;
+                tb.ValidationSettings.RequiredField.ErrorText = "حقل اجبارى";
+            });
+        }); 
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "Note";
+            c.Caption = "الملاحظات";
+            c.Visible = true;
+
+            c.Settings.AllowSort = DefaultBoolean.True;
+            c.Settings.AllowAutoFilter = DefaultBoolean.True;
+            c.ColumnType = MVCxGridViewColumnType.TextBox;
+            c.EditorProperties().TextBox(tb =>
+            {
+                tb.ValidationSettings.RequiredField.IsRequired = true;
+                tb.ValidationSettings.RequiredField.ErrorText = "حقل اجبارى";
+            });
+        });
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "NATIONAL_ID";
+            c.Caption = "رقم الهوية";
+            c.Visible = true;
+
+            c.Settings.AllowSort = DefaultBoolean.True;
+            c.Settings.AllowAutoFilter = DefaultBoolean.True;
+            c.ColumnType = MVCxGridViewColumnType.TextBox;
+            c.EditorProperties().TextBox(tb =>
+            {
+                tb.ValidationSettings.RequiredField.IsRequired = true;
+                tb.ValidationSettings.RequiredField.ErrorText = "حقل اجبارى";
+            });
+        });
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "STUDENT_ID";
+            c.Caption = "رقم الاكاديمى";
+            c.Visible = true;
+
+            c.Settings.AllowSort = DefaultBoolean.True;
+            c.Settings.AllowAutoFilter = DefaultBoolean.True;
+            c.ColumnType = MVCxGridViewColumnType.TextBox;
+            c.EditorProperties().TextBox(tb =>
+            {
+                tb.ValidationSettings.RequiredField.IsRequired = true;
+                tb.ValidationSettings.RequiredField.ErrorText = "حقل اجبارى";
+            });
+        });
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "MOBILE_PHONE";
+            c.Caption = "رقم الجوال";
+            c.Visible = true;
+            c.Settings.AllowSort = DefaultBoolean.True;
+            c.Settings.AllowAutoFilter = DefaultBoolean.True;
+            c.ColumnType = MVCxGridViewColumnType.TextBox;
+            c.EditorProperties().TextBox(tb =>
+            {
+                tb.ValidationSettings.RequiredField.IsRequired = true;
+                tb.ValidationSettings.RequiredField.ErrorText = "حقل اجبارى";
+            });
+        });
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "CustomField";
+            c.Caption = "اسم الحقل";
+            c.Visible = true;
+
+            c.Settings.AllowSort = DefaultBoolean.True;
+            c.Settings.AllowAutoFilter = DefaultBoolean.False;
+            c.ColumnType = MVCxGridViewColumnType.TextBox;
+            c.EditorProperties().TextBox(tb =>
+            {
+                tb.ValidationSettings.RequiredField.IsRequired = true;
+                tb.ValidationSettings.RequiredField.ErrorText = "حقل اجبارى";
+            });
+        });
+        //settings.Columns.Add(c =>
+        //{
+
+        //    c.Caption = "#";
+        //    c.Visible = true;
+        //    c.SetDataItemTemplateContent(container =>
+        //    {
+        //        var id = DataBinder.Eval(container.DataItem, "StudentCustomFieldID");
+        //        ViewContext.Writer.Write("<div>"
+        //            +"<a href='#' onclick='DeleteRow("+id+")'>"
+        //            +"</div>");
+        //    });
+        //});
+
+        //settings.ControlStyle.CssClass = "GridViewRootClassName";
+        //SettingsText
+        settings.SettingsCommandButton.EditButton.Image.IconID = IconID.EditCopy16x16;
+        settings.SettingsText.CommandNew = "اضافة";
+        settings.SettingsText.CommandUpdate = "حفظ";
+        settings.SettingsText.CommandCancel = "الغاء";
+        settings.SettingsText.CommandEdit = "حفظ";
+        settings.SettingsText.CommandDelete = "حذف";
+        settings.SettingsText.ConfirmDelete = "هل تريد حذف هذا العنصر؟";
+        settings.SettingsText.EmptyDataRow = "لا توجد بيانات";
+        settings.SettingsLoadingPanel.Text = "تحميل ...";
+        settings.Styles.Table.CssClass = "dx-table-ds";
+        settings.Styles.Header.Wrap = DefaultBoolean.True;
+        settings.Width = Unit.Percentage(100);
+        settings.RightToLeft = DefaultBoolean.False;
+        settings.EditFormLayoutProperties.AlignItemCaptionsInAllGroups = true;
+        settings.EditFormLayoutProperties.AlignItemCaptions = true;
+        settings.ClientSideEvents.BeginCallback = "CustomFieldsGridViewBeginCallback";
+
+        settings.Styles.Table.HorizontalAlign = HorizontalAlign.Center;
+        //Export Settings
+        settings.Toolbars.Add(t =>
+        {
+            t.Position = GridToolbarPosition.Top;
+            t.ItemAlign = GridToolbarItemAlign.Right;
+            t.Items.Add(GridViewToolbarCommand.ShowCustomizationDialog);
+        });
+        settings.Toolbars.Add(t =>
+        {
+            t.EnableAdaptivity = false;
+            t.Items.Add(i =>
+            {
+                i.Command = GridViewToolbarCommand.ExportToPdf;
+                i.Text = "تصدير PDF";
+            });
+            t.Items.Add(i =>
+            {
+                i.Command = GridViewToolbarCommand.ExportToXls;
+                i.Text = "تصدير Xls";
+            });
+            t.Items.Add(i =>
+            {
+                i.Command = GridViewToolbarCommand.ExportToXlsx;
+                i.Text = "تصدير Xlsx";
+            });
+            t.Items.Add(i =>
+            {
+                i.Command = GridViewToolbarCommand.ExportToDocx;
+                i.Text = "تصدير Docx";
+            });
+            t.Items.Add(i =>
+            {
+                i.BeginGroup = true;
+                i.SetTemplateContent(c =>
+                {
+                    Html.DevExpress().Button(
+                        s =>
+                        {
+                            s.Name = "M";
+                            s.Images.Image.IconID = IconID.ActionsTrash16x16;
+                            s.RightToLeft = DefaultBoolean.True;
+                            s.Text = "حذف";
+                            s.ClientSideEvents.Click = "DeleteRows";
+                        }).Render();
+                });
+            });
+            //t.Items.Add(i =>
+            //{
+            //    i.BeginGroup = true;
+            //    i.SetTemplateContent(c =>
+            //    {
+            //        Html.DevExpress().Button(
+            //            b =>
+            //            {
+            //                b.Name = "btShowColumnChooser";
+            //                b.Images.Image.IconID = IconID.SetupProperties16x16;
+            //                b.RightToLeft = DefaultBoolean.True;
+            //                b.ImagePosition = ImagePosition.Left;
+            //                b.Text = "إظهار اختيار الأعمدة";
+            //                b.ClientSideEvents.Click = "onShowChooserClick";
+            //            }).Render();
+            //    });
+            //});
+        });
+        settings.SettingsExport.EnableClientSideExportAPI = true;
+        settings.SettingsExport.ExcelExportMode = ExportType.WYSIWYG;
+        //settings.SettingsExport.ExportedRowType = GridViewExportedRowType.All;
+        settings.SettingsExport.RightToLeft = DefaultBoolean.True;
+        //settings.SettingsExport.Styles.Preview.Paddings.PaddingLeft = Unit.Pixel(100);
+        //settings.SettingsExport.LeftMargin =40 ;
+        //settings.SettingsExport.RightMargin = 0;
+        settings.SettingsExport.Landscape = true;
+        settings.SettingsExport.PaperKind = PaperKind.A4;
+
+
+        //Column Chooser
+        settings.SettingsPopup.CustomizationWindow.ShowCloseButton = true;
+        settings.SettingsPopup.CustomizationWindow.CloseOnEscape = AutoBoolean.True;
+        settings.SettingsText.CustomizationWindowCaption = "اظهار / اخفاء الأعمدة";
+        settings.SettingsBehavior.EnableCustomizationWindow = true;
+        settings.SettingsPopup.CustomizationWindow.Height = 500;
+        settings.SettingsPopup.CustomizationWindow.Width = 250;
+        settings.SettingsPopup.CustomizationWindow.AllowResize = true;
+        settings.SettingsPopup.CustomizationWindow.PopupAnimationType = AnimationType.Auto;
+        settings.ClientSideEvents.CustomizationWindowCloseUp = "grid_CustomizationWindowCloseUp";
+        settings.SettingsCookies.Enabled = true;
+        settings.SettingsCookies.StoreColumnsVisiblePosition = true;
+        settings.SettingsCookies.StoreColumnsWidth = true;
+    });
+}
+@grid.Bind(Model).GetHtml()

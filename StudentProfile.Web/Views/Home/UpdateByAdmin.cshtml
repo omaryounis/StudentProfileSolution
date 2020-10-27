@@ -1,0 +1,67 @@
+﻿@{
+    /**/
+
+    Layout = null;
+}
+<script type="text/javascript">
+    function UpdateDataBaseByAdmin() {
+        var result = DevExpress.ui.dialog.confirm("هل تريد تحديث قاعدة البيانات", "تأكيد التحديث");
+        result.done(function (dialogResult) {
+            if (dialogResult === true) {
+                $.post("/config/UpdateDataBaseByAdmin",
+                    function (data) {
+                        if (data.msg === "") {
+                            DevExpress.ui.notify({
+                                message: "حدث خطأ أثناء تحديث البيانات",
+                                type: "error",
+                                displayTime: 3000,
+                                closeOnClick: true
+                            });
+                        } else if (data.isValid == false) {
+                            DevExpress.ui.notify({
+                                message: data.msg,
+                                type: "error",
+                                displayTime: 3000,
+                                closeOnClick: true
+                            });
+                        } else {
+                            debugger;
+                            DevExpress.ui.notify({
+                                message: data.msg,
+                                type: "success",
+                                displayTime: 3000,
+                                closeOnClick: true
+                            });
+                        }
+                    });
+            }
+        });
+    }
+</script>
+@if (ViewBag.CanUpdateData != null)
+{
+    if (ViewBag.CanUpdateData == true)
+    {
+        <div class="panel bg-white update-ds">
+            <div class="col-md-6 col-sm-6 col-xs-6 text-right file-ds">
+                <h4 class="no-margin">مدير تحديث البيانات</h4>
+            </div>
+            <div class="col-md-6 col-sm-6 col-xs-6 text-left file-ds">
+                <a class="btn btn-danger" href="javascript:;" onclick="UpdateDataBaseByAdmin()">تحديث البيانات <i class="fa fa-refresh"></i></a>
+            </div>
+        </div>
+    }
+}
+<style>
+    .update-ds {
+        width: 100%;
+        float: right;
+        background: #4ca4df !important;
+        padding-top: 5px;
+        color: white;
+        margin-bottom: 0;
+        border-radius: 0;
+        border: none !important;
+        margin-right: 0;
+    }
+</style>

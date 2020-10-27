@@ -1,0 +1,16 @@
+﻿@model AllChecksRPT
+@{ 
+    int payrollID = int.Parse(Session["PayrollIDParam"].ToString());
+}
+@Html.DevExpress().DocumentViewer(settings =>
+{
+    settings.Name = "AllChecksRPT";
+    settings.CallbackRouteValues = new { Controller = "Reports", Action = "AllChecksReport", payrollID = @payrollID };
+    settings.ExportRouteValues = new { Controller = "Reports", Action = "AllChecksReportExport" };
+    settings.Report = Model;
+    settings.ToolbarMode = DocumentViewerToolbarMode.Ribbon;
+    settings.SettingsReportViewer.UseIFrame = false;
+    settings.SettingsReportViewer.TableLayout = false;
+    settings.ClientSideEvents.BeforeExportRequest = "AllChecksReportExportRequest";
+    settings.ClientSideEvents.Init = "onDocumetnViewerInit";
+}).GetHtml()

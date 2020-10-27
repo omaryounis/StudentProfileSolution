@@ -1,0 +1,115 @@
+﻿
+@{
+    ViewBag.Title = "تهيئة المخلفات";
+    Layout = "~/Views/Shared/_DevextremeLayout.cshtml";
+}
+
+<script src="~/Scripts/Issues/IssuesService.js"></script>
+<script src="~/Scripts/Issues/IssuesController.js"></script>
+
+<div class="container-fluid container-fullw text-right">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel bg-white">
+                <div class="breadcrumb-wrapper text-right">
+                    <h4 class="no-margin">تهيئة المخلفات</h4>
+                </div>
+                <div class="panel-body">
+                    <div id="LoginContent" ng-controller="IssuesCtrl">
+                        <form id="form" class="row" ng-submit="SaveIssues($event)">
+
+                            <div class="col-md-4 col-sm-12 col-xs-12 form-group">
+                                <label class="col-md-12 col-sm-12 col-xs-12 control-label">تصنيفات المخالفات</label>
+                                <div class="col-md-10 col-sm-10 col-xs-10 ">
+                                    <div id="IssuesCategorySelectBox" dx-select-box="IssuesCategorySelectBox" dx-validator="validationRequired"></div>
+                                </div>
+                                @if (ViewBag.AddCategory != null)
+                                {
+                                    if (ViewBag.AddCategory)
+                                    {
+                                        <div class="col-lg-2 col-sm-2 col-xs-2 text-left">
+                                            <div id="btnOpenPoup" class="btn btn-primary btn-sm" dx-button="btnOpenPoup">
+                                            </div>
+                                        </div>
+                                    }
+                                }
+                            </div>
+
+                            <div class="col-md-4 col-sm-12 col-xs-12 form-group">
+                                <label class="col-md-12 col-sm-12 col-xs-12 control-label">اسم المخالفة</label>
+                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                    <div class="required-ds" id="txtName" dx-text-box="txtName"
+                                         dx-validator="validationRequired"></div>
+                                </div>
+                            </div>
+                            @if (ViewBag.Create != null)
+                            {
+                                if (ViewBag.Create)
+                                {
+                                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 form-group">
+                                        <label class="col-md-12 col-sm-12 col-xs-12 control-label"><br /></label>
+                                        <div class="col-lg-12 col-sm-12 col-xs-12 ">
+                                            <div id="btnSave" dx-button="btnSave"></div>
+                                        </div>
+                                    </div>
+                                }
+                            }
+                        </form>
+
+                        <!--List-->
+                        <div class="row">
+                            <div id="List" class="col-lg-12 col-sm-12 col-xs-12">
+                                <div class="dx-viewport dx-tree-st">
+                                    <div class="demo-container">
+                                        <div id="gridIssues" dx-data-grid="gridIssues"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+
+                        <!--PoupIssuesCategories-->
+                        <div class="row">
+                            <div class="col-lg-12 col-sm-12 col-xs-12">
+                                <div id="PoupIssuesCategories" dx-popup="PoupIssuesCategories">
+                                    <div style="height:500px;overflow-y:auto;overflow-x:hidden" data-options="dxTemplate: { name : 'information' }">
+                                        <div>
+                                            <div dir="rtl">
+                                                <div class="col-lg-6 col-md-6 col-sm-10 col-xs-10 form-group">
+                                                    <label class="col-lg-12 col-sm-12 col-xs-12 control-label">اسم التصنيف</label>
+                                                    <div class="col-lg-12 col-sm-12 col-xs-12 ">
+                                                        <div class="required-ds" dx-text-box="txtIssuesCategoryName"></div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-lg-4 col-md-4 col-sm-2 col-xs-2 form-group">
+                                                    <label class="col-lg-12 col-sm-12 col-xs-12 control-label"><br /></label>
+                                                    <div class="col-lg-12 col-sm-12 col-xs-12 ">
+                                                        <div id="btnSaveIssuesCategory" class="btn btn-success" dx-button="btnSaveIssuesCategory"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--List-->
+
+                                        <div id="List" class="col-lg-12 col-sm-12 col-xs-12">
+
+                                            <div id="gridIssuessCategory" dx-data-grid="gridIssuessCategory"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .control-label {
+        line-height: 35px;
+    }
+</style>
+

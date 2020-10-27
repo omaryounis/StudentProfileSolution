@@ -1,0 +1,705 @@
+﻿@{
+    ViewBag.Title = "عمليات السلف والإعانات";
+    Layout = "~/Views/Shared/_DevextremeLayout.cshtml";
+}
+
+<script src="~/Scripts/Advances/StudentAdvanceService.js"></script>
+<script src="~/Scripts/Advances/StudentAdvanceOperationsCtrl.js"></script>
+@*<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>*@
+<style>
+    .list-item-ds {
+        text-align: center;
+    }
+
+        .list-item-ds .dx-list-item {
+            width: 220px !important;
+            height: 140px;
+            border: 1px solid #ddd;
+            margin: 45px 15px;
+            display: inline-block !important
+        }
+
+            .list-item-ds .dx-list-item .dx-list-item-content {
+                display: block !important;
+                line-height: 28px;
+            }
+
+                .list-item-ds .dx-list-item .dx-list-item-content i {
+                    font-size: 32px;
+                    color: #757c7d;
+                    margin-top: 18px;
+                }
+
+            .list-item-ds .dx-list-item.dx-state-hover {
+                background: #0e70a0 !important;
+                color: #fff !important
+            }
+
+                .list-item-ds .dx-list-item.dx-state-hover .dx-list-item-content i, .list-item-ds .dx-list-item.dx-state-focused .dx-list-item-content i {
+                    color: #fff !important
+                }
+
+    .tb-title {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        z-index: 1;
+        font-size: 16px;
+        color: #0e70a0 !important;
+    }
+
+    .dx-tree-st td .dx-button-has-icon .dx-icon.dark-text {
+        color: #333 !important
+    }
+</style>
+
+<div class="container-fluid container-fullw" ng-controller="StudentAdvanceOperationsCtrl">
+    @*<div class="row">
+            <div class="col-md-12">
+                @{Html.RenderAction("UpdateDate", "Home");}
+            </div>
+        </div>*@
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel bg-white">
+                <div class="breadcrumb-wrapper text-right" style="margin:0">
+                    <h4 class="no-margin"> اضافة السلف والاعانات</h4>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-4" style="width:27%">
+                            <div class="panel panel-default" dir="rtl">
+                                <div class="panel-heading" style="background-color: #ffffff;border-bottom: 1px solid #ddd;">
+                                    <div class="col-lg-12 col-sm-12 col-xs-12">
+                                        <div dx-select-box="DDL_Students"></div>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+                                <div class="panel-body">
+                                    <div class="col-lg-12 col-sm-12 col-xs-12">
+                                        <div class="row">
+                                            <div class="col-md-12">
+
+                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                    <div class="long-title"><h4>البيانات الشخصية</h4></div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                                                        <label class="col-md-12 col-sm-12 col-xs-12  text-right control-label">الجنسية</label>
+                                                        <div class="col-md-12 col-sm-12 col-xs-12 ">
+                                                            <div dx-Text-box="Menu_StudentBasicData.TB_Nationality"></div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                                                        <label class="col-md-12 col-sm-12 col-xs-12   text-right control-label">رقم الهوية</label>
+                                                        <div class="col-md-12 col-sm-12 col-xs-12 ">
+                                                            <div dx-Text-box="Menu_StudentBasicData.TB_NationalId"></div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-lg-12 col-md-4 col-sm-12 col-xs-12 form-group">
+                                                        <label class="col-md-12 col-sm-12 col-xs-12   text-right control-label">الرقم الجامعي</label>
+                                                        <div class="col-md-12 col-sm-12 col-xs-12 ">
+                                                            <div dx-Text-box="Menu_StudentBasicData.TB_StudentId"></div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                                                        <label class="col-md-12 col-sm-12 col-xs-12   text-right control-label">الكلية</label>
+                                                        <div class="col-md-12 col-sm-12 col-xs-12 ">
+                                                            <div dx-Text-box="Menu_StudentBasicData.TB_Facultiy"></div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                                                        <label class="col-md-12 col-sm-12 col-xs-12   text-right control-label">الدرجة العلمية</label>
+                                                        <div class="col-md-12 col-sm-12 col-xs-12 ">
+                                                            <div dx-Text-box="Menu_StudentBasicData.TB_DegreeName"></div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                                                        <label class="col-md-12 col-sm-12 col-xs-12   text-right control-label">المستوي</label>
+                                                        <div class="col-md-12 col-sm-12 col-xs-12 ">
+                                                            <div dx-Text-box="Menu_StudentBasicData.TB_LevelName"></div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                                                        <label class="col-md-12 col-sm-12 col-xs-12   text-right control-label">نوع الدراسة</label>
+                                                        <div class="col-md-12 col-sm-12 col-xs-12 ">
+                                                            <div dx-Text-box="Menu_StudentBasicData.TB_StudyTypeName"></div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                                                        <label class="col-md-12 col-sm-12 col-xs-12 p-l-0 text-right control-label">الحالة الأكاديمية</label>
+                                                        <div class="col-md-12 col-sm-12 col-xs-12 ">
+                                                            <div dx-Text-box="Menu_StudentBasicData.TB_StatusName"></div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-lg-12 col-md-4 col-sm-12 col-xs-12 form-group">
+                                                        <label class="col-md-12 col-sm-12 col-xs-12   text-right control-label">المعدل التراكمي</label>
+                                                        <div class="col-md-12 col-sm-12 col-xs-12 ">
+                                                            <div dx-Text-box="Menu_StudentBasicData.TB_StudentAverageDegree"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-8" style="width:73%">
+                            <div class="panel panel-default" dir="rtl">
+                                <div class="panel-body">
+                                    <div class="col-lg-12 col-sm-12 col-xs-12">
+                                        <div class="row">
+                                            <div class="col-md-12">
+
+                                                @*<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                        <div class="long-title"><h4>بيانات السلف</h4></div>
+                                                    </div>*@
+                                                <div class="row">
+                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                                                        <div class="tb-title">بيانات السلف</div>
+                                                        <div dx-data-grid="AdvancesGrid"></div>
+                                                    </div>
+                                                </div>
+                                                <br />
+                                                @*<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                        <div class="long-title"><h4>بيانات الإعانات</h4></div>
+                                                    </div>*@
+                                                <div class="row">
+                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12  form-group">
+                                                        <div class="tb-title">بيانات الإعانات</div>
+                                                        <div dx-data-grid="SubsidiesGrid"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="popup" dx-popup="AddNewPopupOptions">
+        @* إضافة طلب سلفة جديد *@
+        <div data-options="dxTemplate: {name: 'AddNewAdvanceContent'}">
+            <div dx-scroll-view="{
+                                                height: 500,
+                                                direction: 'both'
+                                            }">
+
+                <form ng-submit="onFormSubmit($event)">
+                    @Html.AntiForgeryToken()
+
+                    <div class="row" style="padding-top:15px;padding-bottom:0px">
+                        <div class="col-md-12">
+                            <div class="panel bg-white">
+                                <div class="panel-body">
+                                    <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                        <label class="control-label col-lg-12 col-sm-12 col-md-12 col-xs-12 text-right">نوع السلفة</label>
+                                        <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+                                            <div dx-select-box="Advance.AdvanceType" dx-validator="Advance.ValidationRules.AdvanceType"></div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                        <label class="control-label col-lg-12 col-sm-12 col-md-12 col-xs-12 text-right">مبلغ السلفة</label>
+                                        <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+                                            <div dx-number-box="Advance.AdvanceValue" dx-validator="Advance.ValidationRules.AdvanceValue"></div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                        <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+                                            <div dx-text-area="Advance.AdvanceRequestNotes" dx-validator="Advance.ValidationRules.AdvanceRequestNotes"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12 text-left">
+                                        <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+                                            <div dx-button="Advance.SaveButton"></div>
+                                            <div dx-button="btnUploadOptions1"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+
+
+        </div>
+        @* إضافة طلب إعانة جديد *@
+        <div data-options="dxTemplate: {name: 'AddNewSubsidyContent'}">
+
+            <form ng-submit="onFormSubmit($event)">
+                @Html.AntiForgeryToken()
+
+                <div class="row" style="padding-top:15px;padding-bottom:0px">
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                @*<label class="control-label col-lg-4 col-sm-4 col-md-4 col-xs-4 text-right">نوع الإعانة</label>*@
+                                <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+                                    <div dx-select-box="Subsidy.AdvanceType" dx-validator="Subsidy.ValidationRules.AdvanceType"></div>
+                                </div>
+                            </div>
+                            <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                @*<label class="control-label col-lg-4 col-sm-4 col-md-4 col-xs-4 text-right">مبلغ الإعانة</label>*@
+                                <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+                                    <div dx-number-box="Subsidy.AdvanceValue" dx-validator="Subsidy.ValidationRules.AdvanceValue"></div>
+                                </div>
+                            </div>
+                            <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+                                    <div dx-text-area="Subsidy.AdvanceRequestNotes"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+                            <div dx-button="btnUploadOptions"></div>
+                            <div dx-button="Subsidy.SaveButton" hidden="hidden"></div>
+                            <div dx-button="Subsidy.SaveButton"></div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+    </div>
+
+
+
+
+    @* الجزء الخاص برفع الملفات *@
+    <div dx-popup="UploadFilePopupOptions1">
+        @* صفحة رفع الملفات *@
+        <div data-options="dxTemplate: { name : 'UploadFileContent1' }">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="row">
+                        <span class="note">
+                            يجب إرفاق صورة بطاقة رقم الحساب (IBAN) المستلمة من البنك للطالب أو للوكيل وإرفاق صورة هوية الوكيل إذا كان الحساب البنكي للوكيل 
+                        </span>
+                    </div>
+                </div>
+                    <div class="panel-body">
+                        <div dx-file-uploader="FileUploadingOptions1">
+                            <span class="note">Allowed file extensions: <span>.Pdf</span>.</span>
+                        </div>
+                        <div>
+                            <div class="text-right" ng-if="MDL_UploadingFilesvalue1.length > 0">
+                                <h4>الملفات المختارة</h4>
+                            </div>
+                            <div ng-repeat="val in MDL_UploadingFilesvalue1">
+                                <div class="selected-item selected-item-ds text-right">
+                                    <ul class="list-unstyled" dir="rtl">
+                                        <li><span class="pull-right"> اسم الملف:</span> <span>{{val.name}}</span></li>
+                                        <li><span class="pull-right">حجم الملف:</span> <span>{{val.size}}</span> bytes</li>
+                                        <li><span class="pull-right">نوع الملف:</span>  <span>{{val.type}}</span></li>
+                                    </ul>
+                                    <a class="btn btn-danger" href="" ng-click="RemoveUploadingFile(val.$$hashKey)">
+                                        حذف الملف <i class="fa fa-trash-o"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </div>
+
+
+    @* الجزء الخاص برفع الملفات *@
+    <div dx-popup="UploadFilePopupOptions">
+        @* صفحة رفع الملفات *@
+        <div data-options="dxTemplate: { name : 'UploadFileContent' }">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="row">
+                        <span class="note">
+                            يجب إرفاق صورة بطاقة رقم الحساب (IBAN) المستلمة من البنك للطالب أو للوكيل وإرفاق صورة هوية الوكيل إذا كان الحساب البنكي للوكيل
+                        </span>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <div dx-file-uploader="FileUploadingOptions">
+                        <span class="note">Allowed file extensions: <span>.Pdf</span>.</span>
+                    </div>
+                    <div>
+                        <div class="text-right" ng-if="MDL_UploadingFilesvalue.length > 0">
+                            <h4>الملفات المختارة</h4>
+                        </div>
+                        <div ng-repeat="val in MDL_UploadingFilesvalue">
+                            <div class="selected-item selected-item-ds text-right">
+                                <ul class="list-unstyled" dir="rtl">
+                                    <li><span class="pull-right"> اسم الملف:</span> <span>{{val.name}}</span></li>
+                                    <li><span class="pull-right">حجم الملف:</span> <span>{{val.size}}</span> bytes</li>
+                                    <li><span class="pull-right">نوع الملف:</span>  <span>{{val.type}}</span></li>
+                                </ul>
+                                <a class="btn btn-danger" href="" ng-click="RemoveUploadingFile(val.$$hashKey)">
+                                    حذف الملف <i class="fa fa-trash-o"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    @* Details PupUp *@
+    <div class="popup popup-test" dx-popup="AdvanceDetailsPopup">
+
+        <div data-options="dxTemplate: { name : 'AdvanceDetailsPopupContent' }">
+            <div dx-scroll-view="{
+                height: '658px',
+                direction: 'both'
+            }">
+                <div class="panel bg-white">
+                    <div class="row">
+                        <div ng-cloak="studentExcludedDetalie !=''">
+                            <div ng-if="studentExcludedDetalie !=''" class="text-right" role="alert">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <p> الطالب لا يستحق من السلف للشروط التالية :- </p>
+                                    <pre style="margin: 10px;" class="alert alert-danger">{{studentExcludedDetalie}}</pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="panel-body" style="padding-bottom:0px">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                            <div class="tb-title">البيانات الأكاديمية</div>
+                            <div id="grid2Container" dx-data-grid="StudentBasicDataGrid()"></div>
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 dx-tree-st dx-tree-st-green form-group" style="padding-bottom:15px">
+                            <div class="tb-title">تفاصيل طلب السلفة</div>
+                            <div id="grid2Container" dx-data-grid="StudentAdvanceRequestGrid()"></div>
+                        </div>
+
+                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 dx-tree-st22-in">
+                            <div class="tb-title">متابعة تفاصيل السداد</div>
+                            <div dx-data-grid="StudentAdvancePremiumsGrid()"></div>
+                        </div>
+
+                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7 dx-tree-st22-in">
+
+                            <div class="tb-title">متابعة حالة الإعتماد</div>
+                            <div dx-data-grid="AdvanceRequestPhasesGrid()"></div>
+                        </div>
+
+                        <div class="col-md-12 col-sm-12 col-xs-12 text-left" style="padding-top:15px;padding-bottom:0px">
+                            <div dx-button="BtnClose"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div data-options="dxTemplate: { name : 'SubsidyDetailsPopupContent' }">
+            @*<div dx-scroll-view="{
+                    height: 'auto',
+                    direction: 'both'
+                }">*@
+
+            <div class="row" style="padding-top:15px;padding-bottom:0px">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                    <div class="tb-title">البيانات الأكاديمية</div>
+                    <div id="grid2Container" dx-data-grid="StudentBasicDataGrid()"></div>
+                </div>
+
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 dx-tree-st dx-tree-st-green form-group" style="padding-bottom:15px">
+                    <div class="tb-title">تفاصيل طلب الإعانة</div>
+                    <div id="grid2Container" dx-data-grid="StudentAdvanceRequestGrid()"></div>
+                </div>
+
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 dx-tree-st22-in">
+
+                    <div class="tb-title">متابعة حالة الإعتماد</div>
+                    <div dx-data-grid="AdvanceRequestPhasesGrid()"></div>
+                </div>
+                <div class="col-md-12 col-sm-12 col-xs-12 text-left" style="padding-top:15px;padding-bottom:0px">
+                    <div dx-button="BtnClose"></div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+    <!-- التحقق من سلف الطالب السابقة والشروط-->
+    <div class="popup popup-test" dx-popup="PopupStudentExcludedReson">
+        <div class="panel bg-white">
+            <div class="panel-body" style="padding-bottom:0px">
+                <pre>{{studentExcludedDetalie}}</pre>
+                <div class="form-group col-md-6 col-sm-6 col-xs-6 text-center" style="padding-top:15px;padding-bottom:0px">
+                    <div dx-button="AcceptButton"></div>
+                </div>
+                <div class="form-group col-md-6 col-sm-6 col-xs-6 text-center" style="padding-top:15px;padding-bottom:0px">
+                    <div dx-button="BtnClosePopup"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<style>
+    .swal-text {
+        text-align: center;
+    }
+
+    .control-label {
+        line-height: 25px;
+    }
+
+    .dx-overlay-wrapper-font .control-label {
+        font-size: 12px !important;
+    }
+
+    .dx-popup-title {
+        border-bottom: 1px solid #0e70a052 !important;
+        background: #ffffff !important;
+        color: #0e70a0 !important;
+    }
+
+        .dx-popup-title.dx-toolbar .dx-toolbar-label {
+            font-size: 22px !important;
+        }
+
+        .dx-popup-title.dx-toolbar {
+            padding: 12px 20px !important;
+        }
+
+        .dx-popup-title .dx-BtnClose .dx-icon {
+            color: #0e70a0 !important;
+        }
+
+    .long-title h3 {
+        font-weight: 200;
+        font-size: 28px;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    fieldset {
+        border: none;
+        margin: 2px 0;
+        padding: 8px 0 5px 0;
+        border: 1px solid #e6e6e6;
+        position: relative;
+        border-radius: 5px;
+    }
+
+    .fieldset-dds {
+        line-height: 20px;
+    }
+
+    .table {
+        margin-bottom: 5px;
+    }
+
+    .form-group {
+        margin-bottom: 5px;
+    }
+
+    .breadcrumb-wrapper {
+        margin: 15px 15px 0 15px;
+        padding: 11px 15px;
+        border-bottom: 1px solid #ddd;
+    }
+
+
+    .panel-heading.panel-heading-ds {
+        border: 0;
+        border-top: 1px solid #0e70a0;
+        min-height: 100%;
+        padding: 0;
+    }
+
+    .dx-texteditor.dx-state-readonly {
+        border-color: #ddd !important;
+    }
+
+    .panel-title.panel-title-ds > a, .panel-title.panel-title-ds > a:active {
+        display: block;
+        font-size: 16px;
+        font-weight: bold;
+        letter-spacing: 1px;
+        padding: 12px 15px;
+        text-decoration: none;
+        text-transform: uppercase;
+        word-spacing: 3px;
+    }
+
+    .panel-heading.panel-heading-ds .accord:before {
+        border: 1px solid #ccc;
+        border-radius: 50%;
+        content: "\f077";
+        float: left;
+        font-family: FontAwesome;
+        margin-top: -8px;
+        padding: 7px;
+        transition: all 0.5s;
+    }
+
+    .panel-heading.panel-heading-ds a.collapsed:before {
+        -moz-transform: rotate(180deg);
+        -webkit-transform: rotate(180deg);
+        transform: rotate(180deg);
+    }
+
+    .c-v .panel-group {
+        margin-bottom: 0;
+    }
+
+    .c-v .panel-collapse {
+        border-bottom: 1px solid #ddd;
+        border-left: 1px solid #ddd;
+        border-right: 1px solid #ddd;
+        margin-bottom: 10px;
+    }
+
+    .dx-field-value:not(.dx-switch):not(.dx-checkbox):not(.dx-button) {
+        width: 100% !important;
+    }
+
+    .dx-dropdowneditor-input-wrapper {
+        background: #fff;
+        border: 0px solid #c8c7cc;
+    }
+
+    .check-test {
+        flex: none !important;
+    }
+
+    textarea:focus {
+        outline-style: solid;
+        outline-width: 0px;
+    }
+
+    .dx-state-disabled.dx-widget, .dx-state-readonly.dx-widget {
+        cursor: not-allowed !important;
+        pointer-events: auto !important
+    }
+
+        .dx-state-disabled.dx-widget .dx-texteditor-input, .dx-state-disabled .dx-tab-content {
+            cursor: not-allowed !important;
+        }
+
+        .dx-state-readonly.dx-widget .dx-texteditor-input {
+            cursor: -webkit-grab;
+            cursor: grab;
+        }
+
+    .dx-tab.dx-tab-selected .dx-item-content.dx-tab-content {
+        color: #0e70a0;
+    }
+
+    .dx-tab .dx-item-content.dx-tab-content {
+        font-size: 17px;
+    }
+
+    .l-h-30 {
+        line-height: 35px !important;
+        font-size: 13px !important;
+    }
+
+    .p-l-0 {
+        padding-left: 0
+    }
+
+    .dx-list {
+        height: 90%;
+        top: 0;
+        bottom: 0;
+    }
+
+    .info {
+        margin-top: 5px;
+        height: 78px;
+        text-align: center;
+    }
+
+    .image-container {
+        width: 65px;
+        float: left;
+        margin-right: 20px;
+    }
+
+        .image-container img {
+            display: block;
+            width: 100%;
+        }
+
+    .dx-tabs.dx-navbar {
+        text-align: center;
+        position: absolute;
+        bottom: 0;
+    }
+
+    .listOptions-ds .dx-list-item-content {
+        font-weight: normal;
+        padding: 15px 10px 15px 10px;
+        border-top: 0;
+        border-bottom: 1px solid #ddd;
+        cursor: pointer;
+        transition: .5s;
+    }
+
+
+        .listOptions-ds .dx-list-item-content:hover {
+            background: #0e70a0;
+            color: #FFF;
+        }
+
+
+        .listOptions-ds .dx-list-item-content i {
+            margin-left: 10px;
+            transition: all 0.3s ease;
+        }
+
+
+        .listOptions-ds .dx-list-item-content:hover i {
+            margin-left: 15px;
+            color: #FFF;
+        }
+
+    td.dx-command-edit {
+        text-align: center !important
+    }
+
+    .note-ds {
+        background-color: #fffecc !important;
+    }
+
+    .poupup-dds .dx-popup-content {
+        height: 70vh !important;
+        overflow-y: scroll;
+    }
+
+
+    .dx-list-item-content, .dx-list .dx-empty-message {
+        padding: 0px 0px;
+    }
+
+    .list-item-ds .dx-list-item {
+        width: 220px !important;
+        height: 94px;
+        border: 1px solid #ddd;
+        margin: 2px 14px;
+        display: inline-block !important;
+    }
+</style>

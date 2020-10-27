@@ -1,0 +1,112 @@
+﻿@model  PaidDocRPT
+
+@{
+    ViewBag.Title = "طباعة سندات الصرف النقدي";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="container-fluid container-fullw">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel bg-white">
+                <div class="breadcrumb-wrapper text-right">
+                    <h4 class="no-margin">طباعة سندات الصرف النقدي </h4>
+                </div>
+                <div>
+
+                    @Html.DevExpress().WebDocumentViewer(settings => {
+                           settings.Name = "PaidDocRPT";
+
+                    }).Bind(Model).GetHtml()
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@*@model string
+
+    @{
+        ViewBag.Title = "طباعة سندات الصرف النقدي";
+        Layout = "~/Views/Shared/_DevextremeLayout.cshtml";
+    }
+
+    <script>
+        function onDocumetnViewerInit(s) {
+            debugger;
+            var createFrameElement = s.viewer.printHelper.createFrameElement;
+            s.viewer.printHelper.createFrameElement = function (name) {
+                var frameElement = createFrameElement.call(this, name);
+                if (ASPx.Browser.Chrome) {
+                    frameElement.addEventListener("load", function (e) {
+                        if (frameElement.contentDocument.contentType !== "text/html")
+                            frameElement.contentWindow.print();
+                    });
+                }
+                return frameElement;
+            }
+        }
+
+    </script>
+
+    <div class="container-fluid container-fullw">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel bg-white">
+                    <div class="breadcrumb-wrapper text-right">
+                        <h4 class="no-margin">طباعة سندات الصرف النقدي </h4>
+                    </div>
+                    <div>
+
+                        @Html.DevExpress().CallbackPanel(settings =>
+                   {
+                       settings.Name = "_PrintJournalCallbackPanel";
+                       settings.CallbackRouteValues = new { Controller = "Advances", Action = "_PrintDoc", DocMasterIds = Model };
+                       settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+
+
+                       settings.SetContent(() =>
+                       {
+
+
+                           @Html.RenderPartial("_PrintDoc", (PaidDocRPT)ViewData["Report"]);
+                       });
+                   }).GetHtml()
+                         @Html.Partial("_PrintDoc", Model)
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>*@

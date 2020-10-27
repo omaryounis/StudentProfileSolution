@@ -1,0 +1,22 @@
+﻿
+<div class="col-lg-12">
+    <div class="bs-example bs-example-images">
+        @if (Session["UploadedFiles"] != null)
+        {
+            var fileNames = (Dictionary<string, byte[]>)Session["UploadedFiles"];
+            foreach (var e in fileNames)
+            {
+                @*<td>@e.Key</td>*@
+                <div class="col-lg-2">
+                    @{
+                        var base64 = Convert.ToBase64String(e.Value);
+                        var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
+                    }
+                    <a href="@imgSrc"  data-fancybox="gallery" >
+                        <img src="@imgSrc" class="img-thumbnail" />
+                    </a>
+                </div>
+                            }
+                        }
+    </div>
+</div>

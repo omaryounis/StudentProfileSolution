@@ -1,0 +1,107 @@
+﻿
+@{
+    ViewBag.Title = "القيود المجمعة";
+    Layout = "~/Views/Shared/_DevextremeLayout.cshtml";
+}
+
+<script src="~/Scripts/Advances/ReceiveAdvancesAggregateJournalCtrl.js"></script>
+@*<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>*@
+
+<style>
+    .swal-text {
+        text-align: center;
+    }
+
+    .dx-popup-title {
+        border-bottom: 1px solid #0e70a052 !important;
+        background: #ffffff !important;
+        color: #0e70a0 !important;
+    }
+
+        .dx-popup-title.dx-toolbar .dx-toolbar-label {
+            font-size: 22px !important;
+        }
+
+        .dx-popup-title.dx-toolbar {
+            padding: 12px 20px !important;
+        }
+
+        .dx-popup-title .dx-closebutton .dx-icon {
+            color: #0e70a0 !important;
+        }
+
+    td.dx-command-edit {
+        text-align: center !important
+    }
+</style>
+
+<div class="container-fluid container-fullw">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel bg-white">
+                <div class="breadcrumb-wrapper text-right">
+                    <h4 class="no-margin">القيود المجمعة لسندات تحصيل السلف</h4>
+                </div>
+                <div ng-controller="ReceiveAdvancesAggregateJournalCtrl">
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div dx-data-grid="CollectibleDocAdvancesGrid" class="dx-tree-st dx-tree-st22" dx-item-alias="CollectiblDocAdvancesItem">
+                                    <div data-options="dxTemplate: { name : 'DocDetailContent' }">
+
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 dx-tree-st22-in dx-tree-st22-in-yellow">
+
+                                            <div class="master-detail-caption-st">نموذج تحصيل القيد</div>
+                                            <div dx-data-grid="GetDocDetaisGrid(CollectiblDocAdvancesItem.key)"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br />
+                                <div class="clearfix"></div>
+                                <div class="clearfix"></div>
+
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 dx-tree-st22-in dx-tree-st22-in-yellow">
+                                    <div dx-data-grid="GetDocDetaisGridPreview"></div>
+                                </div>
+
+
+                                <div class="form-group text-left col-lg-5 col-md-5 col-sm-12 col-xs-12 pull-left">
+                                    <div dx-button="DocAdvancesBtnShow"></div>
+                                </div>
+
+                                <div class="form-group text-left col-lg-5 col-md-5 col-sm-12 col-xs-12 pull-left">
+                                    <div dx-button="CollectiblePostDocAdvancesBtn"></div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        @* الشاشة إدخال تاريخ الترحيل وتأكيد العملية *@
+                        <div dx-popup="PostJournal.Options">
+                            <div data-options="dxTemplate: { name:'PostedJournalPopupContent' }">
+
+                                <div class="panel panel-default">
+                                    <div class="panel-body" style="padding-left: 0px;padding-right: 0px;">
+                                        <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12 form-group">
+                                            <label class="col-md-4 col-sm-4 col-xs-12 text-right control-label">تاريخ ترحيل القيد</label>
+                                            <div class="col-md-8 col-sm-8 col-xs-12">
+                                                <div style="width:100%" dx-date-box="PostJournal.DB_PostJournalDate" dx-validator="PostJournal.ValidationRules.Required"></div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 form-group text-left">
+                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                <div dx-button="PostJournal.SaveButton"></div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,169 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<XtraReportsLayoutSerializer SerializerVersion="17.2.5.0" Ref="1" ControlType="StudentsTravel, StudentProfile, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" Name="StudentsTravel" DisplayName="بيان بطلاب الكليات المسافرين" Landscape="true" Margins="30, 40, 69, 100" PaperKind="A4" PageWidth="1169" PageHeight="827" Version="17.2" RequestParameters="false" RightToLeft="Yes" RightToLeftLayout="Yes" EventsInfo="StudentsTravel,DataSourceDemanded,StudentsTravel_DataSourceDemanded;xrPictureBox1,BeforePrint,xrPictureBox1_BeforePrint;GroupHeader1,BeforePrint,GroupHeader1_BeforePrint;detailBand1,BeforePrint,detailBand1_BeforePrint" DataSource="#Ref-0">
+  <Extensions>
+    <Item1 Ref="2" Key="DataSerializationExtension" Value="DevExpress.XtraReports.Web.ReportDesigner.DefaultDataSerializer" />
+  </Extensions>
+  <Bands>
+    <Item1 Ref="3" ControlType="TopMarginBand" Name="topMarginBand1" HeightF="69" />
+    <Item2 Ref="4" ControlType="ReportHeaderBand" Name="ReportHeader" HeightF="120">
+      <Controls>
+        <Item1 Ref="5" ControlType="XRTableOfContents" Name="xrTableOfContents1" RightToLeft="Yes" LocationFloat="0, 43.99999">
+          <Levels>
+            <Item1 Ref="6" Height="23" Font="Times New Roman, 9.75pt, style=Bold" Padding="0,0,0,0,100" />
+          </Levels>
+          <LevelTitle Ref="7" Text="بيان بالطلاب المسافرين" Height="30" Font="Times New Roman, 9.75pt, style=Bold" Padding="0,0,0,0,100" />
+          <LevelDefault Ref="8" Height="23" Padding="0,0,0,0,100" />
+        </Item1>
+      </Controls>
+    </Item2>
+    <Item3 Ref="9" ControlType="PageHeaderBand" Name="PageHeader" HeightF="224.96">
+      <Controls>
+        <Item1 Ref="10" ControlType="XRLabel" Name="xrLabel1" Text="المملكة العربية السعودية" TextAlignment="MiddleCenter" SizeF="187.5,25" LocationFloat="0, 0" Font="Times New Roman, 9.75pt, style=Bold" Padding="2,2,0,0,100">
+          <StylePriority Ref="11" UseFont="false" UseTextAlignment="false" />
+        </Item1>
+        <Item2 Ref="12" ControlType="XRPageInfo" Name="xrPageInfo2" RightToLeft="Yes" PageInfo="DateTime" TextFormatString="{0:yyyy-MM-dd}" SizeF="109.3749,25" LocationFloat="989.6251, 0" Font="Times New Roman, 9.75pt, style=Bold" Padding="2,2,0,0,100">
+          <StylePriority Ref="13" UseFont="false" />
+        </Item2>
+        <Item3 Ref="15" ControlType="XRPageInfo" Name="xrPageInfo1" RunningBand="#Ref-14" SizeF="109.3749,25" LocationFloat="989.6251, 25" Font="Times New Roman, 9.75pt, style=Bold" Padding="2,2,0,0,100">
+          <StylePriority Ref="16" UseFont="false" />
+        </Item3>
+        <Item4 Ref="17" ControlType="XRPictureBox" Name="xrPictureBox1" Sizing="ZoomImage" SizeF="148.9583,125" LocationFloat="425, 0" />
+        <Item5 Ref="18" ControlType="XRLabel" Name="xrLabel6" Text="تاريخ الطباعة:" TextAlignment="MiddleRight" SizeF="109.3749,25" LocationFloat="880.2502, 0" Font="Times New Roman, 9.75pt, style=Bold" Padding="2,2,0,0,100">
+          <StylePriority Ref="19" UseFont="false" UseTextAlignment="false" />
+        </Item5>
+        <Item6 Ref="20" ControlType="XRLabel" Name="xrLabel7" Text="الصفحة:" TextAlignment="MiddleRight" SizeF="109.3749,25" LocationFloat="880.2502, 25" Font="Times New Roman, 9.75pt, style=Bold" Padding="2,2,0,0,100">
+          <StylePriority Ref="21" UseFont="false" UseTextAlignment="false" />
+        </Item6>
+        <Item7 Ref="22" ControlType="XRLabel" Name="xrLabel5" Text="رمز الجامعة:(032)" TextAlignment="MiddleCenter" SizeF="187.5,25" LocationFloat="0, 100" Font="Times New Roman, 9.75pt, style=Bold" Padding="2,2,0,0,100">
+          <StylePriority Ref="23" UseFont="false" UseTextAlignment="false" />
+        </Item7>
+        <Item8 Ref="24" ControlType="XRLabel" Name="xrLabel4" Text="ادارة السفر" TextAlignment="MiddleCenter" SizeF="187.5,25" LocationFloat="0, 75" Font="Times New Roman, 9.75pt, style=Bold" Padding="2,2,0,0,100">
+          <StylePriority Ref="25" UseFont="false" UseTextAlignment="false" />
+        </Item8>
+        <Item9 Ref="26" ControlType="XRLabel" Name="xrLabel3" Text="الجامعة الاسلامية بالمدينة المنورة" TextAlignment="MiddleCenter" SizeF="187.5,25" LocationFloat="0, 50" Font="Times New Roman, 9.75pt, style=Bold" Padding="2,2,0,0,100">
+          <StylePriority Ref="27" UseFont="false" UseTextAlignment="false" />
+        </Item9>
+        <Item10 Ref="28" ControlType="XRLabel" Name="xrLabel2" Text="وزارة التعليم العالي" TextAlignment="MiddleCenter" SizeF="187.5,25" LocationFloat="0, 25" Font="Times New Roman, 9.75pt, style=Bold" Padding="2,2,0,0,100">
+          <StylePriority Ref="29" UseFont="false" UseTextAlignment="false" />
+        </Item10>
+        <Item11 Ref="30" ControlType="XRLine" Name="xrLine1" SizeF="1098.75,23" LocationFloat="0, 125" />
+        <Item12 Ref="31" ControlType="XRLabel" Name="xrLabel10" Text="حالة الطلب مقبول" TextAlignment="MiddleLeft" SizeF="160.4169,25" LocationFloat="938.5833, 174.9583" Font="Times New Roman, 9.75pt, style=Bold" Padding="2,2,0,0,100">
+          <StylePriority Ref="32" UseFont="false" UseTextAlignment="false" />
+        </Item12>
+        <Item13 Ref="33" ControlType="XRPageInfo" Name="xrPageInfo3" RightToLeft="Yes" PageInfo="DateTime" TextFormatString="{0:yyyy}" TextAlignment="MiddleLeft" SizeF="66.66673,25" LocationFloat="127.5832, 174.9583" Font="Times New Roman, 9.75pt, style=Bold" Padding="2,2,0,0,100">
+          <StylePriority Ref="34" UseFont="false" UseTextAlignment="false" />
+        </Item13>
+        <Item14 Ref="35" ControlType="XRTable" Name="xrTable2" TextAlignment="MiddleCenter" SizeF="1098.667,25" LocationFloat="0.3333321, 199.9583" Font="Times New Roman, 12pt, style=Bold" BackColor="LightGray" Borders="Left, Top, Right">
+          <Rows>
+            <Item1 Ref="36" ControlType="XRTableRow" Name="xrTableRow2" Weight="11.5">
+              <Cells>
+                <Item1 Ref="37" ControlType="XRTableCell" Name="xrTableCell9" Weight="0.11900045815480272" Text="الطالب" Bookmark="StudentID" />
+                <Item2 Ref="38" ControlType="XRTableCell" Name="xrTableCell10" Weight="0.21515017755153781" Text="اسم الطالب - عربى" TextAlignment="MiddleCenter" Bookmark="NamePerIdentity_Ar">
+                  <StylePriority Ref="39" UseTextAlignment="false" />
+                </Item2>
+                <Item3 Ref="40" ControlType="XRTableCell" Name="xrTableCell11" Weight="0.24333022179633021" Text="اسم الطالب - لاتيني" Bookmark="NamePerIdentity_En" />
+                <Item4 Ref="41" ControlType="XRTableCell" Name="xrTableCell12" Weight="0.17382304582282929" Text="خط السير" Bookmark="Country" />
+                <Item5 Ref="42" ControlType="XRTableCell" Name="xrTableCell13" Weight="0.17382304141696148" Text="الجهة الدراسية" TextAlignment="MiddleCenter" Bookmark="Faculty">
+                  <StylePriority Ref="43" UseTextAlignment="false" />
+                </Item5>
+                <Item6 Ref="44" ControlType="XRTableCell" Name="xrTableCell14" Weight="0.072764175564808034" Text="المستوى" Bookmark="Level" />
+                <Item7 Ref="45" ControlType="XRTableCell" Name="xrTableCell15" Weight="0.11996670383383634" Text="تاريخ السفر" Bookmark="Departing" />
+                <Item8 Ref="46" ControlType="XRTableCell" Name="xrTableCell16" Weight="0.11965811965811971" Text="تاريخ العودة" Bookmark="Returning" />
+              </Cells>
+            </Item1>
+          </Rows>
+          <StylePriority Ref="47" UseFont="false" UseBackColor="false" UseBorders="false" UseTextAlignment="false" />
+        </Item14>
+        <Item15 Ref="48" ControlType="XRLabel" Name="xrLabel8" Text="بيان بالطلاب المسافرين لعام" TextAlignment="MiddleLeft" SizeF="127.0833,25" LocationFloat="0.4999371, 174.9583" Font="Times New Roman, 9.75pt, style=Bold" Padding="2,2,0,0,100">
+          <StylePriority Ref="49" UseFont="false" UseTextAlignment="false" />
+        </Item15>
+        <Item16 Ref="50" ControlType="XRLabel" Name="xrLabel11" Text="بيان بالطلاب المسافرين" TextAlignment="MiddleCenter" SizeF="144.7917,25" LocationFloat="324.4741, 148" Font="Times New Roman, 12pt, style=Bold" Padding="2,2,0,0,100">
+          <StylePriority Ref="51" UseFont="false" UseTextAlignment="false" />
+        </Item16>
+      </Controls>
+    </Item3>
+    <Item4 Ref="14" ControlType="GroupHeaderBand" Name="GroupHeader1" PageBreak="BeforeBand" HeightF="0">
+      <GroupFields>
+        <Item1 Ref="52" FieldName="NATIONALITY_CODE" />
+      </GroupFields>
+    </Item4>
+    <Item5 Ref="53" ControlType="DetailBand" Name="detailBand1" HeightF="25.00002" KeepTogether="true">
+      <SortFields>
+        <Item1 Ref="54" FieldName="TRAVEL_LINE_NO" />
+        <Item2 Ref="55" FieldName="STUDENT_ID" />
+      </SortFields>
+      <Controls>
+        <Item1 Ref="56" ControlType="XRLabel" Name="xrLabel18" TextFormatString="{0:dd/MM/yyy}" Text="xrLabel18" TextAlignment="TopCenter" SizeF="103.2571,23" LocationFloat="992.7675, 0" Font="Times New Roman, 11pt, style=Bold" Padding="2,2,0,0,100">
+          <ExpressionBindings>
+            <Item1 Ref="57" Expression="[Returning]" PropertyName="Text" EventName="BeforePrint" />
+          </ExpressionBindings>
+          <StylePriority Ref="58" UseFont="false" UseTextAlignment="false" />
+        </Item1>
+        <Item2 Ref="59" ControlType="XRLabel" Name="xrLabel17" TextFormatString="{0:dd/MM/yyyy}" Text="xrLabel17" TextAlignment="TopCenter" SizeF="106.3397,23" LocationFloat="886.4276, 0" Font="Times New Roman, 11pt, style=Bold" Padding="2,2,0,0,100">
+          <ExpressionBindings>
+            <Item1 Ref="60" Expression="[Departing]" PropertyName="Text" EventName="BeforePrint" />
+          </ExpressionBindings>
+          <StylePriority Ref="61" UseFont="false" UseTextAlignment="false" />
+        </Item2>
+        <Item3 Ref="62" ControlType="XRLabel" Name="xrLabel16" Text="xrLabel16" TextAlignment="TopCenter" SizeF="64.43347,23" LocationFloat="821.8275, 0" Font="Times New Roman, 11pt, style=Bold" Padding="2,2,0,0,100">
+          <ExpressionBindings>
+            <Item1 Ref="63" Expression="[Level]" PropertyName="Text" EventName="BeforePrint" />
+          </ExpressionBindings>
+          <StylePriority Ref="64" UseFont="false" UseTextAlignment="false" />
+        </Item3>
+        <Item4 Ref="65" ControlType="XRLabel" Name="xrLabel15" Text="xrLabel15" TextAlignment="TopCenter" SizeF="154.1534,23" LocationFloat="667.5075, 0" Font="Times New Roman, 11pt, style=Bold" Padding="2,2,0,0,100">
+          <ExpressionBindings>
+            <Item1 Ref="66" Expression="[Faculty]" PropertyName="Text" EventName="BeforePrint" />
+          </ExpressionBindings>
+          <StylePriority Ref="67" UseFont="false" UseTextAlignment="false" />
+        </Item4>
+        <Item5 Ref="68" ControlType="XRLabel" Name="xrLabel14" Text="xrLabel14" TextAlignment="TopCenter" SizeF="154.1535,23" LocationFloat="513.1874, 0" Font="Times New Roman, 11pt, style=Bold" Padding="2,2,0,0,100">
+          <ExpressionBindings>
+            <Item1 Ref="69" Expression="[Country]" PropertyName="Text" EventName="BeforePrint" />
+          </ExpressionBindings>
+          <StylePriority Ref="70" UseFont="false" UseTextAlignment="false" />
+        </Item5>
+        <Item6 Ref="71" ControlType="XRLabel" Name="xrLabel13" Text="xrLabel13" TextAlignment="TopCenter" SizeF="221.677,23" LocationFloat="291.5104, 0" Font="Times New Roman, 11pt, style=Bold" Padding="2,2,0,0,100">
+          <ExpressionBindings>
+            <Item1 Ref="72" Expression="[NamePerIdentity_En]" PropertyName="Text" EventName="BeforePrint" />
+          </ExpressionBindings>
+          <StylePriority Ref="73" UseFont="false" UseTextAlignment="false" />
+        </Item6>
+        <Item7 Ref="74" ControlType="XRLabel" Name="xrLabel12" Text="xrLabel12" TextAlignment="TopCenter" SizeF="190.8436,23" LocationFloat="100.6668, 0" Font="Times New Roman, 11pt, style=Bold" Padding="2,2,0,0,100">
+          <ExpressionBindings>
+            <Item1 Ref="75" Expression="[NamePerIdentity_Ar]" PropertyName="Text" EventName="BeforePrint" />
+          </ExpressionBindings>
+          <StylePriority Ref="76" UseFont="false" UseTextAlignment="false" />
+        </Item7>
+        <Item8 Ref="77" ControlType="XRLabel" Name="xrLabel9" Text="xrLabel9" TextAlignment="TopCenter" SizeF="100.3334,23" LocationFloat="0.4999796, 0" Font="Times New Roman, 11pt, style=Bold" Padding="2,2,0,0,100">
+          <ExpressionBindings>
+            <Item1 Ref="78" Expression="[StudentID]" PropertyName="Text" EventName="BeforePrint" />
+          </ExpressionBindings>
+          <StylePriority Ref="79" UseFont="false" UseTextAlignment="false" />
+        </Item8>
+      </Controls>
+    </Item5>
+    <Item6 Ref="80" ControlType="GroupFooterBand" Name="GroupFooter1" PageBreak="AfterBand" HeightF="216.48">
+      <Controls>
+        <Item1 Ref="81" ControlType="XRPivotGrid" Name="pivotGrid1" SizeF="250,120" LocationFloat="251.05, 96.48">
+          <OptionsPrint Ref="82" UsePrintAppearance="true" FilterSeparatorBarPadding="3" />
+          <OptionsView Ref="83" />
+          <Prefilter Ref="84" />
+          <OptionsChartDataSource Ref="85" />
+        </Item1>
+      </Controls>
+    </Item6>
+    <Item7 Ref="86" ControlType="BottomMarginBand" Name="bottomMarginBand1" HeightF="100" />
+  </Bands>
+  <StyleSheet>
+    <Item1 Ref="87" Name="Title" BorderStyle="Inset" Font="Tahoma, 14pt" ForeColor="255,75,75,75" BackColor="Transparent" BorderColor="Black" Sides="None" StringFormat="Near;Near;0;None;Character;Default" BorderWidthSerializable="1" />
+    <Item2 Ref="88" Name="DetailCaption3" BorderStyle="Inset" Padding="6,6,0,0,100" Font="Tahoma, 8pt, style=Bold" ForeColor="255,75,75,75" BackColor="Transparent" BorderColor="Transparent" Sides="None" StringFormat="Near;Center;0;None;Character;Default" TextAlignment="MiddleLeft" />
+    <Item3 Ref="89" Name="DetailData3" BorderStyle="Inset" Padding="6,6,0,0,100" Font="Tahoma, 8pt" ForeColor="Black" StringFormat="Near;Center;0;None;Character;Default" TextAlignment="MiddleLeft" />
+    <Item4 Ref="90" Name="DetailData3_Odd" BorderStyle="Inset" Padding="6,6,0,0,100" Font="Tahoma, 8pt" ForeColor="Black" BackColor="255,231,231,231" BorderColor="Transparent" Sides="None" StringFormat="Near;Center;0;None;Character;Default" TextAlignment="MiddleLeft" BorderWidthSerializable="1" />
+    <Item5 Ref="91" Name="DetailCaptionBackground3" BorderStyle="Inset" BackColor="Transparent" BorderColor="255,206,206,206" Sides="Top" StringFormat="Near;Near;0;None;Character;Default" BorderWidthSerializable="2" />
+    <Item6 Ref="92" Name="PageInfo" BorderStyle="Inset" Padding="2,2,0,0,100" Font="Tahoma, 8pt, style=Bold" ForeColor="255,75,75,75" StringFormat="Near;Near;0;None;Character;Default" />
+  </StyleSheet>
+  <ObjectStorage>
+    <Item1 Ref="0" ObjectType="DevExpress.DataAccess.ObjectBinding.ObjectDataSource,DevExpress.DataAccess.v17.2" Name="objectDataSource1" Base64="PE9iamVjdERhdGFTb3VyY2U+PE5hbWU+b2JqZWN0RGF0YVNvdXJjZTE8L05hbWU+PERhdGFTb3VyY2UgVHlwZT0iRGFzaGJvYXJkX1N0dWRlbnRQcm9maWxlLlZNLlJwdEdldEFsbFRyYXZlbFN0dWRlbnRWTSwgRGFzaGJvYXJkX1N0dWRlbnRQcm9maWxlLCBWZXJzaW9uPTEuMC4wLjAsIEN1bHR1cmU9bmV1dHJhbCwgUHVibGljS2V5VG9rZW49bnVsbCIgLz48L09iamVjdERhdGFTb3VyY2U+" />
+  </ObjectStorage>
+</XtraReportsLayoutSerializer>

@@ -1,0 +1,162 @@
+﻿
+@{
+    ViewBag.Title = "انشاء قائمة الطلاب للجنة الاكاديمة";
+    Layout = "~/Views/Shared/_DevextremeLayout.cshtml";
+}
+<style>
+    fieldset {
+        border: none;
+        margin: 2px 0;
+        padding: 8px 0 5px 0;
+        border: 1px solid #33333329;
+        position: relative;
+        border-radius: 5px;
+        background: #e6e6e6;
+    }
+
+    .fieldset-dds {
+        line-height: 20px;
+    }
+
+    .btn-danger.dx-button-mode-contained {
+        background-color: #fd5144;
+        border-color: #fd5144;
+        color: #fff;
+    }
+
+        .btn-danger.dx-button-mode-contained:hover {
+            background-color: #d82d20;
+            border-color: #d82d20;
+        }
+    .panel-default > .panel-heading {
+        color: #333;
+        background-color: #ebf1f7;
+        border-color: #ddd;
+    }
+
+   
+</style>
+
+<script src="~/Scripts/AcademicCommittee/SeparatedStudentsService.js"></script>
+<script src="~/Scripts/AcademicCommittee/SeparatedStudentsController.js"></script>
+
+<div ng-controller="SeparatedStudentsCtrl">
+    <div class="container-fluid container-fullw">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel bg-white col-md-12">
+                    <div class="breadcrumb-wrapper text-right">
+                        <div class="row">
+                            <div class="col-lg-6 col-sm-6 col-xs-6 text-right">
+                                <h4 class="no-margin"> انشاء قائمة الطلاب للجنة الاكاديمة </h4>
+                            </div>
+                            @*<div class="col-lg-6 col-sm-6 col-xs-6 text-left">
+                    <div class="col-lg-12 col-sm-12 col-xs-12">
+                        <div class="btn btn-danger" dx-button="btnUpdateStudentsData"></div>
+                    </div>
+                </div>*@
+                        </div>
+
+                    </div>
+                    <div class="col-md-12">
+                        <div class="panel panel-default" style="margin-top:15px;">
+                            <div class="panel-heading">
+                                <form id="form" class="row" ng-submit="ViewSeparatedStudents($event)">
+                                    <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                                        <label class="col-lg-3 col-md-3 col-sm-12 col-xs-12 control-label text-right"> الكليات</label>
+                                        <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12  ">
+                                            <div dx-tag-box="FacultionSelectBox" style="        width: 100%;
+        height: 34px;
+"
+                                                 dx-validator="validationRequired"></div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                                        <label class="col-lg-3 col-md-3 col-sm-12 col-xs-12 control-label text-right"> الدرجات العلمية</label>
+                                        <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12  ">
+                                            <div dx-tag-box="DegreeSelectBox" style="width:100%;height: 34px;"
+                                                 dx-validator="validationRequired"></div>
+                                        </div>
+                                    </div>
+                                    @if (ViewBag.Read != null)
+                                    {
+                                        if (ViewBag.Read)
+                                        {
+                                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 text-right">
+                                                <div class="col-lg-12 col-sm-12 col-xs-12 ">
+                                                    <div id="btnView" class="btn btn-success" style="margin: 0;" dx-button="btnView"> </div>
+                                                </div>
+                                            </div>
+                                        }
+                                    }
+
+                                </form>
+                            </div>
+
+
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-lg-12 col-sm-12 col-xs-12" style="position:relative">
+                                        <div id="List" class="col-lg-12 col-sm-12 col-xs-12">
+                                            <div class="dx-viewport dx-tree-st">
+                                                <div class="demo-container">
+                                                    <div id="gridSeparatedStudents" class="dx-tree-st dx-tree-st22" dx-data-grid="gridSeparatedStudents" @*dx-item-alias="SeparatedStudents"*@></div>
+                                                    @*<div data-options="dxTemplate: {name: 'detail'}">
+                                            <div style="width:1200px;float:right">
+                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 dx-tree-st22-in">
+                                                    <div class="master-detail-caption-st text-center">تفاصيل الحركات </div>
+                                                    <div dx-data-grid="gridDetailTrans(SeparatedStudents.key)"></div>
+                                                </div>
+                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 dx-tree-st22-in">
+                                                    <div class="master-detail-caption-st text-center">الفرص الاضافية</div>
+                                                    <div dx-data-grid="gridDetailExtraChance(SeparatedStudents.key)"></div>
+                                                </div>
+                                            </div>
+                                        </div>*@
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                                    <label class="col-lg-12 col-sm-12 col-xs-12 control-label text-right"> <br /> </label>
+                                    <div class="btn btn-success" dx-button="btnRelayStudents"> </div>
+                                </div>
+
+                                @Html.Partial("_AcademicCommitteeStudentDetaliesPartial")
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    <style>
+
+    .popup-ddds .dx-overlay-content.dx-popup-normal {
+        height: auto !important;
+        left: 50% !important;
+        top: 50% !important;
+        transform: translate(-50%, -100%) !important;
+    }
+
+
+        .dx-fileuploader-input-wrapper {
+            padding: 0;
+            border: 0;
+        }
+
+        .dx-fileuploader-wrapper {
+            padding: 0;
+        }
+
+        .dx-dropdownlist-popup-wrapper .dx-popup-content {
+            height: 250px !important
+        }
+    </style>
+
+

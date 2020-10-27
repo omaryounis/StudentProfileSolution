@@ -1,0 +1,478 @@
+﻿@using System.Web.UI.WebControls
+@model StudentProfile.DAL.Models.UniversityStudents
+@using System.Drawing
+@using System.Web.UI.WebControls
+
+@using (Ajax.BeginForm("SaveStudentData", "Students", new AjaxOptions { OnComplete="StepOver"}))
+{
+    Html.DevExpress().FormLayout(settings =>
+    {
+        settings.Name = "StDataFormLayout";
+        //settings.Enabled = ViewBag.isInialized;
+        settings.SettingsItems.ShowCaption = DefaultBoolean.True;
+        settings.SettingsItemCaptions.Location = LayoutItemCaptionLocation.Top;
+        settings.AlignItemCaptionsInAllGroups = true;
+        //settings.SettingsAdaptivity.AdaptivityMode = FormLayoutAdaptivityMode.SingleColumnWindowLimit;
+        settings.SettingsAdaptivity.SwitchToSingleColumnAtWindowInnerWidth = 500;
+        settings.Width = Unit.Percentage(100);
+        settings.UseDefaultPaddings = false;
+        settings.EncodeHtml = false;
+        settings.UseDefaultPaddings = false;
+        //settings.Styles.LayoutGroupBox.Caption.CssClass = "layoutGroupBoxCaption";
+        settings.RightToLeft = DefaultBoolean.True;
+        settings.ColCount = 1;
+
+        var groupItem = settings.Items.AddGroupItem(i =>
+        {
+            i.Caption = "تعديل بيانات الطالب";
+            i.ColCount = 4;
+            i.GroupBoxStyle.Caption.Font.Bold = true;
+            i.GroupBoxStyle.Caption.Font.Size = 16;
+            i.VerticalAlign = FormLayoutVerticalAlign.Top;
+            i.SettingsItemHelpTexts.Position = HelpTextPosition.Bottom;
+            i.GroupBoxDecoration = GroupBoxDecoration.None;
+        });
+        groupItem.Items.Add(i =>
+        {
+            i.Caption = "الرقم الأكاديمي";
+            i.FieldName = "Student_ID";
+            i.Name = "LabelStID";
+            //i.CssClass = "test2";
+            i.NestedExtensionType = FormLayoutNestedExtensionItemType.Label;
+            //i.NestedExtensionSettings.Enabled = false;
+            //i.NestedExtension().TextBox(x =>
+            //{
+            //    x.Name = "Student_ID";
+            //    x.ReadOnly = true;
+            //});
+            //i.SetNestedContent(() =>
+            //{
+            //    ViewContext.Writer.Write(
+            //        $"<input type='hidden' value={Model.ID} id='ID' />"
+            //        );
+            //});
+            //i.Width = Unit.Percentage(25);
+
+        });
+        groupItem.Items.Add(i =>
+        {
+            i.Caption = "رقم الهوية";
+            i.FieldName = "National_ID";
+            i.Name = "LabelNID";
+            //i.CssClass = "test2";
+            i.NestedExtensionType = FormLayoutNestedExtensionItemType.Label;
+            //i.CssClass = "test2";
+            //i.NestedExtensionType = FormLayoutNestedExtensionItemType.TextBox;
+            //i.NestedExtension().TextBox(x =>
+            //{
+            //    x.Name = "National_ID";
+            //    x.Properties.ValidationSettings.RegularExpression.ErrorText = "من فضلك أدخل صيغة صحيحة";
+            //    x.Properties.ValidationSettings.EnableCustomValidation = false;
+            //    x.Properties.ValidationSettings.RegularExpression.ValidationExpression = @"^(1|2)([0-9]{9})$";
+            //    x.Properties.ValidationSettings.RequiredField.IsRequired = false;
+            //    x.ClientEnabled = false;
+
+            //    x.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.Text;
+            //    x.Properties.ClientSideEvents.Validation = "validateNationalID";
+            //    x.Properties.ValidationSettings.ErrorTextPosition = ErrorTextPosition.Bottom;
+            //    x.Properties.ValidationSettings.RequiredField.ErrorText = "من فضلك هذا الحقل مطلوب";
+            //});
+
+            //i.Width = Unit.Percentage(25);
+
+        });
+        groupItem.Items.Add(i =>
+        {
+            i.Caption = "رقم الجوال";
+            i.FieldName = "MobileNumber";
+            //i.CssClass = "test2";
+            //i.NestedExtensionType = FormLayoutNestedExtensionItemType.TextBox;
+            //i.Width = Unit.Percentage(25);
+            i.NestedExtension().TextBox(x =>
+            {
+                x.Name = "MobileNumber";
+                x.Properties.ValidationSettings.RegularExpression.ErrorText = "من فضلك أدخل صيغة صحيحة( 10 ارقام )";
+                x.Properties.ValidationSettings.RegularExpression.ValidationExpression = @"^(009665|9665|\+9665|05|5)(5|0|3|6|4|9|1|8|7)([0-9]{7})$";
+                x.Properties.ValidationSettings.RequiredField.IsRequired = true;
+                x.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.Text;
+                x.Properties.ValidationSettings.ErrorTextPosition = ErrorTextPosition.Bottom;
+                x.Properties.HelpTextStyle.CssClass = "alert alert-success text-center";
+                x.Properties.ValidationSettings.RequiredField.ErrorText = "من فضلك هذا الحقل مطلوب";
+                x.Properties.HelpText = (bool)ViewBag.isInialized ? "سيتم إرسال كود تحقق فور الحفظ" : "تم التحقق";
+                x.Properties.HelpTextSettings.Position = HelpTextPosition.Bottom;
+
+                x.Properties.HelpTextStyle.ForeColor = Color.Green;
+                x.ClientEnabled =(bool)ViewBag.isInialized;
+            });
+            // {
+            // Html.DevExpress().Render();
+            // ViewContext.Writer.Write("<a href='#' tooltip='ارسال رمز التحقق' onclick='VerifyPhone()'>" +
+            //"<i class='fa fa-check-circle' style='font-size:24px'></i></a>");
+            // Html.DevExpress().TextBox(p =>
+            // {
+            //     p.Name = "phoneVerifyTxt";
+            //     p.Properties.ValidationSettings.RequiredField.IsRequired = true;
+            //     p.Properties.ValidationSettings.RequiredField.ErrorText = "من فضلك أدخل رمز تحقق صحيح";
+            //     p.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.Text;
+            //     p.Properties.ValidationSettings.ErrorTextPosition = ErrorTextPosition.Bottom;
+            //     p.Properties.NullText = "ادخل رمز التحقق";
+            // }).Render();
+
+        });
+        groupItem.Items.Add(i =>
+        {
+            i.Caption = "الصورة الشخصية";
+            i.FieldName = "PersonalImage";
+            i.RowSpan = 2;
+            i.ColSpan = 1;
+            //i.CssClass = "test2";
+            //i.NestedExtensionType = FormLayoutNestedExtensionItemType.BinaryImage;
+            //BinaryImageEditSettings img = (BinaryImageEditSettings)i.NestedExtensionSettings;
+            //img.Name = "PersonalImage";
+            //img.Width = 160;
+            //img.Height = 170;
+            //img.Properties.EnableServerResize = true;
+            //img.CallbackRouteValues = new { Controller = "Students", Action = "StudentPhoto" };
+            //img.Properties.EmptyImage.AlternateText = "لا توجد صورة";
+            //img.Properties.EmptyImage.Url = "../assets/images/user.png";
+            //img.Properties.ImageSizeMode = ImageSizeMode.FitProportional;
+            //img.Properties.EditingSettings.Enabled = true;
+            //img.Properties.EditingSettings.UploadSettings.UploadValidationSettings.MaxFileSize = 4194304;
+            //img.ContentBytes = ViewBag.ImageBytes;
+            //img.Properties.EnableClientSideAPI = true;
+            //img.ClientEnabled = (bool)ViewBag.isInialized;
+            i.SetNestedContent(() =>
+            {
+
+                Html.DevExpress().BinaryImage(c =>
+                {
+                    c.Name = "PersonalImage";
+                    c.Properties.ImageHeight = 170;
+                    c.Properties.ImageWidth = 160;
+                    c.Properties.EditingSettings.Enabled = true;
+                    c.Properties.EnableServerResize = true;
+                    c.Properties.ImageSizeMode = ImageSizeMode.FitProportional;
+                    //c.CallbackRouteValues = new {Action = "StudentPhoto", Controller = "Students"};
+                    // c.Properties.ClientSideEvents.EndCallback = "OnImageUpload()";
+                    c.Properties.EditingSettings.Enabled = true;
+                    c.Properties.EmptyImage.AlternateText = "لا توجد صورة";
+                    c.Properties.EmptyImage.Url = "../assets/images/user.png";
+                    c.CallbackRouteValues = new { Controller = "Students", Action = "StudentPhoto" };
+                    c.ContentBytes = ViewBag.ImageBytes;
+                    c.ClientEnabled = (bool)ViewBag.isInialized;
+                    c.Properties.EditingSettings.UploadSettings.UploadValidationSettings.MaxFileSize = 4194304;
+                }).GetHtml();
+
+            });
+            //i.Width = Unit.Percentage(25);
+
+        });
+        groupItem.Items.Add(i =>
+        {
+            i.Caption = "البريد الالكتروني";
+            i.FieldName = "UniversityEmail";
+            //i.CssClass = "test2";
+            i.NestedExtensionSettings.Enabled = true;
+
+            //i.Width = Unit.Percentage(25);
+            i.NestedExtension().TextBox(x =>
+            {
+
+                x.Name = "UniversityEmail";
+                x.ClientVisible = true;
+                x.Properties.ValidationSettings.RegularExpression.ErrorText = "من فضلك أدخل صيغة صحيحة مثال  x@xxxx.com";
+                x.Properties.ValidationSettings.RegularExpression.ValidationExpression = @"^[\d\w\._\-]+@([\d\w\._\-]+\.)+[\w]+$";
+                x.Properties.ValidationSettings.RequiredField.IsRequired = true;
+                x.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.Text;
+                x.Properties.ValidationSettings.ErrorTextPosition = ErrorTextPosition.Bottom;
+                x.Properties.HelpText = (bool)ViewBag.isInialized ?"سيتم إرسال كود تحقق فور الحفظ":"تم التحقق";
+                x.Properties.HelpTextSettings.Position = HelpTextPosition.Bottom;
+                x.Properties.HelpTextStyle.CssClass = "alert alert-success text-center";
+                x.Properties.HelpTextStyle.ForeColor = Color.Green;
+                x.Properties.ValidationSettings.RequiredField.ErrorText = "من فضلك هذا الحقل مطلوب";
+                x.ClientEnabled = (bool)ViewBag.isInialized;
+            });
+            //    //Html.DevExpress().Button(b =>
+            //    //{
+            //    //    b.Name = "uEmailVrifyBtn";
+            //    //    b.Images.Image.IconID = IconID.ContactsMobilephone16x16devav;
+            //    //});
+            //    ViewContext.Writer.Write("<a href='#' tooltip='ارسال رمز التحقق' onclick='VerifyPhone()'>" +
+            //   "<i class='fa fa-check-circle' style='font-size:24px'></i></a>");
+            //    Html.DevExpress().TextBox(p =>
+            //    {
+            //        p.Name = "uEmailVerifyTxt";
+            //        p.Properties.NullText = "ادخل رمز التحقق";
+            //        p.Properties.ValidationSettings.RequiredField.IsRequired = true;
+            //        p.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.Text;
+            //        p.Properties.ValidationSettings.ErrorTextPosition = ErrorTextPosition.Bottom;
+            //        p.Properties.ValidationSettings.RequiredField.ErrorText = "من فضلك أدخل رمز تحقق صحيح";
+            //    }).Render();
+            //});
+
+        });
+        groupItem.Items.Add(i =>
+        {
+            i.Caption = "البريد الالكتروني - بديل";
+            i.FieldName = "PersonalEmail";
+            //i.CssClass = "test2";
+
+            i.NestedExtension().TextBox(x =>
+            {
+                x.Name = "PersonalEmail";
+                x.Properties.ValidationSettings.RegularExpression.ErrorText = "من فضلك أدخل صيغة صحيحة مثال  x@xxxx.com";
+                x.Properties.ValidationSettings.RegularExpression.ValidationExpression = @"^[\d\w\._\-]+@([\d\w\._\-]+\.)+[\w]+$";
+                x.Properties.ValidationSettings.RequiredField.IsRequired = false;
+                x.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.Text;
+                x.Properties.ValidationSettings.ErrorTextPosition = ErrorTextPosition.Bottom;
+                x.Properties.ValidationSettings.RequiredField.ErrorText = "من فضلك هذا الحقل مطلوب";
+                x.ClientEnabled = (bool)ViewBag.isInialized;
+
+            });
+
+        });
+        // Html.DevExpress().Render();
+        // ViewContext.Writer.Write("<a href='#' tooltip='ارسال رمز التحقق' onclick='VerifyPhone()'>" +
+        //"<i class='fa fa-check-circle' style='font-size:24px'></i></a>");
+        // Html.DevExpress().TextBox(p =>
+        // {
+        //     p.Name = "pEmailVerifyTxt";
+        //     p.Properties.NullText = "ادخل رمز التحقق";
+        //     p.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.Text;
+        //     p.Properties.ValidationSettings.ErrorTextPosition = ErrorTextPosition.Bottom;
+        //     p.Properties.ValidationSettings.RequiredField.IsRequired = true;
+        //     p.Properties.ValidationSettings.RequiredField.ErrorText = "من فضلك أدخل رمز تحقق صحيح";
+        // });
+        groupItem.Items.Add(i =>
+        {
+            i.Caption = "الاسم بجواز السفر - عربي";
+            i.FieldName = "NamePerPassport_Ar";
+            //i.CssClass = "test2";
+            i.NestedExtension().TextBox(x =>
+            {
+                x.Name = "NamePerPassport_Ar";
+                x.Properties.ValidationSettings.RegularExpression.ErrorText = "من فضلك أدخل صيغة صحيحة";
+                x.Properties.ValidationSettings.RegularExpression.ValidationExpression = @"^[\u0600-\u06FF, ]+[\u0600-\u06FF]$";
+                x.Properties.ValidationSettings.RequiredField.IsRequired = true;
+                x.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.Text;
+                x.Properties.ValidationSettings.ErrorTextPosition = ErrorTextPosition.Bottom;
+                x.Properties.ValidationSettings.RequiredField.ErrorText = "من فضلك هذا الحقل مطلوب";
+                x.ClientEnabled = (bool)ViewBag.isInialized;
+            });
+            //i.Width = Unit.Percentage(25);
+
+        });
+        groupItem.Items.Add(i =>
+        {
+            i.Caption = "الاسم بجواز السفر - انجليزي";
+            i.FieldName = "NamePerPassport_En";
+            //i.CssClass = "test2";
+            i.NestedExtension().TextBox(x =>
+            {
+                x.Name = "NamePerPassport_En";
+                x.Properties.ValidationSettings.RegularExpression.ErrorText = "من فضلك أدخل صيغة صحيحة";
+                x.Properties.ValidationSettings.RegularExpression.ValidationExpression = @"^[A-Za-z, ]+[a-zA-Z-,]$";
+                x.Properties.ValidationSettings.RequiredField.IsRequired = true;
+                x.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.Text;
+                x.Properties.ValidationSettings.ErrorTextPosition = ErrorTextPosition.Bottom;
+                x.Properties.ValidationSettings.RequiredField.ErrorText = "من فضلك هذا الحقل مطلوب";
+                x.ClientEnabled = (bool)ViewBag.isInialized;
+            });
+
+        });
+        groupItem.Items.Add(i =>
+        {
+            i.Caption = "الاسم بوثيقة الهوية - عربي";
+            i.FieldName = "NamePerIdentity_Ar";
+            //i.CssClass = "test2";
+            i.NestedExtension().TextBox(x =>
+            {
+                x.Name = "NamePerIdentity_Ar";
+                x.Properties.ValidationSettings.RegularExpression.ErrorText = "من فضلك أدخل صيغة صحيحة";
+                x.Properties.ValidationSettings.RegularExpression.ValidationExpression = @"^[\u0600-\u06FF, ]+[\u0600-\u06FF]$";
+                x.Properties.ValidationSettings.RequiredField.IsRequired = true;
+                x.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.Text;
+                x.Properties.ValidationSettings.ErrorTextPosition = ErrorTextPosition.Bottom;
+                x.Properties.ValidationSettings.RequiredField.ErrorText = "من فضلك هذا الحقل مطلوب";
+                x.ClientEnabled = (bool)ViewBag.isInialized;
+            });
+        });
+        groupItem.Items.Add(i =>
+        {
+            i.Caption = "الاسم بوثيقة الهوية - انجليزي";
+            i.FieldName = "NamePerIdentity_En";
+            //i.CssClass = "test2";
+            i.NestedExtension().TextBox(x =>
+            {
+                x.Name = "NamePerIdentity_En";
+                x.Properties.ValidationSettings.RegularExpression.ErrorText = "من فضلك أدخل صيغة صحيحة";
+                x.Properties.ValidationSettings.RegularExpression.ValidationExpression = @"^[A-Za-z, ]+[a-zA-Z-,]$";
+                x.Properties.ValidationSettings.RequiredField.IsRequired = true;
+                x.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.Text;
+                x.Properties.ValidationSettings.ErrorTextPosition = ErrorTextPosition.Bottom;
+                x.Properties.ValidationSettings.RequiredField.ErrorText = "من فضلك هذا الحقل مطلوب";
+                x.ClientEnabled = (bool)ViewBag.isInialized;
+            });
+
+        });
+        groupItem.Items.Add(i =>
+        {
+            i.Caption = "الجنسية";
+            i.FieldName = "Nationality_ID";
+            //i.CssClass = "test2";
+            i.NestedExtension().ComboBox(x =>
+            {
+                x.Name = "Nationality_ID";
+                //x.Properties.ValidationSettings.RegularExpression.ErrorText = "من فضلك أدخل صيغة صحيحة";
+                //x.Properties.ValidationSettings.RegularExpression.ValidationExpression = @"^[A-Za-z, ]+[a-zA-Z-,]$";
+                x.Properties.DataSource = ViewBag.Nationalities;
+                x.Properties.ValidationSettings.RequiredField.IsRequired = true;
+                x.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.Text;
+                x.Properties.ValidationSettings.ErrorTextPosition = ErrorTextPosition.Bottom;
+                x.Properties.ValidationSettings.RequiredField.ErrorText = "من فضلك هذا الحقل مطلوب";
+                x.ClientEnabled = (bool)ViewBag.isInialized;
+            });
+
+        });
+        groupItem.Items.Add(i =>
+        {
+            i.Caption = "دولة التأشيرة";
+            i.FieldName = "Country_ID";
+            //i.CssClass = "test2";
+            i.NestedExtension().ComboBox(x =>
+            {
+                x.Name = "Country_ID";
+                //x.Properties.ValidationSettings.RegularExpression.ErrorText = "من فضلك أدخل صيغة صحيحة";
+                //x.Properties.ValidationSettings.RegularExpression.ValidationExpression = @"^[A-Za-z, ]+[a-zA-Z-,]$";
+                x.Properties.DataSource = ViewBag.Countries;
+                x.Properties.ValidationSettings.RequiredField.IsRequired = true;
+                x.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.Text;
+                x.Properties.ValidationSettings.ErrorTextPosition = ErrorTextPosition.Bottom;
+                x.Properties.ValidationSettings.RequiredField.ErrorText = "من فضلك هذا الحقل مطلوب";
+                x.ClientEnabled = (bool)ViewBag.isInialized;
+            });
+
+        });
+        groupItem.Items.Add(i =>
+        {
+            i.Caption = "تاريخ الميلاد";
+            i.FieldName = "BirthDate";
+            //i.CssClass = "test2";
+            //i.NestedExtensionType = FormLayoutNestedExtensionItemType.DateEdit;
+            i.RequiredMarkDisplayMode = FieldRequiredMarkMode.Required;
+            i.NestedExtensionSettings.Enabled=(bool)ViewBag.isInialized;
+            i.NestedExtension().DateEdit(x =>
+            {
+                x.Name = "BirthDate";
+                x.Properties.ValidationSettings.RequiredField.IsRequired = true;
+                x.Properties.ValidationSettings.RequiredField.ErrorText = "من فضلك هذا الحقل مطلوب";
+            });
+            //i.Width = Unit.Percentage(25);
+
+        });
+        groupItem.Items.Add(i =>
+        {
+            i.Caption = "دولة الإقامة الدائمة";
+            i.FieldName = "OriginalCountry";
+            //i.CssClass = "test2";
+            //i.NestedExtensionType = FormLayoutNestedExtensionItemType.TextBox;
+            //i.NestedExtensionSettings.Enabled = (bool)ViewBag.isInialized;
+            //i.Width = Unit.Percentage(25);
+            i.NestedExtension().ComboBox(x =>
+            {
+                x.Name = "OriginalCountry";
+                //x.Properties.ValidationSettings.RegularExpression.ErrorText = "من فضلك أدخل صيغة صحيحة";
+                //x.Properties.ValidationSettings.RegularExpression.ValidationExpression = @"^[A-Za-z, ]+[a-zA-Z-,]$";
+                x.Properties.DataSource = ViewBag.Countries;
+                x.Properties.ValidationSettings.RequiredField.IsRequired = true;
+                x.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.Text;
+                x.Properties.ValidationSettings.ErrorTextPosition = ErrorTextPosition.Bottom;
+                x.Properties.ValidationSettings.RequiredField.ErrorText = "من فضلك هذا الحقل مطلوب";
+                x.ClientEnabled = (bool)ViewBag.isInialized;
+            });
+
+        });
+        groupItem.Items.Add(i =>
+        {
+            i.Caption = "مدينة الإقامة الدائمة";
+            i.FieldName = "OriginalCity";
+            //i.CssClass = "test2";
+            i.NestedExtensionType = FormLayoutNestedExtensionItemType.TextBox;
+            i.NestedExtensionSettings.Enabled = (bool)ViewBag.isInialized;
+            //MinDate = new DateTime(2000, 1, 1);
+            //i.Width = Unit.Percentage(25);
+
+        });
+
+        //groupItem.Items.Add(itemSettings =>
+        //{
+        //    //itemSettings.Width = Unit.Percentage(4);
+        //    itemSettings.ShowCaption = DefaultBoolean.False;
+        //    itemSettings.HorizontalAlign = FormLayoutHorizontalAlign.Right;
+        //    itemSettings.ParentContainerStyle.CssClass = "mobileAlign";
+        //    itemSettings.NestedExtension().Button(s =>
+        //    {
+        //        s.Name = "enter";
+        //        s.Styles.Style.CssClass = "ActionsSearch_button";
+        //        s.RightToLeft = DefaultBoolean.True;
+        //        s.Text = "الدخول السريع";
+        //        s.Images.Image.IconID = IconID.ActionsSearch16x16devav;
+        //        s.UseSubmitBehavior = false;
+        //        s.EnableClientSideAPI = true;
+        //        s.ClientSideEvents.Click = "StudentData";
+        //    });
+        //});
+        groupItem.Items.Add(i =>
+        {
+            i.ShowCaption =DefaultBoolean.False;
+            //i.Width = Unit.Percentage(25);
+            i.SetNestedContent(()=>
+            {
+                ViewContext.Writer.Write(
+                    $"<input type='hidden' name='ID' value={Model.ID} id='ID' /><input type='hidden' name='Student_ID' value={Model.Student_ID} id='Student_ID' /><input type='hidden' name='National_ID' value={Model.National_ID} id='National_ID' />"
+                    );
+            });
+        });
+
+        //groupItem.Items.Add(itemSettings =>
+        //{
+        //    //itemSettings.Width = Unit.Percentage(4);
+        //    itemSettings.ColSpan = 2;
+        //    itemSettings.CssClass = "text-left col-lg-12";
+        //    itemSettings.ShowCaption = DefaultBoolean.False;
+        //    itemSettings.HorizontalAlign = FormLayoutHorizontalAlign.Right;
+        //    itemSettings.ParentContainerStyle.CssClass = "mobileAlign";
+        //    itemSettings.NestedExtension().Button(s =>
+        //    {
+        //        s.Name = "save";
+        //        s.Styles.Style.CssClass = "ActionsSearch_button";
+        //        s.RightToLeft = DefaultBoolean.True;
+        //        s.ClientEnabled = (bool)ViewBag.isInialized;
+        //        s.Text = "حفظ";
+        //        //s.ClientSideEvents.Click = "verifyInfo";
+        //        //s.Images.Image.IconID = IconID.SaveSave16x16;
+        //        s.UseSubmitBehavior =  true;
+        //    });
+        //});
+        groupItem.Items.Add(itemSettings =>
+        {
+            //itemSettings.Width = Unit.Percentage(4);
+            itemSettings.ColSpan = 4;
+            itemSettings.CssClass = "text-left col-lg-12";
+            itemSettings.ShowCaption = DefaultBoolean.False;
+            itemSettings.HorizontalAlign = FormLayoutHorizontalAlign.Right;
+            itemSettings.ParentContainerStyle.CssClass = "mobileAlign";
+            itemSettings.NestedExtension().Button(s =>
+            {
+                s.Name = "Next";
+                s.ClientEnabled = (bool)ViewBag.isInialized;  //(bool)ViewBag.isInialized == false ? true : false;
+                s.Styles.Style.CssClass = "ActionsSearch_button";
+                s.RightToLeft = DefaultBoolean.True;
+                s.Text = "التالي";
+                //s.ClientSideEvents.Click = "EscapeStep";
+                //s.Images.Image.IconID = IconID.ArrowsPrev16x16;
+                s.UseSubmitBehavior = true;
+            });
+        });
+    }).GetHtml();
+}

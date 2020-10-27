@@ -1,0 +1,125 @@
+@using System.Web.UI.WebControls
+@{
+    var grid = Html.DevExpress().GridView(settings =>
+    {
+        settings.Name = "SMSGridView";
+        settings.CallbackRouteValues = new {Controller = "Config", Action = "SMSGridViewPartial"};
+
+        settings.SettingsEditing.AddNewRowRouteValues = new {Controller = "Config", Action = "SMSGridViewPartialAddNew"};
+        settings.SettingsEditing.UpdateRowRouteValues = new {Controller = "Config", Action = "SMSGridViewPartialUpdate"};
+        settings.SettingsEditing.DeleteRowRouteValues = new {Controller = "Config", Action = "SMSGridViewPartialDelete"};
+        settings.SettingsEditing.Mode = GridViewEditingMode.EditFormAndDisplayRow;
+        settings.SettingsBehavior.ConfirmDelete = true;
+
+        settings.CommandColumn.Visible = false;
+        settings.CommandColumn.ShowNewButton = true;
+        settings.CommandColumn.ShowDeleteButton = true;
+        settings.CommandColumn.ShowEditButton = true;
+
+        settings.KeyFieldName = "ID";
+
+        settings.SettingsPager.Visible = true;
+        settings.Settings.ShowGroupPanel = false;
+        settings.Settings.ShowFilterRow = false;
+        settings.SettingsBehavior.AllowSelectByRowClick = true;
+
+        settings.SettingsAdaptivity.AdaptivityMode = GridViewAdaptivityMode.Off;
+        settings.SettingsAdaptivity.AdaptiveColumnPosition = GridViewAdaptiveColumnPosition.Right;
+        settings.SettingsAdaptivity.AdaptiveDetailColumnCount = 1;
+        settings.SettingsAdaptivity.AllowOnlyOneAdaptiveDetailExpanded = false;
+        settings.SettingsAdaptivity.HideDataCellsAtWindowInnerWidth = 0;
+
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "MsgTitle";
+            c.Caption = "ÚäæÇä ÇáÑÓÇáÉ";
+            c.Settings.AllowSort = DefaultBoolean.False;
+            c.Settings.AllowAutoFilter = DefaultBoolean.False;
+            c.ColumnType = MVCxGridViewColumnType.TextBox;
+            c.EditorProperties().TextBox(tb =>
+            {
+                tb.ValidationSettings.RequiredField.IsRequired = true;
+                tb.ValidationSettings.RequiredField.ErrorText = "ÍÞá ÇÌÈÇÑì";
+            });
+        });
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "MessageText";
+            c.Caption = "äÕ ÇáÑÓÇáÉ";
+            c.Settings.AllowSort = DefaultBoolean.False;
+            c.Settings.AllowAutoFilter = DefaultBoolean.False;
+            c.ColumnType = MVCxGridViewColumnType.TextBox;
+            c.EditorProperties().TextBox(tb =>
+            {
+                tb.ValidationSettings.RequiredField.IsRequired = true;
+                tb.ValidationSettings.RequiredField.ErrorText = "ÍÞá ÇÌÈÇÑì";
+            });
+        });
+        settings.ControlStyle.CssClass = "GridViewRootClassName";
+        /*Command Column Emulation*/
+        settings.Columns.Add(column =>
+        {
+            column.Caption = "#";
+            column.Settings.AllowSort = DefaultBoolean.False;
+            column.Settings.AllowAutoFilter = DefaultBoolean.False;
+            column.EditFormSettings.Visible = DefaultBoolean.False;
+            /*DataItemTemplate*/
+            /*New - Edit - Delete Buttons*/
+            column.SetDataItemTemplateContent(c =>
+            {
+                if (ViewBag.SMSUpdate != null)
+                {
+                    if (ViewBag.SMSUpdate == true)
+                    {
+                        ViewContext.Writer.Write("<span class=\"fa fa-pencil btn-ds-ico btn btn-success  \" onclick=\"EditSMSConfig('{0}');\" title='ÊÚÏíá'></span>", c.VisibleIndex);
+                        ViewContext.Writer.Write("&nbsp;");
+                    }
+                }
+            });
+            /*DataItemTemplate*/
+        });
+        /*Command Column Emulation*/
+        //SettingsText
+        settings.SettingsCommandButton.EditButton.Image.IconID = IconID.EditCopy16x16;
+        settings.SettingsText.CommandNew = "ÇÖÇÝÉ";
+        settings.SettingsText.CommandUpdate = "ÍÝÙ";
+        settings.SettingsText.CommandCancel = "ÇáÛÇÁ";
+        settings.SettingsText.CommandEdit = "ÍÝÙ";
+        settings.SettingsText.CommandDelete = "ÍÐÝ";
+        settings.SettingsText.ConfirmDelete = "åá ÊÑíÏ ÍÐÝ åÐÇ ÇáÚäÕÑ¿";
+        settings.SettingsText.EmptyDataRow = "áÇ ÊæÌÏ ÈíÇäÇÊ";
+        settings.SettingsLoadingPanel.Text = "ÊÍãíá ...";
+        settings.Styles.Table.CssClass = "dx-table-ds";
+        settings.Styles.Header.Wrap = DefaultBoolean.True;
+        settings.Width = Unit.Percentage(100);
+        settings.RightToLeft = DefaultBoolean.True;
+        settings.EditFormLayoutProperties.AlignItemCaptionsInAllGroups = true;
+        settings.EditFormLayoutProperties.AlignItemCaptions = true;
+        settings.ClientSideEvents.BatchEditChangesSaving = "RefreshTemapltes";
+
+        if (ViewBag.SMSCreate != null)
+        {
+            if (ViewBag.SMSCreate == true)
+            {
+                settings.Toolbars.Add(toolbar =>
+                {
+                    toolbar.Enabled = true;
+                    toolbar.Position = GridToolbarPosition.Top;
+                    toolbar.ItemAlign = GridToolbarItemAlign.Right;
+                    toolbar.Items.Add(i =>
+                    {
+                        i.Command = GridViewToolbarCommand.New;
+                        i.Text = "ÇÖÇÝÉ";
+                        i.Image.IconID = IconID.ActionsAdd16x16;
+                        i.ItemStyle.CssClass = "btn btn-primary";
+                    });
+                });
+            }
+        }
+    });
+    if (ViewData["EditError"] != null)
+    {
+        grid.SetEditErrorText((string) ViewData["EditError"]);
+    }
+}
+@grid.Bind(Model).GetHtml()

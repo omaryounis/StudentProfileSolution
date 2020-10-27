@@ -1,0 +1,118 @@
+﻿@model GetAdvancesRecievingRPT
+@{
+    ViewBag.Title = "تقرير تحصيل السلف";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid container-fullw" ng-controller="advanceReceive">
+
+
+    <div class="col-md-12">
+
+        <div class="panel bg-white">
+            <div class="breadcrumb-wrapper text-right">
+                <h4 class="no-margin"> تقرير تحصيل السلف </h4>
+
+            </div>
+            <div class="panel-body">
+     
+                <form id="RewardDetailsFormId">
+
+                                            @*<input type="hidden" id="RewardDetailsId" />
+
+                                            <div class="clearfix"></div>
+                                            <fieldset class="fieldset-dds" style="margin-bottom:0; background: #eeeeee;">
+                                                <div class="form-group col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                                    <label class="col-md-12 col-sm-12 col-xs-12 control-label">
+                                                         تاريخ البداية
+                                                    </label>
+                                                    <div class="col-md-12 col-sm-12 col-xs-12">
+                                                        <div dx-date-box="dateBox"></div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                                    <label class="col-md-12 col-sm-12 col-xs-12 control-label">
+                                                        تاريخ النهاية
+                                                    </label>
+                                                    <div class="col-md-12 col-sm-12 col-xs-12">
+                                                        <div dx-date-box="dateBox"></div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                                    <label class="col-md-12 col-sm-12 col-xs-12 control-label">
+                                                        اسم السلفة
+                                                    </label>
+                                                    <div class="col-md-12 col-sm-12 col-xs-12">
+                                                        @Html.DevExpress().ComboBox(settings => {
+                                                           settings.Name = "comboBox2";
+                                                           settings.Width = 180;
+                                                           settings.SelectedIndex = 0;
+                                                           settings.Properties.IncrementalFilteringMode =                                                           IncrementalFilteringMode.StartsWith;
+                                                           settings.Properties.DropDownStyle = DropDownStyle.DropDown;
+                                                           settings.Properties.TextField = "ProductName";
+                                                           settings.Properties.ValueField = "ProductName";
+                                                       }).BindList(Model).GetHtml()
+                                                    </div>
+                                                </div>
+                                                <div class="form-group col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                                    <label class="col-md-12 col-sm-12 col-xs-12 control-label">
+                                                        رقم السند
+                                                    </label>
+                                                    <div class="col-md-12 col-sm-12 col-xs-12">
+                                                        @Html.DevExpress().ComboBox(settings => {
+                                                           settings.Name = "comboBox2";
+                                                           settings.Width = 180;
+                                                           settings.SelectedIndex = 0;
+                                                           settings.Properties.IncrementalFilteringMode =                                                           IncrementalFilteringMode.StartsWith;
+                                                           settings.Properties.DropDownStyle = DropDownStyle.DropDown;
+                                                           settings.Properties.TextField = "ProductName";
+                                                           settings.Properties.ValueField = "ProductName";
+                                                       }).BindList(Model).GetHtml()
+                                                    </div>
+                                                </div>
+                                                <div class="form-group col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                                    <label class="col-md-12 col-sm-12 col-xs-12 control-label">
+                                                        طريقة السداد
+                                                    </label>
+
+                                                    <div class="dx-field-value col-md-12 col-sm-12 col-xs-12">
+                                                        <div dx-select-box="selectBox.payWay" class="col-md-12 col-sm-12 col-xs-12"></div>
+                                                    </div>
+                                                </div>*@
+                                                <div class="form-group col-lg-1 col-md-1 col-sm-12 col-xs-12">
+                                                    <label class="col-md-12 col-sm-12 col-xs-12 control-label">
+                                                    </label>
+                                                    <div class="col-md-12 col-sm-12 col-xs-12">
+                                                        @Html.DevExpress().Button(settings => {
+                                                            settings.Name = "bTN";
+                                                            settings.Width = 164;
+                                                            settings.Text = "عرض";
+                                                        }).GetHtml()
+
+                                                    </div>
+                                                </div>
+
+                </fieldset>
+                                        </form>
+
+            </div>
+
+
+        </div>
+    <div id="report">
+
+    </div>
+        @*@{
+            Html.RenderPartial("AdvancesRecievingReport",Model);
+        }*@
+    </div></div>
+
+<script>
+
+    $('#bTN_I').click(function () {
+        debugger;
+        alert("test");
+        $('#report').load('/Advances/AdvancesRecievingReport/');
+    });
+
+</script>

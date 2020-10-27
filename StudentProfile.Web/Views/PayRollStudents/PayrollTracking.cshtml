@@ -1,0 +1,43 @@
+﻿@{
+    ViewBag.Title = "متابعه حالة المسير";
+    Layout = "~/Views/Shared/_DevextremeLayout.cshtml";
+}
+
+<script src="~/Scripts/PayRollStudents/PayrollTrackingService.js"></script>
+<script src="~/Scripts/PayRollStudents/PayrollTrackingController.js"></script>
+<div class="container-fluid container-fullw">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel bg-white">
+                <div class="breadcrumb-wrapper text-right">
+                    <h4 class="no-margin">متابعه حالة المسير</h4>
+                </div>
+                <div class="panel-body">
+                    <div ng-controller="PayrollTrackingCtrl">
+                        <div class="row">
+                            <label class="col-lg-1 col-sm-12 col-xs-12 control-label">المسير</label>
+                            <div class="col-lg-3 col-sm-12 col-xs-12 ">
+                                <div id="Payroll" dx-select-box="PayrollSelectBox"
+                                     dx-validator="validationRequired"></div>
+                            </div>
+                        </div>
+
+                        <div class="form-group col-md-12 col-sm-12 col-xs-12">
+                            <div class="dx-tree-st dx-tree-st22" dx-data-grid="gridPayrollData()"></div>
+                        </div>
+                      
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<style>
+    .dx-popup-content .table-striped a.btn-info {
+        color: #fff !important;
+    }
+
+    .dx-popup-content {
+        overflow-y: scroll;
+    }
+</style>

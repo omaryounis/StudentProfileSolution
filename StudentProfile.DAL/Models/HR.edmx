@@ -1,0 +1,904 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="StudentProfile.DAL.Models.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Absence">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" />
+          <Property Name="COA_ID" Type="int" />
+        </EntityType>
+        <EntityType Name="CourseTypes">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="Documents">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="AlertDays" Type="int" />
+          <Property Name="DocLength" Type="int" />
+        </EntityType>
+        <EntityType Name="EmpCourses">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EmployeeID" Type="int" />
+          <Property Name="CourseName" Type="nvarchar" MaxLength="50" />
+          <Property Name="CoursePlace" Type="nvarchar" MaxLength="50" />
+          <Property Name="StartDate" Type="date" />
+          <Property Name="EndDate" Type="date" />
+          <Property Name="CourseDays" Type="int" />
+          <Property Name="Degree" Type="nvarchar" MaxLength="100" />
+          <Property Name="CourseImagePath" Type="nvarchar" MaxLength="1000" />
+          <Property Name="CourseTypes_ID" Type="int" />
+          <Property Name="DegreePercentage" Type="int" />
+        </EntityType>
+        <EntityType Name="EmpDocument">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EmpID" Type="int" Nullable="false" />
+          <Property Name="DocumentID" Type="int" />
+          <Property Name="IdentityNum" Type="nvarchar" MaxLength="150" />
+          <Property Name="DocImagePath" Type="nvarchar" MaxLength="250" />
+          <Property Name="BarCode" Type="nvarchar" MaxLength="250" />
+          <Property Name="IssueDate" Type="date" />
+          <Property Name="ExpDate" Type="date" />
+          <Property Name="IsActive" Type="bit" />
+        </EntityType>
+        <EntityType Name="Employees">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="empFileNum" Type="nvarchar" MaxLength="150" />
+          <Property Name="Name" Type="nvarchar" MaxLength="150" />
+          <Property Name="EnName" Type="nvarchar" MaxLength="150" />
+          <Property Name="DateOfBirth" Type="datetime" />
+          <Property Name="PlaceOfBirth" Type="nvarchar" MaxLength="150" />
+          <Property Name="NationaltyID" Type="int" />
+          <Property Name="Gender" Type="smallint" />
+          <Property Name="IDNumber" Type="nvarchar" MaxLength="50" />
+          <Property Name="CurrentAddress" Type="nvarchar" MaxLength="250" />
+          <Property Name="JobID" Type="int" />
+          <Property Name="Email" Type="varchar" MaxLength="150" />
+          <Property Name="Mobile" Type="varchar" MaxLength="50" />
+          <Property Name="Mobile2" Type="varchar" MaxLength="50" />
+          <Property Name="Phone" Type="varchar" MaxLength="50" />
+          <Property Name="SectionID" Type="int" />
+          <Property Name="JobLevelID" Type="int" />
+          <Property Name="StartDate" Type="datetime" />
+          <Property Name="EndDate" Type="datetime" />
+          <Property Name="MaritalStatusID" Type="int" />
+          <Property Name="ContractTypesID" Type="int" />
+          <Property Name="ReligionID" Type="int" />
+          <Property Name="ContractTypeID" Type="int" />
+          <Property Name="Image" Type="nvarchar(max)" />
+          <Property Name="HousingTypeID" Type="int" />
+          <Property Name="AttendanceTime" Type="time" Precision="7" />
+          <Property Name="LeavingTime" Type="time" Precision="7" />
+          <Property Name="UniverstyID" Type="int" />
+          <Property Name="BasicSalary" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="IsActive" Type="bit" />
+          <Property Name="CashType" Type="bit" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="50" />
+          <Property Name="Password" Type="nvarchar" MaxLength="50" />
+          <Property Name="CareerInID" Type="nvarchar" MaxLength="250" />
+          <Property Name="SponsorID" Type="int" />
+          <Property Name="ComingDate" Type="date" />
+          <Property Name="WorkOfficeNumber" Type="nvarchar" MaxLength="100" />
+          <Property Name="OnTheJob" Type="bit" />
+          <Property Name="IsStoped" Type="bit" />
+          <Property Name="LevelsDegreesID" Type="int" />
+          <Property Name="FingerprintID" Type="nvarchar" MaxLength="250" />
+          <Property Name="MachineID" Type="nvarchar" MaxLength="250" />
+          <Property Name="EmploymentDate" Type="date" />
+          <Property Name="BranchID" Type="int" />
+          <Property Name="StopedMonth" Type="int" />
+          <Property Name="Coa_ID" Type="int" />
+          <Property Name="AccountOwnerName" Type="nvarchar" MaxLength="250" />
+          <Property Name="SpecializationID" Type="int" />
+          <Property Name="FamilyNumbers" Type="int" />
+          <Property Name="FirstWorkPlace" Type="int" />
+          <Property Name="Notes" Type="nvarchar(max)" />
+          <Property Name="HomeAddress" Type="nvarchar(max)" />
+          <Property Name="HomePhone" Type="nvarchar" MaxLength="50" />
+          <Property Name="HomeMobile" Type="nvarchar" MaxLength="50" />
+          <Property Name="EditingNotes" Type="nvarchar(max)" />
+          <Property Name="EmpType" Type="char" MaxLength="1" />
+          <Property Name="IsExcluded" Type="bit" />
+          <Property Name="PlacementDate" Type="date" />
+        </EntityType>
+        <EntityType Name="Relatives">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EmpID" Type="int" />
+          <Property Name="Name" Type="nvarchar" MaxLength="150" />
+          <Property Name="Relationship" Type="nvarchar" MaxLength="50" />
+          <Property Name="IDNumber" Type="nvarchar" MaxLength="150" />
+          <Property Name="PassportNumber" Type="nvarchar" MaxLength="50" />
+          <Property Name="PassExpDate" Type="date" />
+          <Property Name="PassImage" Type="nvarchar(max)" />
+          <Property Name="AccomadationExpiryDate" Type="date" />
+          <Property Name="DateOfBirth" Type="date" />
+          <Property Name="HasInsurance" Type="bit" />
+        </EntityType>
+        <Association Name="FK__EmpCourse__Cours__4D94B965">
+          <End Role="CourseTypes" Type="Self.CourseTypes" Multiplicity="0..1" />
+          <End Role="EmpCourses" Type="Self.EmpCourses" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CourseTypes">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="EmpCourses">
+              <PropertyRef Name="CourseTypes_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Relatives_Employees">
+          <End Role="Employees" Type="Self.Employees" Multiplicity="0..1" />
+          <End Role="Relatives" Type="Self.Relatives" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employees">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Relatives">
+              <PropertyRef Name="EmpID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="PR_EmpCourses_SelectAll" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="EmpID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="PR_GetStudentsByFacandMaj" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="facID" Type="int" Mode="In" />
+          <Parameter Name="majID" Type="int" Mode="In" />
+          <Parameter Name="selectedNames" Type="nvarchar(max)" Mode="In" />
+        </Function>
+        <Function Name="PR_StudentDocuments_SelectAll" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="studentID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="PR_StudentsCourses_SelectAll" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="proc_CalcFingerPrintSheet" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="EmpID" Type="int" Mode="In" />
+          <Parameter Name="EmpFingerID" Type="int" Mode="In" />
+          <Parameter Name="Date" Type="date" Mode="In" />
+          <Parameter Name="Month" Type="int" Mode="In" />
+          <Parameter Name="DateFrom" Type="date" Mode="In" />
+          <Parameter Name="DateTo" Type="date" Mode="In" />
+          <Parameter Name="SectionID" Type="int" Mode="In" />
+          <Parameter Name="YearID" Type="int" Mode="In" />
+          <Parameter Name="BranchID" Type="int" Mode="In" />
+          <Parameter Name="Name" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="proc_EmpDocumentsDetails_Exp" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="DocumentID" Type="int" Mode="In" />
+          <Parameter Name="UserID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="proc_EmpDocumentsDetails_Exp_New" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="DocumentID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="proc_FillMonths" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="YearID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="proc_GetAdvancesReport_ForEmp" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="EmpID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="proc_Select_SpecialDues_Temp_ForEmp" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="EmpID" Type="int" Mode="In" />
+        </Function>
+        <EntityContainer Name="StudentProfileDALModelsStoreContainer">
+          <EntitySet Name="Absence" EntityType="Self.Absence" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CourseTypes" EntityType="Self.CourseTypes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Documents" EntityType="Self.Documents" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EmpCourses" EntityType="Self.EmpCourses" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EmpDocument" EntityType="Self.EmpDocument" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Employees" EntityType="Self.Employees" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Relatives" EntityType="Self.Relatives" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__EmpCourse__Cours__4D94B965" Association="Self.FK__EmpCourse__Cours__4D94B965">
+            <End Role="CourseTypes" EntitySet="CourseTypes" />
+            <End Role="EmpCourses" EntitySet="EmpCourses" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Relatives_Employees" Association="Self.FK_Relatives_Employees">
+            <End Role="Employees" EntitySet="Employees" />
+            <End Role="Relatives" EntitySet="Relatives" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="StudentProfile.DAL.Models" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Absence">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="COA_ID" Type="Int32" />
+        </EntityType>
+        <EntityType Name="CourseTypes">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="EmpCourses" Relationship="Self.FK__EmpCourse__Cours__4D94B965" FromRole="CourseTypes" ToRole="EmpCourses" />
+        </EntityType>
+        <EntityType Name="Documents">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="AlertDays" Type="Int32" />
+          <Property Name="DocLength" Type="Int32" />
+        </EntityType>
+        <EntityType Name="EmpCourses">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EmployeeID" Type="Int32" />
+          <Property Name="CourseName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CoursePlace" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="StartDate" Type="DateTime" Precision="0" />
+          <Property Name="EndDate" Type="DateTime" Precision="0" />
+          <Property Name="CourseDays" Type="Int32" />
+          <Property Name="Degree" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="CourseImagePath" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="CourseTypes_ID" Type="Int32" />
+          <Property Name="DegreePercentage" Type="Int32" />
+          <NavigationProperty Name="CourseTypes" Relationship="Self.FK__EmpCourse__Cours__4D94B965" FromRole="EmpCourses" ToRole="CourseTypes" />
+        </EntityType>
+        <EntityType Name="EmpDocument">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EmpID" Type="Int32" Nullable="false" />
+          <Property Name="DocumentID" Type="Int32" />
+          <Property Name="IdentityNum" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="DocImagePath" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="BarCode" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="IssueDate" Type="DateTime" Precision="0" />
+          <Property Name="ExpDate" Type="DateTime" Precision="0" />
+          <Property Name="IsActive" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="Employees">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="empFileNum" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="EnName" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="DateOfBirth" Type="DateTime" Precision="3" />
+          <Property Name="PlaceOfBirth" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="NationaltyID" Type="Int32" />
+          <Property Name="Gender" Type="Int16" />
+          <Property Name="IDNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CurrentAddress" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="JobID" Type="Int32" />
+          <Property Name="Email" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="Mobile" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Mobile2" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Phone" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="SectionID" Type="Int32" />
+          <Property Name="JobLevelID" Type="Int32" />
+          <Property Name="StartDate" Type="DateTime" Precision="3" />
+          <Property Name="EndDate" Type="DateTime" Precision="3" />
+          <Property Name="MaritalStatusID" Type="Int32" />
+          <Property Name="ContractTypesID" Type="Int32" />
+          <Property Name="ReligionID" Type="Int32" />
+          <Property Name="ContractTypeID" Type="Int32" />
+          <Property Name="Image" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="HousingTypeID" Type="Int32" />
+          <Property Name="AttendanceTime" Type="Time" Precision="7" />
+          <Property Name="LeavingTime" Type="Time" Precision="7" />
+          <Property Name="UniverstyID" Type="Int32" />
+          <Property Name="BasicSalary" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="IsActive" Type="Boolean" />
+          <Property Name="CashType" Type="Boolean" />
+          <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CareerInID" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="SponsorID" Type="Int32" />
+          <Property Name="ComingDate" Type="DateTime" Precision="0" />
+          <Property Name="WorkOfficeNumber" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="OnTheJob" Type="Boolean" />
+          <Property Name="IsStoped" Type="Boolean" />
+          <Property Name="LevelsDegreesID" Type="Int32" />
+          <Property Name="FingerprintID" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="MachineID" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="EmploymentDate" Type="DateTime" Precision="0" />
+          <Property Name="BranchID" Type="Int32" />
+          <Property Name="StopedMonth" Type="Int32" />
+          <Property Name="Coa_ID" Type="Int32" />
+          <Property Name="AccountOwnerName" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="SpecializationID" Type="Int32" />
+          <Property Name="FamilyNumbers" Type="Int32" />
+          <Property Name="FirstWorkPlace" Type="Int32" />
+          <Property Name="Notes" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="HomeAddress" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="HomePhone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="HomeMobile" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="EditingNotes" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="EmpType" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="IsExcluded" Type="Boolean" />
+          <Property Name="PlacementDate" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="Relatives" Relationship="Self.FK_Relatives_Employees" FromRole="Employees" ToRole="Relatives" />
+        </EntityType>
+        <EntityType Name="Relatives">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EmpID" Type="Int32" />
+          <Property Name="Name" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="Relationship" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IDNumber" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="PassportNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PassExpDate" Type="DateTime" Precision="0" />
+          <Property Name="PassImage" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="AccomadationExpiryDate" Type="DateTime" Precision="0" />
+          <Property Name="DateOfBirth" Type="DateTime" Precision="0" />
+          <Property Name="HasInsurance" Type="Boolean" />
+          <NavigationProperty Name="Employees" Relationship="Self.FK_Relatives_Employees" FromRole="Relatives" ToRole="Employees" />
+        </EntityType>
+        <Association Name="FK__EmpCourse__Cours__4D94B965">
+          <End Role="CourseTypes" Type="Self.CourseTypes" Multiplicity="0..1" />
+          <End Role="EmpCourses" Type="Self.EmpCourses" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CourseTypes">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="EmpCourses">
+              <PropertyRef Name="CourseTypes_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Relatives_Employees">
+          <End Role="Employees" Type="Self.Employees" Multiplicity="0..1" />
+          <End Role="Relatives" Type="Self.Relatives" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employees">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Relatives">
+              <PropertyRef Name="EmpID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="HRMadinaEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Absence" EntityType="Self.Absence" />
+          <EntitySet Name="CourseTypes" EntityType="Self.CourseTypes" />
+          <EntitySet Name="Documents" EntityType="Self.Documents" />
+          <EntitySet Name="EmpCourses" EntityType="Self.EmpCourses" />
+          <EntitySet Name="EmpDocument" EntityType="Self.EmpDocument" />
+          <EntitySet Name="Employees" EntityType="Self.Employees" />
+          <EntitySet Name="Relatives" EntityType="Self.Relatives" />
+          <AssociationSet Name="FK__EmpCourse__Cours__4D94B965" Association="Self.FK__EmpCourse__Cours__4D94B965">
+            <End Role="CourseTypes" EntitySet="CourseTypes" />
+            <End Role="EmpCourses" EntitySet="EmpCourses" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Relatives_Employees" Association="Self.FK_Relatives_Employees">
+            <End Role="Employees" EntitySet="Employees" />
+            <End Role="Relatives" EntitySet="Relatives" />
+          </AssociationSet>
+          <FunctionImport Name="PR_EmpCourses_SelectAll" ReturnType="Collection(StudentProfile.DAL.Models.PR_EmpCourses_SelectAll_Result)">
+            <Parameter Name="EmpID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="PR_GetStudentsByFacandMaj" ReturnType="Collection(StudentProfile.DAL.Models.PR_GetStudentsByFacandMaj_Result)">
+            <Parameter Name="facID" Mode="In" Type="Int32" />
+            <Parameter Name="majID" Mode="In" Type="Int32" />
+            <Parameter Name="selectedNames" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="PR_StudentDocuments_SelectAll" ReturnType="Collection(StudentProfile.DAL.Models.PR_StudentDocuments_SelectAll_Result)">
+            <Parameter Name="studentID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="PR_StudentsCourses_SelectAll" ReturnType="Collection(StudentProfile.DAL.Models.PR_StudentsCourses_SelectAll_Result)" />
+          <FunctionImport Name="proc_CalcFingerPrintSheet" ReturnType="Collection(StudentProfile.DAL.Models.proc_CalcFingerPrintSheet_Result)">
+            <Parameter Name="EmpID" Mode="In" Type="Int32" />
+            <Parameter Name="EmpFingerID" Mode="In" Type="Int32" />
+            <Parameter Name="Date" Mode="In" Type="DateTime" />
+            <Parameter Name="Month" Mode="In" Type="Int32" />
+            <Parameter Name="DateFrom" Mode="In" Type="DateTime" />
+            <Parameter Name="DateTo" Mode="In" Type="DateTime" />
+            <Parameter Name="SectionID" Mode="In" Type="Int32" />
+            <Parameter Name="YearID" Mode="In" Type="Int32" />
+            <Parameter Name="BranchID" Mode="In" Type="Int32" />
+            <Parameter Name="Name" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="proc_EmpDocumentsDetails_Exp" ReturnType="Collection(StudentProfile.DAL.Models.proc_EmpDocumentsDetails_Exp_Result)">
+            <Parameter Name="DocumentID" Mode="In" Type="Int32" />
+            <Parameter Name="UserID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="proc_EmpDocumentsDetails_Exp_New" ReturnType="Collection(StudentProfile.DAL.Models.proc_EmpDocumentsDetails_Exp_New_Result)">
+            <Parameter Name="DocumentID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="proc_FillMonths" ReturnType="Collection(StudentProfile.DAL.Models.proc_FillMonths_Result)">
+            <Parameter Name="YearID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="proc_GetAdvancesReport_ForEmp" ReturnType="Collection(StudentProfile.DAL.Models.proc_GetAdvancesReport_ForEmp_Result)">
+            <Parameter Name="EmpID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="proc_Select_SpecialDues_Temp_ForEmp" ReturnType="Collection(StudentProfile.DAL.Models.proc_Select_SpecialDues_Temp_ForEmp_Result)">
+            <Parameter Name="EmpID" Mode="In" Type="Int32" />
+          </FunctionImport>
+        </EntityContainer>
+        <ComplexType Name="PR_EmpCourses_SelectAll_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="Int32" Name="CourseDays" Nullable="true" />
+          <Property Type="String" Name="CourseImagePath" Nullable="true" MaxLength="1000" />
+          <Property Type="String" Name="CourseName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="CoursePlace" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Degree" Nullable="true" MaxLength="100" />
+          <Property Type="Int32" Name="EmployeeID" Nullable="true" />
+          <Property Type="DateTime" Name="StartDate" Nullable="true" />
+          <Property Type="DateTime" Name="EndDate" Nullable="true" />
+          <Property Type="String" Name="EmpName" Nullable="true" MaxLength="150" />
+        </ComplexType>
+        <ComplexType Name="PR_GetStudentsByFacandMaj_Result">
+          <Property Type="Int32" Name="StudentID" Nullable="false" />
+          <Property Type="String" Name="StudentName" Nullable="true" MaxLength="4000" />
+        </ComplexType>
+        <ComplexType Name="PR_StudentDocuments_SelectAll_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="Int32" Name="EmpID" Nullable="false" />
+          <Property Type="String" Name="EmpName" Nullable="true" MaxLength="150" />
+          <Property Type="Int32" Name="DocumentID" Nullable="true" />
+          <Property Type="Decimal" Name="studentid" Nullable="true" Precision="9" Scale="0" />
+          <Property Type="String" Name="IdentityNum" Nullable="true" MaxLength="150" />
+          <Property Type="DateTime" Name="IssueDate" Nullable="true" />
+          <Property Type="DateTime" Name="ExpDate" Nullable="true" />
+          <Property Type="Boolean" Name="IsActive" Nullable="true" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="200" />
+          <Property Type="String" Name="DocImagePath" Nullable="true" MaxLength="250" />
+        </ComplexType>
+        <ComplexType Name="PR_StudentsCourses_SelectAll_Result">
+          <Property Type="Decimal" Name="Student_ID" Nullable="false" Precision="9" Scale="0" />
+          <Property Type="String" Name="CourseName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="CourseType_Name" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Student_Name" Nullable="true" MaxLength="4000" />
+          <Property Type="Int32" Name="CourseDays" Nullable="true" />
+          <Property Type="String" Name="Degree" Nullable="true" MaxLength="100" />
+          <Property Type="Int32" Name="DegreePercentage" Nullable="true" />
+          <Property Type="DateTime" Name="StartDate" Nullable="true" />
+          <Property Type="DateTime" Name="EndDate" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="proc_CalcFingerPrintSheet_Result">
+          <Property Type="Int32" Name="FPEmpID" Nullable="true" />
+          <Property Type="Int32" Name="EmpID" Nullable="true" />
+          <Property Type="String" Name="EmpName" Nullable="true" MaxLength="150" />
+          <Property Type="String" Name="DayName" Nullable="true" MaxLength="30" />
+          <Property Type="DateTime" Name="Date" Nullable="true" />
+          <Property Type="String" Name="AttIN" Nullable="false" MaxLength="15" />
+          <Property Type="String" Name="CheckIn" Nullable="false" MaxLength="15" />
+          <Property Type="Int32" Name="InState" Nullable="false" />
+          <Property Type="String" Name="AttOut" Nullable="false" MaxLength="15" />
+          <Property Type="String" Name="CheckOut" Nullable="false" MaxLength="15" />
+          <Property Type="Int32" Name="OutState" Nullable="false" />
+          <Property Type="String" Name="Duration" Nullable="false" MaxLength="8" />
+          <Property Type="String" Name="AttIN2" Nullable="false" MaxLength="15" />
+          <Property Type="String" Name="CheckIn2" Nullable="false" MaxLength="15" />
+          <Property Type="Int32" Name="InState2" Nullable="false" />
+          <Property Type="String" Name="AttOut2" Nullable="false" MaxLength="15" />
+          <Property Type="String" Name="CheckOut2" Nullable="false" MaxLength="15" />
+          <Property Type="Int32" Name="OutState2" Nullable="false" />
+          <Property Type="String" Name="Duration2" Nullable="false" MaxLength="8" />
+          <Property Type="String" Name="BranchName" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="SectionName" Nullable="true" MaxLength="100" />
+        </ComplexType>
+        <ComplexType Name="proc_EmpDocumentsDetails_Exp_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="DateTime" Name="IssueDate" Nullable="true" />
+          <Property Type="DateTime" Name="ExpDate" Nullable="true" />
+          <Property Type="String" Name="EmpName" Nullable="true" MaxLength="150" />
+          <Property Type="String" Name="DocName" Nullable="false" MaxLength="200" />
+          <Property Type="Int32" Name="EmpID" Nullable="false" />
+          <Property Type="Int32" Name="DocumentID" Nullable="true" />
+          <Property Type="String" Name="IdentityNum" Nullable="true" MaxLength="150" />
+          <Property Type="String" Name="DocImagePath" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="BarCode" Nullable="true" MaxLength="250" />
+        </ComplexType>
+        <ComplexType Name="proc_EmpDocumentsDetails_Exp_New_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="DateTime" Name="IssueDate" Nullable="true" />
+          <Property Type="DateTime" Name="ExpDate" Nullable="true" />
+          <Property Type="String" Name="EmpName" Nullable="true" MaxLength="150" />
+          <Property Type="String" Name="IdNumber" Nullable="true" MaxLength="50" />
+          <Property Type="Decimal" Name="studentid" Nullable="true" Precision="9" Scale="0" />
+          <Property Type="String" Name="nationality" Nullable="true" MaxLength="4000" />
+          <Property Type="String" Name="PhoneNo" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="DocName" Nullable="false" MaxLength="200" />
+          <Property Type="Int32" Name="EmpID" Nullable="false" />
+          <Property Type="Int32" Name="DocumentID" Nullable="true" />
+          <Property Type="String" Name="IdentityNum" Nullable="true" MaxLength="150" />
+          <Property Type="String" Name="DocImagePath" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="BarCode" Nullable="true" MaxLength="250" />
+        </ComplexType>
+        <ComplexType Name="proc_FillMonths_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="Name" Nullable="true" MaxLength="100" />
+        </ComplexType>
+        <ComplexType Name="proc_GetAdvancesReport_ForEmp_Result">
+          <Property Type="Int32" Name="AdvID" Nullable="false" />
+          <Property Type="String" Name="AdvName" Nullable="true" MaxLength="150" />
+          <Property Type="DateTime" Name="DueDate" Nullable="true" />
+          <Property Type="Int32" Name="EmpID" Nullable="true" />
+          <Property Type="String" Name="EmpName" Nullable="true" MaxLength="150" />
+          <Property Type="Decimal" Name="MonthlyPremium" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="String" Name="MonthsNumbers" Nullable="true" />
+          <Property Type="Decimal" Name="AdvanceValue" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="TotalPaid" Nullable="false" Precision="38" Scale="2" />
+          <Property Type="Decimal" Name="Rest" Nullable="false" Precision="38" Scale="2" />
+          <Property Type="Int32" Name="SectionID" Nullable="false" />
+          <Property Type="String" Name="SectionName" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="AdvancesState" Nullable="true" MaxLength="6" />
+        </ComplexType>
+        <ComplexType Name="proc_Select_SpecialDues_Temp_ForEmp_Result">
+          <Property Type="String" Name="ReqType" Nullable="false" MaxLength="9" />
+          <Property Type="String" Name="EmpName" Nullable="true" MaxLength="150" />
+          <Property Type="Int32" Name="EmpID" Nullable="false" />
+          <Property Type="Int32" Name="RequestID" Nullable="false" />
+          <Property Type="String" Name="RequestName" Nullable="true" MaxLength="100" />
+          <Property Type="DateTime" Name="RequestDate" Nullable="true" />
+          <Property Type="Int32" Name="MonthID" Nullable="true" />
+          <Property Type="Decimal" Name="Value" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="String" Name="Status" Nullable="true" MaxLength="11" />
+          <Property Type="Int32" Name="SectionID" Nullable="false" />
+          <Property Type="String" Name="SectionName" Nullable="false" MaxLength="100" />
+          <Property Type="Int32" Name="BranchID" Nullable="false" />
+          <Property Type="String" Name="BranchName" Nullable="false" MaxLength="100" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="StudentProfileDALModelsStoreContainer" CdmEntityContainer="HRMadinaEntities">
+          <EntitySetMapping Name="Absence">
+            <EntityTypeMapping TypeName="StudentProfile.DAL.Models.Absence">
+              <MappingFragment StoreEntitySet="Absence">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="COA_ID" ColumnName="COA_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CourseTypes">
+            <EntityTypeMapping TypeName="StudentProfile.DAL.Models.CourseTypes">
+              <MappingFragment StoreEntitySet="CourseTypes">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Documents">
+            <EntityTypeMapping TypeName="StudentProfile.DAL.Models.Documents">
+              <MappingFragment StoreEntitySet="Documents">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="AlertDays" ColumnName="AlertDays" />
+                <ScalarProperty Name="DocLength" ColumnName="DocLength" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EmpCourses">
+            <EntityTypeMapping TypeName="StudentProfile.DAL.Models.EmpCourses">
+              <MappingFragment StoreEntitySet="EmpCourses">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
+                <ScalarProperty Name="CourseName" ColumnName="CourseName" />
+                <ScalarProperty Name="CoursePlace" ColumnName="CoursePlace" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="CourseDays" ColumnName="CourseDays" />
+                <ScalarProperty Name="Degree" ColumnName="Degree" />
+                <ScalarProperty Name="CourseImagePath" ColumnName="CourseImagePath" />
+                <ScalarProperty Name="CourseTypes_ID" ColumnName="CourseTypes_ID" />
+                <ScalarProperty Name="DegreePercentage" ColumnName="DegreePercentage" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EmpDocument">
+            <EntityTypeMapping TypeName="StudentProfile.DAL.Models.EmpDocument">
+              <MappingFragment StoreEntitySet="EmpDocument">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="EmpID" ColumnName="EmpID" />
+                <ScalarProperty Name="DocumentID" ColumnName="DocumentID" />
+                <ScalarProperty Name="IdentityNum" ColumnName="IdentityNum" />
+                <ScalarProperty Name="DocImagePath" ColumnName="DocImagePath" />
+                <ScalarProperty Name="BarCode" ColumnName="BarCode" />
+                <ScalarProperty Name="IssueDate" ColumnName="IssueDate" />
+                <ScalarProperty Name="ExpDate" ColumnName="ExpDate" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Employees">
+            <EntityTypeMapping TypeName="StudentProfile.DAL.Models.Employees">
+              <MappingFragment StoreEntitySet="Employees">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="empFileNum" ColumnName="empFileNum" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="EnName" ColumnName="EnName" />
+                <ScalarProperty Name="DateOfBirth" ColumnName="DateOfBirth" />
+                <ScalarProperty Name="PlaceOfBirth" ColumnName="PlaceOfBirth" />
+                <ScalarProperty Name="NationaltyID" ColumnName="NationaltyID" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+                <ScalarProperty Name="IDNumber" ColumnName="IDNumber" />
+                <ScalarProperty Name="CurrentAddress" ColumnName="CurrentAddress" />
+                <ScalarProperty Name="JobID" ColumnName="JobID" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Mobile" ColumnName="Mobile" />
+                <ScalarProperty Name="Mobile2" ColumnName="Mobile2" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="SectionID" ColumnName="SectionID" />
+                <ScalarProperty Name="JobLevelID" ColumnName="JobLevelID" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="MaritalStatusID" ColumnName="MaritalStatusID" />
+                <ScalarProperty Name="ContractTypesID" ColumnName="ContractTypesID" />
+                <ScalarProperty Name="ReligionID" ColumnName="ReligionID" />
+                <ScalarProperty Name="ContractTypeID" ColumnName="ContractTypeID" />
+                <ScalarProperty Name="Image" ColumnName="Image" />
+                <ScalarProperty Name="HousingTypeID" ColumnName="HousingTypeID" />
+                <ScalarProperty Name="AttendanceTime" ColumnName="AttendanceTime" />
+                <ScalarProperty Name="LeavingTime" ColumnName="LeavingTime" />
+                <ScalarProperty Name="UniverstyID" ColumnName="UniverstyID" />
+                <ScalarProperty Name="BasicSalary" ColumnName="BasicSalary" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="CashType" ColumnName="CashType" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="CareerInID" ColumnName="CareerInID" />
+                <ScalarProperty Name="SponsorID" ColumnName="SponsorID" />
+                <ScalarProperty Name="ComingDate" ColumnName="ComingDate" />
+                <ScalarProperty Name="WorkOfficeNumber" ColumnName="WorkOfficeNumber" />
+                <ScalarProperty Name="OnTheJob" ColumnName="OnTheJob" />
+                <ScalarProperty Name="IsStoped" ColumnName="IsStoped" />
+                <ScalarProperty Name="LevelsDegreesID" ColumnName="LevelsDegreesID" />
+                <ScalarProperty Name="FingerprintID" ColumnName="FingerprintID" />
+                <ScalarProperty Name="MachineID" ColumnName="MachineID" />
+                <ScalarProperty Name="EmploymentDate" ColumnName="EmploymentDate" />
+                <ScalarProperty Name="BranchID" ColumnName="BranchID" />
+                <ScalarProperty Name="StopedMonth" ColumnName="StopedMonth" />
+                <ScalarProperty Name="Coa_ID" ColumnName="Coa_ID" />
+                <ScalarProperty Name="AccountOwnerName" ColumnName="AccountOwnerName" />
+                <ScalarProperty Name="SpecializationID" ColumnName="SpecializationID" />
+                <ScalarProperty Name="FamilyNumbers" ColumnName="FamilyNumbers" />
+                <ScalarProperty Name="FirstWorkPlace" ColumnName="FirstWorkPlace" />
+                <ScalarProperty Name="Notes" ColumnName="Notes" />
+                <ScalarProperty Name="HomeAddress" ColumnName="HomeAddress" />
+                <ScalarProperty Name="HomePhone" ColumnName="HomePhone" />
+                <ScalarProperty Name="HomeMobile" ColumnName="HomeMobile" />
+                <ScalarProperty Name="EditingNotes" ColumnName="EditingNotes" />
+                <ScalarProperty Name="EmpType" ColumnName="EmpType" />
+                <ScalarProperty Name="IsExcluded" ColumnName="IsExcluded" />
+                <ScalarProperty Name="PlacementDate" ColumnName="PlacementDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Relatives">
+            <EntityTypeMapping TypeName="StudentProfile.DAL.Models.Relatives">
+              <MappingFragment StoreEntitySet="Relatives">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="EmpID" ColumnName="EmpID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Relationship" ColumnName="Relationship" />
+                <ScalarProperty Name="IDNumber" ColumnName="IDNumber" />
+                <ScalarProperty Name="PassportNumber" ColumnName="PassportNumber" />
+                <ScalarProperty Name="PassExpDate" ColumnName="PassExpDate" />
+                <ScalarProperty Name="PassImage" ColumnName="PassImage" />
+                <ScalarProperty Name="AccomadationExpiryDate" ColumnName="AccomadationExpiryDate" />
+                <ScalarProperty Name="DateOfBirth" ColumnName="DateOfBirth" />
+                <ScalarProperty Name="HasInsurance" ColumnName="HasInsurance" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="PR_EmpCourses_SelectAll" FunctionName="StudentProfile.DAL.Models.Store.PR_EmpCourses_SelectAll">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="StudentProfile.DAL.Models.PR_EmpCourses_SelectAll_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="CourseDays" ColumnName="CourseDays" />
+                <ScalarProperty Name="CourseImagePath" ColumnName="CourseImagePath" />
+                <ScalarProperty Name="CourseName" ColumnName="CourseName" />
+                <ScalarProperty Name="CoursePlace" ColumnName="CoursePlace" />
+                <ScalarProperty Name="Degree" ColumnName="Degree" />
+                <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="EmpName" ColumnName="EmpName" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="PR_GetStudentsByFacandMaj" FunctionName="StudentProfile.DAL.Models.Store.PR_GetStudentsByFacandMaj">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="StudentProfile.DAL.Models.PR_GetStudentsByFacandMaj_Result">
+                <ScalarProperty Name="StudentID" ColumnName="StudentID" />
+                <ScalarProperty Name="StudentName" ColumnName="StudentName" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="PR_StudentDocuments_SelectAll" FunctionName="StudentProfile.DAL.Models.Store.PR_StudentDocuments_SelectAll">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="StudentProfile.DAL.Models.PR_StudentDocuments_SelectAll_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="EmpID" ColumnName="EmpID" />
+                <ScalarProperty Name="EmpName" ColumnName="EmpName" />
+                <ScalarProperty Name="DocumentID" ColumnName="DocumentID" />
+                <ScalarProperty Name="studentid" ColumnName="studentid" />
+                <ScalarProperty Name="IdentityNum" ColumnName="IdentityNum" />
+                <ScalarProperty Name="IssueDate" ColumnName="IssueDate" />
+                <ScalarProperty Name="ExpDate" ColumnName="ExpDate" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="DocImagePath" ColumnName="DocImagePath" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="PR_StudentsCourses_SelectAll" FunctionName="StudentProfile.DAL.Models.Store.PR_StudentsCourses_SelectAll">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="StudentProfile.DAL.Models.PR_StudentsCourses_SelectAll_Result">
+                <ScalarProperty Name="Student_ID" ColumnName="Student_ID" />
+                <ScalarProperty Name="CourseName" ColumnName="CourseName" />
+                <ScalarProperty Name="CourseType_Name" ColumnName="CourseType_Name" />
+                <ScalarProperty Name="Student_Name" ColumnName="Student_Name" />
+                <ScalarProperty Name="CourseDays" ColumnName="CourseDays" />
+                <ScalarProperty Name="Degree" ColumnName="Degree" />
+                <ScalarProperty Name="DegreePercentage" ColumnName="DegreePercentage" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="proc_CalcFingerPrintSheet" FunctionName="StudentProfile.DAL.Models.Store.proc_CalcFingerPrintSheet">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="StudentProfile.DAL.Models.proc_CalcFingerPrintSheet_Result">
+                <ScalarProperty Name="FPEmpID" ColumnName="FPEmpID" />
+                <ScalarProperty Name="EmpID" ColumnName="EmpID" />
+                <ScalarProperty Name="EmpName" ColumnName="EmpName" />
+                <ScalarProperty Name="DayName" ColumnName="DayName" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="AttIN" ColumnName="AttIN" />
+                <ScalarProperty Name="CheckIn" ColumnName="CheckIn" />
+                <ScalarProperty Name="InState" ColumnName="InState" />
+                <ScalarProperty Name="AttOut" ColumnName="AttOut" />
+                <ScalarProperty Name="CheckOut" ColumnName="CheckOut" />
+                <ScalarProperty Name="OutState" ColumnName="OutState" />
+                <ScalarProperty Name="Duration" ColumnName="Duration" />
+                <ScalarProperty Name="AttIN2" ColumnName="AttIN2" />
+                <ScalarProperty Name="CheckIn2" ColumnName="CheckIn2" />
+                <ScalarProperty Name="InState2" ColumnName="InState2" />
+                <ScalarProperty Name="AttOut2" ColumnName="AttOut2" />
+                <ScalarProperty Name="CheckOut2" ColumnName="CheckOut2" />
+                <ScalarProperty Name="OutState2" ColumnName="OutState2" />
+                <ScalarProperty Name="Duration2" ColumnName="Duration2" />
+                <ScalarProperty Name="BranchName" ColumnName="BranchName" />
+                <ScalarProperty Name="SectionName" ColumnName="SectionName" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="proc_EmpDocumentsDetails_Exp" FunctionName="StudentProfile.DAL.Models.Store.proc_EmpDocumentsDetails_Exp">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="StudentProfile.DAL.Models.proc_EmpDocumentsDetails_Exp_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="IssueDate" ColumnName="IssueDate" />
+                <ScalarProperty Name="ExpDate" ColumnName="ExpDate" />
+                <ScalarProperty Name="EmpName" ColumnName="EmpName" />
+                <ScalarProperty Name="DocName" ColumnName="DocName" />
+                <ScalarProperty Name="EmpID" ColumnName="EmpID" />
+                <ScalarProperty Name="DocumentID" ColumnName="DocumentID" />
+                <ScalarProperty Name="IdentityNum" ColumnName="IdentityNum" />
+                <ScalarProperty Name="DocImagePath" ColumnName="DocImagePath" />
+                <ScalarProperty Name="BarCode" ColumnName="BarCode" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="proc_EmpDocumentsDetails_Exp_New" FunctionName="StudentProfile.DAL.Models.Store.proc_EmpDocumentsDetails_Exp_New">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="StudentProfile.DAL.Models.proc_EmpDocumentsDetails_Exp_New_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="IssueDate" ColumnName="IssueDate" />
+                <ScalarProperty Name="ExpDate" ColumnName="ExpDate" />
+                <ScalarProperty Name="EmpName" ColumnName="EmpName" />
+                <ScalarProperty Name="IdNumber" ColumnName="IdNumber" />
+                <ScalarProperty Name="studentid" ColumnName="studentid" />
+                <ScalarProperty Name="nationality" ColumnName="nationality" />
+                <ScalarProperty Name="PhoneNo" ColumnName="PhoneNo" />
+                <ScalarProperty Name="DocName" ColumnName="DocName" />
+                <ScalarProperty Name="EmpID" ColumnName="EmpID" />
+                <ScalarProperty Name="DocumentID" ColumnName="DocumentID" />
+                <ScalarProperty Name="IdentityNum" ColumnName="IdentityNum" />
+                <ScalarProperty Name="DocImagePath" ColumnName="DocImagePath" />
+                <ScalarProperty Name="BarCode" ColumnName="BarCode" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="proc_FillMonths" FunctionName="StudentProfile.DAL.Models.Store.proc_FillMonths">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="StudentProfile.DAL.Models.proc_FillMonths_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="proc_GetAdvancesReport_ForEmp" FunctionName="StudentProfile.DAL.Models.Store.proc_GetAdvancesReport_ForEmp">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="StudentProfile.DAL.Models.proc_GetAdvancesReport_ForEmp_Result">
+                <ScalarProperty Name="AdvID" ColumnName="AdvID" />
+                <ScalarProperty Name="AdvName" ColumnName="AdvName" />
+                <ScalarProperty Name="DueDate" ColumnName="DueDate" />
+                <ScalarProperty Name="EmpID" ColumnName="EmpID" />
+                <ScalarProperty Name="EmpName" ColumnName="EmpName" />
+                <ScalarProperty Name="MonthlyPremium" ColumnName="MonthlyPremium" />
+                <ScalarProperty Name="MonthsNumbers" ColumnName="MonthsNumbers" />
+                <ScalarProperty Name="AdvanceValue" ColumnName="AdvanceValue" />
+                <ScalarProperty Name="TotalPaid" ColumnName="TotalPaid" />
+                <ScalarProperty Name="Rest" ColumnName="Rest" />
+                <ScalarProperty Name="SectionID" ColumnName="SectionID" />
+                <ScalarProperty Name="SectionName" ColumnName="SectionName" />
+                <ScalarProperty Name="AdvancesState" ColumnName="AdvancesState" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="proc_Select_SpecialDues_Temp_ForEmp" FunctionName="StudentProfile.DAL.Models.Store.proc_Select_SpecialDues_Temp_ForEmp">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="StudentProfile.DAL.Models.proc_Select_SpecialDues_Temp_ForEmp_Result">
+                <ScalarProperty Name="ReqType" ColumnName="ReqType" />
+                <ScalarProperty Name="EmpName" ColumnName="EmpName" />
+                <ScalarProperty Name="EmpID" ColumnName="EmpID" />
+                <ScalarProperty Name="RequestID" ColumnName="RequestID" />
+                <ScalarProperty Name="RequestName" ColumnName="RequestName" />
+                <ScalarProperty Name="RequestDate" ColumnName="RequestDate" />
+                <ScalarProperty Name="MonthID" ColumnName="MonthID" />
+                <ScalarProperty Name="Value" ColumnName="Value" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="SectionID" ColumnName="SectionID" />
+                <ScalarProperty Name="SectionName" ColumnName="SectionName" />
+                <ScalarProperty Name="BranchID" ColumnName="BranchID" />
+                <ScalarProperty Name="BranchName" ColumnName="BranchName" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

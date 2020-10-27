@@ -1,0 +1,241 @@
+﻿@*@model List<StudentProfile.DAL.Models.TravelOrders>*@
+@using System.Web.UI.WebControls;
+@using StudentProfile.DAL.Models
+
+@Html.DevExpress().GridView(settings =>
+{
+
+
+
+    settings.Settings.ShowFilterRow = true;
+    settings.SettingsSearchPanel.Visible = true;
+
+    settings.Settings.ShowHeaderFilterButton = true;
+
+    settings.SettingsPager.Position = PagerPosition.Bottom;
+    settings.SettingsPager.FirstPageButton.Visible = true;
+    settings.SettingsPager.LastPageButton.Visible = true;
+    settings.SettingsPager.PageSizeItemSettings.Visible = true;
+    settings.SettingsPager.PageSizeItemSettings.Items = new string[] { "10", "20", "50" };
+
+    settings.Name = "TravelOrdersFinancial";
+    settings.KeyFieldName = "ID";
+    settings.Styles.Table.CssClass = "dx-table-ds";
+    // settings.Theme= r.
+    settings.Width = Unit.Percentage(100);
+    settings.CallbackRouteValues = new { Action = "_GetTravelOrdersFinancial", Controller = "TravelOrders" };
+
+    settings.SettingsExport.EnableClientSideExportAPI = true;
+    settings.SettingsExport.ExcelExportMode = DevExpress.Export.ExportType.WYSIWYG;
+    settings.Toolbars.Add(t =>
+    {
+        t.EnableAdaptivity = true;
+
+        t.Items.Add(GridViewToolbarCommand.ExportToPdf);
+        t.Items.Add(GridViewToolbarCommand.ExportToXls);
+        t.Items.Add(GridViewToolbarCommand.ExportToXlsx);
+        t.Items.Add(GridViewToolbarCommand.ExportToDocx);
+        t.Items.Add(GridViewToolbarCommand.ExportToRtf);
+        t.Items.Add(GridViewToolbarCommand.ExportToCsv);
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "رقم الاركاب";
+        //column.Width = Unit.Percentage(15);
+        column.FieldName = "TripNumber";
+    });
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "خط السير";
+        //column.Width = Unit.Percentage(15);
+        column.FieldName = "TripPath";
+
+    });
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "تاريخ الترحيل";
+        //column.Width = Unit.Percentage(15);
+        column.FieldName = "TravelOrderDate";
+        column.PropertiesEdit.DisplayFormatString = "dd/MM/yyyy hh:mm:ss";
+    });
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "اجمالي سعر امر الاركاب";
+        //column.Width = Unit.Percentage(15);
+        column.FieldName = "SumGivenAmount";
+    });
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "عدد الطلاب";
+        // column.Width = System.Web.UI.WebControls.Unit.Percentage(15);
+        column.SetDataItemTemplateContent(c =>
+        {
+            var selectedData  = Convert.ToInt32(DataBinder.Eval(c.DataItem, "StudentsCount")?.ToString());
+
+            ViewContext.Writer.Write("<span>" + selectedData + "</span>");
+        });
+    });
+
+    settings.SettingsPager.PageSize = 20;
+
+    settings.SettingsLoadingPanel.Mode = GridViewLoadingPanelMode.Disabled;
+    settings.EnableCallbackAnimation = false;
+
+    /*
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "التكلفة";
+        //column.Width = Unit.Percentage(15);
+        column.FieldName = "GivenAmount";
+        column.SetDataItemTemplateContent((c) =>
+        {
+            decimal money = 0;
+            string amount = DataBinder.Eval(c.DataItem, "GivenAmount")?.ToString();
+
+            if (!string.IsNullOrEmpty(amount))
+                money = decimal.Parse(amount);
+            Html.DevExpress().SpinEdit(p =>
+            {
+                p.Name = "ApprovedAmount_" + c.KeyValue;
+                p.Properties.DisplayFormatString = "N2";
+                p.Properties.DisplayFormatInEditMode = true;
+                p.Properties.MinValue = 0;
+                p.Properties.MaxValue = 1000000;
+                p.Properties.SpinButtons.ShowLargeIncrementButtons = true;
+                p.Number = money;
+            }).GetHtml();
+
+        });
+    });*/
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "رقم الارتباط";
+        //column.Width = Unit.Percentage(15);
+        column.FieldName = "AgentRefNumber";
+        //column.SetDataItemTemplateContent((c) =>
+        //{
+
+        //    string text = DataBinder.Eval(c.DataItem, "AgentRefNumber")?.ToString();
+
+        //    Html.DevExpress().TextBox(p =>
+        //    {
+        //        p.Name = "AgentRefNumber_" + c.KeyValue;
+
+        //        p.Properties.DisplayFormatInEditMode = true;
+
+        //        p.Properties.MaxLength = 20;
+        //        p.Text = text;
+        //    }).GetHtml();
+
+        //});
+    });
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "إعتماد";
+        // column.Width = System.Web.UI.WebControls.Unit.Percentage(15);
+        column.SetDataItemTemplateContent(c =>
+        {
+            ViewContext.Writer.Write("<input type='button' class='btn btn-success btn-sm' value='تفاصيل' onclick= 'GetTravelOrderDetails(" + c.KeyValue + ")'/>");
+            ViewContext.Writer.Write("<input type='button' class='btn btn-danger btn-sm' value='إلغاء' onclick= 'CancelTravelOrder(" + c.KeyValue + ")'/>");
+        });
+    });
+    //settings.Columns.Add(column =>
+    //{
+    //    column.Caption = "ملاحظات";
+    //    //column.Width = Unit.Percentage(15);
+    //    //column.FieldName = "Notes";
+    //    column.SetDataItemTemplateContent((c) =>
+    //    {
+
+    //        string text = DataBinder.Eval(c.DataItem, "Notes")?.ToString();
+
+    //        Html.DevExpress().TextBox(p =>
+    //        {
+    //            p.Name = "Notes_" + c.KeyValue;
+    //            p.Properties.DisplayFormatInEditMode = true;
+
+    //            p.Properties.MaxLength = 20;
+    //            p.Text = text;
+    //        }).GetHtml();
+
+    //    });
+    //});
+    /*
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "إعتماد";
+        // column.Width = System.Web.UI.WebControls.Unit.Percentage(15);
+        column.SetDataItemTemplateContent(c =>
+        {
+            // var selectedData = Model.Where(x => x.ID == int.Parse(c.KeyValue.ToString())).SingleOrDefault();
+
+            ViewContext.Writer.Write("<input type='button' value='حفظ' class='btn btn-success btn-sm' onclick= 'SaveTripFinancial(" + c.KeyValue + ")'/>");
+        });
+    });*/
+    settings.SettingsPager.PageSize = 20;
+
+    settings.SettingsLoadingPanel.Mode = GridViewLoadingPanelMode.Disabled;
+    settings.EnableCallbackAnimation = false;
+    settings.SettingsBehavior.AllowSelectByRowClick = false;
+    settings.CommandColumn.Visible = true;
+    settings.CommandColumn.Width = Unit.Percentage(5);
+    settings.CommandColumn.ShowSelectCheckbox = true;
+    settings.CommandColumn.SelectAllCheckboxMode = GridViewSelectAllCheckBoxMode.AllPages;
+
+    settings.ClientSideEvents.SelectionChanged = "SelectionChanged";
+
+    settings.Toolbars.Add(t =>
+    {
+        t.EnableAdaptivity = false;
+        t.Items.Add(i =>
+        {
+            i.BeginGroup = true;
+            i.SetTemplateContent(c =>
+            {
+                Html.DevExpress().Button(
+                    s =>
+                    {
+                        s.Name = "M";
+                        s.RightToLeft = DefaultBoolean.True;
+                        s.Text = "التوجية الي الاعتماد الاداري";
+                        s.ClientSideEvents.Click = "ExportToManager";
+                    }).Render();
+            });
+        });
+        //t.Items.Add(i =>
+        //{
+        //    i.BeginGroup = true;
+        //    i.SetTemplateContent(c =>
+        //    {
+        //        Html.DevExpress().Button(
+        //            b =>
+        //            {
+        //                b.Name = "btShowColumnChooser";
+        //                b.Images.Image.IconID = IconID.SetupProperties16x16;
+        //                b.RightToLeft = DefaultBoolean.True;
+        //                b.ImagePosition = ImagePosition.Left;
+        //                b.Text = "إظهار اختيار الأعمدة";
+        //                b.ClientSideEvents.Click = "onShowChooserClick";
+        //            }).Render();
+        //    });
+        //});
+        settings.HtmlRowPrepared = (sender, e) =>
+        {
+            if (e.RowType != GridViewRowType.Data) return;
+            bool isReturned = Convert.ToBoolean(e.GetValue("IsReturned"));
+            bool isCanceld = Convert.ToBoolean(e.GetValue("IsCanceled"));
+
+            if (isReturned)
+            {
+                e.Row.BackColor = System.Drawing.Color.AntiqueWhite;
+                e.Row.ForeColor = System.Drawing.Color.Black;
+            }
+            if (isCanceld)
+            {
+                e.Row.BackColor = System.Drawing.Color.LavenderBlush;
+                e.Row.ForeColor = System.Drawing.Color.Black;
+            }
+        };
+    });
+}).Bind(Model).GetHtml()

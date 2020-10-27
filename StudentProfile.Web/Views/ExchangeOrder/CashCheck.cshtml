@@ -1,0 +1,142 @@
+﻿
+@{
+    ViewBag.Title = "صرف الشيكات";
+    Layout = "~/Views/Shared/_DevextremeLayout.cshtml";
+}
+
+
+<script src="~/Scripts/ExchangeOrder/CashCheckService.js"></script>
+<script src="~/Scripts/ExchangeOrder/CashCheckController.js"></script>
+
+<div class="container-fluid container-fullw text-right">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel bg-white">
+                <div class="breadcrumb-wrapper text-right">
+                    <h4 class="no-margin">صرف الشيكات</h4>
+                </div>
+                <div class="panel-body">
+                    <div ng-controller="CashCheckCtrl">
+                        <form id="form" ng-submit="AddCashCheck($event)">
+                            <div class="row">
+                                <div class="col-md-4 col-sm-4 col-xs-4 form-group">
+                                    <label class="col-lg-12 col-sm-12 col-xs-12 control-label">رقم الشيك</label>
+                                    <div class="col-lg-12 col-sm-12 col-xs-12 ">
+                                        <div class="required-ds" id="txtChekNumber" dx-text-box="txtChekNumber"
+                                             dx-validator="validationRequired"></div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4 col-sm-4 col-xs-4 form-group">
+                                    <label class="col-lg-12 col-sm-12 col-xs-12 control-label">تاريخ الشيك</label>
+                                    <div class="col-lg-12 col-sm-12 col-xs-12 ">
+                                        <div dx-date-box="chekIssueDate" style="width:100%" dx-validator="validationRequired"></div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4 col-sm-4 col-xs-4 form-group">
+                                    <label class="col-lg-12 col-sm-12 col-xs-12 control-label">قيمة الشيك</label>
+                                    <div class="col-lg-12 col-sm-12 col-xs-12 ">
+                                        <div class="required-ds" id="txtchekValue" dx-number-box="txtchekValue"
+                                             dx-validator="validationRequired"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="row">
+                                <div class="col-md-4 col-sm-4 col-xs-4 form-group">
+                                    <label class="col-md-12 col-sm-12 col-xs-12 control-label">امر الصرف</label>
+                                    <div class="col-lg-12 col-sm-12 col-xs-12 dd-ds">
+                                        <div class="form-control" id="ExchangeOrderSelectBox" dx-select-box="ExchangeOrderSelectBox"
+                                             dx-validator="validationRequired">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3 col-sm-3 col-xs-3 form-group">
+                                    <label class="col-lg-12 col-sm-12 col-xs-12 control-label">القيمة</label>
+                                    <div class="col-lg-12 col-sm-12 col-xs-12 ">
+                                        <div class="required-ds" id="txtExchangeOrderValue" dx-number-box="txtExchangeOrderValue"
+                                             dx-validator="validationRequired"></div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3 col-sm-3 col-xs-3 form-group">
+                                    <label class="col-lg-12 col-sm-12 col-xs-12 control-label">المتبقي</label>
+                                    <div class="col-lg-12 col-sm-12 col-xs-12 ">
+                                        <div class="required-ds" id="txtAdName" dx-number-box="txtRemainValue"
+                                             dx-validator="validationRequired"></div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-2 col-sm-2 col-xs-2 form-group">
+                                    <div class="col-lg-12 col-sm-12 col-xs-12 ">
+                                        <br /><br />
+                                        <div id="btnAdd" dx-button="btnAdd"></div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                                <div class="dx-viewport">
+                                    <div class="demo-container">
+                                        <div id="gridAddExchangeOrder" dx-data-grid="gridAddExchangeOrder"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            @*@if (ViewBag.Create != null)
+                                {
+                                    if (ViewBag.Create)
+                                    {*@
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                                <div class="col-lg-12 col-sm-12 col-xs-12 ">
+                                    <div id="btnSave" dx-button="btnSave"></div>
+                                </div>
+                            </div>
+                            @*}
+                                }*@
+                        </form>
+                        <!--List-->
+                        <div class="row">
+                            <div id="List" class="col-lg-12 col-sm-12 col-xs-12">
+                                <div class="dx-viewport dx-tree-st">
+                                    <div class="demo-container">
+                                        <div id="gridCashCheck" class="dx-tree-st dx-tree-st22" dx-data-grid="gridCashCheck" dx-item-alias="Checks">
+                                            <div data-options="dxTemplate: {name: 'detail'}">
+                                                <div>
+                                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 dx-tree-st22-in">
+                                                        <div class="master-detail-caption-st text-center">اوامر اللاصرف</div>
+                                                        <div class="dx-tree-st dx-tree-st22" dx-data-grid="gridExchangeOrdersChecks(Checks.key)"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .control-label {
+        line-height: 35px;
+    }
+
+    .btn.btn-sm .dx-button-content {
+        padding: 4px !important
+    }
+
+        .btn.btn-sm .dx-button-content i {
+            font-size: 14px !important;
+            color: #fff !important;
+        }
+</style>
+

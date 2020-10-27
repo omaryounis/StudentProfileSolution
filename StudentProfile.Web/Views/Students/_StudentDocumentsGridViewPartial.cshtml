@@ -1,0 +1,150 @@
+@using System.Web.UI.WebControls
+@using DevExpress.Export
+@using System.Drawing
+@Html.DevExpress().GridView(settings =>
+{
+    settings.Name = "StudentDocumentsGV";
+    settings.KeyFieldName = "StudentDocumentID";
+    settings.Styles.Table.CssClass = "dx-table-ds";
+    settings.SettingsDataSecurity.AllowReadUnlistedFieldsFromClientApi = DefaultBoolean.True;
+    settings.Width = Unit.Percentage(100);
+    settings.CallbackRouteValues = new { Action = "StudentDocumentsGridViewPartial", Controller = "Students" };
+    settings.SettingsExport.EnableClientSideExportAPI = true;
+    settings.SettingsExport.ExcelExportMode = DevExpress.Export.ExportType.WYSIWYG;
+    settings.Toolbars.Add(t =>
+    {
+        t.EnableAdaptivity = true;
+
+        t.Items.Add(GridViewToolbarCommand.ExportToPdf);
+        t.Items.Add(GridViewToolbarCommand.ExportToXls);
+        t.Items.Add(GridViewToolbarCommand.ExportToXlsx);
+        t.Items.Add(GridViewToolbarCommand.ExportToDocx);
+        t.Items.Add(GridViewToolbarCommand.ExportToRtf);
+        t.Items.Add(GridViewToolbarCommand.ExportToCsv);
+    });
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "ÇáæËíÞÉ";
+        column.FieldName = "Document_ID";
+        column.Width = Unit.Percentage(15);
+        column.SetDataItemTemplateContent(c =>
+        {
+             var Document_ID = DataBinder.Eval(c.DataItem, "Document_ID").ToString();
+            string DocType = "";
+            if (Document_ID=="1")
+                DocType = "ãÓÊäÏ ÇáåæíÉ";
+            else
+                DocType= "ãÓÊäÏ ÇáÌæÇÒ";
+            ViewContext.Writer.Write(DocType);
+        });
+
+    });
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "ÑÞã ÇáæËíÞÉ";
+        column.FieldName = "IdentityNumber";
+        column.Width = Unit.Percentage(15);
+    });
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "ÊÇÑíÎ ÇáÇäÊåÇÁ";
+        column.FieldName = "ExpiryDate";
+        column.Width = Unit.Percentage(15);
+    });
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "ÊÇÑíÎ ÇáÇÖÇÝÉ";
+        column.FieldName = "InsertDate";
+        column.Width = Unit.Percentage(15);
+    });
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "ÊÇÑíÎ ÇáÇÚÊãÇÏ";
+        column.FieldName = "ApprovedDate";
+        column.Width = Unit.Percentage(15);
+    });
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "ÇáÍÇáÉ";
+        column.FieldName = "IsActive";
+        column.Width = Unit.Percentage(15);
+        column.SetDataItemTemplateContent(c =>
+        {
+            var isActive = bool.Parse(DataBinder.Eval(c.DataItem, "IsActive").ToString());
+            var isExpired = bool.Parse(DataBinder.Eval(c.DataItem, "IsExpired").ToString());
+            string status = "ÛíÑ ãÝÚá";
+            if (isActive)
+                status = "ãÝÚá";
+            if (isExpired)
+                status = "ãäÊåí";
+            ViewContext.Writer.Write(status);
+        });
+    });
+    settings.Columns.Add(column =>
+    {
+        column.Width = Unit.Percentage(15);
+        column.Caption = "ãáÇÍÙÇÊ";
+        column.FieldName = "RefusedNotes";
+    });
+
+
+    settings.Columns.Add(column =>
+    {
+        column.Width = Unit.Percentage(15);
+        column.Caption = "ÍÐÝ";
+        column.SetDataItemTemplateContent(c =>
+        {
+            //bool IsActive = bool.Parse(DataBinder.Eval(c.DataItem, "IsActive").ToString());
+            //bool? IsTransfer = false;
+            //if (DataBinder.Eval(c.DataItem, "IsTransfer") != null)
+            //{
+            //    IsTransfer = bool.Parse(DataBinder.Eval(c.DataItem, "IsTransfer").ToString());
+            //}
+            //bool? IsExpired = false;
+            //if (DataBinder.Eval(c.DataItem, "IsExpired") != null)
+            //{
+            //    IsExpired = bool.Parse(DataBinder.Eval(c.DataItem, "IsExpired").ToString());
+            //}
+            //string isRefused = DataBinder.Eval(c.DataItem, "RefusedNotes") != null ? DataBinder.Eval(c.DataItem, "RefusedNotes").ToString() : "";
+            //if ((IsTransfer != true) || (IsExpired == true) || (String.IsNullOrEmpty(isRefused) == false))
+            //{
+            ViewContext.Writer.Write("<input type='button' class='btn btn-danger btn-sm' value='ÍÐÝ' onclick= 'DeleteDocument(" + c.KeyValue + ")'/>");
+
+            //}
+        });
+    });
+
+
+
+    settings.SettingsBehavior.AllowSelectByRowClick = false;
+    settings.CommandColumn.Visible = false;
+    settings.CommandColumn.Width = Unit.Percentage(5);
+    settings.CommandColumn.SelectAllCheckboxMode = GridViewSelectAllCheckBoxMode.Page;
+    settings.SettingsPager.PageSize = 20;
+    settings.SettingsLoadingPanel.Mode = GridViewLoadingPanelMode.Disabled;
+    settings.EnableCallbackAnimation = false;
+    settings.CommandColumn.ShowSelectCheckbox = true;
+    settings.ClientSideEvents.SelectionChanged = "SelectionChanged";
+    settings.CommandButtonInitialize = (s, e) => {
+        MVCxGridView Grid = s as MVCxGridView;
+        if (e.ButtonType == ColumnCommandButtonType.SelectCheckbox) {
+
+            var ApprovedDateValue = Grid.GetRowValues(e.VisibleIndex, "ApprovedDate");
+            if (ApprovedDateValue != null) { e.Visible = false; }
+            var RefusedNotesValue = Grid.GetRowValues(e.VisibleIndex, "RefusedNotes");
+            if (RefusedNotesValue != null) { e.Visible = false; }
+            var IsTransferValue = Grid.GetRowValues(e.VisibleIndex, "IsTransfer");
+            if (IsTransferValue != null) { e.Visible = false; }
+            var IsIsExpiredValue = Grid.GetRowValues(e.VisibleIndex, "IsExpired");
+            if (IsIsExpiredValue != null)
+            {
+                if ((bool)IsIsExpiredValue == true)
+                {
+                    e.Visible = false;
+                }
+            }
+        }
+    };
+
+
+}).Bind(Model).GetHtml()

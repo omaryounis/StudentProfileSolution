@@ -1,0 +1,364 @@
+﻿@using System.Drawing
+@using System.Web.UI.WebControls
+@{
+    ViewBag.Title = "تقرير السلف التفصيلي";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    table.dxeRoot_MetropolisBlue {
+        width: 100%;
+    }
+</style>
+
+<script>
+
+    //multiselect Combobox
+    var textSeparator = ";";
+
+
+    function GetSelectedItemsText(items) {
+        var texts = [];
+        for (var i = 0; i < items.length; i++)
+            if (items[i].index !== -1)
+                texts.push(items[i].text);
+        return texts.join(textSeparator);
+    }
+
+    //Students
+    function UsersOnListBoxSelectionChanged(listBox, args) {
+        if (args.index === -1) {
+            args.isSelected ? listBox.SelectAll() : listBox.UnselectAll();
+        }
+        UsersUpdateSelectAllItemState();
+        UsersUpdateText();
+    }
+
+    function TypesOnListBoxSelectionChanged(listBox, args) {
+        if (args.index === -1) {
+            args.isSelected ? listBox.SelectAll() : listBox.UnselectAll();
+        }
+        TypesUpdateSelectAllItemState();
+        TypesUpdateText();
+    }
+
+    function UsersUpdateSelectAllItemState() {
+        UsersIsAllSelected()
+            ? StudentIDs.SelectIndices([-1])
+            : StudentIDs.UnselectIndices([-1]);
+    }
+
+    function TypesUpdateSelectAllItemState() {
+        TypesIsAllSelected()
+            ? AdvanceTypeIDs.SelectIndices([-1])
+            : AdvanceTypeIDs.UnselectIndices([-1]);
+    }
+
+    function UsersIsAllSelected() {
+        for (var i = 1; i < StudentIDs.GetItemCount(); i++)
+            if (!StudentIDs.GetItem(i).selected) {
+                return false;
+            }
+        return true;
+    }
+
+    function TypesIsAllSelected() {
+        for (var i = 1; i < AdvanceTypeIDs.GetItemCount(); i++)
+            if (!AdvanceTypeIDs.GetItem(i).selected) {
+                return false;
+            }
+        return true;
+    }
+
+    function UsersUpdateText() {
+        var selectedItems = StudentIDs.GetSelectedItems();
+        UsersComboBox.SetText(GetSelectedItemsText(selectedItems));
+    }
+
+    function TypesUpdateText() {
+        var selectedItems = AdvanceTypeIDs.GetSelectedItems();
+        TypesComboBox.SetText(GetSelectedItemsText(selectedItems));
+    }
+
+    function UsersSynchronizeListBoxValues(dropDown, args) {
+        StudentIDs.UnselectAll();
+        var texts = dropDown.GetText().split(textSeparator);
+        var values = UsersGetValuesByTexts(texts);
+        StudentIDs.SelectValues(values);
+        UsersUpdateSelectAllItemState();
+        UsersUpdateText(); // for remove non-existing texts
+    }
+
+    function TypesSynchronizeListBoxValues(dropDown, args) {
+        AdvanceTypeIDs.UnselectAll();
+        var texts = dropDown.GetText().split(textSeparator);
+        var values = TypesGetValuesByTexts(texts);
+        AdvanceTypeIDs.SelectValues(values);
+        TypesUpdateSelectAllItemState();
+        TypesUpdateText(); // for remove non-existing texts
+    }
+
+    function UsersGetValuesByTexts(texts) {
+        var actualValues = [];
+        var item;
+        for (var i = 0; i < texts.length; i++) {
+            item = StudentIDs.FindItemByText(texts[i]);
+            if (item != null)
+                actualValues.push(item.value);
+        }
+        return actualValues;
+    }
+
+    function TypesGetValuesByTexts(texts) {
+        var actualValues = [];
+        var item;
+        for (var i = 0; i < texts.length; i++) {
+            item = AdvanceTypeIDs.FindItemByText(texts[i]);
+            if (item != null)
+                actualValues.push(item.value);
+        }
+        return actualValues;
+    }
+
+
+
+    function AdvancesRecievingByStudentsReportExportRequest(s, e) {
+        e.customArgs["StudentIDs"] = StudentIDs.GetSelectedValues().join();
+        e.customArgs["AdvanceTypeIDs"] = AdvanceTypeIDs.GetSelectedValues().join();
+        e.customArgs["AdvanceStartDate"] = AdvanceStartDate.GetValue();
+        e.customArgs["AdvanceEndDate"] = AdvanceEndDate.GetValue();
+        e.customArgs["ReturnStartDate"] = AdvanceStartDate.GetValue();
+        e.customArgs["ReturnEndDate"] = AdvanceEndDate.GetValue();
+    }
+
+</script>
+
+<div class="container-fluid container-fullw">
+    <div class="row">
+
+        <div class="col-md-12">
+            <div class="panel bg-white">
+                <div class="breadcrumb-wrapper text-right">
+                    <h4 class="no-margin">تقرير السلف التفصيلي</h4>
+                </div>
+                <div class="panel-body">
+                    @using (Ajax.BeginForm("AdvancesRecievingByStudents_", new AjaxOptions
+                    {
+                        UpdateTargetId = "AdvancesRecievingByStudentsReportDesigner"
+                    }))
+                    {
+
+                        <div class="row">
+
+                            <div class="col-lg-11 col-md-11 col-sm-12 col-xs-12 text-right">
+                                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 form-group">
+                                    <label>الطلاب</label>
+                                    @Html.DevExpress().DropDownEdit(
+                            settings =>
+                            {
+                                settings.Name = "UsersComboBox";
+                                settings.Properties.DropDownWindowStyle.BackColor = Color.FromArgb(0xEDEDED);
+                                settings.Properties.NullText = "اختر";
+                                settings.Properties.ClearButton.DisplayMode = ClearButtonDisplayMode.OnHover;
+                                settings.Properties.ClientSideEvents.TextChanged = "UsersSynchronizeListBoxValues";
+                                settings.Properties.ClientSideEvents.DropDown = "UsersSynchronizeListBoxValues";
+                                settings.Properties.ValidationSettings.ErrorTextPosition = ErrorTextPosition.Bottom;
+                                //settings.Properties.ValidationSettings.RequiredField.IsRequired = true;
+                                settings.SetDropDownWindowTemplateContent(c =>
+                                {
+                                    @Html.DevExpress().ListBox(listBoxSettings =>
+                                    {
+                                        listBoxSettings.Name = "StudentIDs";
+                                        listBoxSettings.ControlStyle.Border.BorderWidth = 0;
+                                        listBoxSettings.ControlStyle.BorderBottom.BorderWidth = 1;
+                                        listBoxSettings.ControlStyle.BorderBottom.BorderColor = Color.FromArgb(0xDCDCDC);
+                                        listBoxSettings.Width = Unit.Percentage(100);
+                                        listBoxSettings.Properties.SelectionMode = ListEditSelectionMode.CheckColumn;
+                                        listBoxSettings.Properties.EnableSelectAll = true;
+                                        listBoxSettings.Properties.SelectAllText = "اختيار الكل";
+                                        listBoxSettings.Properties.ValueField = "Value";
+                                        listBoxSettings.Properties.ValueType = typeof(int);
+                                        listBoxSettings.Properties.TextField = "Text";
+                                        listBoxSettings.Properties.ClientSideEvents.SelectedIndexChanged = "UsersOnListBoxSelectionChanged";
+                                    }).BindList(ViewBag.students).Render();
+                                    ViewContext.Writer.Write("<div style=\"margin: 6px; overflow: hidden;\">");
+                                    @Html.DevExpress().Button(
+                                     buttonSettings =>
+                                     {
+                                         buttonSettings.Name = "UsersbuttonClose";
+                                         buttonSettings.Text = "اغلاق";
+                                         buttonSettings.Style.Add("float", "right");
+                                         buttonSettings.ClientSideEvents.Click = "function(s, e){ UsersComboBox.HideDropDown(); }";
+                                         buttonSettings.Height = 26;
+                                     }).Render();
+                                    ViewContext.Writer.Write("</div>");
+                                });
+                            }).GetHtml()
+                                </div>
+
+                                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 form-group">
+                                    <label>نوع السلفة</label>
+                                    @Html.DevExpress().DropDownEdit(
+                            settings =>
+                            {
+                                settings.Name = "TypesComboBox";
+                                settings.Properties.DropDownWindowStyle.BackColor = Color.FromArgb(0xEDEDED);
+                                settings.Properties.NullText = "اختر";
+                                settings.Properties.ClearButton.DisplayMode = ClearButtonDisplayMode.OnHover;
+                                settings.Properties.ClientSideEvents.TextChanged = "TypesSynchronizeListBoxValues";
+                                settings.Properties.ClientSideEvents.DropDown = "TypesSynchronizeListBoxValues";
+                                settings.Properties.ValidationSettings.ErrorTextPosition = ErrorTextPosition.Bottom;
+                                //settings.Properties.ValidationSettings.RequiredField.IsRequired = true;
+                                settings.SetDropDownWindowTemplateContent(c =>
+                                {
+                                    @Html.DevExpress().ListBox(listBoxSettings =>
+                                    {
+                                        listBoxSettings.Name = "AdvanceTypeIDs";
+                                        listBoxSettings.ControlStyle.Border.BorderWidth = 0;
+                                        listBoxSettings.ControlStyle.BorderBottom.BorderWidth = 1;
+                                        listBoxSettings.ControlStyle.BorderBottom.BorderColor = Color.FromArgb(0xDCDCDC);
+                                        listBoxSettings.Width = Unit.Percentage(100);
+                                        listBoxSettings.Properties.SelectionMode = ListEditSelectionMode.CheckColumn;
+                                        listBoxSettings.Properties.EnableSelectAll = true;
+                                        listBoxSettings.Properties.SelectAllText = "اختيار الكل";
+                                        listBoxSettings.Properties.ValueField = "Value";
+                                        listBoxSettings.Properties.ValueType = typeof(int);
+                                        listBoxSettings.Properties.TextField = "Text";
+                                        listBoxSettings.Properties.ClientSideEvents.SelectedIndexChanged = "TypesOnListBoxSelectionChanged";
+                                    }).BindList(ViewBag.advanceTypes).Render();
+                                    ViewContext.Writer.Write("<div style=\"margin: 6px; overflow: hidden;\">");
+                                    @Html.DevExpress().Button(
+                                     buttonSettings =>
+                                     {
+                                         buttonSettings.Name = "TypesbuttonClose";
+                                         buttonSettings.Text = "اغلاق";
+                                         buttonSettings.Style.Add("float", "right");
+                                         buttonSettings.ClientSideEvents.Click = "function(s, e){ TypesComboBox.HideDropDown(); }";
+                                         buttonSettings.Height = 26;
+                                     }).Render();
+                                    ViewContext.Writer.Write("</div>");
+                                });
+                            }).GetHtml()
+                                </div>
+
+                                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 form-group">
+                                    <label>  بداية تاريخ صرف السلفة</label>
+                                    <div class="editor">
+                                        @Html.DevExpress().DateEdit(settings =>
+                       {
+                           settings.Name = "AdvanceStartDate";
+                           settings.Properties.NullText = "MM/dd/yyyy";
+                           settings.Properties.EditFormat = EditFormat.Custom;
+                           settings.Properties.EditFormatString = "MM/dd/yyyy";
+                           settings.Width = Unit.Percentage(100);
+                           settings.Properties.CalendarProperties.FastNavProperties.DisplayMode = FastNavigationDisplayMode.Inline;
+                           //settings.Properties.ValidationSettings.RequiredField.IsRequired = true;
+                           //settings.Date = DateTime.Now;
+                           settings.Width = Unit.Percentage(100);
+                       }).GetHtml()
+                                    </div>
+
+                                </div>
+
+                                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 form-group">
+                                    <label> نهاية تاريخ صرف السلفة</label>
+                                    <div class="editor">
+                                        @Html.DevExpress().DateEdit(settings =>
+                       {
+                           settings.Name = "AdvanceEndDate";
+                           settings.Properties.NullText = "MM/dd/yyyy";
+                           settings.Properties.EditFormat = EditFormat.Custom;
+                           settings.Properties.EditFormatString = "MM/dd/yyyy";
+                           settings.Width = Unit.Percentage(100);
+                           settings.Properties.CalendarProperties.FastNavProperties.DisplayMode = FastNavigationDisplayMode.Inline;
+                           //settings.Properties.ValidationSettings.RequiredField.IsRequired = true;
+                           //settings.Date = DateTime.Now;
+                           settings.Width = Unit.Percentage(100);
+                       }).GetHtml()
+                                    </div>
+
+                                </div>
+
+
+                                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 form-group">
+                                    <label>  بداية تاريخ التحصيل</label>
+                                    <div class="editor">
+                                        @Html.DevExpress().DateEdit(settings =>
+                       {
+                           settings.Name = "ReturnStartDate";
+                           settings.Properties.NullText = "MM/dd/yyyy";
+                           settings.Properties.EditFormat = EditFormat.Custom;
+                           settings.Properties.EditFormatString = "MM/dd/yyyy";
+                           settings.Width = Unit.Percentage(100);
+                           settings.Properties.CalendarProperties.FastNavProperties.DisplayMode = FastNavigationDisplayMode.Inline;
+                           //settings.Properties.ValidationSettings.RequiredField.IsRequired = true;
+                           //settings.Date = DateTime.Now;
+                           settings.Width = Unit.Percentage(100);
+                       }).GetHtml()
+                                    </div>
+
+                                </div>
+
+                                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 form-group">
+                                    <label> نهاية تاريخ التحصيل</label>
+                                    <div class="editor">
+                                        @Html.DevExpress().DateEdit(settings =>
+                       {
+                           settings.Name = "ReturnEndDate";
+                           settings.Properties.NullText = "MM/dd/yyyy";
+                           settings.Properties.EditFormat = EditFormat.Custom;
+                           settings.Properties.EditFormatString = "MM/dd/yyyy";
+                           settings.Width = Unit.Percentage(100);
+                           settings.Properties.CalendarProperties.FastNavProperties.DisplayMode = FastNavigationDisplayMode.Inline;
+                           //settings.Properties.ValidationSettings.RequiredField.IsRequired = true;
+                           //settings.Date = DateTime.Now;
+                           settings.Width = Unit.Percentage(100);
+                       }).GetHtml()
+                                    </div>
+
+                                </div>
+
+
+                            </div>
+
+                            <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12 text-right">
+                                <div class="form-group">
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                        <br />
+                                    </div>
+                                    @Html.DevExpress().Button(settings =>
+                   {
+                       settings.Name = "btnView";
+                       settings.ControlStyle.CssClass = "btn btn-success";
+                       settings.Text = "عرض";
+                       settings.UseSubmitBehavior = true;
+                   }).GetHtml()
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <br />
+                            <br />
+                            <br />
+                            <div id="AdvancesRecievingByStudentsReportDesigner">
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .dxbButton_MetropolisBlue.btn-success {
+        background-color: #26B99A !important;
+        border: 1px solid #169F85 !important;
+        color: #fff !important
+    }
+
+    .dxbButton_MetropolisBlue {
+        padding: 5px !important;
+        font-family: "JF Flat Regular" !important;
+    }
+</style>

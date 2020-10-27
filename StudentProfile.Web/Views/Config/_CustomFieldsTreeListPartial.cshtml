@@ -1,0 +1,233 @@
+@using System.Web.UI.WebControls
+
+@{
+    var treeList = Html.DevExpress().TreeList(settings =>
+    {
+        settings.Name = "CustomFieldsTreeList";
+        settings.CallbackRouteValues = new {Controller = "Config", Action = "CustomFieldsTreeListPartial"};
+        settings.SettingsEditing.AddNewNodeRouteValues = new {Controller = "Config", Action = "CustomFieldsTreeListPartialAddNew"};
+        settings.SettingsEditing.UpdateNodeRouteValues = new {Controller = "Config", Action = "CustomFieldsTreeListPartialUpdate"};
+        settings.SettingsEditing.DeleteNodeRouteValues = new {Controller = "Config", Action = "CustomFieldsTreeListPartialDelete"};
+        settings.SettingsEditing.NodeDragDropRouteValues = new {Controller = "Config", Action = "CustomFieldsTreeListPartialMove"};
+        settings.SettingsEditing.AllowNodeDragDrop = false;
+        settings.KeyFieldName = "CustomFieldId";
+        settings.ParentFieldName = "ParentId";
+
+        settings.RightToLeft = DefaultBoolean.True;
+        settings.SettingsPager.Visible = true;
+        settings.SettingsSelection.Enabled = false;
+
+        settings.Columns.Add(c =>{
+            c.FieldName = "Key";
+            c.Caption = "ÇáÚäæÇä";
+            c.EditorProperties().TextBox(p =>
+            {
+                p.ValidationSettings.RequiredField.IsRequired = true;
+                p.ValidationSettings.RequiredField.ErrorText = "ÍÞá ÇÌÈÇÑì";
+            });
+        });
+        //settings.Columns.Add(c =>
+        //{
+        //    c.FieldName = "Value";
+        //    c.Caption = "ÇáÊÝÕíá";
+        //    c.EditorProperties().TextBox(p =>
+        //    {
+        //        p.ValidationSettings.RequiredField.IsRequired = true;
+        //        p.ValidationSettings.RequiredField.ErrorText = "ÍÞá ÇÌÈÇÑì";
+        //    });
+        //});
+
+
+        /*Command Column Emulation*/
+        settings.Columns.Add(column =>
+        {
+            column.Caption = "#";
+            column.Width = 15;
+            column.AllowSort = DefaultBoolean.False;
+            column.AllowAutoFilter = DefaultBoolean.False;
+            column.EditFormSettings.Visible = DefaultBoolean.False;
+            column.SetDataCellTemplateContent(c =>
+            {
+                var treeListControl = (MVCxTreeList) c.TreeList;
+                if (c.NodeKey != null)
+                {
+                    var node = treeListControl.FindNodeByKeyValue(c.NodeKey);
+                    if (node.Level < 2)
+                    {
+                        if (ViewBag.CreateChild != null)
+                        {
+                            if (ViewBag.CreateChild == true)
+                            {
+                                ViewContext.Writer.Write("<span class=\"fa fa-plus btn-ds-ico btn btn-success  \" onclick=\"AddChildCustomField('{0}');\" title='ÇÖÇÝÉ ÚäæÇä ÝÑÚí'></span>", c.NodeKey);
+                                ViewContext.Writer.Write("&nbsp;");
+                            }
+                        }
+                    }
+                    if (ViewBag.Update != null)
+                    {
+                        if (ViewBag.Update == true)
+                        {
+                            ViewContext.Writer.Write("<span class=\"fa fa-pencil btn-ds-ico btn btn-warning  \" onclick=\"EditCustomField('{0}');\" title='ÊÚÏíá'></span>", c.NodeKey);
+                            ViewContext.Writer.Write("&nbsp;");
+                        }
+                    }
+                    if (!node.HasChildren)
+                    {
+                        if (ViewBag.Delete != null)
+                        {
+                            if (ViewBag.Delete == true)
+                            {
+                                ViewContext.Writer.Write("<span class=\"fa fa-trash btn-ds-ico btn btn-danger  \" onclick=\"DeleteCustomField('{0}');\" title='ÍÐÝ'></span>", c.NodeKey);
+                                ViewContext.Writer.Write("&nbsp;");
+                            }
+                        }
+                    }
+                }
+            });
+        });
+        /*Command Column Emulation*/
+
+        settings.AutoGenerateColumns = false;
+        settings.Width = Unit.Percentage(100);
+        settings.Settings.GridLines = GridLines.Both;
+        if (ViewBag.CreateParent != null)
+        {
+            if (ViewBag.CreateParent == true)
+            {
+                settings.Toolbars.Add(toolbar =>
+                {
+                    toolbar.Enabled = true;
+                    toolbar.Position = GridToolbarPosition.Top;
+                    toolbar.ItemAlign = GridToolbarItemAlign.Right;
+                    toolbar.Items.Add(i =>
+                    {
+                        i.Command = TreeListToolbarCommand.NewRoot;
+                        i.Text = "ÇÖÇÝÉ ÍÞá ãÎÕÕ ÑÆíÓí";
+                        i.Image.IconID = IconID.ActionsNew16x16;
+                        i.ItemStyle.CssClass = "btn btn-primary";
+                    });
+                });
+            }
+        }
+
+        settings.SettingsEditing.Mode = TreeListEditMode.EditFormAndDisplayNode;
+        settings.SetEditFormTemplateContent(c =>
+        {
+            Html.DevExpress().FormLayout(flSettings =>
+            {
+                flSettings.Name = "FormLayoutCustomFields";
+                flSettings.AlignItemCaptionsInAllGroups = true;
+                flSettings.RightToLeft = DefaultBoolean.True;
+                flSettings.AlignItemCaptions = true;
+                flSettings.Width = Unit.Percentage(100);
+                flSettings.SettingsAdaptivity.AdaptivityMode = FormLayoutAdaptivityMode.SingleColumnWindowLimit;
+                flSettings.SettingsAdaptivity.SwitchToSingleColumnAtWindowInnerWidth = 700;
+                flSettings.ColCount = 2;
+                flSettings.RightToLeft = DefaultBoolean.True;
+                flSettings.Items.Add(i =>
+                {
+                    i.FieldName = "Key";
+                    i.Name = "Key";
+                    i.Caption = "ÇáÚäæÇä";
+                    i.NestedExtension().TextBox(s =>
+                    {
+                        s.Name = "Key";
+                        s.Properties.ValidationSettings.RequiredField.IsRequired = true;
+                        s.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.ImageWithTooltip;
+                        s.Properties.ValidationSettings.Display = Display.Dynamic;
+                        s.ShowModelErrors = true;
+                        s.Width = Unit.Percentage(70);
+                    });
+                });
+                //flSettings.Items.Add(i =>
+                //{
+                //    i.Name = "Value";
+                //    i.FieldName = "Value";
+                //    i.Caption = "ÇáÊÝÕíá";
+                //    i.NestedExtension().TextBox(s =>
+                //    {
+                //        s.Name = "Value";
+                //        s.Properties.ValidationSettings.RequiredField.IsRequired = true;
+                //        s.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.ImageWithTooltip;
+                //        s.Properties.ValidationSettings.Display = Display.Dynamic;
+                //        s.ShowModelErrors = true;
+                //        s.Width = Unit.Percentage(100);
+                //    });
+                //});
+                //flSettings.Items.AddEmptyItem();
+                flSettings.Items.Add(i =>
+                {
+                    i.ShowCaption = DefaultBoolean.False;
+                    i.HorizontalAlign = FormLayoutHorizontalAlign.Left;
+                }).SetNestedContent(() =>
+                {
+                    Html.DevExpress().Button(btnSettings =>
+                    {
+                        btnSettings.Name = "btnUpdate";
+                        btnSettings.RightToLeft = DefaultBoolean.True;
+                        btnSettings.CausesValidation = true;
+                        btnSettings.Text = "ÍÝÙ";
+                        btnSettings.Images.Image.IconID = IconID.SaveSave16x16;
+                        btnSettings.ClientSideEvents.Click = "function(s, e){debugger; CustomFieldsTreeList.UpdateEdit(); }";
+                    }).Render();
+                    Html.DevExpress().Button(btnSettings =>
+                    {
+                        btnSettings.Name = "btnCancel";
+                        btnSettings.Text = "ÇáÛÇÁ";
+                        btnSettings.CausesValidation = false;
+                        btnSettings.RightToLeft = DefaultBoolean.True;
+                        btnSettings.Images.Image.IconID = IconID.ActionsCancel16x16;
+                        btnSettings.Style[HtmlTextWriterStyle.MarginLeft] = "5px";
+                        btnSettings.ClientSideEvents.Click = "function(s, e){ CustomFieldsTreeList.CancelEdit(); }";
+                    }).Render();
+                });
+            }).Bind(c.DataItem).Render();
+        });
+
+        settings.CommandColumn.Visible = false;
+        settings.CommandColumn.ShowNewButtonInHeader = true;
+        settings.CommandColumn.NewButton.Visible = true;
+        settings.CommandColumn.DeleteButton.Visible = true;
+        settings.CommandColumn.EditButton.Visible = true;
+        settings.CommandColumn.CancelButton.Visible = true;
+        settings.CommandColumn.UpdateButton.Visible = true;
+
+
+        //SettingsText
+        settings.SettingsText.CommandNew = "ÅÖÇÝÉ";
+        settings.CommandColumn.NewButton.Styles.Style.CssClass = "btn-update";
+        settings.CommandColumn.DeleteButton.Styles.Style.CssClass = "btn-delete";
+        settings.CommandColumn.EditButton.Styles.Style.CssClass = "btn-editButton";
+        settings.SettingsText.CommandUpdate = "ÍÝÙ";
+        settings.SettingsText.CommandCancel = "ÇáÛÇÁ";
+        settings.SettingsText.CommandEdit = "ÊÚÏíá";
+        settings.SettingsText.CommandDelete = "ÍÐÝ";
+        settings.SettingsText.ConfirmDelete = "åá ÊÑíÏ ÍÐÝ åÐÇ ÇáÚäÕÑ¿";
+        settings.SettingsLoadingPanel.Text = "ÊÍãíá ...";
+        settings.Styles.Header.Wrap = DefaultBoolean.True;
+        settings.CommandColumnButtonInitialize = (sender, e) =>
+        {
+            MVCxTreeList treeListControl = (MVCxTreeList) sender;
+            if (e.NodeKey != null)
+            {
+                TreeListNode node = treeListControl.FindNodeByKeyValue(e.NodeKey);
+                if (node.Level == 2)
+                {
+                    if (e.ButtonType == TreeListCommandColumnButtonType.New)
+                    {
+                        e.Visible = DefaultBoolean.False;
+                    }
+                }
+                if (node.HasChildren && (e.ButtonType == TreeListCommandColumnButtonType.Delete))
+                {
+                    e.Visible = DefaultBoolean.False;
+                }
+            }
+        };
+    });
+    if (ViewData["EditError"] != null)
+    {
+        treeList.SetEditErrorText((string) ViewData["EditError"]);
+    }
+}
+@treeList.Bind(Model).GetHtml()

@@ -1,0 +1,61 @@
+﻿@model List<StudentProfile.DAL.Models.AdvanceRequestDetails>
+@using System.Web.UI.WebControls
+@using StudentProfile.DAL.Models
+@Html.DevExpress().GridView(settings =>
+{
+    settings.Name = "AdvancesDetailsData "+ Model.FirstOrDefault().AdvanceRequestId;
+    settings.KeyFieldName = "AdvanceRequestDetailsId";
+    settings.Styles.Table.CssClass = "dx-table-ds";
+    // settings.Theme= r.
+    settings.Width = Unit.Percentage(100);
+    settings.SettingsPager.PageSize = 25;
+    settings.CallbackRouteValues = new { Action = "_AdvanceRequestDetails", Controller = "Advances" };
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "الشهر";
+        column.SetDataItemTemplateContent(c =>
+        {
+            var monthName = "";
+            var monthId = DataBinder.Eval(c.DataItem, "MonthId");
+            if (monthId != null)
+            {
+                using (var dbHR = new HRMadinaEntities())
+                {
+                    var month = dbHR.Month.Where(x => x.ID == (int)monthId).FirstOrDefault();
+                    if(month != null)
+                    {
+                        monthName = month.Name;
+                    }
+                }
+            }
+            ViewContext.Writer.Write(monthName);
+        });
+    });
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "القسط الشهري";
+        column.FieldName = "MonthlyValue";
+        column.PropertiesEdit.DisplayFormatString = "N2";
+
+
+    });
+    
+
+    //settings.Columns.Add(column =>
+    //{
+    //    column.Caption = "#";
+    //    //column.Width = System.Web.UI.WebControls.Unit.Percentage(15);
+    //    column.SetDataItemTemplateContent(c =>
+    //    {
+
+    //        //var id = DataBinder.Eval(c.DataItem, "ID");
+
+    //        //Html.RenderPartial("_AdvancesActions", id);
+    //    });
+    //});
+    settings.SettingsLoadingPanel.Mode = GridViewLoadingPanelMode.Disabled;
+    settings.EnableCallbackAnimation = false;
+    settings.SettingsText.EmptyDataRow = "لا توجد بيانات";
+    settings.RightToLeft = DefaultBoolean.True;
+
+}).Bind(Model).GetHtml()

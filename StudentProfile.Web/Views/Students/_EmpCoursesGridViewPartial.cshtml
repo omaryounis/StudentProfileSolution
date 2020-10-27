@@ -1,0 +1,756 @@
+@using System.Web.UI.WebControls
+@using StudentProfile.Web.Controllers
+@using DevExpress.Export
+@model List<StudentProfile.DAL.Models.Usp_GetAllApprovedActivities_StudentId_Result>
+@*@using (Ajax.BeginForm("_EmpCoursesGridViewPartial", new AjaxOptions
+    {
+        UpdateTargetId = "StudentSkillRecordRptDesigner"
+    }))*@
+@if (Session["StudentId"] != null && int.Parse(Session["StudentId"].ToString()) > 0)
+{
+    <div class="row">
+        <button type="button" class="btn btn-primary" onclick="javascript:printDiv('StudentSkilsRecord')">ÿ»«⁄… «·”Ã· «·„Â«—Ì</button>
+    </div>
+
+    var studentId = int.Parse(Session["StudentId"].ToString());
+
+    var grid =
+
+
+    Html.DevExpress().GridView(settings =>
+    {
+        settings.Name = "EmpCoursesGridView";
+        settings.CallbackRouteValues = new { Controller = "Students", Action = "EmpCoursesGridViewPartial", studentId };
+
+
+//settings.SettingsEditing.AddNewRowRouteValues = new { Controller = "Students", Action = "EmpCoursesGridViewPartialAddNew" };
+//settings.SettingsEditing.UpdateRowRouteValues = new { Controller = "Students", Action = "EmpCoursesGridViewPartialUpdate" };
+//settings.SettingsEditing.DeleteRowRouteValues = new { Controller = "Students", Action = "EmpCoursesGridViewPartialDelete" };
+//settings.SettingsEditing.Mode = GridViewEditingMode.EditFormAndDisplayRow;
+//settings.SettingsBehavior.ConfirmDelete = true;
+settings.ControlStyle.CssClass = "GridViewRootClassName";
+        settings.Styles.Table.CssClass = "dx-table-ds";
+        settings.Styles.Header.Wrap = DefaultBoolean.True;
+        settings.CommandColumn.Visible = false;
+        settings.CommandColumn.ShowNewButton = false;
+        settings.CommandColumn.ShowDeleteButton = false;
+        settings.CommandColumn.ShowEditButton = false;
+
+        settings.KeyFieldName = "ID";
+        settings.Width = Unit.Percentage(100);
+        settings.SettingsPager.Visible = true;
+        settings.Settings.ShowGroupPanel = false;
+        settings.Settings.ShowFilterRow = true;
+        settings.SettingsBehavior.AllowSelectByRowClick = true;
+
+        settings.SettingsAdaptivity.AdaptivityMode = GridViewAdaptivityMode.Off;
+        settings.SettingsAdaptivity.AdaptiveColumnPosition = GridViewAdaptiveColumnPosition.Right;
+        settings.SettingsAdaptivity.AdaptiveDetailColumnCount = 1;
+        settings.SettingsAdaptivity.AllowOnlyOneAdaptiveDetailExpanded = false;
+        settings.SettingsAdaptivity.HideDataCellsAtWindowInnerWidth = 0;
+        settings.EditFormLayoutProperties.AlignItemCaptions = true;
+        settings.EditFormLayoutProperties.AlignItemCaptionsInAllGroups = true;
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "ID";
+            c.Visible = false;
+        });
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "Name";
+            c.Caption = "«”„ «·„‘«—ﬂ…";
+//c.ColumnType = MVCxGridViewColumnType.TextBox;
+//c.EditorProperties().TextBox(p =>
+//{
+//    p.ValidationSettings.RequiredField.IsRequired = true;
+//    p.ValidationSettings.RequiredField.ErrorText = "Õﬁ· «Ã»«—Ï";
+//});
+});
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "Type";
+            c.Caption = "‰Ê⁄ «·„‘«—ﬂ…";
+//c.ColumnType = MVCxGridViewColumnType.ComboBox;
+//c.EditorProperties().ComboBox(p =>
+//{
+//    p.TextField = "Text";
+//    p.ValueField = "Value";
+//    p.ValueType = typeof(string);
+//    p.DataSource = StudentsController.GetCoursesTypes();
+//    p.ValidationSettings.RequiredField.IsRequired = true;
+//    p.ValidationSettings.RequiredField.ErrorText = "Õﬁ· «Ã»«—Ï";
+//});
+});
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "Location";
+            c.Caption = "„ﬂ«‰ «·„‘«—ﬂ…";
+//c.ColumnType = MVCxGridViewColumnType.TextBox;
+//c.EditorProperties().TextBox(p =>
+//{
+//    p.ValidationSettings.RequiredField.IsRequired = true;
+//    p.ValidationSettings.RequiredField.ErrorText = "Õﬁ· «Ã»«—Ï";
+//});
+});
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "Duration";
+            c.Caption = "⁄œœ «·”«⁄« ";
+//c.ColumnType = MVCxGridViewColumnType.SpinEdit;
+//c.EditorProperties().SpinEdit(p =>
+//{
+//    p.MinValue = 0;
+//    p.MaxValue = int.MaxValue;
+//    p.ValidationSettings.RequiredField.IsRequired = true;
+//    p.ValidationSettings.RequiredField.ErrorText = "Õﬁ· «Ã»«—Ï";
+//    p.ValidationSettings.ErrorText = "ﬁÌ„… €Ì— ’ÕÌÕ…";
+//});
+});
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "Degree";
+            c.Caption = "«· ﬁœÌ—";
+//c.ColumnType = MVCxGridViewColumnType.ComboBox;
+//c.EditorProperties().ComboBox(p =>
+//{
+//    p.TextField = "Text";
+//    p.ValueField = "Value";
+//    p.ValueType = typeof(string);
+//    p.DataSource = new List<SelectListItem>
+//                {
+//new SelectListItem {Text = "„„ «“", Value = "„„ «“"},
+//new SelectListItem {Text = "ÃÌœ Ãœ«", Value = "ÃÌœ Ãœ«"},
+//new SelectListItem {Text = "ÃÌœ", Value = "ÃÌœ"},
+//new SelectListItem {Text = "„ﬁ»Ê·", Value = "„ﬁ»Ê·"},
+//new SelectListItem {Text = "—«”»", Value = "—«”»"}
+//                };
+//    p.ValidationSettings.RequiredField.IsRequired = true;
+//    p.ValidationSettings.RequiredField.ErrorText = "Õﬁ· «Ã»«—Ï";
+//});
+});
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "Ratio";
+            c.Caption = "«·‰”»… «·„∆ÊÌ…";
+//c.ColumnType = MVCxGridViewColumnType.SpinEdit;
+//c.EditorProperties().SpinEdit(p =>
+//{
+//    p.MinValue = 0;
+//    p.MaxValue = 100;
+//    p.ValidationSettings.RequiredField.IsRequired = true;
+//    p.ValidationSettings.RequiredField.ErrorText = "Õﬁ· «Ã»«—Ï";
+//});
+});
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "StartDate";
+            c.Caption = " «—ÌŒ »œ«Ì… «·„‘«—ﬂ…";
+            c.ColumnType = MVCxGridViewColumnType.DateEdit;
+//c.EditorProperties().DateEdit(tb =>
+//{
+//    tb.ValidationSettings.RequiredField.IsRequired = true;
+//    tb.ValidationSettings.RequiredField.ErrorText = "Õﬁ· «Ã»«—Ï";
+//});
+});
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "EndDate";
+            c.Caption = " «—ÌŒ ‰Â«Ì… «·„‘«—ﬂ…";
+            c.ColumnType = MVCxGridViewColumnType.DateEdit;
+//c.EditorProperties().DateEdit(tb =>
+//{
+//    tb.ValidationSettings.RequiredField.IsRequired = true;
+//    tb.ValidationSettings.RequiredField.ErrorText = "Õﬁ· «Ã»«—Ï";
+//});
+});
+//settings.Columns.Add(c =>
+//{
+//    c.FieldName = "CourseImagePath";
+//    c.Caption = "«·„—›ﬁ« ";
+//    c.Visible = false;
+//    c.EditFormSettings.VisibleIndex = 100;
+//    c.EditFormSettings.Visible = DefaultBoolean.True;
+//    c.Settings.AllowSort = DefaultBoolean.False;
+//    c.Settings.AllowAutoFilter = DefaultBoolean.False;
+//    c.ColumnType = MVCxGridViewColumnType.BinaryImage;
+//    c.SetEditItemTemplateContent(container =>
+//    {
+//        //using (Html.BeginForm("EmpCoursesFilesUpload", "Students", FormMethod.Post))
+//        //{
+//        Html.DevExpress().UploadControl(ucSettings =>
+//        {
+//            ucSettings.Name = "EmpCoursesAttachments";
+//            ucSettings.UploadMode = UploadControlUploadMode.Advanced;
+//            ucSettings.ShowAddRemoveButtons = false;
+//            ucSettings.AdvancedModeSettings.EnableFileList = false;
+//            ucSettings.UploadMode = UploadControlUploadMode.Advanced;
+//            ucSettings.AdvancedModeSettings.EnableMultiSelect = false;
+//            ucSettings.ShowProgressPanel = true;
+//            ucSettings.ShowClearFileSelectionButton = true;
+//            ucSettings.AutoStartUpload = false;
+//            ucSettings.CallbackRouteValues = new { Controller = "Students", Action="EmpCoursesFilesUpload" };
+//            ucSettings.RightToLeft = DefaultBoolean.True;
+//            ucSettings.ShowUploadButton = true;
+//            ucSettings.UploadButton.Image.IconID = IconID.ActionsUp232x32;
+//            ucSettings.UploadButton.ImagePosition = ImagePosition.Right;
+//            ucSettings.BrowseButton.Text = "«” ⁄—«÷...";
+//            ucSettings.NullText = "«Œ — „—›ﬁ« ...";
+//            ucSettings.UploadButton.Text = "—›⁄";
+//            ucSettings.AddButton.Text = "«÷«›…";
+//            ucSettings.RemoveButton.Text = "Õ–›";
+//            ucSettings.ClientEnabled = true;
+//            ucSettings.ClientSideEvents.FilesUploadComplete = "OnEmpCoursesAttachmentsFilesUploadComplete";
+//        }).Render();
+//        //}
+
+//        ViewContext.Writer.Write("<div id='filesContain'></div>");
+
+//        var id = container.KeyValue;
+//        Session["EmpCoursesFileNames"] = ""; //⁄‘«‰ ·Ê ⁄„· «÷«›… „Ì›÷·‘ „Õ ›Ÿ »«·„·›«  «·ﬁœÌ„…
+
+//        if (id != null)
+//        {
+//            //›Ï Õ«·… «· ⁄œÌ·
+//            var empCourseId = int.Parse(id.ToString());
+//            var model = Model.SingleOrDefault(x => x.ID == empCourseId);
+//            var studentid = int.Parse(Session["StudentID"].ToString());
+
+//            //if (model?.CourseImagePath != null)
+//            //{
+//            //    var fileName = model.CourseImagePath;
+//            //    //ViewContext.Writer.Write("<div id='filesContain'>");
+//            //    ViewContext.Writer.Write($"<a target='_blank' href='/content/userfiles/{studentid}/«·„”«Â„« /{fileName}'>" + fileName + "</a>");
+//            //    ViewContext.Writer.Write("<br />");
+//            //    Session["EmpCoursesFileNames"] = fileName;
+//            //    //ViewContext.Writer.Write("</div>");
+//            //}
+//        }
+//    });
+//});
+settings.Columns.Add(c =>
+{
+    c.Settings.AllowSort = DefaultBoolean.False;
+    c.Settings.AllowAutoFilter = DefaultBoolean.False;
+    c.Caption = "«·„—›ﬁ« ";
+    c.EditFormSettings.Visible = DefaultBoolean.False;
+    c.SetDataItemTemplateContent(i =>
+{
+
+//var griddd = (MVCxGridView)e.Column.Grid;
+//var dataColumn = e.Column as GridViewDataImageColumn;
+//int? id = (int)griddd.GetRowValues(0, "ID");
+
+
+var activityRequestId = int.Parse(i.KeyValue.ToString());
+    var model = Model.FirstOrDefault(x => x.ID == activityRequestId);
+
+    if (model.Status == "Archived")
+    {
+        ViewContext.Writer.Write($"<a target='_blank' class='btn btn-ds-ico btn-sm btn-success' title=' Õ„Ì· «·„—›ﬁ« ' href='/AcademicActivities/DownloadActivityArchivedAttachment?activityArchivedId={activityRequestId}'><i class='fa fa-download'></a>");
+    }
+    else
+    {
+        ViewContext.Writer.Write($"<a target='_blank' class='btn btn-ds-ico btn-sm btn-success' title=' Õ„Ì· «·„—›ﬁ« ' href='/AcademicActivities/DownloadActivityMasterAttachment?activityRequestMasterId={activityRequestId}'><i class='fa fa-download'></a>");
+    }
+
+
+
+//using (Ajax.BeginForm("DownloadActivityAttachment", "AcademicActivities", new { activityRequestId }, new AjaxOptions { OnSuccess = "DownloadFiles", HttpMethod = "Post" }))
+//{
+//    ViewContext.Writer.Write("<button class='btn btn-ds-ico btn-success' title=' Õ„Ì· «·„—›ﬁ« ' type='submit'><i class='fa fa-download'></i></button>");
+//}
+
+
+//if (!string.IsNullOrEmpty(model?.CourseImagePath))
+//{
+//    using (Ajax.BeginForm("DownloadEmpCoursesArchive", "Students", new { empCourseId }, new AjaxOptions { OnSuccess = "DownloadFiles", HttpMethod = "Post" }))
+//    {
+//        ViewContext.Writer.Write("<button class='btn btn-ds-ico btn-success' title=' Õ„Ì· «·„—›ﬁ« ' type='submit'><i class='fa fa-download'></i></button>");
+//    }
+//}
+});
+});
+
+/*Command Column Emulation*/
+//settings.Columns.Add(column =>
+//{
+//    column.Caption = "#";
+//    column.Settings.AllowSort = DefaultBoolean.False;
+//    column.Settings.AllowAutoFilter = DefaultBoolean.False;
+//    column.EditFormSettings.Visible = DefaultBoolean.False;
+//    /*DataItemTemplate*/
+//    /*New - Edit - Delete Buttons*/
+//    column.SetDataItemTemplateContent(c =>
+//    {
+//        if (ViewBag.EmpCoursesUpdate != null)
+//        {
+//            if (ViewBag.EmpCoursesUpdate == true)
+//            {
+//                ViewContext.Writer.Write("<span class=\"fa fa-pencil btn-ds-ico btn btn-success  \" onclick=\"EditEmpCourse('{0}');\" title=' ⁄œÌ·'></span>", c.VisibleIndex);
+//                ViewContext.Writer.Write("&nbsp;");
+//            }
+//        }
+
+
+//        if (ViewBag.EmpCoursesDelete != null)
+//        {
+//            if (ViewBag.EmpCoursesDelete == true)
+//            {
+//                ViewContext.Writer.Write("<span class=\"fa fa-trash btn-ds-ico btn btn-danger  \" onclick=\"DeleteEmpCourse('{0}')\" title='Õ–›'></span>", c.KeyValue.ToString());
+//            }
+//        }
+//    });
+//    /*DataItemTemplate*/
+//});
+/*Command Column Emulation*/
+
+//settings.InitNewRow = (s, e) =>
+//{
+//    e.NewValues["StartDate"] = DateTime.Now;
+//    e.NewValues["EndDate"] = DateTime.Now;
+//};
+
+//SettingsText
+settings.SettingsText.CommandEdit = "Õ›Ÿ";
+        settings.SettingsText.CommandNew = "«÷«›…";
+        settings.SettingsText.CommandUpdate = "Õ›Ÿ";
+        settings.SettingsText.CommandCancel = "«·€«¡";
+        settings.SettingsText.CommandDelete = "Õ–›";
+        settings.SettingsText.ConfirmDelete = "Â·  —Ìœ Õ–› Â–« «·⁄‰’—ø";
+        settings.SettingsText.EmptyDataRow = "·«  ÊÃœ »Ì«‰« ";
+        settings.SettingsLoadingPanel.Text = " Õ„Ì· ...";
+        settings.SettingsEditing.Mode = GridViewEditingMode.EditFormAndDisplayRow;
+        settings.SettingsBehavior.ConfirmDelete = true;
+
+//SettingsPager
+settings.SettingsPager.Visible = true;
+        settings.SettingsPager.EnableAdaptivity = true;
+        settings.SettingsPager.EnableAdaptivity = true;
+        settings.SettingsPager.PageSize = 10;
+        settings.ClientSideEvents.BeginCallback = "EmpCoursesGridViewBeginCallback";
+
+
+        settings.SettingsAdaptivity.AdaptivityMode = GridViewAdaptivityMode.Off;
+        settings.SettingsAdaptivity.AdaptiveColumnPosition = GridViewAdaptiveColumnPosition.Right;
+        settings.SettingsAdaptivity.AdaptiveDetailColumnCount = 1;
+        settings.SettingsAdaptivity.AllowOnlyOneAdaptiveDetailExpanded = false;
+        settings.SettingsAdaptivity.HideDataCellsAtWindowInnerWidth = 0;
+        settings.SettingsExport.EnableClientSideExportAPI = true;
+        settings.SettingsExport.ExcelExportMode = ExportType.WYSIWYG;
+        settings.SettingsExport.Landscape = true;
+
+//CommandColumn
+settings.CommandColumn.Visible = false;
+        settings.CommandColumn.ShowNewButton = false;
+        settings.CommandColumn.ShowDeleteButton = false;
+        settings.CommandColumn.ShowEditButton = false;
+        settings.CommandColumn.ShowNewButtonInHeader = false;
+        settings.Toolbars.Add(t =>
+        {
+            t.EnableAdaptivity = true;
+//t.Items.Add(i =>
+//{
+//    i.Command = GridViewToolbarCommand.ExportToPdf;
+//    i.Text = " ’œÌ— PDF";
+//});
+t.Items.Add(i =>
+        {
+            i.Command = GridViewToolbarCommand.ExportToXls;
+            i.Text = " ’œÌ— Xls";
+        });
+            t.Items.Add(i =>
+            {
+                i.Command = GridViewToolbarCommand.ExportToXlsx;
+                i.Text = " ’œÌ— Xlsx";
+            });
+
+
+//t.Items.Add(i =>
+//{
+//    i.Command = GridViewToolbarCommand.ExportToDocx;
+//    i.Text = " ’œÌ— Docx";
+//});
+});
+
+//int index = 0;
+////settings.SettingsExport.ExcelExportMode = ExportType
+//settings.SettingsExport.RenderBrick = (sender, e) =>
+//{
+//    var griddd = (MVCxGridView)e.Column.Grid;
+//    var dataColumn = e.Column as GridViewDataImageColumn;
+//    int? id = (int)griddd.GetRowValues(0, "ID");
+//    if (dataColumn != null && dataColumn.Caption == " Õ„Ì· «·„—›ﬁ« " )
+//    {
+//        e.Column.ExportWidth = 300;
+//        var model = Model.SingleOrDefault(x => x.ID == id);
+//        var fileName = model.CourseImagePath;
+//        var studentid = int.Parse(Session["StudentID"].ToString());
+//        string relativePath = $"/content/userfiles/{studentid}/«·„”«Â„« /{fileName}";
+//        string path = Server.MapPath(relativePath);
+//        e.ImageValue = File.Exists(path) ? File.ReadAllBytes(path) : null;
+//        index++;
+//    }
+//};
+
+
+//if (ViewBag.EmpCoursesCreate != null)
+//{
+//    if (ViewBag.EmpCoursesCreate == true)
+//    {
+//        settings.Toolbars.Add(toolbar =>
+//        {
+//            toolbar.Enabled = false;
+//            toolbar.Position = GridToolbarPosition.Top;
+//            toolbar.ItemAlign = GridToolbarItemAlign.Right;
+//            toolbar.Items.Add(i =>
+//            {
+//                i.Command = GridViewToolbarCommand.New;
+//                i.Text = "«÷«›…";
+//                i.ItemStyle.CssClass = "btn btn-primary";
+//            });
+//        });
+//    }
+//}
+});
+
+
+    if (ViewData["EditError"] != null)
+    {
+        grid.SetEditErrorText((string)ViewData["EditError"]);
+    }
+
+
+
+    @grid.Bind(Model).GetHtml()
+    @*<a href="@Url.Action("StudentSkillRecordRptExport", "Reports")">
+                    <i class="fa fa-gear pull-right"></i> «· ﬁ—Ì—
+                </a>
+                <div class="row">
+                    <br />
+                    <br />
+                    <br />
+                    <div id="StudentSkillRecordRptDesigner">
+                        rggrg
+        @Html.DevExpress().WebDocumentViewer(settings => {
+            settings.Name = "WebDocumentViewer";
+        }).Bind(new DevExpress.XtraReports.Web.CachedReportSourceWeb(new StudentProfile.Web.Reports.StudentSkillRecordRpt())).GetHtml()
+
+                    </div>
+                </div>*@
+    @*@Html.DevExpress().DocumentViewer(settings =>
+        {
+            settings.Name = "StudentSkillRecordRpt";
+            settings.CallbackRouteValues = new { Controller = "Students", Action = "EmpCoursesGridViewPartial", studentId };
+            settings.ExportRouteValues = new { Controller = "Reports", Action = "StudentSkillRecordRptExport" };
+            //settings.Report = Model;
+            settings.ToolbarMode = DocumentViewerToolbarMode.Ribbon;
+            settings.SettingsReportViewer.UseIFrame = false;
+            settings.SettingsReportViewer.TableLayout = false;
+            //settings.ClientSideEvents.BeforeExportRequest = "AdvancesRecievingReportExportRequest";
+            settings.ClientSideEvents.Init = "onDocumetnViewerInit";
+        }).GetHtml()
+    *@
+}
+<br />
+<br />
+<br />
+
+@*///////////////////////////////////////////////////////////////////////////////////// ÿ»«⁄… «·‰„Ê–Ã «·„Â«—Ì////////////////////////////////////////////////////////*@
+<script type="text/javascript">
+    function printDiv(divID) {
+        alert('a')
+        //Get the HTML of div
+        var divElements = document.getElementById(divID).innerHTML;
+        //Get the HTML of whole page
+        var oldPage = document.body.innerHTML;
+        document.body.innerHTML =
+            "<html><head><title></title></head><body>" +
+            divElements + "</body>";
+        window.print();
+        document.body.innerHTML = oldPage;
+        location.reload(true);
+    }
+</script>
+
+
+
+<div class="row" id="StudentSkilsRecord" style="display:none">
+    <div class="col-xs-12">
+
+
+        <h2 style=" width: 25%; text-align: center !important; margin: 6px auto 3px auto; font-size: 22px; padding: 5px; font-weight: bold;">
+            «·”Ã· «·„Â«—Ì
+        </h2>
+        <div class="row">
+            <div class="col-xs-12">
+                <!--////////////////////////////////»Ì«‰«  «·ÿ«·» Ê«·Ã«„⁄…////////////////////////////-->
+                <br />
+
+                <div style="width: 100%;">
+                    <div style="width: 9%; float: right; text-align: center;"></div>
+                    <!--//////// ⁄—»Ì /////////-->
+                    <div style="width: 40%; float: right; text-align: center;">
+                        <div class="">
+                            <table style="width: 100%; text-align: right; float:left">
+                                <thead>
+
+                                </thead>
+                                <tbody>
+                                    <tr style="border:none">
+                                        <td style="border:none">
+                                            <div style='float: right; text-align: right; padding:5px; font-size: 16px;'>
+                                                «”„ «·ÿ«·»: @ViewBag.StudentName
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div style="width: 20%; float: right; text-align: center;">
+                        <span style="color:white; width: 100%; float: right; text-align: center;">.</span>
+                    </div>
+                    <div style="width: 40%; float: right; text-align: center;">
+                        <div class="">
+                            <table style="width: 100%; border:none; text-align: center">
+                                <thead>
+
+                                </thead>
+                                <tbody>
+                                    <tr style="border:none">
+                                        <td style="border:none">
+                                            <div style='float: left; text-align: left; padding:5px;font-size: 16px; '>
+                                                Student Name: @ViewBag.STUDENT_NAME_S
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+                <!--////////////////////////////////»Ì«‰«  «·ÿ«·» Ê«·Ã«„⁄…////////////////////////////-->
+                <br />
+
+                <div style="width: 100%;">
+                    <div style="width: 9%; float: right; text-align: center;"></div>
+                    <!--//////// ⁄—»Ì /////////-->
+                    <div style="width: 40%; float: right; text-align: center;">
+                        <div class="">
+                            <table style="width: 100%; text-align: right; float:left">
+                                <thead>
+
+                                </thead>
+                                <tbody>
+                                  
+                                    <tr style="border:none">
+                                        <td style="border:none">
+                                            <div style='float: right; text-align: right; padding:5px; font-size: 16px;'>
+                                                «·—ﬁ„ «·Ã«„⁄Ì: @ViewBag.FACULTY_NO
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div style="width: 20%; float: right; text-align: center;">
+                        <span style="color:white; width: 100%; float: right; text-align: center;">.</span>
+                    </div>
+                    <div style="width: 40%; float: right; text-align: center;">
+                        <div class="">
+                            <table style="width: 100%; border:none; text-align: center">
+                                <thead>
+
+                                </thead>
+                                <tbody>
+                                    <tr style="border:none">
+                                        <td style="border:none">
+                                            <div style='float: left; text-align: left; padding:5px; font-size: 16px;'>
+                                                University ID:  @ViewBag.FACULTY_NO
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <!--///////////// «·œÊ—«  ⁄—»Ì Ê«‰Ã·Ì“Ì//////////////-->
+                <div style="width: 100%;">
+                    <div style="width: 9%; float: right; text-align: center;">
+                        <span style="color:white; width: 100%; float: right; text-align: center;">.</span>
+                    </div>
+                    <div style="width: 40%; float: right; text-align: center;">
+                        <div class="">
+                            <table style="width: 100%; border-collapse: collapse; border:1px solid gray; text-align: center;" id="ItemList">
+                                <thead>
+                                    <tr>
+                                        <th colspan="2" style="border:1px solid gray; text-align: center; padding:15px;">
+                                            «·‰‘«ÿ
+                                        </th>
+                                    </tr>
+                                    <tr>
+
+                                        <th style="border:1px solid gray; text-align: center; padding:15px;">
+                                            ⁄œœ «·”«⁄« 
+                                        </th>
+                                        <th style="border:1px solid gray; text-align: center; padding:15px;">
+                                            «·«”„
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr>
+                                            <td style="border:1px solid gray; text-align: center; padding:10px;">
+                                                @Html.DisplayFor(modelItem => item.Duration)
+                                            </td>
+                                            <td style="border:1px solid gray; text-align: center; padding:10px;">
+
+                                                @Html.DisplayFor(modelItem => item.Name)
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div style="width: 5%; float: right; text-align: center;">
+                        <span style="color:white; width: 100%; float: right; text-align: center;">.</span>
+                    </div>
+                    <!--///////// «·«Ì”— //////////-->
+                    <div style="width: 40%; float: right; text-align: center;">
+                        <div class="">
+                            <table style="width: 100%; border-collapse: collapse; border:1px solid gray; text-align: center;" id="ItemList">
+                                <thead>
+                                    <tr>
+                                        <th colspan="2" style="border:1px solid gray; text-align: center; padding:15px;">
+                                            Activity
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <th style="border:1px solid gray; text-align: center; padding:15px;">
+                                            Title
+                                        </th>
+                                        <th style="border:1px solid gray; text-align: center; padding:15px;">
+                                            Hours
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr>
+                                            <td style="border:1px solid gray; text-align: center; padding:10px;">
+                                                @Html.DisplayFor(modelItem => item.Ratio)
+                                            </td>
+                                            <td style="border:1px solid gray; text-align: center; padding:10px;">
+                                                @Html.DisplayFor(modelItem => item.Duration)
+                                            </td>
+                                        </tr>
+                                    }
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div style="width: 100%; float: right; text-align: center;">
+                    <span style="color:white; width: 100%; float: right; text-align: center;">.</span>
+                </div>
+                <!--////////////// «·≈„÷«¡« ///////////////-->
+                <br />
+                <br />
+                <br />
+                <br />
+                <div style="width: 100%;">
+                    <div style="width: 10%; float: right; text-align: center;">
+                        <span style="color:white; width: 100%; float: right; text-align: center;">.</span>
+                    </div>
+                    <div style="width: 35%; float: right; text-align: center;">
+                        <div class="">
+                            <table style="border:none; text-align: center">
+                                <thead>
+
+                                </thead>
+                                <tbody>
+                                    <tr style="border:none">
+                                        <td style="border:none">
+                                            <div style='  text-align: center; padding:10px; padding-bottom:20px;font-size: 14px;'>
+                                                „‘—› ÊÕœ… «·”Ã· «·„Â«—Ì
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr style="border:none">
+                                        <td style="border:none">
+                                            <div style='  text-align: center;  padding:10px;font-size: 14px;'>
+                                                œ. Õ„œ »‰ Õ”‰ «·Õ»‘Ì
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div style="width: 10%; float: right; text-align: center;">
+                        <span style="color:white; width: 100%; float: right; text-align: center;">.</span>
+                    </div>
+                    <!--///////// «·«Ì”— //////////-->
+                    <div style="width: 35%; float: right; text-align: center;">
+                        <div class="">
+                            <table style="border:none; text-align: center;">
+                                <thead>
+
+                                </thead>
+                                <tbody>
+                                    <tr style="border:none">
+                                        <td style="border:none">
+                                            <div style='  text-align: center;  padding:10px; padding-bottom:20px;font-size: 14px;'>
+                                                ⁄„Ìœ ‘ƒÊ‰ «·ÿ·«»
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr style="border:none">
+                                        <td style="border:none">
+                                            <div style='  text-align: center;  padding:10px; font-size: 14px;'>
+                                                œ. ”«„Ì »‰ ⁄»œ «·—Õ„‰ «·ÕÌ”Ê‰Ì
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<style>
+    .dx-table-ds td {
+        font-weight: normal !important
+    }
+
+    .dx-table-ds .dxgvHeader_MetropolisBlue.dx-wrap .dx-wrap {
+        font-weight: bold !important
+    }
+
+    td .btn-ds-ico {
+        margin-bottom: 3px;
+    }
+</style>

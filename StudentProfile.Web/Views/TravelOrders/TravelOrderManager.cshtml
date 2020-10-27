@@ -1,0 +1,373 @@
+﻿@using System.Drawing
+@using System.Web.UI.WebControls
+@{
+    ViewBag.Title = "اعتماد مدير السفر";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .ActiveTT {
+        background-color: #607D8B !important;
+        color: #fff;
+        border-color: #607d8b !important;
+    }
+
+
+    .dxm-rtl .dxm-horizontal ul.dx {
+        width: 100%;
+        text-align: left;
+    }
+
+
+
+    ul.dx.dxm-image-r.dxm-noImages li {
+        display: inline-block
+    }
+
+    .dxm-horizontal.dxm-autoWidth > ul > li, .dxm-horizontal.dxm-noWrap > ul > li {
+        display: inline-block;
+    }
+
+    .dxmLite_MetropolisBlue .dxm-horizontal .dxm-image-r .dxm-hasText .dxm-image {
+        margin-right: 5px;
+        float: left;
+    }
+
+    ul.dx.dxm-image-r.dxm-noImages li .dxbButton_MetropolisBlue {
+        line-height: 35px;
+        font-family: "JF Flat Regular";
+        margin: 15px 3px;
+        border: 1px solid #03a9f4;
+        border-radius: 5px;
+        background: #03a9f4;
+        color: #fff;
+        font-size: 14px;
+    }
+
+        ul.dx.dxm-image-r.dxm-noImages li .dxbButton_MetropolisBlue:hover {
+            background: #03a9f4;
+            color: #fff;
+        }
+
+        ul.dx.dxm-image-r.dxm-noImages li .dxbButton_MetropolisBlue.pull-left {
+            border: 1px solid #4caf50;
+            background: #4caf50;
+        }
+
+            ul.dx.dxm-image-r.dxm-noImages li .dxbButton_MetropolisBlue.pull-left:hover {
+                background: #4caf50;
+                color: #fff;
+            }
+
+    .dxgvControl_MetropolisBlue, .dxgvDisabled_MetropolisBlue {
+        border: 0 !important
+    }
+
+
+    ul.dx.dxm-image-r.dxm-noImages li .dxbButton_MetropolisBlue div.dxb {
+        padding: 11px 8px 12px;
+    }
+
+    .dxgvTable_MetropolisBlue tr td {
+        font-family: "JF Flat Regular";
+        font-size: 12px;
+    }
+
+    .dx-table-ds-in > tbody > tr:first-child > td {
+        background: #ff8159 !important;
+        color: #fff !important;
+    }
+
+    .dx-table-ds-in {
+        margin: 10px 0 10px 0;
+    }
+
+    .dxm-horizontal.dxm-noWrap > ul.dxm-noImages > li {
+        display: table-cell;
+        vertical-align: top;
+    }
+</style>
+<script>
+    var selectedRows = [];
+    function SelectionCallback(values) {
+        selectedRows = [];
+        for (var i = 0; i < values.length; i++) {
+            var Id = values[i];
+            selectedRows.push(Id);
+        }
+    }
+    function SelectionChanged(s, e) {
+        debugger;
+        s.GetSelectedFieldValues('ID', SelectionCallback);
+
+    }
+    function SetLevel(s, e) {
+        debugger;
+        if (e.customArgs["level"] == undefined) {
+            var lvl = $('#LevelCount').val();
+            e.customArgs["level"] = lvl;
+        }
+    }
+
+    function FinishProcess(level) {
+        debugger;
+        var dataToSend = JSON.stringify(selectedRows);
+        var notify = { Message: '', Type: '', status: 0 };
+        $.ajax({
+            url: '/TravelOrders/FinishProcess',
+            contentType: 'application/json; charset=utf-8',
+            type: 'post',
+            dataType: 'json',
+            data: dataToSend,
+            success: function (data) {
+                debugger;
+                var response = data;
+                notify.Message = response['Message'];
+                notify.Type = response['Type'];
+                notify.status = response['status'];
+
+                DevExpress.ui.notify({ message: notify.Message, type: notify.Type, displayTime: 3000, closeOnClick: true });
+                selectedRows = [];
+                TabtoLevel(level);
+            },
+            error: function (data) {
+                var response = data;
+                notify.Message = response['Message'];
+                notify.Type = response['Type'];
+                notify.status = response['status'];
+                DevExpress.ui.notify({ message: notify.Message, type: notify.Type, displayTime: 3000, closeOnClick: true });
+            }
+        })
+    }
+    function updateParam(s, e, lvl) {
+        //lvl = $('#LevelCount').val();
+        //s.callbackCustomArgs["level"] = lvl ;
+    }
+    function TabtoLevel(lvl) {
+        TravelOrdersManager.callbackCustomArgs["level"] = lvl;
+        TravelOrdersManager.PerformCallback();
+        debugger;
+    }
+
+
+    function GetTravelOrderDetails(id) {
+        debugger;
+        $.ajax({
+            url: '/TravelOrders/_StudentsTicketingDetails',
+            data: { travelOrderId: id, lastLevel: false, addTicket: false },
+            success: function (data) {
+                $('#details').html(data);
+                pcTravelOrderDetails.Show();
+                $("#txt_TotalPrice").val('');
+                $("#txt_TotalPriceOrder").val('');
+            },
+            error: function (data) {
+            }
+        })
+    }
+</script>
+
+<script>
+    //multiselect Combobox
+    var textSeparator = ";";
+
+
+    function GetSelectedItemsText(items) {
+        var texts = [];
+        for (var i = 0; i < items.length; i++)
+            if (items[i].index !== -1)
+                texts.push(items[i].text);
+        return texts.join(textSeparator);
+    }
+
+    //Advertisement
+    function AdvertisementOnListBoxSelectionChanged(listBox, args) {
+        if (args.index === -1) {
+            args.isSelected ? listBox.SelectAll() : listBox.UnselectAll();
+        }
+        AdvertisementUpdateSelectAllItemState();
+        AdvertisementUpdateText();
+    }
+
+    function AdvertisementUpdateSelectAllItemState() {
+        AdvertisementIsAllSelected()
+            ? AdvertisementCheckListBox.SelectIndices([-1])
+            : AdvertisementCheckListBox.UnselectIndices([-1]);
+    }
+
+    function AdvertisementIsAllSelected() {
+        for (var i = 1; i < AdvertisementCheckListBox.GetItemCount(); i++)
+            if (!AdvertisementCheckListBox.GetItem(i).selected) {
+                return false;
+            }
+        return true;
+    }
+
+    function AdvertisementUpdateText() {
+        var selectedItems = AdvertisementCheckListBox.GetSelectedItems();
+        AdvertisementComboBox.SetText(GetSelectedItemsText(selectedItems));
+    }
+
+    function AdvertisementSynchronizeListBoxValues(dropDown, args) {
+        AdvertisementCheckListBox.UnselectAll();
+        var texts = dropDown.GetText().split(textSeparator);
+        var values = AdvertisementGetValuesByTexts(texts);
+        AdvertisementCheckListBox.SelectValues(values);
+        AdvertisementUpdateSelectAllItemState();
+        AdvertisementUpdateText(); // for remove non-existing texts
+    }
+
+    function AdvertisementGetValuesByTexts(texts) {
+        var actualValues = [];
+        var item;
+        for (var i = 0; i < texts.length; i++) {
+            item = AdvertisementCheckListBox.FindItemByText(texts[i]);
+            if (item != null)
+                actualValues.push(item.value);
+        }
+        return actualValues;
+    }
+</script>
+
+<script>
+    function ShowStudentByAdvertisement() {
+        pcsSudentByAdvertisement.Show();
+       $(".dxpcModalBackLite_MetropolisBlue").css("display","none");
+    }
+</script>
+
+<div class="container-fluid container-fullw">
+    <div class="row">
+        <div class="col-md-12" id="pageDiv">
+            <div class="panel bg-white">
+                <div class="breadcrumb-wrapper text-right">
+                    <h4 class="no-margin">الاعتماد الاداري لأوامر الإركاب</h4>
+                </div>
+                <div class="panel-body">
+                    @using (Html.BeginForm())
+                    {
+                        Html.RenderAction("_GetTravelOrderManager", new { level = 3 });
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@Html.DevExpress().PopupControl(
+settings =>
+{
+    settings.Name = "pcTravelOrderDetails";
+    settings.Width = 960;
+    settings.AllowDragging = true;
+    settings.CloseAction = CloseAction.CloseButton;
+    settings.RightToLeft = DefaultBoolean.True;
+    settings.CloseOnEscape = true;
+    settings.PopupAnimationType = AnimationType.None;
+    settings.HeaderText = " ";
+
+    settings.Modal = true;
+    settings.AutoUpdatePosition = true;
+    settings.PopupHorizontalAlign = PopupHorizontalAlign.WindowCenter;
+    settings.PopupVerticalAlign = PopupVerticalAlign.WindowCenter;
+    settings.SetContent(() =>
+    {
+
+        ViewContext.Writer.Write("<div class='col-md-12 col-xs-12 col-sm-12' id='details'></div>");
+    });
+
+    settings.ClientSideEvents.CloseUp = "function(s, e){ ASPxClientEdit.ClearEditorsInContainer(null, '', true); }";
+}).GetHtml()
+
+
+@Html.DevExpress().PopupControl(
+settings =>
+{
+    settings.Name = "pcsSudentByAdvertisement";
+    settings.Width = 1200;
+    settings.Height = 700;
+    settings.ControlStyle.CssClass = "Advertisement";
+    settings.AllowDragging = true;
+    settings.CloseAction = CloseAction.CloseButton;
+    settings.RightToLeft = DefaultBoolean.True;
+    settings.CloseOnEscape = true;
+    settings.PopupAnimationType = AnimationType.None;
+    settings.HeaderText = "رغبات سفر الطلاب";
+
+    settings.Modal = true;
+    settings.AutoUpdatePosition = true;
+    settings.PopupHorizontalAlign = PopupHorizontalAlign.WindowCenter;
+    settings.PopupVerticalAlign = PopupVerticalAlign.WindowCenter;
+    settings.SetContent(() =>
+    {
+
+        using (Ajax.BeginForm("_GetStudentByAdvertisement","TravelOrders", new AjaxOptions { UpdateTargetId = "StudentByAdvertisement" }, new { @class = "Advertisement_class" }))
+        {
+            ViewContext.Writer.Write("<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12'>");
+            ViewContext.Writer.Write("<label>اعلانات السفر</label>");
+            @Html.DevExpress().DropDownEdit(
+        s =>
+        {
+            s.Name = "AdvertisementComboBox";
+            s.Properties.DropDownWindowStyle.BackColor = Color.FromArgb(0xEDEDED);
+            s.Properties.NullText = "اختر";
+            s.Width = Unit.Percentage(100);
+            s.Properties.ClearButton.DisplayMode = ClearButtonDisplayMode.OnHover;
+            s.Properties.ClientSideEvents.TextChanged = "AdvertisementSynchronizeListBoxValues";
+            s.Properties.ClientSideEvents.DropDown = "AdvertisementSynchronizeListBoxValues";
+            s.Properties.ValidationSettings.RequiredField.IsRequired = false;
+            s.Properties.ValidationSettings.ErrorTextPosition = ErrorTextPosition.Bottom;
+            s.SetDropDownWindowTemplateContent(c =>
+            {
+                @Html.DevExpress().ListBox(listBoxSettings =>
+                {
+                    listBoxSettings.Name = "AdvertisementCheckListBox";
+                    listBoxSettings.ControlStyle.Border.BorderWidth = 0;
+                    listBoxSettings.ControlStyle.BorderBottom.BorderWidth = 1;
+                    listBoxSettings.ControlStyle.BorderBottom.BorderColor = Color.FromArgb(0xDCDCDC);
+                    listBoxSettings.Width = Unit.Percentage(100);
+                    listBoxSettings.Properties.SelectionMode = ListEditSelectionMode.CheckColumn;
+                    listBoxSettings.Properties.EnableSelectAll = true;
+                    listBoxSettings.Properties.SelectAllText = "اختيار الكل";
+                    listBoxSettings.Properties.ValueField = "Value";
+                    listBoxSettings.Properties.ValueType = typeof(int);
+                    listBoxSettings.Properties.TextField = "Text";
+                    listBoxSettings.Properties.ClientSideEvents.SelectedIndexChanged = "AdvertisementOnListBoxSelectionChanged";
+                }).BindList(ViewBag.Advertisement).Render();
+                ViewContext.Writer.Write("<div style=\"margin: 6px; overflow: hidden;\">");
+                @Html.DevExpress().Button(
+                                          buttonSettings =>
+                                          {
+                                              buttonSettings.Name = "AdvertisementbuttonClose";
+                                              buttonSettings.Text = "اغلاق";
+                                              buttonSettings.Style.Add("float", "right");
+                                              buttonSettings.ClientSideEvents.Click = "function(s, e){ AdvertisementComboBox.HideDropDown(); }";
+                                              buttonSettings.Height = 26;
+                                          }).Render();
+            });
+        }).GetHtml();
+
+            ViewContext.Writer.Write("</div>");
+            ViewContext.Writer.Write("<div class='col-lg-4 col-md-4 col-sm-12 col-xs-12'>");
+            ViewContext.Writer.Write("<label class='col-lg-12 col-md-12 col-sm-12 col-xs-12'><br></label>");
+            @Html.DevExpress().Button(b =>
+            {
+                b.Name = "btnView";
+                b.ControlStyle.CssClass = "btn btn-success";
+                b.Text = "عرض";
+                b.UseSubmitBehavior = true;
+            }).GetHtml();
+            ViewContext.Writer.Write("</div>");
+
+            ViewContext.Writer.Write("<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12' id='StudentByAdvertisement'></div>");
+        };
+    });
+
+    settings.ClientSideEvents.CloseUp = "function(s, e){ ASPxClientEdit.ClearEditorsInContainer(null, '', true); }";
+}).GetHtml()
+
+
+
+
+
+
+

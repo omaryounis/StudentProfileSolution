@@ -1,0 +1,1087 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{84462735-DF5A-4BE3-89A6-B9B2BAB6762C}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>StudentProfile.DAL</RootNamespace>
+    <AssemblyName>StudentProfile.DAL</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="DevExpress.Data.v18.1, Version=18.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Office.v18.1.Core, Version=18.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="DevExpress.RichEdit.v18.1.Core, Version=18.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="DevExpress.Web.v18.1, Version=18.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="DevExpress.Xpo.v18.1, Version=18.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Oracle.ManagedDataAccess, Version=4.122.18.3, Culture=neutral, PublicKeyToken=89b483f429c47342, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Oracle.ManagedDataAccess.12.2.1100\lib\net40\Oracle.ManagedDataAccess.dll</HintPath>
+    </Reference>
+    <Reference Include="Oracle.ManagedDataAccess.EntityFramework, Version=6.122.18.3, Culture=neutral, PublicKeyToken=89b483f429c47342, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Oracle.ManagedDataAccess.EntityFramework.12.2.1100\lib\net45\Oracle.ManagedDataAccess.EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Web.Mvc, Version=4.0.0.1, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="IGenericRepository.cs" />
+    <Compile Include="IUnitOfWork.cs" />
+    <Compile Include="Models\Absence.cs">
+      <DependentUpon>HR.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AcademicCommittee.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AcademicCommitteeUsers.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AcademicCommitteeUsersPerm.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Accounting.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Accounting.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Accounting.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Accounting.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Accounting.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Accounting.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AccountSecurity.cs">
+      <DependentUpon>Accounting.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ActivityApprovedPhases.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ActivityConfig.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ActivityPhases.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ActivityRequestDetails.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ActivityRequestMaster.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ActivityRequestMasterAttachments.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ActivityRequestsArchive.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ActivityRequestsArchiveAttachments.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ActivityUsers.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AdvanceApprovedPhases.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AdvancePaymentDetails.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AdvancePaymentMaster.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AdvancePhases.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AdvanceReceiveDetails.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AdvanceReceiveMaster.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AdvanceRequest.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AdvanceRequestDetails.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AdvanceRequests.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AdvanceRequestsAttachment.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AdvanceSettingConfig.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AdvanceSettings.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AdvancesPremiums.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AdvanceUsers.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AirPort.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AllResidents.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AssetLocationsWithLevelsSelect_Vw.cs">
+      <DependentUpon>Accounting.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AstNames.cs">
+      <DependentUpon>Accounting.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Ast_Location.cs">
+      <DependentUpon>Accounting.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Ast_LocationClass.cs">
+      <DependentUpon>Accounting.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\BankAttachments.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\BankCodes.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\BCD.cs">
+      <DependentUpon>Accounting.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\BrotherDiscountSetting.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Bus.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CashMovement.cs">
+      <DependentUpon>Accounting.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CAT.cs">
+      <DependentUpon>Accounting.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CheckPassportValidation_Result.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CheckResidanceValidation_Result.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CheckResidanceViolations_Result.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Checks.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ClearanceOfSudents.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\COA.cs">
+      <DependentUpon>Accounting.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CoaTree_Vw.cs">
+      <DependentUpon>Accounting.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\COM.cs">
+      <DependentUpon>Accounting.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\config.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Con_Company.cs">
+      <DependentUpon>Accounting.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Countries.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Country.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CountryPopulation.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CourseTypes.cs">
+      <DependentUpon>HR.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CustomFields.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Dafters.cs">
+      <DependentUpon>Accounting.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DaftersDocuments.cs">
+      <DependentUpon>Accounting.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DafterType.cs">
+      <DependentUpon>Accounting.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Dashboard_FilterGroups.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Dashboard_FilterGroupUsers.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DashBoard_Groups.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Dashboard_SecretPermissions.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DashBoard_UserGroups.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DashBoard_Users.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Documents.cs">
+      <DependentUpon>HR.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DocumentTypes.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Emergency.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\EmergencyRelatives.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\EmpCourses.cs">
+      <DependentUpon>HR.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\EmpDocument.cs">
+      <DependentUpon>HR.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Employees.cs">
+      <DependentUpon>HR.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ESOL_ACADEMIC_RECORDS.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ExchangeOrder.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ExchangeOrdersChecks.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Extensions\ACADEMICAPI.cs" />
+    <Compile Include="Models\Extensions\AdvancePermissions.cs" />
+    <Compile Include="Models\Extensions\DashBoard_Users_MD.cs" />
+    <Compile Include="Models\Extensions\EmpDocumentMD.cs" />
+    <Compile Include="Models\Extensions\MonthlyPremium.cs" />
+    <Compile Include="Models\Extensions\MyDataTable.cs" />
+    <Compile Include="Models\Extensions\notify.cs" />
+    <Compile Include="Models\Extensions\RelativesMD.cs" />
+    <Compile Include="Models\Extensions\Resident.cs" />
+    <Compile Include="Models\Extensions\ResidentRelativesDataTable.cs" />
+    <Compile Include="Models\Extensions\ResidentViolationsDataTable.cs" />
+    <Compile Include="Models\Extensions\StartEndDateValidator.cs" />
+    <Compile Include="Models\Extensions\StudentNotes_MD.cs" />
+    <Compile Include="Models\Extensions\StudentsArrayList.cs" />
+    <Compile Include="Models\Extensions\TravelOrderPricingHeader.cs" />
+    <Compile Include="Models\Extensions\TravelOrdersGridControls.cs" />
+    <Compile Include="Models\FilterAssets_Sp_Result.cs">
+      <DependentUpon>Accounting.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\FinalExit.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\FloorDepComForSiteSelect_Sp_Result.cs">
+      <DependentUpon>Accounting.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fn_CheckCOAHasJournalsForMainAccount_Result.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fn_Split_Result.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\FSY.cs">
+      <DependentUpon>Accounting.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GetALLBedLocationsBasedOnRoomId_SP_Result.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GetAlmostNotValidResidents_Result.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GetComsBasedOnIsFamilial_Sp_Result.cs">
+      <DependentUpon>Accounting.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GetLocationsTree_Sp_Result.cs">
+      <DependentUpon>Accounting.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GetPayrollDetails_Result.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GetResidentsFinalExit_Result.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GetResidentsRunAway_Result.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GetResidentsValidOrNot_Result.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GetStBasicDataByStudentID_Result.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GetStudentFurnitures_SP_Result.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GetStudentsByCustomFields_Result.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\getTravelLine_Result.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Get_studentswithoutAccount_NO_Custom_Result.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Get_studentswithoutAccount_NO_Result.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GJD.cs">
+      <DependentUpon>Accounting.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GJH.cs">
+      <DependentUpon>Accounting.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GroupPermission.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Groups.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\HousingFurnitureCategories.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\HousingFurnitureCategories_SP_Result.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\HousingFurnitures.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\HousingFurnituresOfStudent.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\HousingFurnitures_SP_Result.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\HousingFurniture_Customize_SP_Result.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\HousingLocationFurniture.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\HousingOfSudents.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\HousingSupervisors.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\HousingSupervisorsRooms.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\HR.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>HR.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\HR.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>HR.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\HR.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>HR.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\INTEGRATION_All_Graduate_Students.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\INTEGRATION_All_Students.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\INTEGRATION_All_STUDENTS_EXPECTED_GRADUATES.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\INTEGRATION_All_STUDENTS_EXTRA_CHANCES.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\INTEGRATION_All_STUDENTS_GRADUATES_WARNING.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\INTEGRATION_All_STUDENTS_SEMESTER_TRANS.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Issues.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\IssuesCategories.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\IssuessCategoriesPermissions.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\JOB.cs">
+      <DependentUpon>Accounting.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\MessagesLog.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Month.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Nationality.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\OperationTypes.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Payroll.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\PayrollApproval.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\PayrollChecks.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\PayrollPhases.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\PayrollPhasesUsers.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\PayrollRefusal.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\PhasesUsers.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\proc_CalcFingerPrintSheet_Result.cs">
+      <DependentUpon>HR.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\proc_EmpDocumentsDetails_Exp_New_Result.cs">
+      <DependentUpon>HR.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\proc_EmpDocumentsDetails_Exp_Result.cs">
+      <DependentUpon>HR.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\proc_FillMonths_Result.cs">
+      <DependentUpon>HR.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\proc_GetAdvancesReport_ForEmp_Result.cs">
+      <DependentUpon>HR.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\proc_GetAlertsCount_Result.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\proc_GetRunawayAliens_Result.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\proc_GetStudentGrades_Result.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\proc_GetStudentsViolationsForNonRegularStudents_Result.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\proc_GetStudentsViolations_Result.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\proc_Select_SpecialDues_Temp_ForEmp_Result.cs">
+      <DependentUpon>HR.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\PR_EmpCourses_SelectAll_Result.cs">
+      <DependentUpon>HR.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\PR_GetAdvancedSearchResults_Result.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\PR_GetAllCountriesPopulation_Result.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\PR_GetAllRepoerts_Result.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\PR_GetReportById_Result.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\PR_GetStudentAlertsCount_Result.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\PR_GetStudentByName_Result.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\PR_GetStudentsByFacandMaj_Result.cs">
+      <DependentUpon>HR.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\PR_StudentDocuments_SelectAll_Result.cs">
+      <DependentUpon>HR.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\PR_StudentProfileLogin_Result.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\PR_StudentsCourses_SelectAll_Result.cs">
+      <DependentUpon>HR.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\PunishmentOrder.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Purposes.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Relatives.cs">
+      <DependentUpon>HR.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ReportsTemplates.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ReservedVisa.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ResidentViolations.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\RewardCategory.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\RewardDetails.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\RewardItemExpensesTypes.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\RewardItems.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\RewardItemTypes.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\RewardMaster.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\RewardNationaltity.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Row.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\RowLevel.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\RPT_TravelStudentDetailsReport_Result.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\RPT_TravelStudentReport_Result.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\RunawayAliens.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SarafDownloaded.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SchoolAcc.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SchoolAcc.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SchoolAcc.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SchoolAcc.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SchoolAcc.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ScMessages.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ScreenActions.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Screens.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ScreenSctionsGroup.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SelectBranchesInAssetLocations_Sp_Result.cs">
+      <DependentUpon>Accounting.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SelectBranchesNotInAssetLocations_Sp_Result.cs">
+      <DependentUpon>Accounting.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_GetAllHousingStudents_Names_Result.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_GetAllStudentNames_Result.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_GetAllStudents_Customize_Result.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_GetAllStudent_Names_Customize_Result.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_GetCurrentandLatestGraduatedStudents_Result.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_GetCurrentStudents_DDL_Result.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_GetNotCurrentStudents_Result.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_GetRewardDetailsListForSelectedStudents_Result.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_GetRewardDetailsList_Result.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_GetStudentById_Result.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Sp_GetStudentDataForTravel_Result.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Sp_GetTravelAdvertisement_Customize_Result.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_PayrollRefusal_Result.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Sp_StatementOfSarfReward_Result.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\StDetails.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\StTravelRequest.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\StudentBasicData.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\StudentDocuments.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\StudentDocumentsLog.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\StudentFiles.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\StudentNotes.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\StudentPayroll.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\StudentsCustomFields.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\StudentsTicketsDetails.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\StudentsTravelOrder.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ST_AcademicData.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ST_ScoialMediaAccounts.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TransportationTracking.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TravelAdvertisement.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TravelOrderDetails.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TravelOrderPhase.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TravelOrders.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Treasuries.cs">
+      <DependentUpon>Accounting.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\UniversityStudents.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\UpdateStudentLog.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Users.cs">
+      <DependentUpon>Accounting.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Usp_CalcResidance_Result.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Usp_CashAdvances_DataSource_Result.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\usp_COA_Select_ByCoaID_Result.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Usp_Company_Select_ByUserID_Result.cs">
+      <DependentUpon>Accounting.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Usp_DelveringToStudents_Result.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Usp_GetAdvancesPaymentByUsers_Result.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Usp_GetAdvancesRecievingByStudents_Result.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Usp_GetAdvancesRecieving_Result.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Usp_GetAllActivities_StudentId_Result.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Usp_GetAllApprovedActivities_StudentId_Result.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Usp_GetAllUsers_ToDecisionTakingForActivities_Result.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Usp_GetAllUsers_ToDecisionTakingForAdvances_Result.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Usp_GetAvailableActivityNumbers_Result.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Usp_GetCheckDataReport_Result.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Usp_GetCheckSandEstlamDetails_Result.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\usp_GetClinicalHistory_Result.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\usp_GetConfigValues_Result.cs">
+      <DependentUpon>Accounting.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Usp_GetCustomFields_Result.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\usp_getDegreesByFACULTYID_Result.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\usp_getDegrees_Result.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\usp_getFaculties_Result.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Usp_GetFacultyWithUserAndPayrollForCheck_Result.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Usp_GetFacultyWithUserAndPayroll_Result.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Usp_GetFreeTravelRequestSummery_Result.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Usp_GetFreeTravelRequests_Result.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\usp_getLevels_Result.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\usp_getMajors_Result.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\usp_GetMonths_Result.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\usp_getNationalities_Result.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Usp_GetPayRollChecks_Result.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Usp_GetPayRollIntialChecksValues_Result.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Usp_GetPayRollsExportedChecksForManyUsers_Details_Result.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Usp_GetPayRollsExportedChecks_Details_Result.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Usp_GetPayRollsMoneyAfterIsBeingMonetary_Details_Result.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Usp_GetPayRollsMoneyForIssuingChecks_Result.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Usp_GetPayRollsMoneyUsersAfterBeingMonteray_Details_Result.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Usp_GetPayRollsMoneyUsers_Details_Result.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Usp_GetPayRollsMoney_Details_Result.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Usp_GetPayRollsMoney_Result.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Usp_GetPayRollsMultiUsersChecks_Result.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Usp_GetPayRollStatge_Result.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Usp_GetPayRollsUsersChecks_Result.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Usp_GetPayRollsWithNotReceivedAfterExportedChecks_Result.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Usp_GetPayRollsWithNotReceivedChecks_Result.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\usp_GetRewardCategory_Intg_Result.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\USP_GetRewardItemPremiumRelays_Result.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\usp_getStatus_Result.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Usp_GetStudentAdvertisement_Result.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Usp_GetStudentRwards_Result.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\usp_GetStudentsForTickets_Result.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Usp_GetStudentsNotes_Result.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Usp_GetStudentTravelOrder_Result.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\usp_getStudyTypes_Result.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Usp_GetTravelOrderDetailsWithTicketDetails_Result.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Usp_GetTravelOrderDetails_Result.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Usp_Get_AcademicCommittee_Students_Result.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\usp_get_academic_students_Result.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\USP_GET_ACTIVE_ACADEMICUSERSFACULTIES_Result.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\usp_get_active_students_docs_Result.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\usp_get_new_students_docs_Result.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\usp_get_not_take_des_academic_students_Result.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\USP_GRAD_STUDENTS_Result.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\usp_School_Select_Result.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\usp_Students_Select_byUnitID_Result.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\usp_Student_Select_Result.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ViolationForwords.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ViolationOfStudents.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ViolationOfStudentsAttachment.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ViolationsDecisions.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\VM\AdvancesVM.cs" />
+    <Compile Include="Models\VM\ChangePasswordViewModel.cs" />
+    <Compile Include="Models\VM\EmpCourseVM.cs" />
+    <Compile Include="Models\VM\EmpDocumentVM.cs" />
+    <Compile Include="Models\VM\FileInfos.cs" />
+    <Compile Include="Models\VM\GetAdvancesRecievingVM.cs" />
+    <Compile Include="Models\VM\HousingDetailsVM.cs" />
+    <Compile Include="Models\VM\LoginViewModel.cs" />
+    <Compile Include="Models\VM\PayrollDetailsModel.cs" />
+    <Compile Include="Models\VM\PayrollModel.cs" />
+    <Compile Include="Models\VM\ResidentReportVM.cs" />
+    <Compile Include="Models\VM\RptGetAllTravelStudentVM.cs" />
+    <Compile Include="Models\VM\StudentDocumentsVM.cs" />
+    <Compile Include="Models\VM\StudentFilesVm.cs" />
+    <Compile Include="Models\VM\StudentNotesVm.cs" />
+    <Compile Include="Models\vw_GetAllRewardCategories.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\vw_GetAllRewards.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\vw_Get_AdvanceSetting_DSource.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\VW_UnitParents.cs">
+      <DependentUpon>Accounting.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\V_SIS_VIOLATION_SINGLE.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Year.cs">
+      <DependentUpon>SchoolAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="GenericRepository.cs" />
+    <Compile Include="UnitOfWork.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <EntityDeploy Include="Models\HR.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>HR.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <EntityDeploy Include="Models\Accounting.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>Accounting.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="Models\Accounting.edmx.diagram">
+      <DependentUpon>Accounting.edmx</DependentUpon>
+    </None>
+    <None Include="Models\HR.edmx.diagram">
+      <DependentUpon>HR.edmx</DependentUpon>
+    </None>
+    <EntityDeploy Include="Models\SchoolAcc.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>SchoolAcc.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="Models\SchoolAcc.edmx.diagram">
+      <DependentUpon>SchoolAcc.edmx</DependentUpon>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Models\Accounting.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Accounting.edmx</DependentUpon>
+      <LastGenOutput>Accounting.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\Accounting.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Accounting.edmx</DependentUpon>
+      <LastGenOutput>Accounting.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\HR.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>HR.edmx</DependentUpon>
+      <LastGenOutput>HR.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\HR.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>HR.edmx</DependentUpon>
+      <LastGenOutput>HR.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\SchoolAcc.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>SchoolAcc.edmx</DependentUpon>
+      <LastGenOutput>SchoolAcc.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\SchoolAcc.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>SchoolAcc.edmx</DependentUpon>
+      <LastGenOutput>SchoolAcc.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

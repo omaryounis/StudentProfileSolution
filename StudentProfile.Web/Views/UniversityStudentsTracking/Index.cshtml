@@ -1,0 +1,33 @@
+﻿@{
+    ViewBag.Title = "متابعة الطلاب";
+    Layout = "~/Views/Shared/_DevextremeLayout.cshtml";
+
+}
+
+
+<script src="~/Scripts/UniversityStudentsTracking/UniversityStudentsTrackingController.js"></script>
+
+<div class="container-fluid container-fullw">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel">
+                <div class="breadcrumb-wrapper text-right">
+                    <h4 class=" no-margin">متابعة الطلاب</h4>
+                </div>
+                <div class="panel-body">
+                    <div ng-controller="UniversityStudentsTrackingCtrl">
+
+
+                        <div class="clearfix"></div>
+                        <br />
+                        <div class="clearfix"></div>
+                        <fieldset>
+
+                            <div id="gridContainer" class="dx-tree-st" dx-data-grid="dataGridOptions"></div>
+                        </fieldset>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

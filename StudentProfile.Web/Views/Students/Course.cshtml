@@ -1,0 +1,352 @@
+﻿@using StudentProfile.DAL.Models
+@using StudentProfile.Cls
+@using System.Web.UI.WebControls
+@using StudentProfile.DAL.Models.VM
+@model StudentProfile.DAL.Models.VM.EmpCourseVM
+
+
+<style>
+    img.dxWeb_pcCloseButton_MetropolisBlue {
+        /*position: absolute !important;*/
+        clip: rect(0, 10px, 200px, 0) !important;
+        /* clip: shape(top, right, bottom, left); NB 'rect' is the only available option */
+    }
+</style>
+<script>
+    var DownloadFiles = function (data) {
+        
+        window.location = data;
+    }
+
+    $(document).ready(function () {
+
+    });
+    
+
+    function OnCourseClick(s, e) {
+        
+        var x = CourseImagePath;
+    }
+
+   
+
+    function clearControl() {
+        $("form").submit(function (e) {
+            e.preventDefault();
+        });
+        
+        //$('#courses').load('/Students/Clear');
+        $.ajax({
+            url: '/Students/Clear',
+        }).success(function (data) {
+            $('#courses').html(data);
+            return false;
+        });
+    }
+    function OpenCtypPopUp() { cTypModalMode.Show(); }
+    function DeleteCtyp() {
+        var cTypeID = $('#CourseTypes_ID').val();
+        $.ajax({
+            url: '/Students/DeleteCourseType',
+            data: { id: cTypeID }
+        }).success(function (data) {
+            $('#courses').html(data);
+            return false;
+        });
+    }
+
+</script>
+<div class="panel panel-default" style="direction:rtl" id="courses">
+    @if (ViewBag.CourseDataRead != null)
+    {
+        if (ViewBag.CourseDataRead == true)
+        {
+            <div class="panel panel-body">
+                @using (Ajax.BeginForm("PostCourse", new AjaxOptions { UpdateTargetId = "StDetails", HttpMethod = "Post", InsertionMode = InsertionMode.Replace, OnComplete = "RefreshFiles()" }))
+                {
+                    @Html.HiddenFor(model => model.ID)
+                    <div class='col-lg-4 col-xs-12 col-sm-12 col-md-4'>
+                        <div class='title-ds-1 col-lg-5 col-xs-12 col-sm-12 col-md-5'>
+                            <label>@Html.DisplayNameFor(model => model.CourseName)</label>
+                        </div>
+                        <div class='title-ds-1 title-ds-1-p  col-lg-7 col-xs-12 col-sm-12 col-md-7'>
+                            @Html.EditorFor(model => model.CourseName, null, new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class='col-lg-4 col-xs-12 col-sm-12 col-md-4'>
+                        <div class='title-ds-1 col-lg-5 col-xs-12 col-sm-12 col-md-5'>
+                            <label>@Html.DisplayNameFor(model => model.CourseTypes_ID)</label>
+                        </div>
+                        <div class='title-ds-1 title-ds-1-p  col-lg-5 col-xs-8 col-sm-8 col-md-5'>
+
+                            @Html.DropDownListFor(model => model.CourseTypes_ID, ViewBag.courseTypLst as SelectList
+, "-- اختر نوع المشاركة --", new { @class = "form-control" })
+                            @*@Html.EditorFor(model => model.CourseTypes_ID, null, new { @class = "form-control" })*@
+                        </div>
+                        <div class="col-lg-1 col-xs-2 col-sm-2 col-md-1">
+                            <a data-toggle="tooltip" data-placement="top" title="اضافة نوع مشاركة" class="btn btn-sm btn-primary" onclick="OpenCtypPopUp()">
+                                <i class="fa fa-plus"></i>
+                            </a>
+                        </div>
+                        <div class="col-lg-1 col-xs-2 col-sm-2 col-md-1">
+                            <a data-toggle="tooltip" data-placement="top" title="حذف نوع مشاركة" class="btn btn-sm btn-danger" onclick="DeleteCtyp()">
+                                <i class="fa fa-times"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class='col-lg-4 col-xs-12 col-sm-12 col-md-4'>
+                        <div class='title-ds-1 col-lg-5 col-xs-12 col-sm-12 col-md-5'>
+                            <label>@Html.DisplayNameFor(model => model.CoursePlace)</label>
+                        </div>
+                        <div class='title-ds-1 title-ds-1-p  col-lg-7 col-xs-12 col-sm-12 col-md-7'>
+                            @Html.EditorFor(model => model.CoursePlace, null, new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class='col-lg-4 col-xs-12 col-sm-12 col-md-4'>
+                        <div class='title-ds-1 col-lg-5 col-xs-12 col-sm-12 col-md-5'>
+                            <label>@Html.DisplayNameFor(model => model.CourseDays)</label>
+                        </div>
+                        <div class='title-ds-1 title-ds-1-p  col-lg-7 col-xs-12 col-sm-12 col-md-7'>
+                            @Html.EditorFor(model => model.CourseDays, new { htmlAttributes = new { @type = "number", @min = "0", @max = "10000", @value = "0", @class = "form-control", @onkeyup = "IsNumber(event);" } })
+                        </div>
+                    </div>
+                    <div class='col-lg-4 col-xs-12 col-sm-12 col-md-4'>
+                        <div class='title-ds-1 col-lg-5 col-xs-12 col-sm-12 col-md-5'>
+                            <label>@Html.DisplayNameFor(model => model.Degree)</label>
+                        </div>
+                        <div class='title-ds-1 title-ds-1-p  col-lg-7 col-xs-12 col-sm-12 col-md-7'>
+                            @Html.DropDownListFor(model => model.Degree, new List<SelectListItem>
+                        {
+                            new SelectListItem{ Text="ممتاز", Value = "ممتاز" },
+                            new SelectListItem{ Text="جيد جدا", Value = "جيد جدا" },
+                            new SelectListItem{ Text="جيد", Value = "جيد" },
+                            new SelectListItem{ Text="مقبول", Value = "مقبول" },
+                            new SelectListItem{ Text="راسب", Value = "راسب" }
+                         }, "-- اختر التقدير --", new { @class = "form-control" })
+
+                            @*@Html.EditorFor(model => model.Degree, new { @type = "number", @class = "form-control" })*@
+                        </div>
+                    </div>
+                    <div class='col-lg-4 col-xs-12 col-sm-12 col-md-4'>
+                        <div class='title-ds-1 col-lg-5 col-xs-12 col-sm-12 col-md-5'>
+                            <label>@Html.DisplayNameFor(model => model.DegreePercentage)</label>
+                        </div>
+                        <div class='title-ds-1 title-ds-1-p  col-lg-7 col-xs-12 col-sm-12 col-md-7'>
+                            @Html.EditorFor(model => model.DegreePercentage, new { htmlAttributes = new { @min = "0", @max = "100", @value = "0", @type = "number", @onkeyup = "IsNumber(event);", @class = "form-control" } })
+                        </div>
+                    </div>
+                    <div class='col-lg-4 col-xs-12 col-sm-12 col-md-4'>
+                        <div class='title-ds-1 col-lg-5 col-xs-12 col-sm-12 col-md-5'>
+                            <label>@Html.DisplayNameFor(model => model.StartDate)</label>
+                        </div>
+                        <div class='title-ds-1 title-ds-1-p  col-lg-7 col-xs-12 col-sm-12 col-md-7'>
+                            @Html.DevExpress().DateEdit(settings =>
+                       {
+                           settings.Name = "StartDate";
+                           settings.Properties.NullText = "MM/dd/yyyy";
+                           settings.Properties.EditFormat = EditFormat.Date;
+                           settings.Properties.EditFormatString = "MM/dd/yyyy";
+                           settings.Properties.DisplayFormatString = "MM/dd/yyyy";
+                           settings.Width = Unit.Percentage(100);
+                       }).Bind(Model != null ? Model.StartDate : DateTime.Now).GetHtml()
+                            @* @Html.EditorFor(model => model.StartDate, new { @type = "date" })*@
+                        </div>
+                    </div>
+                    <div class='col-lg-4 col-xs-12 col-sm-12 col-md-4'>
+                        <div class='title-ds-1 col-lg-5 col-xs-12 col-sm-12 col-md-5'>
+                            <label>@Html.DisplayNameFor(model => model.CourseImagePath)</label>
+                        </div>
+                        <div class='title-ds-1 title-ds-1-p  col-lg-7 col-xs-12 col-sm-12 col-md-7'>
+
+                            @Html.DevExpress().UploadControl(settings =>
+                       {
+                           settings.Name = "UploadedImages";
+                           settings.ShowAddRemoveButtons = true;
+                           settings.AdvancedModeSettings.EnableFileList = true;
+                           settings.AdvancedModeSettings.EnableMultiSelect = true;
+                           settings.UploadMode = UploadControlUploadMode.Advanced;
+                           //settings.ValidationSettings.Assign(Cls_Utils.GetValidatingSettings());
+                           settings.ShowProgressPanel = true;
+                           settings.ShowClearFileSelectionButton = true;
+                           settings.ShowUploadButton = true;
+                           settings.NullText = "اختر مرفقات....";
+                           //settings.UploadStorage = UploadControlUploadStorage.FileSystem;
+                           settings.CallbackRouteValues = new { Controller = "Students", Action = "MultiSelectionImageUpload" };
+                           settings.ClientSideEvents.FilesUploadComplete = "RefreshFiles";
+                           //settings.ClientSideEvents.FileUploadComplete = "onFileUploadCompelete";
+                           //settings.Size = 50;
+                           settings.BrowseButton.Text = "استعراض";
+                           settings.ValidationSettings.Assign(StudentProfile.Controllers.HomeControllerUploadControlSettings.UploadValidationSettings);
+                       }).GetHtml()
+                        </div>
+                    </div>
+                    <div class='col-lg-12 col-xs-12 col-sm-12 col-md-12'>
+                        <div class="panel">
+                            <div class="title-ds-1 col-lg-12 col-xs-12 col-sm-12 col-md-5"><label> المرفقات </label></div>
+                            <div class="panel-body" id="uploadDiv">
+                                @{ Html.Partial("_UploadedFilesContainer");}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="col-lg-12 col-xs-12 col-sm-12 col-md-12 text-left">
+                        <button id="saveCourseBtn" type="submit" class="btn btn-primary"><i class="fa fa-save"></i>&nbsp;حفظ</button>
+
+                        <button type="button" onclick="clearControl(); " class="btn btn-warning"><span>الغاء&nbsp;<i class="fa fa-times"></i></span></button>
+                    </div>
+                                    }
+                <hr />
+
+                @Html.Raw(HttpUtility.HtmlDecode((Html.ValidationSummary(false, "", new { @class = "exception", style = "color:red" })).ToHtmlString()))
+
+                <div class="clearfix"></div>
+
+                <table class="table table-bordered dx-table-ds22">
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.EmployeeID)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.CourseName)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.CourseTypes_ID)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.CoursePlace)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.StartDate)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.CourseDays)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Degree)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.DegreePercentage)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.CourseImagePath)
+                        </th>
+                        <th></th>
+                    </tr>
+
+                    @foreach (var item in (ViewBag.courseLst as ICollection<EmpCourseVM>))
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.EmployeeID)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.CourseName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.CourseTypeName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.CoursePlace)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.StartDate)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.CourseDays)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Degree)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.DegreePercentage)
+                            </td>
+                            <td>
+                                @using (Ajax.BeginForm("DownloadImage", "Students", new { id = item.ID }, new AjaxOptions { OnSuccess = "DownloadFiles", HttpMethod = "Post" }))
+                                {
+                                    <button class="btn btn-ds-ico btn-success" type="submit"><i class="fa fa-download"></i></button>
+                                }
+                            </td>
+                            <td>
+                                @Ajax.ActionLink(" ", "Edit", new { id = item.ID }, new AjaxOptions { UpdateTargetId = "courses", OnComplete = "RefreshFiles()" }, new { @class = "btn btn-success btn-ds-ico fa fa-edit" })
+
+                                @Ajax.ActionLink(" ", "Delete", new { id = item.ID }, new AjaxOptions { UpdateTargetId = "courses", OnBegin = "return confirm('Are you sure you wish to delete this Course?');" }, new { @class = "btn btn-ds-ico btn-danger fa fa-trash-o" })
+                            </td>
+                        </tr>
+                    }
+
+                </table>
+            </div>
+                                        }
+                                    }
+    @Html.DevExpress().PopupControl(
+    settings =>
+    {
+        settings.Name = "cTypModalMode";
+        settings.Width = 200;
+        //settings.AllowDragging = true;
+        settings.CloseAction = CloseAction.CloseButton;
+        settings.CloseOnEscape = true;
+        settings.PopupAnimationType = DevExpress.Web.AnimationType.Slide;
+        settings.HeaderText = "اضافة نوع مشاركة";
+        settings.Modal = true;
+        //settings.AutoUpdatePosition = true;
+        settings.PopupHorizontalAlign = PopupHorizontalAlign.WindowCenter;
+        settings.PopupVerticalAlign = PopupVerticalAlign.WindowCenter;
+        settings.SetContent(() =>
+        {
+            using (Ajax.BeginForm("AddNewCourseType", "Students", FormMethod.Post, new AjaxOptions { UpdateTargetId = "courses" }))
+            {
+                Html.DevExpress().FormLayout(s =>
+                {
+                    s.Name = "cTypForm";
+                    s.RequiredMarkDisplayMode = RequiredMarkMode.None;
+                    s.Width = Unit.Percentage(100);
+                    s.Height = Unit.Percentage(100);
+
+                    s.NestedExtensionWidth = Unit.Percentage(100);
+                    s.Items.Add(i =>
+                    {
+                        i.Name = "courseTypName";
+                        i.Caption = "نوع مشاركة";
+                        i.NestedExtensionType = FormLayoutNestedExtensionItemType.TextBox;
+                        i.NestedExtensionSettings.Attributes.Add("class", "form-control");
+                    });
+                    s.Items.Add(i =>
+                    {
+                        i.ShowCaption = DefaultBoolean.False;
+
+                        i.SetNestedContent(() =>
+                        {
+                            Html.DevExpress().Button(
+                                buttonSettings =>
+                                {
+                                    buttonSettings.Name = "btn_Save";
+                                    buttonSettings.ControlStyle.CssClass = "button";
+                                    buttonSettings.Width = 80;
+                                    buttonSettings.Text = "حفظ";
+                                    buttonSettings.UseSubmitBehavior = true;
+                                    buttonSettings.Attributes.Add("class", "btn btn-success");
+                                }
+                            ).Render();
+                            Html.DevExpress().Button(
+                                buttonSettings =>
+                                {
+                                    buttonSettings.Name = "btn_Cancel";
+                                    buttonSettings.ControlStyle.CssClass = "button";
+                                    buttonSettings.Width = 80;
+                                    buttonSettings.Text = "الغاء";
+                                    buttonSettings.UseSubmitBehavior = false;
+                                    buttonSettings.ClientSideEvents.Click = "function(s, e){ cTypModalMode.Hide(); }";
+                                    buttonSettings.Attributes.Add("class", "btn btn-danger");
+                                }
+                            ).Render();
+                        });
+                    });
+                }).Render();
+            }
+        });
+
+        settings.ClientSideEvents.CloseUp = "function(s, e){ ASPxClientEdit.ClearEditorsInContainer(null, '', true); }";
+    }).GetHtml()
+</div>
+<div class="clearfix"></div>

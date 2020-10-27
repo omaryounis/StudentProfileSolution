@@ -1,0 +1,438 @@
+@using System.Drawing.Printing
+@using System.Web.UI.WebControls
+@using StudentProfile.Components.Security
+@using DevExpress.Export
+@{
+    var grid = Html.DevExpress().GridView(settings =>
+    {
+        settings.Name = "AdvancedSearchGridView";
+        settings.CallbackRouteValues = new {Controller = "Students", Action = "AdvancedSearchGridViewPartial"};
+        settings.KeyFieldName = "STUDENT_ID";
+        settings.SettingsPager.PageSize = 30;
+        settings.SettingsPager.Visible = true;
+        settings.Settings.ShowGroupPanel = false;
+        settings.SettingsBehavior.AllowSelectByRowClick = false;
+        settings.CommandColumn.Visible = true;
+        settings.CommandColumn.VisibleIndex = 0;
+        settings.CommandColumn.ShowSelectCheckbox = true;
+        settings.CommandColumn.SelectAllCheckboxMode = GridViewSelectAllCheckBoxMode.AllPages;
+        settings.ClientSideEvents.SelectionChanged = "SelectionChanged";
+        settings.SettingsAdaptivity.AdaptivityMode = GridViewAdaptivityMode.Off;
+        settings.SettingsAdaptivity.AdaptiveColumnPosition = GridViewAdaptiveColumnPosition.Left;
+        settings.SettingsAdaptivity.AdaptiveDetailColumnCount = 3;
+        settings.SettingsAdaptivity.AllowOnlyOneAdaptiveDetailExpanded = true;
+        settings.SettingsAdaptivity.HideDataCellsAtWindowInnerWidth = 0;
+        settings.SettingsSearchPanel.Visible = false;
+        settings.CommandColumn.ShowClearFilterButton = true;
+        settings.Settings.ShowFilterRow = true;
+        settings.SettingsText.CommandClearFilter = "«·€«¡";
+        settings.SettingsText.ContextMenuShowFilterRow = "Ì»œ√ »";
+        settings.Settings.ShowFilterRowMenu = true;
+        settings.SettingsCustomizationDialog.ShowColumnChooserPage = true;
+        settings.SettingsCustomizationDialog.ShowFilteringPage = false;
+        settings.SettingsCustomizationDialog.ShowGroupingPage = false;
+        settings.SettingsCustomizationDialog.ShowSortingPage = false;
+        settings.SettingsText.CustomizationDialogColumnChooserTab = "«Œ Ì«— «·«⁄„œ…";
+        settings.SettingsPopup.CustomizationWindow.AllowResize = true;
+
+        settings.SettingsPopup.CustomizationWindow.MinHeight = Unit.Pixel(300);
+        settings.SettingsPopup.CustomizationWindow.Height = Unit.Pixel(700);
+        settings.SettingsText.ToolbarShowCustomizationDialog = "≈ŸÂ«— / ≈Œ›«¡ √⁄„œ…";
+        //settings.SettingsText.Fil
+        settings.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+        settings.SettingsCustomizationDialog.Enabled = true;
+
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "STUDENT_NAME";
+            c.Caption = "«”„ «·ÿ«·»";
+            c.VisibleIndex = 10;
+
+            c.Settings.AllowSort = DefaultBoolean.True;
+            c.Settings.AllowAutoFilter = DefaultBoolean.True;
+            c.ColumnType = MVCxGridViewColumnType.TextBox;
+            c.SetDataItemTemplateContent(container =>
+            {
+                Html.DevExpress().HyperLink(hyperlink =>
+                {
+                    //var keyValue = container.KeyValue;
+                    var name = DataBinder.Eval(container.DataItem, "STUDENT_NAME");
+                    var keyValue = DataBinder.Eval(container.DataItem, "ID");
+                    var encryptedID = EncryptDecrypt.Encrypt(keyValue.ToString(), false).ToString();
+
+                    hyperlink.Name = "hl" + keyValue.ToString() + DateTime.Now.TimeOfDay.ToString();
+                    hyperlink.RightToLeft = DefaultBoolean.True;
+                    hyperlink.ToolTip = " ›«’Ì·";
+                    hyperlink.Properties.Target = "_blank";
+                    hyperlink.Properties.Text = name.ToString();
+                    hyperlink.NavigateUrl = Url.Action("Index", "Students", new { id = encryptedID });
+                }).Render();
+            });
+        });
+
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "CATEGORY_NAME";
+            c.Caption = "‰Ê⁄ «·„‰ÕÂ";
+            c.Settings.AllowSort = DefaultBoolean.True;
+            c.Settings.AllowAutoFilter = DefaultBoolean.False;
+            c.VisibleIndex =20;
+            c.Visible = true;
+            //c.ColumnType = MVCxGridViewColumnType.TextBox;
+            //c.EditorProperties().TextBox(tb =>
+            //{
+            //    tb.ValidationSettings.RequiredField.IsRequired = true;
+            //    tb.ValidationSettings.RequiredField.ErrorText = "Õﬁ· «Ã»«—Ï";
+            //});
+        });
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "NATIONALITY_DESC";
+            c.Caption = "«·Ã‰”Ì…";
+            c.VisibleIndex = 9;
+            c.Visible = false;
+            c.Settings.AllowSort = DefaultBoolean.True;
+            c.Settings.AllowAutoFilter = DefaultBoolean.False;
+            c.ColumnType = MVCxGridViewColumnType.TextBox;
+            c.EditorProperties().TextBox(tb =>
+            {
+                tb.ValidationSettings.RequiredField.IsRequired = true;
+                tb.ValidationSettings.RequiredField.ErrorText = "Õﬁ· «Ã»«—Ï";
+            });
+        });
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "FACULTY_NAME";
+            c.Caption = "«·ﬂ·Ì…";
+            c.VisibleIndex = 8;
+            c.Visible = false;
+
+            c.Settings.AllowSort = DefaultBoolean.True;
+            c.Settings.AllowAutoFilter = DefaultBoolean.True;
+            c.ColumnType = MVCxGridViewColumnType.TextBox;
+            c.EditorProperties().TextBox(tb =>
+            {
+                tb.ValidationSettings.RequiredField.IsRequired = true;
+                tb.ValidationSettings.RequiredField.ErrorText = "Õﬁ· «Ã»«—Ï";
+            });
+        });
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "MAJOR_NAME";
+            c.Caption = "«· Œ’’";
+            c.VisibleIndex = 7;
+            c.Visible = false;
+
+            c.Settings.AllowSort = DefaultBoolean.True;
+            c.Settings.AllowAutoFilter = DefaultBoolean.True;
+            c.ColumnType = MVCxGridViewColumnType.TextBox;
+            c.EditorProperties().TextBox(tb =>
+            {
+                tb.ValidationSettings.RequiredField.IsRequired = true;
+                tb.ValidationSettings.RequiredField.ErrorText = "Õﬁ· «Ã»«—Ï";
+            });
+        });
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "NATIONAL_ID";
+            c.Caption = "—ﬁ„ «·ÂÊÌ…";
+            c.Visible = false;
+
+            c.Settings.AllowSort = DefaultBoolean.True;
+            c.Settings.AllowAutoFilter = DefaultBoolean.True;
+            c.ColumnType = MVCxGridViewColumnType.TextBox;
+            c.EditorProperties().TextBox(tb =>
+            {
+                tb.ValidationSettings.RequiredField.IsRequired = true;
+                tb.ValidationSettings.RequiredField.ErrorText = "Õﬁ· «Ã»«—Ï";
+            });
+        });
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "STUDENT_ID";
+            c.Caption = "—ﬁ„ «·«ﬂ«œÌ„Ï";
+            c.Visible = false;
+
+            c.Settings.AllowSort = DefaultBoolean.True;
+            c.Settings.AllowAutoFilter = DefaultBoolean.True;
+            c.ColumnType = MVCxGridViewColumnType.TextBox;
+            c.EditorProperties().TextBox(tb =>
+            {
+                tb.ValidationSettings.RequiredField.IsRequired = true;
+                tb.ValidationSettings.RequiredField.ErrorText = "Õﬁ· «Ã»«—Ï";
+            });
+        });
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "MOBILE_PHONE";
+            c.Caption = "—ﬁ„ «·ÃÊ«·";
+            c.Visible = false;
+            c.Settings.AllowSort = DefaultBoolean.True;
+            c.Settings.AllowAutoFilter = DefaultBoolean.True;
+            c.ColumnType = MVCxGridViewColumnType.TextBox;
+            c.EditorProperties().TextBox(tb =>
+            {
+                tb.ValidationSettings.RequiredField.IsRequired = true;
+                tb.ValidationSettings.RequiredField.ErrorText = "Õﬁ· «Ã»«—Ï";
+            });
+        });
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "EMAIL";
+            c.Caption = "«·»—Ìœ «·«·ﬂ —Ê‰Ï";
+            c.Visible = false;
+
+            c.Settings.AllowSort = DefaultBoolean.True;
+            c.Settings.AllowAutoFilter = DefaultBoolean.False;
+            c.ColumnType = MVCxGridViewColumnType.TextBox;
+            c.EditorProperties().TextBox(tb =>
+            {
+                tb.ValidationSettings.RequiredField.IsRequired = true;
+                tb.ValidationSettings.RequiredField.ErrorText = "Õﬁ· «Ã»«—Ï";
+            });
+        });
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "STUDY_DESC";
+            c.Caption = "‰Ê⁄ «·œ—«”…";
+            c.Visible = false;
+
+            c.Settings.AllowSort = DefaultBoolean.True;
+            c.Settings.AllowAutoFilter = DefaultBoolean.False;
+            c.ColumnType = MVCxGridViewColumnType.TextBox;
+            c.EditorProperties().TextBox(tb =>
+            {
+                tb.ValidationSettings.RequiredField.IsRequired = true;
+                tb.ValidationSettings.RequiredField.ErrorText = "Õﬁ· «Ã»«—Ï";
+            });
+        });
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "DEGREE_DESC";
+            c.Caption = "«·œ—Ã… «·⁄·„Ì…";
+            c.Visible = false;
+
+            c.Settings.AllowSort = DefaultBoolean.True;
+            c.Settings.AllowAutoFilter = DefaultBoolean.True;
+            c.ColumnType = MVCxGridViewColumnType.TextBox;
+            c.EditorProperties().TextBox(tb =>
+            {
+                tb.ValidationSettings.RequiredField.IsRequired = true;
+                tb.ValidationSettings.RequiredField.ErrorText = "Õﬁ· «Ã»«—Ï";
+            });
+        });
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "STATUS_DESC";
+            c.Caption = "«·Õ«·…";
+            c.Visible = false;
+
+            c.Settings.AllowSort = DefaultBoolean.True;
+            c.Settings.AllowAutoFilter = DefaultBoolean.True;
+            c.ColumnType = MVCxGridViewColumnType.TextBox;
+            c.EditorProperties().TextBox(tb =>
+            {
+                tb.ValidationSettings.RequiredField.IsRequired = true;
+                tb.ValidationSettings.RequiredField.ErrorText = "Õﬁ· «Ã»«—Ï";
+            });
+        });
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "LEVEL_DESC";
+            c.Caption = "«·„” ÊÏ";
+            c.Visible = false;
+            c.Settings.AllowSort = DefaultBoolean.True;
+            c.Settings.AllowAutoFilter = DefaultBoolean.True;
+            c.ColumnType = MVCxGridViewColumnType.TextBox;
+            c.EditorProperties().TextBox(tb =>
+            {
+                tb.ValidationSettings.RequiredField.IsRequired = true;
+                tb.ValidationSettings.RequiredField.ErrorText = "Õﬁ· «Ã»«—Ï";
+            });
+        });
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "BIRTH_DATE";
+            c.Caption = " «—ÌŒ «·„Ì·«œ";
+            c.Visible = false;
+
+            c.Settings.AllowSort = DefaultBoolean.True;
+            c.Settings.AllowAutoFilter = DefaultBoolean.False;
+            c.ColumnType = MVCxGridViewColumnType.DateEdit;
+            c.EditorProperties().DateEdit(tb =>
+            {
+                tb.ValidationSettings.RequiredField.IsRequired = true;
+                tb.ValidationSettings.RequiredField.ErrorText = "Õﬁ· «Ã»«—Ï";
+            });
+        });
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "BIRTH_CITY_TEXT";
+            c.Caption = "„œÌ‰… «·„Ì·«œ";
+            c.Visible = false;
+
+            c.Settings.AllowSort = DefaultBoolean.True;
+            c.Settings.AllowAutoFilter = DefaultBoolean.False;
+            c.ColumnType = MVCxGridViewColumnType.TextBox;
+            c.EditorProperties().TextBox(tb =>
+            {
+                tb.ValidationSettings.RequiredField.IsRequired = true;
+                tb.ValidationSettings.RequiredField.ErrorText = "Õﬁ· «Ã»«—Ï";
+            });
+        });
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "DEPT_NAME";
+            c.Caption = "«·ﬁ”„";
+            c.Visible = false;
+            c.Settings.AllowSort = DefaultBoolean.True;
+            c.Settings.AllowAutoFilter = DefaultBoolean.True;
+            c.ColumnType = MVCxGridViewColumnType.TextBox;
+            c.EditorProperties().TextBox(tb =>
+            {
+                tb.ValidationSettings.RequiredField.IsRequired = true;
+                tb.ValidationSettings.RequiredField.ErrorText = "Õﬁ· «Ã»«—Ï";
+            });
+        });
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "JOIN_DATE";
+            c.Caption = " «—ÌŒ «·«· Õ«ﬁ";
+            c.Visible = false;
+
+            c.Settings.AllowSort = DefaultBoolean.True;
+            c.Settings.AllowAutoFilter = DefaultBoolean.False;
+            c.ColumnType = MVCxGridViewColumnType.DateEdit;
+            c.EditorProperties().DateEdit(tb =>
+            {
+                tb.ValidationSettings.RequiredField.IsRequired = true;
+                tb.ValidationSettings.RequiredField.ErrorText = "Õﬁ· «Ã»«—Ï";
+            });
+        });
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "MOBILE_NO";
+            c.Caption = "—ﬁ„ «·„Ê»«Ì·";
+            c.Visible = false;
+            c.Settings.AllowSort = DefaultBoolean.True;
+            c.Settings.AllowAutoFilter = DefaultBoolean.True;
+            c.ColumnType = MVCxGridViewColumnType.TextBox;
+            c.EditorProperties().TextBox(tb =>
+            {
+                tb.ValidationSettings.RequiredField.IsRequired = true;
+                tb.ValidationSettings.RequiredField.ErrorText = "Õﬁ· «Ã»«—Ï";
+            });
+        });
+
+        //settings.ControlStyle.CssClass = "GridViewRootClassName";
+        //SettingsText
+        settings.SettingsCommandButton.EditButton.Image.IconID = IconID.EditCopy16x16;
+        settings.SettingsText.CommandNew = "«÷«›…";
+        settings.SettingsText.CommandUpdate = "Õ›Ÿ";
+        settings.SettingsText.CommandCancel = "«·€«¡";
+        settings.SettingsText.CommandEdit = "Õ›Ÿ";
+        settings.SettingsText.CommandDelete = "Õ–›";
+        settings.SettingsText.ConfirmDelete = "Â·  —Ìœ Õ–› Â–« «·⁄‰’—ø";
+        settings.SettingsText.EmptyDataRow = "·«  ÊÃœ »Ì«‰« ";
+        settings.SettingsLoadingPanel.Text = " Õ„Ì· ...";
+        settings.Styles.Table.CssClass = "dx-table-ds";
+        settings.Styles.Header.Wrap = DefaultBoolean.True;
+        settings.Width = Unit.Percentage(100);
+        settings.RightToLeft = DefaultBoolean.False;
+        settings.EditFormLayoutProperties.AlignItemCaptionsInAllGroups = true;
+        settings.EditFormLayoutProperties.AlignItemCaptions = true;
+        settings.ClientSideEvents.BeginCallback = "AdvancedSearchGridViewBeginCallback";
+
+        settings.Styles.Table.HorizontalAlign = HorizontalAlign.Center;
+        //Export Settings
+        settings.Toolbars.Add(t =>
+        {
+            t.Position = GridToolbarPosition.Top;
+            t.ItemAlign = GridToolbarItemAlign.Right;
+            t.Items.Add(GridViewToolbarCommand.ShowCustomizationDialog);
+        });
+        settings.Toolbars.Add(t =>
+        {
+            t.EnableAdaptivity = false;
+            t.Items.Add(i =>
+            {
+                i.Command = GridViewToolbarCommand.ExportToPdf;
+                i.Text = " ’œÌ— PDF";
+            });
+            t.Items.Add(i =>
+            {
+                i.Command = GridViewToolbarCommand.ExportToXls;
+                i.Text = " ’œÌ— Xls";
+            });
+            t.Items.Add(i =>
+            {
+                i.Command = GridViewToolbarCommand.ExportToXlsx;
+                i.Text = " ’œÌ— Xlsx";
+            });
+            t.Items.Add(i =>
+            {
+                i.Command = GridViewToolbarCommand.ExportToDocx;
+                i.Text = " ’œÌ— Docx";
+            });
+            t.Items.Add(i =>
+            {
+                i.BeginGroup = true;
+                i.SetTemplateContent(c =>
+                {
+                    Html.DevExpress().Button(
+                        s =>
+                        {
+                            s.Name = "M";
+                            s.Images.Image.IconID = IconID.ContactsMessage16x16devav;
+                            s.RightToLeft = DefaultBoolean.True;
+                            s.Text = "—”«·… ‰’Ì…";
+                            s.ClientSideEvents.Click = "SendSMS";
+                        }).Render();
+                });
+            });
+            //t.Items.Add(i =>
+            //{
+            //    i.BeginGroup = true;
+            //    i.SetTemplateContent(c =>
+            //    {
+            //        Html.DevExpress().Button(
+            //            b =>
+            //            {
+            //                b.Name = "btShowColumnChooser";
+            //                b.Images.Image.IconID = IconID.SetupProperties16x16;
+            //                b.RightToLeft = DefaultBoolean.True;
+            //                b.ImagePosition = ImagePosition.Left;
+            //                b.Text = "≈ŸÂ«— «Œ Ì«— «·√⁄„œ…";
+            //                b.ClientSideEvents.Click = "onShowChooserClick";
+            //            }).Render();
+            //    });
+            //});
+        });
+        settings.SettingsExport.EnableClientSideExportAPI = true;
+        settings.SettingsExport.ExcelExportMode = ExportType.WYSIWYG;
+        //settings.SettingsExport.ExportedRowType = GridViewExportedRowType.All;
+        settings.SettingsExport.RightToLeft = DefaultBoolean.True;
+        //settings.SettingsExport.Styles.Preview.Paddings.PaddingLeft = Unit.Pixel(100);
+        //settings.SettingsExport.LeftMargin =40 ;
+        //settings.SettingsExport.RightMargin = 0;
+        settings.SettingsExport.Landscape = true;
+        settings.SettingsExport.PaperKind = PaperKind.A4;
+
+
+        //Column Chooser
+        settings.SettingsPopup.CustomizationWindow.ShowCloseButton = true;
+        settings.SettingsPopup.CustomizationWindow.CloseOnEscape = AutoBoolean.True;
+        settings.SettingsText.CustomizationWindowCaption = "«ŸÂ«— / «Œ›«¡ «·√⁄„œ…";
+        settings.SettingsBehavior.EnableCustomizationWindow = true;
+        settings.SettingsPopup.CustomizationWindow.Height = 500;
+        settings.SettingsPopup.CustomizationWindow.Width = 250;
+        settings.SettingsPopup.CustomizationWindow.AllowResize = true;
+        settings.SettingsPopup.CustomizationWindow.PopupAnimationType = AnimationType.Auto;
+        settings.ClientSideEvents.CustomizationWindowCloseUp = "grid_CustomizationWindowCloseUp";
+
+        settings.SettingsCookies.Enabled = true;
+        settings.SettingsCookies.StoreColumnsVisiblePosition = true;
+        settings.SettingsCookies.StoreColumnsWidth = true;
+    });
+}
+@grid.Bind(Model).GetHtml()

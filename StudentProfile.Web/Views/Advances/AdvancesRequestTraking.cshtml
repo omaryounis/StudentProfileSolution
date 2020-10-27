@@ -1,0 +1,89 @@
+﻿
+@{
+    ViewBag.Title = "متابعة السلف والاعانات";
+    Layout = "~/Views/Shared/_DevextremeLayout.cshtml";
+
+}
+<script src="~/Scripts/Advances/StudentAdvanceService.js"></script>
+<script src="~/Scripts/Advances/AdvancesRequestTrakingController.js"></script>
+<div class="container-fluid container-fullw text-right">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel bg-white">
+                <div class="breadcrumb-wrapper text-right">
+                    <h4 class="no-margin">متابعة السلف والاعانات</h4>
+                </div>
+                <div class="panel-body">
+                    <div id="LoginContent" ng-controller="AdvancesRequestTrakingCtrl">
+                        <form id="form" class="row" ng-submit="SubmitAdvancesRequestTraking($event)">
+
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 form-group">
+                                <label class="col-lg-12 col-sm-12 col-xs-12 control-label">نوع البند</label>
+                                <div class="col-lg-12 col-sm-12 col-xs-12 dx-btn-group">
+                                    <div dx-select-box="AdvanceTypeSelectBox"></div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 form-group">
+                                <label class="col-lg-12 col-sm-12 col-xs-12 control-label">من تاريخ</label>
+                                <div class="col-lg-12 col-sm-12 col-xs-12 ">
+                                    <div dx-date-box="DateFrom" style="width:100%"></div>
+                                </div>
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 form-group">
+                                <label class="col-lg-12 col-sm-12 col-xs-12 control-label">الي تاريخ</label>
+                                <div class="col-lg-12 col-sm-12 col-xs-12 ">
+                                    <div dx-date-box="DateTo" style="width:100%"></div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 form-group">
+                                <label class="col-lg-12 col-sm-12 col-xs-12 control-label">الطلاب</label>
+                                <div class="col-lg-12 col-sm-12 col-xs-12 dx-btn-group">
+                                    <div dx-select-box="StudentSelectBox"></div>
+                                </div>
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 form-group">
+                                <label class="col-lg-12 col-sm-12 col-xs-12 control-label">نوع الطلب</label>
+                                <div class="col-lg-12 col-sm-12 col-xs-12 dx-btn-group">
+                                    <div dx-select-box="RequestSelectBox"></div>
+                                </div>
+                            </div>
+
+                            @if (ViewBag.Read != null)
+                            {
+                                if (ViewBag.Read)
+                                {
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 form-group">
+                                        <br /><br />
+                                        <div class="col-lg-12 col-sm-12 col-xs-12 ">
+                                            <div id="btnSearch" dx-button="btnSearch"></div>
+                                        </div>
+                                    </div>
+                                }
+                            }
+                        </form>
+
+                        <!--List-->
+                        <div class="row">
+                            <div id="List" class="col-lg-12 col-sm-12 col-xs-12">
+                                <div class="dx-viewport dx-tree-st">
+                                    <div class="demo-container">
+                                        <div id="gridAdvancesRequestTraking" dx-data-grid="gridAdvancesRequestTraking"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .control-label {
+        line-height: 35px;
+    }
+</style>
+

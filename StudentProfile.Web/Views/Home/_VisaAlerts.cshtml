@@ -1,0 +1,84 @@
+﻿@using System.Drawing.Printing
+@using System.Web.UI.WebControls
+@using DevExpress.DataAccess.Sql
+@using DevExpress.Export
+@model IEnumerable<StudentProfile.DAL.Models.ReservedVisa>
+
+@Html.DevExpress().GridView(settings =>
+{
+    settings.Name = "VisaData";
+    settings.KeyFieldName = "Id";
+    settings.Styles.Table.CssClass = "dx-table-ds";
+    // settings.Theme= r.
+    settings.Width = Unit.Percentage(100);
+    //settings.CommandColumn.Visible = true;
+    //settings.CommandColumn.VisibleIndex = 10;
+
+    //settings.CommandColumn.ShowSelectCheckbox = true;
+    settings.RightToLeft = DefaultBoolean.False;
+    //settings.CommandColumn.SelectAllCheckboxMode = GridViewSelectAllCheckBoxMode.AllPages;
+    //settings.SettingsDetail.AllowOnlyOneMasterRowExpanded = false;
+    //settings.SettingsDetail.ShowDetailRow = true;
+    //settings.ClientSideEvents.SelectionChanged = "SelectionChanged";
+    settings.SettingsPager.PageSize = 25;
+    settings.CallbackRouteValues = new { Action = "_VisaAlerts", Controller = "Home" };
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "رقم الإقامة";
+        column.FieldName = "IdNumber";
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "رقم التأشيرة";
+        column.FieldName = "VisaNumber";
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "تاريخ إصدار الإقامة";
+        column.FieldName = "Residence_ExpDate";
+        column.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy";
+
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "تاريخ إصدار التأشيرة";
+        column.FieldName = "Visa_InitDate";
+        column.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy";
+
+    });
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "تاريخ إنتهاء التأشيرة";
+        column.FieldName = "Visa_ExpDate";
+        column.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy";
+
+    });
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "من داخل أو خارج المملكة";
+        column.FieldName = "InKsa";
+        column.SetDataItemTemplateContent(c =>
+        {
+            var flag = bool.Parse(DataBinder.Eval(c.DataItem, "InKsa").ToString());
+            var flagText = "خارج المملكة";
+            if(flag == false)
+            {
+                flagText = "داخل المملكة";
+            }
+            ViewContext.Writer.Write("<div>" + flagText + "</div>");
+        });
+    });
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "حالة التأشيرة";
+        column.FieldName = "Status";
+
+    });
+    settings.SettingsLoadingPanel.Mode = GridViewLoadingPanelMode.Disabled;
+    settings.EnableCallbackAnimation = false;
+    settings.RightToLeft = DefaultBoolean.True;
+
+}).Bind(Model).GetHtml()

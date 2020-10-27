@@ -1,0 +1,82 @@
+﻿@using System.Web.UI.WebControls;
+@{
+    var treeList = Html.DevExpress().TreeList(settings =>
+    {
+        settings.Name = "LocationsTree";
+        settings.CallbackRouteValues = new { Controller = "Asset", Action = "_LocationsTree" };
+
+        settings.KeyFieldName = "ID";
+        settings.ParentFieldName = "Parentid";
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "LocationName";
+            //c.ExportWidth = 10;
+            c.Caption = "اسم الموقع";
+            //c.VisibleIndex = 5;
+        });
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "IsMain";
+            //c.ExportWidth = 20;
+            c.Caption = "نوع الموقع";
+
+            c.Width = Unit.Percentage(20);
+            //c.VisibleIndex = 4;
+        });
+
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "COMName";
+            //c.ExportWidth = 15;
+            c.Caption = "اسم الفرع";
+            //c.VisibleIndex = 3;
+        });
+
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "Height";
+            //c.ExportWidth = 15;
+            c.Caption = "الطول";
+            //c.VisibleIndex = 3;
+        });
+
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "width";
+            //c.ExportWidth = 15;
+            c.Caption = "العرض";
+            //c.VisibleIndex = 3;
+        });
+
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "Depth";
+            //c.ExportWidth = 15;
+            c.Caption = "الارتفاع";
+            //c.VisibleIndex = 3;
+        });
+
+
+        settings.SettingsPager.Visible = true;
+        settings.SettingsExport.EnableClientSideExportAPI = true;
+        settings.SettingsExport.PrintSettings.ExpandAllNodes = true;
+        settings.SettingsExport.PrintSettings.AutoWidth = true;
+        settings.SettingsExport.PrintSettings.PageSettings.Landscape = true;
+        settings.SettingsExport.PrintSettings.ShowTreeButtons = true;
+        settings.SettingsExport.PrintSettings.PageSettings.PaperKind = System.Drawing.Printing.PaperKind.Letter;
+        settings.SettingsExport.BeforeExport = (sender, e) =>
+        {
+            var grid = (MVCxTreeList)sender;
+
+            grid.RightToLeft = DefaultBoolean.True;
+        };
+        //settings.RightToLeft = DefaultBoolean.True;
+        settings.SettingsExport.Styles.Header.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+        settings.SettingsExport.Styles.Cell.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+        settings.SettingsSelection.Enabled = false;
+    });
+}
+@using(Ajax.BeginForm(new AjaxOptions { }))
+{
+@treeList.Bind(Model).GetHtml()
+}

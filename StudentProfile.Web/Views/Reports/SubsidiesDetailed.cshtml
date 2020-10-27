@@ -1,0 +1,70 @@
+﻿@using StudentProfile.Web.Controllers
+@model  SubsidiesDetailedRPT
+@{
+    ViewBag.Title = "تقرير مفصل باعانات الطلاب";
+}
+<div class="container-fluid container-fullw">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel bg-white">
+                <div class="breadcrumb-wrapper text-right">
+                    <h4 class="no-margin">تقرير مفصل باعانات الطلاب</h4>
+                </div>
+                <div class="panel-body">
+                    @using (Ajax.BeginForm("SubsidiesDetailedReportPartial", new AjaxOptions {UpdateTargetId = "Report"}))
+                    {
+                        <div class="col-lg-3 col-lg-3 col-sm-12 col-xs-12">
+                            @Html.DevExpress().ComboBox(
+                                settings =>
+                                {
+                                    settings.Name = "subsidyType";
+                                    settings.Properties.DropDownStyle = DropDownStyle.DropDownList;
+                                    settings.Properties.IncrementalFilteringMode = IncrementalFilteringMode.StartsWith;
+                                    settings.Properties.ValueField = "Value";
+                                    settings.Properties.TextField = "Text";
+                                    settings.Properties.ClearButton.DisplayMode = ClearButtonDisplayMode.OnHover;
+                                    settings.ShowModelErrors = false;
+                                }).BindList(TempData["SubsidTypes"]).GetHtml()
+                        </div>
+                        <div class="col-lg-3 col-lg-3 col-sm-12 col-xs-12">
+                            @Html.DevExpress().DateEdit(
+                                settings =>
+                                {
+                                    settings.Name = "fromDate";
+                                    settings.Properties.NullText = "من تاريخ";
+                                }).GetHtml()
+                        </div>
+                        <div class="col-lg-3 col-lg-3 col-sm-12 col-xs-12">
+                            @Html.DevExpress().DateEdit(
+                                settings =>
+                                {
+                                    settings.Name = "toDate";
+                                    settings.Properties.NullText = "الى تاريخ";
+                                }).GetHtml()
+                        </div>
+                        <div class="form-group col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                            <div class="pull-left">
+                                @Html.DevExpress().Button(settings =>
+                                {
+                                    settings.Name = "btnSearch";
+                                    settings.ControlStyle.CssClass = "btn btn-primary";
+                                    settings.Text = "بحث";
+                                    settings.Images.Image.IconID = IconID.ActionsSearch16x16devav;
+                                    settings.UseSubmitBehavior = true;
+                                }).GetHtml()
+                            </div>
+                        </div>
+                        <div class="row">
+                            <br/>
+                            <br/>
+                            <br/>
+                            <div class="dx-clearfix"></div>
+                            <div id="Report">
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

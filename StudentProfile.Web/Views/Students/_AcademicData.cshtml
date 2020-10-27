@@ -1,0 +1,73 @@
+﻿@model List<StudentProfile.DAL.Models.ESOL_ACADEMIC_RECORDS>
+@using System.Web.UI.WebControls;
+@if (Model.Count > 0)
+{
+    if (ViewBag.AcademicDataRead != null)
+    {
+        if (ViewBag.AcademicDataRead == true)
+        {
+            var yearLimit = 0;
+            var semesterLimit = 0;
+            int? Studentid = int.Parse(Model.FirstOrDefault()?.student_id.ToString());
+            @Html.DevExpress().GridView(settings =>
+{
+    settings.Name = "AcademicData" + Model.FirstOrDefault()?.semester;
+    settings.KeyFieldName = "student_id";
+    settings.Styles.Table.CssClass = "dx-table-ds";
+    // settings.Theme= r.
+    settings.Width = Unit.Percentage(100);
+    settings.CallbackRouteValues = new { Action = "_AcademicData", Controller = "Students", Studentid };
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "العام الدراسي";
+        column.Width = Unit.Percentage(15);
+        column.SetDataItemTemplateContent(c =>
+        {
+            var Fullsemester = DataBinder.Eval(c.DataItem, "semester");
+            yearLimit = Fullsemester.ToString().Length - 1;
+            var year = Fullsemester.ToString().Substring(0, yearLimit);
+            year = "14" + year;
+            ViewContext.Writer.Write("<div>" + year + "</div>");
+        });
+    });
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "الفصل الدراسي";
+        column.Width = Unit.Percentage(15);
+        column.SetDataItemTemplateContent(c =>
+        {
+            var Fullsemester = DataBinder.Eval(c.DataItem, "semester");
+            semesterLimit = Fullsemester.ToString().Length - 1;
+            var semester = Fullsemester.ToString().Substring(semesterLimit);
+            if (semester == "1")
+            {
+                ViewContext.Writer.Write("<div>الأول</div>");
+            }
+            else
+            {
+                ViewContext.Writer.Write("<div>الثاني</div>");
+            }
+        });
+    });
+
+    settings.Columns.Add("semester_gpa").Caption = "المعدل الدراسي";
+    settings.Columns.Add("cum_gpa").Caption = "المعدل التراكمي";
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "#";
+        column.Width = System.Web.UI.WebControls.Unit.Percentage(15);
+        column.SetDataItemTemplateContent(c =>
+        {
+            var stID = DataBinder.Eval(c.DataItem, "student_id");
+            var semesterID = DataBinder.Eval(c.DataItem, "semester");
+            semesterID = int.Parse(semesterID.ToString());
+            var link = Url.Action("DetailedAcademicRecords", "Students", new { stid = stID, semesterid = semesterID });
+            ViewContext.Writer.Write("<a class='btn btn-primary btn-sm' href=" + link + "><i class='fa fa-print' style='color: white!important'></i></a>");
+        });
+    });
+    settings.SettingsLoadingPanel.Mode = GridViewLoadingPanelMode.Disabled;
+    settings.EnableCallbackAnimation = false;
+}).Bind(Model).GetHtml()
+        }
+    }
+}

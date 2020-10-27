@@ -1,0 +1,58 @@
+﻿@{
+    ViewBag.Title = "تهيئة حسابات السلف و الإعانات";
+    Layout = "~/Views/Shared/_DevextremeLayout.cshtml";
+}
+
+<script src="~/Scripts/Config/Config.js"></script>
+<div class="container-fluid container-fullw">
+    <div class="row">
+        <div class="panel">
+            <div class="breadcrumb-wrapper text-right">
+                <h4 class=" no-margin">تهيئة حسابات السلف و الإعانات</h4>
+            </div>
+            <div class="panel-body">
+                <div ng-controller="ConfigCtrl">
+                    <fieldset>
+                        <div dx-data-grid="dataGridOptions"></div>
+                        <div dx-popup="AddNewAdvanceTypePopup.Options">
+                            <div data-options="dxTemplate: { name:'AddNewAdvanceTypePopup' }">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <div class="form-group col-md-6">
+                                        <label class="control-label">اسم نوع السلفة</label>
+                                        <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12" dx-text-box="AddNewAdvanceTypePopup.AdvanceTypeName" dx-validator="AddNewAdvanceTypePopup.ValidationRules.AdvanceTypeName"></div>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label class="control-label">حساب التهيئة</label>
+                                        <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12" dx-select-box="AddNewAdvanceTypePopup.AdvanceCOAID" dx-validator="AddNewAdvanceTypePopup.ValidationRules.AdvanceCOAID"></div>
+                                    </div>
+                                </div>
+                                <div class="clearfix"></div>
+                                <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12 modal-footer text-left">
+                                    <div dx-button="AddNewAdvanceTypePopup.SaveButton"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div dx-popup="AddNewSubsidyTypePopup.Options">
+                            <div data-options="dxTemplate: { name:'AddNewSubsidyTypePopup' }">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <div class="form-group col-md-6">
+                                        <label class="control-label">اسم نوع الاعانة</label>
+                                        <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12" dx-text-box="AddNewSubsidyTypePopup.SubsidyTypeName" dx-validator="AddNewSubsidyTypePopup.ValidationRules.SubsidyTypeName"></div>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label class="control-label">حساب التهيئة</label>
+                                        <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12" dx-select-box="AddNewSubsidyTypePopup.SubsidyCOAID" dx-validator="AddNewSubsidyTypePopup.ValidationRules.SubsidyCOAID"></div>
+                                    </div>
+                                </div>
+                                <div class="clearfix"></div>
+                                <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12 modal-footer text-left">
+                                    <div dx-button="AddNewSubsidyTypePopup.SaveButton"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

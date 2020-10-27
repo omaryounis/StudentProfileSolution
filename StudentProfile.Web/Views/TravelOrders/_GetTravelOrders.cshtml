@@ -1,0 +1,67 @@
+﻿@model List<StudentProfile.DAL.Models.Usp_GetFreeTravelRequestSummery_Result>
+@using System.Web.UI.WebControls;
+@if (Model.Count()>0)
+{
+    int? radioList = 0;
+    if (ViewData["type"] != null)
+    {
+        radioList = (int)ViewData["type"];
+    }
+            @Html.DevExpress().GridView(settings =>
+       {
+           settings.Name = "TravelOrders";
+           settings.KeyFieldName = "AdvertisementID";
+           settings.Styles.Table.CssClass = "dx-table-ds";
+           settings.SettingsDataSecurity.AllowReadUnlistedFieldsFromClientApi = DefaultBoolean.True;
+           settings.Width = Unit.Percentage(100);
+           settings.CallbackRouteValues = new { Action = "_GetTravelOrders", Controller = "TravelOrders", AdID = Model.FirstOrDefault().AdvertisementID  ,radioList= radioList};
+           settings.SettingsExport.EnableClientSideExportAPI = true;
+           settings.SettingsExport.ExcelExportMode = DevExpress.Export.ExportType.WYSIWYG;
+           settings.Toolbars.Add(t =>
+           {
+               t.EnableAdaptivity = true;
+
+               t.Items.Add(GridViewToolbarCommand.ExportToPdf);
+               t.Items.Add(GridViewToolbarCommand.ExportToXls);
+               t.Items.Add(GridViewToolbarCommand.ExportToXlsx);
+               t.Items.Add(GridViewToolbarCommand.ExportToDocx);
+               t.Items.Add(GridViewToolbarCommand.ExportToRtf);
+               t.Items.Add(GridViewToolbarCommand.ExportToCsv);
+           });
+           settings.Columns.Add(column =>
+           {
+               column.Caption = "خط السير";
+               //column.Width = Unit.Percentage(15);
+               column.FieldName = "TravelLine";
+
+           });
+           settings.SettingsBehavior.AllowSelectByRowClick = false;
+           settings.SettingsBehavior.AutoExpandAllGroups = true;
+           settings.CommandColumn.Visible = true;
+           settings.CommandColumn.Width = Unit.Percentage(5);
+           settings.CommandColumn.ShowSelectCheckbox = false;
+           settings.CommandColumn.SelectAllCheckboxMode = GridViewSelectAllCheckBoxMode.AllPages;
+           settings.SettingsDetail.AllowOnlyOneMasterRowExpanded = false;
+           settings.SettingsDetail.ShowDetailRow = true;
+           settings.ClientSideEvents.SelectionChanged = "SelectionChanged";
+           settings.SetDetailRowTemplateContent(c =>
+           {
+               //string degree = DataBinder.Eval(c.DataItem, "DEGREE_DESC")?.ToString();
+               //degree = $"طباعة السجل الأكاديمي المفصل-{degree}";
+               //ViewContext.Writer.Write("<br/><a class='btn btn-primary btn-sm' style='color: white!important' href=" + Url.Action("DetailedAcademicRecords", "Students", new { stid = DataBinder.Eval(c.DataItem, "STUDENT_ID")?.ToString() }) + " ><i class='fa fa-print' style='color: white!important'></i>" + degree + "</a>");
+
+               Html.RenderAction("_GetFreeTravelRequests", new { AdID = c.KeyValue });
+           });
+
+           settings.Columns.Add(column =>
+           {
+               column.Caption = "عدد الطلاب";
+               // column.Width = System.Web.UI.WebControls.Unit.Percentage(15);
+               column.FieldName = "StudentsCount";
+           });
+           settings.SettingsPager.PageSize = 20;
+
+           settings.SettingsLoadingPanel.Mode = GridViewLoadingPanelMode.Disabled;
+           settings.EnableCallbackAnimation = false;
+       }).Bind(Model).GetHtml()
+}

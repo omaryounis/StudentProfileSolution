@@ -1,0 +1,31 @@
+﻿@model  StudentProfile.Reports.StudentsTravel
+@*@Html.DevExpress().WebDocumentViewer(settings => { settings.Name = "TravelStudentsWebDocumentViewer"; }).Bind(Model).GetHtml()*@
+
+@Html.DevExpress().DocumentViewer(settings =>
+{
+    settings.Name = "PrintStudentsTravel";
+    settings.CallbackRouteValues = new { Controller = "Reports", Action = "TravelStudentReportCallback" };
+    settings.ExportRouteValues = new { Controller = "Reports", Action = "TravelStudentReportExport" };
+    settings.Report = Model;
+    settings.ToolbarMode = DocumentViewerToolbarMode.Ribbon;
+
+    //settings.SettingsReportViewer.UseIFrame = false;
+    // settings.SettingsReportViewer.TableLayout = false;
+    //settings.ClientSideEvents.BeforeExportRequest = "OnBeginCallback";
+    settings.ClientSideEvents.BeginCallback = "TravelStudentsDocumentViewerBeforeExportRequest";
+
+}).GetHtml()
+
+
+@*@Html.DevExpress().DocumentViewer(settings =>
+{
+    settings.Name = "PrintStudentsTravel";
+    settings.CallbackRouteValues = new { Controller = "Reports", Action = "TravelStudentReportCallback" };
+    settings.ExportRouteValues = new { Controller = "Reports", Action = "TravelStudentReportCallback" };
+    settings.Report = Model;
+    settings.ToolbarMode = DocumentViewerToolbarMode.Ribbon;
+    settings.SettingsReportViewer.UseIFrame = false;
+    settings.SettingsReportViewer.TableLayout = false;
+    settings.ClientSideEvents.BeforeExportRequest = "OnBeginCallback";
+    settings.ClientSideEvents.Init = "onDocumetnViewerInit";
+}).GetHtml()*@

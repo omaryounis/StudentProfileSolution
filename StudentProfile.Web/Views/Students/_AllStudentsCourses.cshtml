@@ -1,0 +1,183 @@
+﻿@using System.Web.UI.WebControls
+@using StudentProfile.Web.Controllers
+@using DevExpress.Export
+@model List<StudentProfile.DAL.Models.PR_StudentsCourses_SelectAll_Result>
+
+@{
+    //var StudentsList = StudentsController.GetAllStudents();
+    var grid =
+        Html.DevExpress().GridView(settings =>
+        {
+            settings.Name = "AllCoursesGridView";
+            settings.CallbackRouteValues = new {Controller = "Students", Action = "_AllStudentsCourses"};
+            settings.ControlStyle.CssClass = "GridViewRootClassName";
+            settings.Styles.Table.CssClass = "dx-table-ds";
+            settings.Styles.Header.Wrap = DefaultBoolean.True;
+            settings.CommandColumn.Visible = true;
+
+            settings.KeyFieldName = "ID";
+            settings.Width = Unit.Percentage(100);
+            settings.SettingsPager.Visible = true;
+            settings.Settings.ShowGroupPanel = false;
+            settings.Settings.ShowFilterRow = false;
+            settings.SettingsBehavior.AllowSelectByRowClick = true;
+
+            settings.SettingsAdaptivity.AdaptivityMode = GridViewAdaptivityMode.Off;
+            settings.SettingsAdaptivity.AdaptiveColumnPosition = GridViewAdaptiveColumnPosition.Right;
+            settings.SettingsAdaptivity.AdaptiveDetailColumnCount = 1;
+            settings.SettingsAdaptivity.AllowOnlyOneAdaptiveDetailExpanded = false;
+            settings.SettingsAdaptivity.HideDataCellsAtWindowInnerWidth = 0;
+            settings.EditFormLayoutProperties.AlignItemCaptions = true;
+            settings.EditFormLayoutProperties.AlignItemCaptionsInAllGroups = true;
+            settings.Columns.Add(c =>
+            {
+                c.FieldName = "Student_ID";
+                c.Visible = false;
+            });
+            settings.Columns.Add(c =>
+            {
+                c.FieldName = "CourseName";
+                c.Caption = "اسم المشاركة";
+
+            });
+
+            settings.Columns.Add(c =>
+            {
+                c.FieldName = "CourseType_Name";
+                c.Caption = "نوع المشاركة";
+
+            });
+            settings.Columns.Add(c =>
+            {
+                c.FieldName = "Student_Name";
+                c.Caption = "اسم الطالب";
+                //c.Visible = false;
+            });
+
+
+            settings.Columns.Add(c =>
+            {
+                c.FieldName = "Degree";
+                c.Caption = "التقدير";
+
+            });
+            settings.Columns.Add(c =>
+            {
+                c.FieldName = "DegreePercentage";
+                c.Caption = "النسبة المئوية";
+                c.ColumnType = MVCxGridViewColumnType.SpinEdit;
+                c.EditorProperties().SpinEdit(p =>
+                {
+                    p.MinValue = 0;
+                    p.MaxValue = 100;
+                    p.ValidationSettings.RequiredField.IsRequired = true;
+                    p.ValidationSettings.RequiredField.ErrorText = "حقل اجبارى";
+                });
+            });
+            settings.Columns.Add(c =>
+            {
+                c.FieldName = "StartDate";
+                c.Caption = "تاريخ بداية المشاركة";
+                c.ColumnType = MVCxGridViewColumnType.DateEdit;
+                c.EditorProperties().DateEdit(tb =>
+                {
+                    tb.ValidationSettings.RequiredField.IsRequired = true;
+                    tb.ValidationSettings.RequiredField.ErrorText = "حقل اجبارى";
+                });
+            });
+            settings.Columns.Add(c =>
+            {
+                c.FieldName = "EndDate";
+                c.Caption = "تاريخ نهاية المشاركة";
+                c.ColumnType = MVCxGridViewColumnType.DateEdit;
+                c.EditorProperties().DateEdit(tb =>
+                {
+                    tb.ValidationSettings.RequiredField.IsRequired = true;
+                    tb.ValidationSettings.RequiredField.ErrorText = "حقل اجبارى";
+                });
+            });
+
+
+            /*Command Column Emulation*/
+            settings.Columns.Add(column =>
+            {
+                column.Caption = "#";
+                column.Settings.AllowSort = DefaultBoolean.False;
+                column.Settings.AllowAutoFilter = DefaultBoolean.False;
+                column.EditFormSettings.Visible = DefaultBoolean.False;
+                column.SetDataItemTemplateContent(data =>
+                {
+                    var stid = int.Parse(DataBinder.Eval(data.DataItem, "Student_ID").ToString());
+                    ViewContext.Writer.Write("<a href=" + Url.Action("Index", "Students", new { id = stid }) + ">تفاصيل</a>");
+                });
+
+
+            });
+            /*Command Column Emulation*/
+
+
+
+
+            settings.SettingsText.EmptyDataRow = "لا توجد بيانات";
+            settings.SettingsLoadingPanel.Text = "تحميل ...";
+
+
+            //SettingsPager
+            settings.SettingsPager.Visible = true;
+            settings.SettingsPager.EnableAdaptivity = true;
+            settings.SettingsPager.EnableAdaptivity = true;
+            settings.SettingsPager.PageSize = 25;
+
+
+            settings.SettingsAdaptivity.AdaptivityMode = GridViewAdaptivityMode.Off;
+            settings.SettingsAdaptivity.AdaptiveColumnPosition = GridViewAdaptiveColumnPosition.Right;
+            settings.SettingsAdaptivity.AdaptiveDetailColumnCount = 1;
+            settings.SettingsAdaptivity.AllowOnlyOneAdaptiveDetailExpanded = false;
+            settings.SettingsAdaptivity.HideDataCellsAtWindowInnerWidth = 0;
+            settings.SettingsExport.EnableClientSideExportAPI = true;
+            settings.SettingsExport.ExcelExportMode = ExportType.WYSIWYG;
+            settings.SettingsExport.Landscape = true;
+
+            //CommandColumn
+            settings.CommandColumn.Visible = false;
+            settings.CommandColumn.ShowNewButton = false;
+            settings.CommandColumn.ShowDeleteButton = false;
+            settings.CommandColumn.ShowEditButton = false;
+            settings.CommandColumn.ShowNewButtonInHeader = false;
+            settings.Toolbars.Add(t =>
+            {
+                t.EnableAdaptivity = true;
+                //t.Items.Add(i =>
+                //{
+                //    i.Command = GridViewToolbarCommand.ExportToPdf;
+                //    i.Text = "تصدير PDF";
+                //});
+                t.Items.Add(i =>
+                {
+                    i.Command = GridViewToolbarCommand.ExportToXls;
+                    i.Text = "تصدير Xls";
+                });
+                t.Items.Add(i =>
+                {
+                    i.Command = GridViewToolbarCommand.ExportToXlsx;
+                    i.Text = "تصدير Xlsx";
+                });
+                //t.Items.Add(i =>
+                //{
+                //    i.Command = GridViewToolbarCommand.ExportToDocx;
+                //    i.Text = "تصدير Docx";
+                //});
+            });
+
+
+
+        });
+
+
+    if (ViewData["EditError"] != null)
+    {
+        grid.SetEditErrorText((string) ViewData["EditError"]);
+    }
+}
+
+@grid.Bind(Model).GetHtml()

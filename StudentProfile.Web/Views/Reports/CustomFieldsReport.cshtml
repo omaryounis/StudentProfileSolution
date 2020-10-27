@@ -1,0 +1,408 @@
+﻿@using System.Drawing
+@using StudentProfile.Web.Controllers;
+@using System.Web.UI.WebControls
+@{
+    ViewBag.Title = "CustomFieldsReport";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@{ ViewBag.Title = "تقرير الحقول المخصصة"; }
+
+<style>
+    .ActionsSearch_button {
+        margin-top: 25px;
+        height: 38px;
+        width: 85px !important;
+        background: #309ad4;
+        color: #fff;
+        border: 0;
+        font-weight: bold;
+    }
+
+    .dxGridView_gvHeaderSortUp_MetropolisBlue.dx-vam {
+        margin-left: 0;
+        margin-right: 10px;
+        filter: brightness(90);
+    }
+    /*.dxpc-contentWrapper{
+        height:700px;
+    }*/
+    .dxgvCustDialogDragArea_MetropolisBlue {
+        height: 600px;
+        overflow-y: auto;
+    }
+</style>
+
+<script>
+    var selectedRows = [];
+
+    function CustomFieldsGridViewBeginCallback(s, e) {
+
+        debugger;
+        e.customArgs['fieldType'] = fieldType.GetSelectedValues();
+        e.customArgs['IdentityNum'] = IdentityNum.GetValue();
+        e.customArgs['StudentNum'] = StudentNum.GetValue();
+        e.customArgs['toBeDeleted'] = selectedRows;
+    }
+    //function OnBeginCallback(s, e) {
+    //    debugger;
+    //    e.customArgs['firstName'] = fName.GetText();
+    //    e.customArgs['txt'] = s.stateObject.rawValue;
+    //    e.customArgs['lastName'] = lName.GetText();
+    //}
+    function SelectionChanged(s, e) {
+        debugger;
+        s.GetSelectedFieldValues('StudentCustomFieldID', SelectionCallback);
+    }
+    function SelectionCallback(values) {
+        selectedRows = values;
+
+
+    }
+
+    function SendSMS(s, e) {
+        debugger;
+        var type = "";
+
+        if (selectedRows.length > 0) {
+            $.ajax({
+                type: 'GET',
+                url: "/Home/smsPopUp/",
+                data: {
+                    type: type
+                },
+                success: function (data) {
+                    swal({
+                        width: 850,
+                        title: "هل تريد إرسال رسالة نصية؟",
+                        html: data,
+                        type: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: "#3085d6",
+                        cancelButtonColor: "#d33",
+                        confirmButtonClass: "btn btn-success",
+                        cancelButtonClass: "btn btn-danger",
+                        buttonsStyling: false,
+                        reverseButtons: true,
+                        confirmButtonText: "رسالة نصية",
+                        cancelButtonText: "إلغاء",
+                        preConfirm: () => {
+                            debugger;
+                            var msg = document.getElementsByName("MessageBody")[0].value;
+                            var list = JSON.stringify(selectedRows);
+                            $.ajax(
+                                {
+                                    type: "post",
+                                    url: "/Home/send_Message",
+                                    data: { message: msg, students: selectedRows },
+                                    success: function (data) {
+                                        debugger;
+                                        if (data == "True") {
+                                            swal("تأكيد", "تم إرسال الرسالة بنجاح", "success")
+                                        } else {
+                                            swal("تأكيد", "حدث خطأ أثناء الإرسال", "error");
+                                        }
+                                    },
+                                    error: function (data) {
+                                        swal("تأكيد", "حدث خطأ أثناء الإرسال", "error");
+                                    }
+
+                                }
+                            )
+
+                        }
+                    })
+                }
+            });
+            debugger;
+
+        } else {
+            swal({
+                title: "تذكير",
+                text: "من فضلك اختر طلاب أولا",
+                type: "warning",
+                showCancelButton: true,
+                showConfirmButton: false,
+                //confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                //confirmButtonClass: "btn btn-success",
+                cancelButtonClass: "btn btn-danger",
+                buttonsStyling: false,
+                //reverseButtons: true,
+                //confirmButtonText: "رسالة نصية",
+                cancelButtonText: "إغلاق"
+            });
+        }
+
+    }
+
+    //function StudentData(s, e) {
+    //    if (StudentId.GetValue() > 0) {
+    //        window.open('/Students/Index/' + StudentId.GetValue(), '_blank');
+    //    }
+    //}
+</script>
+
+<script type="text/javascript">
+    //AdvancedSearchGridView Column Chooser Scripts
+    function onShowChooserClick(s, e) {
+        debugger;
+        UpdateCustomizationWindowVisibility();
+    }
+
+    function grid_CustomizationWindowCloseUp(s, e) { UpdateButtonText(); }
+
+    function UpdateCustomizationWindowVisibility() {
+        debugger;
+
+        if (CustomFieldsGridView.IsCustomizationWindowVisible()) {
+            CustomFieldsGridView.HideCustomizationWindow();
+        } else {
+            CustomFieldsGridView.ShowCustomizationWindow();
+        }
+        UpdateButtonText();
+    }
+
+    function UpdateButtonText() {
+        debugger;
+        var text = CustomFieldsGridView.IsCustomizationWindowVisible() ? "اخفاء" : "اظهار";
+        text += " اختيار الاعمدة";
+        btShowColumnChooser.SetText(text);
+    }
+    var textSeparator = ";";
+
+    function OnListBoxSelectionChanged(listBox, args) {
+        if (args.index === -1) {
+            args.isSelected ? listBox.SelectAll() : listBox.UnselectAll();
+        }
+        UpdateSelectAllItemState();
+        UpdateText();
+    }
+    function fieldType_OnListBoxSelectionChanged(listBox, args) {
+        if (args.index === -1) {
+            args.isSelected ? listBox.SelectAll() : listBox.UnselectAll();
+        }
+        fieldType_UpdateSelectAllItemState();
+        fieldType_UpdateText();
+    }
+    function fieldType_UpdateSelectAllItemState() {
+        IsAllSelected()
+            ? fieldType.SelectIndices([-1])
+            : fieldType.UnselectIndices([-1]);
+    }
+    function UpdateSelectAllItemState() {
+        IsAllSelected()
+            ? fieldType.SelectIndices([-1])
+            : fieldType.UnselectIndices([-1]);
+    }
+
+    function IsAllSelected() {
+        for (var i = 1; i < fieldType.GetItemCount() ; i++)
+            if (!fieldType.GetItem(i).selected) {
+                return false;
+            }
+        return true;
+    }
+    function fieldType_UpdateText() {
+        var selectedItems = fieldType.GetSelectedItems();
+        fieldTypeComboBox.SetText(GetSelectedItemsText(selectedItems));
+    }
+
+    function SynchronizefieldTypeValues(dropDown, args) {
+        fieldType.UnselectAll();
+        var texts = dropDown.GetText().split(textSeparator);
+        var values = fieldType_GetValuesByTexts(texts);
+        fieldType.SelectValues(values);
+        fieldType_UpdateSelectAllItemState();
+        fieldType_UpdateText(); // for remove non-existing texts
+    }
+
+    function GetSelectedItemsText(items) {
+        var texts = [];
+        for (var i = 0; i < items.length; i++)
+            if (items[i].index !== -1)
+                texts.push(items[i].text);
+        return texts.join(textSeparator);
+    }
+    function fieldType_GetValuesByTexts(texts) {
+        var actualValues = [];
+        var item;
+        for (var i = 0; i < texts.length; i++) {
+            item = fieldType.FindItemByText(texts[i]);
+            if (item != null)
+                actualValues.push(item.value);
+        }
+        return actualValues;
+    }
+    function DeleteRows() {
+        debugger;
+        
+        if (selectedRows.length > 0)
+        {
+            CustomFieldsGridView.DeleteRowByKey(selectedRows);
+        }
+    }
+</script>
+
+<div class="container-fluid container-fullw">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel bg-white">
+                <div class="breadcrumb-wrapper text-right">
+                </div>
+                <div class="panel-body">
+                    @using (Ajax.BeginForm("_CustomFieldsReport", new AjaxOptions { UpdateTargetId = "CustomFieldsGridViewPartial" }))
+                    {
+                        @Html.DevExpress().FormLayout(settings =>
+                   {
+                       settings.Name = "CustomFieldsFormLayout";
+                       settings.SettingsItems.ShowCaption = DefaultBoolean.True;
+                       settings.SettingsItemCaptions.Location = LayoutItemCaptionLocation.Top;
+
+                       settings.AlignItemCaptionsInAllGroups = true;
+                       settings.SettingsAdaptivity.AdaptivityMode = FormLayoutAdaptivityMode.SingleColumnWindowLimit;
+                       settings.SettingsAdaptivity.SwitchToSingleColumnAtWindowInnerWidth = 500;
+                       settings.Width = Unit.Percentage(100);
+                       settings.UseDefaultPaddings = false;
+                       settings.EncodeHtml = false;
+                       settings.UseDefaultPaddings = false;
+                       settings.Styles.LayoutGroupBox.Caption.CssClass = "layoutGroupBoxCaption";
+                       settings.RightToLeft = DefaultBoolean.True;
+                       settings.ColCount = 1;
+
+
+                       var groupItem = settings.Items.AddGroupItem(i =>
+                       {
+                           i.Caption = "بحث الحقول المخصصة";
+                           i.ColCount = 8;
+                           i.GroupBoxStyle.Caption.Font.Bold = true;
+                           i.GroupBoxStyle.Caption.Font.Size = 16;
+                           i.VerticalAlign = FormLayoutVerticalAlign.Top;
+                           i.SettingsItemHelpTexts.Position = HelpTextPosition.Bottom;
+                           i.GroupBoxDecoration = GroupBoxDecoration.None;
+                       });
+                       groupItem.Items.Add( i =>
+                       {
+                           i.Caption = "نوع الحقل المخصص";
+
+                           i.SetNestedContent(() =>
+                           {
+                               Html.DevExpress().DropDownEdit(
+                                setting =>
+                                {
+                                    setting.Name = "fieldTypeComboBox";
+                                    //setting.Properties.DropDownWindowStyle.BackColor = Color.FromArgb(0xEDEDED);
+                                    setting.Properties.NullText = "الحقل المخصص";
+                                    setting.Properties.ClearButton.DisplayMode = ClearButtonDisplayMode.OnHover;
+                                    setting.Properties.ClientSideEvents.TextChanged = "SynchronizefieldTypeValues";
+                                    setting.Properties.ClientSideEvents.DropDown = "SynchronizefieldTypeValues";
+                                    setting.SetDropDownWindowTemplateContent(c =>
+                                    {
+                                        Html.DevExpress().ListBox(listBoxSettings =>
+                                        {
+                                            listBoxSettings.Name = "fieldType";
+                                            listBoxSettings.ControlStyle.Border.BorderWidth = 0;
+                                            listBoxSettings.ControlStyle.BorderBottom.BorderWidth = 1;
+                                            listBoxSettings.ControlStyle.BorderBottom.BorderColor = Color.FromArgb(0xDCDCDC);
+                                            listBoxSettings.Height = Unit.Pixel(200);
+
+                                            listBoxSettings.Width = Unit.Percentage(100);
+                                            listBoxSettings.Properties.SelectionMode = ListEditSelectionMode.CheckColumn;
+                                            listBoxSettings.Properties.EnableSelectAll = true;
+                                            //listBoxSettings.Properties.DataSource = ReportsController.GetNationalities();
+                                            listBoxSettings.Properties.SelectAllText = "اختيار الكل";
+                                            listBoxSettings.Properties.ValueField = "Value";
+                                            listBoxSettings.Properties.ValueType = typeof(int);
+                                            listBoxSettings.Properties.TextField = "Text";
+                                            listBoxSettings.Properties.ClientSideEvents.SelectedIndexChanged = "fieldType_OnListBoxSelectionChanged";
+                                        }).BindList(ReportsController.GetCustomFiles()).Render();
+
+                                        ViewContext.Writer.Write("<div style=\"margin: 6px; overflow: hidden;\">");
+                                        @Html.DevExpress().Button(
+                                            buttonSettings =>
+                                            {
+                                                buttonSettings.Name = "fbuttonClose";
+                                                buttonSettings.Text = "اغلاق";
+                                                buttonSettings.Style.Add("float", "right");
+                                                buttonSettings.ClientSideEvents.Click = "function(s, e){ fieldTypeComboBox.HideDropDown(); }";
+                                                buttonSettings.Height = 26;
+                                            }).Render();
+                                        ViewContext.Writer.Write("</div>");
+                                    });
+                                }).GetHtml();
+                           });
+                       });
+                       groupItem.Items.Add(i =>
+                       {
+                           i.Caption = "رقم الهوية";
+                           //i.Width = Unit.Percentage(12.2);
+                           i.NestedExtension().TextBox(s =>
+                           {
+                               s.Name = "IdentityNum";
+
+                               s.ShowModelErrors = false;
+                           });
+                       });
+                       groupItem.Items.Add(i =>
+                       {
+                           i.Caption = "الرقم الاكاديمي";
+                           //i.Width = Unit.Percentage(12.2);
+                           i.NestedExtension().TextBox(s =>
+                           {
+                               s.Name = "StudentNum";
+
+                               s.ShowModelErrors = false;
+                           });
+                       });
+                       groupItem.Items.Add(itemSettings =>
+                       {
+                           //itemSettings.Width = Unit.Percentage(4);
+                           itemSettings.ShowCaption = DefaultBoolean.False;
+                           itemSettings.HorizontalAlign = FormLayoutHorizontalAlign.Right;
+                           itemSettings.ParentContainerStyle.CssClass = "mobileAlign";
+                           itemSettings.NestedExtension().Button(s =>
+                           {
+                               s.Name = "search";
+                               s.Styles.Style.CssClass = "ActionsSearch_button";
+                               s.RightToLeft = DefaultBoolean.True;
+                               s.Text = "بحث ";
+                               s.Images.Image.IconID = IconID.ActionsSearch16x16devav;
+                               s.UseSubmitBehavior = true;
+                           });
+                       });
+                   }).GetHtml()
+                        <div id="CustomFieldsGridViewPartial"></div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    .ActionsSearch_button {
+        margin-top: 30px !important;
+        width: 107px !important;
+        margin-bottom: 10px;
+    }
+
+    *[dir="rtl"] .dxflFloatedElConSys > div {
+        margin-bottom: 6px;
+    }
+
+    div.dxflCLTSys .dxflCaptionCellSys, div.dxflCLBSys .dxflCaptionCellSys {
+        text-align: center !important;
+    }
+
+    .dxflChildInFirstRowSys {
+    }
+
+    label, .dxDefaultCursor {
+        font-weight: bold !important;
+        font-size: 17px !important;
+    }
+
+    #AdvancedSearchFormLayout_0_4 label {
+        color: #309ad4;
+        font-weight: bolder !important;
+        font-size: 19px !important;
+    }
+</style>

@@ -1,0 +1,75 @@
+﻿@model List<StudentProfile.DAL.Models.PR_StudentDocuments_SelectAll_Result>
+    @using System.Web.UI.WebControls;
+@Html.DevExpress().PopupControl(
+        settings =>
+        {
+            settings.Name = "stIdentitiesPopUP";
+            settings.Width = 800;
+            //settings.AllowDragging = true;
+            settings.CloseAction = CloseAction.CloseButton;
+            settings.CloseOnEscape = true;
+            settings.Images.CloseButton.Width = Unit.Pixel(15);
+            settings.PopupAnimationType = DevExpress.Web.AnimationType.Slide;
+            settings.CallbackRouteValues = new { Action = "_StudentIdentities", Controller = "Home" };
+            //settings.LoadContentViaCallback = LoadContentViaCallback.OnFirstShow;
+            settings.HeaderText = "مستندات الطالب";
+            settings.Modal = true;
+            //settings.AutoUpdatePosition = true;
+            settings.PopupHorizontalAlign = PopupHorizontalAlign.WindowCenter;
+            settings.PopupVerticalAlign = PopupVerticalAlign.WindowCenter;
+            settings.ClientSideEvents.EndCallback = "function(s,e){stIdentitiesPopUP.Show();}";
+            settings.SetContent(() =>
+            {
+                if (Model != null && Model.Count > 0)
+                {
+                    ViewContext.Writer.Write("<div class='col-lg-12 col-md-12 col-lg-12 col-xs-12'>"
+                        +"<div class='row'><div class='col-lg-12 col-xs-12 col-sm-12 col-md-6'><div class='row'>"
+                        + "<div class='title-ds-1 title-edit-ds title-ds-1232 col-lg-5 col-xs-12 col-sm-12 col-md-2'><label>اسم الطالب : </label><p>"
+                        + Model.FirstOrDefault().EmpName + "</p></div><div class='title-ds-1 title-ds-1232 title-edit-ds col-lg-4 col-xs-12 col-sm-12 col-md-3'>"
+                   +" <label>الكلية : </label><p>" +ViewBag.Faculty + "</p></div></div></div><div class='col-lg-12 col-xs-12 col-sm-12 col-md-6'><div class='row'>"
+                    + "<div class='title-ds-1 title-ds-1232 title-edit-ds col-lg-5 col-xs-12 col-sm-12 col-md-4'><label>التخصص : </label>" + "<p>" + ViewBag.Major + "</p></div>"
+                +"<div class='title-ds-1 title-ds-1232 title-edit-ds col-lg-4 col-xs-12 col-sm-12 col-md-4'>"
+                + "<label>المستوى : </label><p>" + ViewBag.Level + "</p></div><div class='title-ds-1 title-ds-1232 title-edit-ds col-lg-3 col-xs-12 col-sm-12 col-md-3'>"
+                   +" <label>الجنسية : </label><p>" + ViewBag.Nationality + " </p> </div> </div></div></div></div>"+
+                   "<div class='clearfix'></div><hr style='margin:0 0 10px 0 !important'><div class='clearfix'></div>");
+                    ViewContext.Writer.Write(
+                        Html.DevExpress().GridView(cc =>
+                        {
+                            cc.Name = "StudentIdentieis";
+                            cc.Styles.Table.CssClass = "dx-table-ds";
+                            cc.Width = Unit.Percentage(100);
+                            cc.Columns.Add(column =>
+                            {
+                                column.Caption = "اسم المستند";
+                                column.FieldName = "Name";
+                                column.Width = Unit.Percentage(40);
+                            });
+                            cc.Columns.Add(column =>
+                            {
+                                column.Caption = "تاريخ الانتهاء";
+                                column.FieldName = "ExpDate";
+                                column.Width = Unit.Percentage(40);
+                                column.PropertiesEdit.DisplayFormatString = "dd/MM/yyyy";
+
+                            });
+                            cc.Columns.Add(column =>
+                            {
+                                column.Caption = "الأيام المتبقية";
+                                column.SetDataItemTemplateContent(c =>
+                                {
+                                    var days = "-";
+                                    DateTime expDate = Convert.ToDateTime(DataBinder.Eval(c.DataItem, "ExpDate"));
+                                    if (expDate >= DateTime.Now)
+                                    {
+                                        days = (expDate.Date - DateTime.Now.Date).TotalDays.ToString();
+                                    }
+                                    ViewContext.Writer.Write("<div>" + days + " يوم </div>");
+                                });
+                            });
+                        }).Bind(Model).GetHtml()
+                            );
+                }
+            });
+
+            settings.ClientSideEvents.CloseUp = "function(s, e){ ASPxClientEdit.ClearEditorsInContainer(null, '', true); }";
+        }).GetHtml()

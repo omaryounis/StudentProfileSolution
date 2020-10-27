@@ -1,0 +1,87 @@
+﻿
+@{
+    ViewBag.Title = "النظر في المخالفات";
+    Layout = "~/Views/Shared/_DevextremeLayout.cshtml";
+}
+
+<script src="~/Scripts/ViolationsDecisions/ViolationDescisionTakingService.js"></script>
+<script src="~/Scripts/ViolationsDecisions/ViolationDescisionTakingController.js"></script>
+
+<div class="container-fluid container-fullw">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel bg-white">
+                <div class="breadcrumb-wrapper text-right">
+                    <h2>النظر في المخالفات</h2>
+                    </div>
+                <div class="panel-body">
+                    <div ng-controller="ViolationDescisionTakingCtrl">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <!--Send Request-->
+                            <div id="SendRequest">
+                                <form id="form" class="row">
+                                    <div id="gridContainer" class="dx-tree-st" dx-data-grid="violationsGridView" dx-item-alias="discount"></div>
+
+                                    <div id="refuse" class="popup" dx-popup="refusePopup">
+                                        <div dx-scroll-view="{
+                                                height: 300,
+                                                direction: 'both'
+                                            }">
+                                            <div class="form-group col-md-12 col-sm-12 col-xs-12">
+                                                <table class="table table-bordered table-refusePopup">
+                                                    <tbody>
+                                                        <tr>
+                                                            <th>مسلسل</th>
+                                                            <td>{{violationToBeEditted.Id}}</td>
+                                                            <th>الطالب</th>
+                                                            <td>{{violationToBeEditted.studentName}}</td>
+                                                            <th> تاريخ و وقت المخالفة</th>
+                                                            <td>{{violationToBeEditted.ViolationDate}}</td>
+                                                            <th>تاريخ الادخال</th>
+                                                            <td>{{violationToBeEditted.InsertDate}}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>رقم المخالفة</th>
+                                                            <td>{{violationToBeEditted.ViolationNumber}}</td>
+                                                            <th>نوع المخالفة</th>
+                                                            <td>{{violationToBeEditted.IssueDescription}}</td>
+                                                            <th>قسم المخالفة</th>
+                                                            <td>{{violationToBeEditted.IssuesCategory}}</td>
+                                                            <th>تفاصيل المخالفة</th>
+                                                            <td>{{violationToBeEditted.ViolationDescription}}</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <div class="form-group col-md-12 col-sm-12 col-xs-12">
+                                                <div dx-text-area="recommendationsOfRefuseTextArea"></div>
+                                            </div>
+                                            <div class="form-group col-md-12 col-sm-12 col-xs-12 text-center">
+                                                <div dx-button="refuseButton"></div>
+                                            </div>
+
+
+                                        </div>
+
+                                    </div>
+
+                                    <!--Forword Violation-->
+                                    <div id="forword" class="popup" dx-popup="forwordPopup">
+                                        <div dx-scroll-view="{height: 300, direction: 'both'}">
+                                            <div id="gridForwordViolation" dx-data-grid="gridForwordViolation"></div>
+                                        </div>
+
+                                    </div>
+
+
+                                </form>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

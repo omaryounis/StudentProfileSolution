@@ -1,0 +1,35 @@
+﻿@model int
+@if (ViewBag.PermissionFilters != null)
+{
+    List<int> orders = ViewBag.PermissionFilters as List<int>;
+    foreach (int item in orders)
+    {
+        if (item == 1 && (int) ViewBag.CurrentLevel == 1)
+        {
+            <a href="#" title="قبول" onclick="FirstAcceptAdvance(@Model)">
+                <i class="fa fa-check btn btn-xs btn-success"></i>
+            </a>
+        }
+        if (item == 2 && (int) ViewBag.CurrentLevel == 2)
+        {
+            <a href="#" title="قبول" onclick="SecondAcceptAdvance(@Model)">
+                <i class="fa fa-check btn btn-xs btn-success"></i>
+            </a>
+        }
+        if (item == 3 && (int) ViewBag.CurrentLevel == 3)
+        {
+            <a href="#" title="قبول" onclick="AcceptAdvance(@Model)">
+                <i class="fa fa-check btn btn-xs btn-success"></i>
+            </a>
+            <a href="#" title="رفض" onclick="RefuseAdvance(@Model)">
+                <i class="fa fa-remove btn btn-xs btn-danger"></i>
+            </a>
+        }
+        if (item == 4 && (int) ViewBag.CurrentLevel == 4)
+        {
+            <a href="#" title="دفع" onclick="PayAdvance(@Model)">
+                <i class="fa fa-money btn btn-xs btn-success"></i>
+            </a>
+        }
+    }
+}

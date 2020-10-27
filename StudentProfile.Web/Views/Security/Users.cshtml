@@ -1,0 +1,95 @@
+﻿@{
+    ViewBag.Title = "المستخدمين";
+    Layout = "~/Views/Shared/_DevextremeLayout.cshtml";
+}
+@functions{
+    public string GetAntiForgeryToken()
+    {
+        string cookieToken, formToken;
+        AntiForgery.GetTokens(null, out cookieToken, out formToken);
+        return cookieToken + ":" + formToken;
+    }
+}
+<script src="~/Scripts/Security/Users.js"></script>
+<div class="container-fluid container-fullw">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel bg-white">
+                <div class="breadcrumb-wrapper text-right">
+                    <h4 class="no-margin">بيانات المستخدمين</h4>
+                </div>
+                <div class="panel-body">
+                    <div ng-controller="SecurityCtrl">
+                        <form id="form" ng-submit="onFormSubmit($event)">
+                           
+                            <input id="antiForgeryToken" data-ng-model="antiForgeryToken" type="hidden" data-ng-init="antiForgeryToken='@GetAntiForgeryToken()'" />
+
+                            <div class="form-group col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                <label class="col-lg-6 col-md-6 col-sm-12 col-xs-12  control-label">الاسم</label>
+                                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                    <div class="col-lg-12" dx-text-box="User.Name" dx-validator="User.ValidationRules.Name"></div>
+                                </div>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                <label class="col-lg-6 col-md-6 col-sm-12 col-xs-12  control-label">اسم المستخدم</label>
+                                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                    <div class="col-lg-12" dx-text-box="User.UserName" dx-validator="User.ValidationRules.UserName"></div>
+                                </div>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                <label class="col-lg-6 col-md-6 col-sm-12 col-xs-12  control-label">رقم الجوال</label>
+                                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                    <div class="col-lg-12" dx-number-box="User.Mobile" dx-validator="User.ValidationRules.Mobile"></div>
+                                </div>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                <label class="col-lg-6 col-md-6 col-sm-12 col-xs-12  control-label">كلمة المرور</label>
+                                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12  ">
+                                    <div class="col-lg-12" id="password-validation" dx-text-box="User.Password" dx-validator="User.ValidationRules.Password"></div>
+                                </div>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                <label class="col-lg-6 col-md-6 col-sm-12 col-xs-12  control-label">تاكيد كلمة المرور</label>
+                                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12  ">
+                                    <div class="col-lg-12" dx-text-box="User.ConfirmPassword" dx-validator="User.ValidationRules.ConfirmPassword"></div>
+                                </div>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                <label class="col-lg-6 col-md-6 col-sm-12 col-xs-12  control-label">المجموعة</label>
+                                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12  ">
+                                    <div dx-select-box="User.Group" dx-validator="User.ValidationRules.Group"></div>
+                                </div>
+                            </div>
+                            <div class="form-group col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                <div dx-check-box="User.IsAdmin"></div>
+                            </div>
+                            @if (ViewBag.Create != null)
+                            {
+                                if (ViewBag.Create)
+                                {
+                                    <div class="form-group col-lg-2 col-md-2 col-sm-12 col-xs-12 text-left">
+                                        <div dx-button="User.SaveButtonOptions" ng-show="SaveButtonShow" ng-init="SaveButtonShow=true"></div>
+                                    </div>
+                                }
+                            }
+                            @if (ViewBag.Update != null)
+                            {
+                                if (ViewBag.Update)
+                                {
+                                    <div class="form-group col-lg-2 col-md-2 col-sm-12 col-xs-12 text-left">
+                                        <div dx-button="User.UpdateButtonOptions" ng-show="UpdateButtonShow" ng-init="UpdateButtonShow=false"></div>
+                                    </div>
+                                }
+                            }
+                        </form>
+                        <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <fieldset>
+                                <div dx-data-grid="dataGridOptions"></div>
+                            </fieldset>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

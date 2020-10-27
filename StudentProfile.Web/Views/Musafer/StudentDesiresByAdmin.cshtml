@@ -1,0 +1,195 @@
+﻿
+@{
+    ViewBag.Title = "ادخال رغبات السفر";
+    Layout = "~/Views/Shared/_DevextremeLayout.cshtml";
+}
+
+<script src="~/Scripts/TravelAdvertisement/TravelAdvertisementService.js"></script>
+
+<script src="~/Scripts/Musafer/MusaferService.js"></script>
+<script src="~/Scripts/Musafer/StudentsDesiresByAdminServices.js"></script>
+<script src="~/Scripts/Musafer/StudentDesiresByAdminController.js"></script>
+
+@*<h2>رغبات الطلبة بواسطة الادمن</h2>*@
+
+<div class="container-fluid container-fullw">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel bg-white">
+                <div class="breadcrumb-wrapper text-right">
+                    <h4 class="no-margin">ادخال رغبات السفر للطلبة عن طريق مدير النظام </h4>
+                </div>
+                <div class="panel-body">
+                    <div id="MusaferContent" ng-controller="StudentDesiresByAdminCtrl">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-sx-12">
+                            <!--Send Request-->
+                            <div id="SendRequest">
+                                <form id="form" class="row">
+                                    <div class="col-lg-3 col-md-4 col-sm-12 col-xs-12 form-group">
+                                        <label class="col-lg-12 col-sm-12 col-xs-12 label-control text-right">الاعلان</label>
+                                        <div class="col-lg-12 col-sm-12 col-xs-12 ">
+                                            <div id="Advertisments" dx-select-box="AdvertismentSelectBox"
+                                                 dx-validator="validationRequired"></div>
+                                        </div>
+                                    </div>
+
+
+
+                                    <div class="col-lg-3 col-md-4 col-sm-12 col-xs-12 form-group">
+                                        <label class="col-lg-12 col-sm-12 col-xs-12 label-control text-right">اسم الطالب</label>
+                                        <div class="col-lg-12 col-sm-12 col-xs-12 ">
+                                            <div id="Students" dx-select-box="StudentsSelectBox"
+                                                 dx-validator="validationRequired"></div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-3 col-md-4 col-sm-12 col-xs-12 form-group">
+                                        <label class="col-lg-12 col-sm-12 col-xs-12 label-control text-right">طريقة الحجز</label>
+                                        <div class="col-lg-12 col-sm-12 col-xs-12 ">
+                                            <span id="radioTravelWay" dx-radio-group="radioTravelWay"></span>
+                                        </div>
+                                    </div>
+
+                                    @*<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 form-group">
+            <label class="col-lg-12 col-sm-12 col-xs-12 label-control text-right">دولة المغادرة</label>
+            <div class="col-lg-12 col-sm-12 col-xs-12 ">
+                <div id="Students" dx-select-box="CountryFromSelectBox"
+                     dx-validator="validationRequired"></div>
+            </div>
+        </div>
+
+
+
+
+        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 form-group">
+            <label class="col-lg-12 col-sm-12 col-xs-12 label-control text-right">مطار المغادرة</label>
+            <div class="col-lg-12 col-sm-12 col-xs-12 ">
+                <div id="Students" dx-select-box="AirportFromSelectBox"
+                     dx-validator="validationRequired"></div>
+            </div>
+        </div>
+
+
+        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 form-group">
+            <label class="col-lg-12 col-sm-12 col-xs-12 label-control text-right">دولة الوصول</label>
+            <div class="col-lg-12 col-sm-12 col-xs-12 ">
+                <div id="Students" dx-select-box="CountryToSelectBox"
+                     dx-validator="validationRequired"></div>
+            </div>
+        </div>
+
+
+        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 form-group">
+            <label class="col-lg-12 col-sm-12 col-xs-12 label-control text-right">مطار الوصول</label>
+            <div class="col-lg-12 col-sm-12 col-xs-12 ">
+                <div id="Students" dx-select-box="AirportToSelectBox"
+                     dx-validator="validationRequired"></div>
+            </div>
+        </div>*@
+                                    <div class="col-lg-3 col-md-4 col-sm-12 col-xs-12 form-group">
+                                        <label class="col-lg-12 col-sm-12 col-xs-12 label-contro text-righl">خطوط السير</label>
+                                        <div class="col-lg-12 col-sm-12 col-xs-12 ">
+                                            <div dx-select-box="TransportaionTrackingSelectBox"
+                                                 dx-validator="validationRequired"></div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-3 col-md-4 col-sm-12 col-xs-12 form-group">
+                                        <label class="col-lg-12 col-sm-12 col-xs-12 label-control text-right">تاريخ الذهاب</label>
+                                        <div class="col-lg-12 col-sm-12 col-xs-12 ">
+                                            <div dx-date-box="dateBoxFrom" style="width: 100%" dx-validator="validationRequired"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-md-4 col-sm-12 col-xs-12 form-group">
+
+                                        <label class="col-lg-12 col-sm-12 col-xs-12 label-control text-right">تاريخ العودة</label>
+                                        <div class="col-lg-12 col-sm-12 col-xs-12 ">
+                                            <div dx-date-box="dateBoxTo" style="width: 100%"></div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-3 col-md-4 col-sm-12 col-xs-12 form-group">
+                                        <label class="col-lg-12 col-sm-12 col-xs-12 label-control text-right">درجة السفر</label>
+                                        <div class="col-lg-12 col-sm-12 col-xs-12 ">
+                                            <div id="Levels" dx-select-box="LevelSelectBox"
+                                                 dx-validator="validationRequired"></div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-3 col-md-4 col-sm-12 col-xs-12 form-group">
+                                        <label class="col-lg-12 col-sm-12 col-xs-12 label-control text-right">غرض السفر</label>
+                                        <div class="col-lg-12 col-sm-12 col-xs-12 ">
+                                            <div id="Purpose" dx-select-box="PurposeSelectBox"
+                                                 dx-validator="validationRequired"></div>
+                                        </div>
+                                    </div>
+
+
+
+
+
+                                    <div class="col-lg-3 col-md-6 col-sm-3 col-xs-6 form-group text-right">
+                                        <label class="col-lg-12 col-sm-12 col-xs-12 control-label text-right"> <br /></label>
+
+                                        <div class="col-lg-12 col-sm-12 col-xs-12 ">
+                                            <div dx-check-box="passportValidCheckBox"></div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="clearfix"></div>
+                            <br />
+                        </div>
+
+                        <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div id="btnSave" class="btn btn-success" dx-button="btnSave"></div>
+                            <div class="btn btn-primary" dx-button="btnOpenUpdatesPassport"></div>
+                        </div>
+                        <div id="PassportPopUp">
+                            <div ng-init="newPassport">
+                                <div class="popup ds-popup"
+                                     dx-popup="PassportPopUp">
+                                    <div data-options="dxTemplate: { name:'PassportContent' }" style="overflow-y:auto !important">
+
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                                            <label class="col-lg-12 col-sm-12 col-xs-12 label-control text-right">رقم جواز السفر</label>
+                                            <div class="col-lg-12 col-sm-12 col-xs-12 ">
+                                                <div dx-text-box="txt_PassportNumber"></div>
+
+                                            </div>
+                                        </div>
+
+
+                                            <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12 form-group">
+                                                <label class="col-lg-12 col-sm-12 col-xs-12 label-control text-right">تاريخ الانتهاء</label>
+                                                <div class="col-lg-12 col-sm-12 col-xs-12 ">
+                                                    <div dx-date-box="dP_ExpireDate" style="width: 100%"></div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12">  
+                                                <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-6 text-right">
+                                                    <div id="fileUploadPassport" dx-file-uploader="fileUploadPassport">
+                                                        <span class="note">Allowed file extensions: <span>image</span>.</span>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-6 text-right">
+                         
+                                                    <img id="imgPassport" style="height:150px;width:150px;border:solid gray 1px;">                                                    
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                <div dx-button="btnUpdatePassport"></div>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

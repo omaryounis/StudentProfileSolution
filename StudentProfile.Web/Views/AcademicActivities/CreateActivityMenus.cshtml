@@ -1,0 +1,339 @@
+﻿@{
+    ViewBag.Title = "إنشاء قوائم مشاركات الطلاب";
+    Layout = "~/Views/Shared/_DevextremeLayout.cshtml";
+}
+<script src="~/Scripts/AcademicActivities/AcademicActivitiesService.js"></script>
+<script src="~/Scripts/AcademicActivities/CreateActivityMenusCtrl.js"></script>
+
+<style>
+    .swal-text {
+        text-align: center;
+    }
+
+    .dx-overlay-shader {
+        background-color: rgba(0, 0, 0, 0.69);
+    }
+
+    .dx-tree-st-custom .dx-datagrid-headers .dx-datagrid-table .dx-header-row > td {
+        background: #7e8d94fc !important;
+        color: #fff !important;
+        border-color: rgba(250,250,250,0.3) !important;
+    }
+
+    .breadcrumb-wrapper {
+        padding: 5px 15px;
+    }
+
+    .dx-texteditor.dx-state-readonly {
+        border-color: #ddd !important;
+    }
+
+    .swal-text {
+        text-align: center;
+    }
+
+    .dx-popup-title {
+        border-bottom: 1px solid #0e70a052 !important;
+        background: #ffffff !important;
+        color: #0e70a0 !important;
+    }
+
+        .dx-popup-title.dx-toolbar .dx-toolbar-label {
+            font-size: 22px !important;
+        }
+
+        .dx-popup-title.dx-toolbar {
+            padding: 5px 20px !important;
+        }
+
+        .dx-popup-title .dx-closebutton .dx-icon {
+            color: #0e70a0 !important;
+        }
+
+    .dx-popup-content {
+        padding: 20px;
+        padding-top: 10px;
+    }
+
+    .dx-toolbar-label .dx-toolbar-item-content > div {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        font-size: large;
+    }
+
+    .dx-datagrid-pager .dx-pager {
+        padding: 5px !important;
+    }
+</style>
+<div class="container-fluid container-fullw" ng-controller="CreateActivityMenusCtrl">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel bg-white">
+                <div class="breadcrumb-wrapper text-right">
+                    <h4 class="no-margin"> إنشاء قوائم مشاركات الطلاب</h4>
+                </div>
+
+                @* الشاشة الرئيسية *@
+
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 form-group">
+                            <div class="row">
+                                @* <label class="col-lg-4 col-md-4 col-sm-4 col-xs-12 control-label text-right">اسم المشاركة</label>*@
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="padding-left: 10px;">
+                                    <div class='col-lg-12 col-sm-12 col-xs-12' dx-select-box="ActivityNamesSelectBox" dx-validator="validationRequired"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 form-group">
+                            <div class="row">
+                                @*<label class="col-lg-4 col-md-4 col-sm-4 col-xs-123 control-label text-right">رقم المشاركة</label>*@
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="padding-right: 10px;">
+                                    @*  dx-btn-group *@
+                                    @*<div dx-button="btnShowActivityRequestMasterPopUp"></div>*@
+                                    <div class='col-lg-12 col-sm-12 col-xs-12' dx-select-box="ActivityNoSelectBox" dx-validator="validationRequired"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        @*<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 form-group">
+                                <div class="row">
+                                    <label class="col-lg-4 col-md-4 col-sm-4 col-xs-12 control-label text-right">تاريخ الإنشاء</label>
+                                    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                                        <div class='col-lg-12 col-sm-12 col-xs-12' style="width:100%" dx-date-box="ActivityInsertionDate"></div>
+                                    </div>
+                                </div>
+                            </div>*@
+
+
+
+
+                        <div class="col-md-12">
+                            <div class="table-responsive">
+                                <table class="table table-st table-inverse table-bordered table-center mb-0">
+                                    <thead>
+                                        <tr>
+                                            @*<td style="width: 25%;">
+
+                                                    الكلية
+
+                                                </td>
+                                                <td style="width: 20%;">
+
+                                                    المرحلة
+
+                                                </td>*@
+                                            <td style="font-size: small;">
+
+                                                الطالب
+
+                                            </td>
+                                            <td style="width: 34%;font-size: small;">
+
+                                                التقييم
+
+                                            </td>
+
+                                            <td style="width: 16%;font-size: small;"></td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            @*<td>
+                                                    <div dx-select-box="FacultySelectBox"></div>
+                                                </td>
+                                                <td>
+                                                    <div dx-select-box="DegreeSelectBox"></div>
+                                                </td>*@
+                                            <td>
+                                                <div dx-select-box="StudentSelectBox"></div>
+                                            </td>
+                                            <td>
+                                                @*<div class="dx-btn-group">*@
+                                                @*  <div dx-button="btnShowEvaluationPopUp"></div>*@
+                                                <div dx-select-box="EvaluationSelectBox"></div>
+                                                @*</div>*@
+                                            </td>
+
+                                            <td>
+                                                @*<div dx-button="btnAddNewBand"></div>*@
+                                                <button data-placement="top" title="إضافة" ng-show="AddRowShow" ng-init="AddRowShow=true" class="btn_plus btn-success btn btn-sm" ng-click="AddUpdateActivityBand(false)">
+                                                    <i class="fa fa-plus"></i>
+                                                </button>
+                                                <button data-placement="top" title="حفظ التعديل" ng-show="UpdateRowShow" class="btn btn-warning btn-sm" ng-click="AddUpdateActivityBand(true)">
+                                                    <i class="fa fa-edit"></i>
+                                                </button>
+                                                <button data-placement="top" title="إلغاء التعديل" ng-show="CancelRowShow" ng-click="clearFields()" class="btn_plus btn btn-danger btn-sm">
+                                                    <i class="fa fa-close"></i>
+                                                </button>
+                                                @*<button data-placement="top" title="مسح المسودة" ng-show="clearFieldsShow" ng-init="clearFieldsShow=true" class="btn btn-danger btn-sm" ng-click="clearFields()">
+                                                        <i class="fa fa-eraser"></i>
+                                                    </button>*@
+                                            </td>
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+
+
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                            @*class="dx-tree-st dx-tree-st22"*@
+                            <div class="dx-tree-st dx-tree-st-custom" dx-data-grid="ActivityMenuBandsGrid" style="min-height:190px"></div>
+                        </div>
+
+
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                            @*<div class="col-md-6 col-sm-6 col-xs-12 text-right">
+                                    <div dx-button="IndexButtons.btnAddNew"></div>
+                                </div>*@
+
+                            <div class="col-md-6 col-sm-6 col-xs-12 text-right" style="padding-right: 0px;">
+                                @if (ViewBag.CreateActivityMenusWithPost == true)
+                                {
+
+                                    <div class="control-label">
+                                        <div dx-check-box="MainPopup.PostActivityMenuCheckBox"></div>
+                                        ترحيل قائمة المشاركة للاعتماد
+                                    </div>
+
+                                    @*<div class="btn-dark" dx-button="IndexButtons.btnAddWithPost"></div>*@
+                                }
+                            </div>
+                            <div class="text-left">
+
+                                <div dx-button="MainPopup.UploadFileBtn"></div>
+
+                                @if (ViewBag.CreateActivityMenu == true)
+                                {
+                                    <div dx-button="IndexButtons.btnAdd"></div>
+                                }
+                                @if (ViewBag.Search == true)
+                                {
+                                    @*<div dx-button="IndexButtons.btnSearch"></div>*@
+                                }
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+                @* الشاشة الخاصة رفع الملفات *@
+                <div dx-popup="MainPopup.UploadFilePopup">
+                    <div data-options="dxTemplate: { name : 'UploadFileContent' }">
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <div class="col-md-12">
+                                    <div class="row">
+
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                                            <div dx-file-uploader="FileUploadingOptions">
+                                            </div>
+
+                                            <div class="text-right" ng-if="MDL_UploadingFilesvalue.length > 0">
+                                                <h4>الملفات المختارة</h4>
+                                            </div>
+                                            <div ng-repeat="val in MDL_UploadingFilesvalue">
+                                                <div class="selected-item selected-item-ds text-right">
+                                                    <ul class="list-unstyled" dir="rtl">
+                                                        <li><span class="pull-right"> اسم الملف:</span><span>{{val.name}}</span></li>
+                                                        <li><span class="pull-right">حجم الملف:</span><span>{{val.size}}</span> bytes</li>
+                                                        <li><span class="pull-right">نوع الملف:</span><span>{{val.type}}</span></li>
+                                                    </ul>
+                                                    <a class="btn btn-danger" href="" ng-click="RemoveUploadingFile(val.$$hashKey)">
+                                                        حذف الملف <i class="fa fa-trash-o"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                                                <div class="table-responsive" ng-if="Paths.length > 0">
+                                                    <table class="table table-inverse table-striped table-coll table-bordered table-ds-3">
+                                                        <thead class="thead-inverse">
+                                                            <tr>
+                                                                <th>اسم الملف</th>
+                                                                <th>تحميل</th>
+                                                                <th>حذف</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr ng-repeat="path in Paths">
+                                                                <td>{{path.FileName}}</td>
+                                                                <td>
+                                                                    <a class="btn btn-info btn-sm" href="/AcademicActivities/DownloadActivityMasterAttachment?activityRequestMasterId={{path.ActivityRequestMaster_ID}}" target="_blank">
+                                                                        <i class="fa fa-download"></i>
+                                                                    </a>
+                                                                </td>
+                                                                <td>
+                                                                    <a class="btn btn-danger btn-sm" href="" ng-click="RemoveId(path.ID)">
+                                                                        <i class="fa fa-trash"></i>
+                                                                    </a>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                @* الشاشة التي تظهر بعد الحفظ أو التعديل *@
+                <div dx-popup="AlertPopup.Options">
+                    <div data-options="dxTemplate: { name:'AlertPopupContent' }">
+                        <br />
+                        <div class="alert alert-success" role="alert" style="color: #155724;background-color: #d4edda;border-color: #c3e6cb;">
+                            <h4 class="alert-heading mb-0">تمت العملية  بنجاح</h4>
+                        </div>
+
+                        <div class="col-lg-6 col-md-6 text-right">
+                            <div dx-button="AlertPopup.Buttons.btnAddNewMenu"></div>
+                            <div dx-button="AlertPopup.Buttons.btnSearch"></div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 text-left">
+                            <div dx-button="AlertPopup.Buttons.btnClose"></div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+
+    .panel-heading a {
+        display: block
+    }
+
+        .panel-heading a:before, .panel-heading a:before {
+            float: left;
+            width: 30px;
+            height: 30px;
+            border: 2px solid #7f8e95;
+            text-align: center;
+            line-height: 30px;
+            border-radius: 50%;
+            margin-top: -7px;
+            color: #7f8e95;
+        }
+
+        .panel-heading a:before {
+            font-family: 'Glyphicons Halflings';
+            content: "\e114";
+            transition: all 0.5s;
+        }
+
+        .panel-heading a.collapsed:before {
+            -webkit-transform: rotate(180deg);
+            -moz-transform: rotate(180deg);
+            transform: rotate(180deg);
+        }
+</style>

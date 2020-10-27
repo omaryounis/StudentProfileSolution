@@ -1,0 +1,616 @@
+﻿@model StudentProfile.DAL.Models.TravelOrders
+@{
+    ViewBag.Title = "امر اركاب حكومي ";
+    Layout = "~/Views/Shared/_DevextremeLayout.cshtml";
+}
+
+@if (Model != null)
+{
+    <div class="container-fluid container-fullw">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel bg-white">
+                    <div class="breadcrumb-wrapper text-right">
+                        <h4 class="no-margin"> امر اركاب حكومي </h4>
+                    </div>
+                    <div class="panel-body">
+                        <a href="#" class="btn btn-success" id="btnPrint">طباعة</a>
+                        <div id="dvContents">
+                            <div class="riding-order col-md-12 col-sm-12 col-xs-12">
+                                <div class="border-1">
+                                    <div class="border-bottom">
+                                        <div class="col-md-12 col-sm-12 col-xs-12 text-center">
+                                            <h3 style="font-size: 26px;"> امر اركاب حكومي </h3>
+                                        </div>
+                                        <div class="col-md-8 col-sm-8 col-xs-8">
+                                            <h4 class="pull-right text-center"><span style="display:block;margin-bottom:10px;font-weight:bold">المملكة العربية السعودية</span> <span style="display:block;font-weight:bold">الجامعة الاسلامية بالمدينة المنورة</span>  </h4>
+                                        </div>
+                                        <div class="col-md-4 col-sm-4 col-xs-4 text-right">
+                                            <div class="row form-inline">
+                                                <div class="form-group">
+                                                    <label>الرقم : </label>
+                                                    <input type="text" class="form-control" value="@Model.TripNumber" readonly />
+                                                </div>
+                                            </div>
+                                            <div class="row form-inline">
+                                                <div class="form-group">
+                                                    <label>التاريخ : </label>
+                                                    <input type="text" class="form-control" value="@Model.CreationDate.Value.ToString("dd/MM/yyyy")" readonly />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="border-bottom">
+
+                                        <div class="col-md-4 col-sm-4 col-xs-4 " style=" margin-top: 5px;">
+                                            <div class="form-inline" style=" margin-bottom: 0;">
+                                                <label>الاسم : </label>
+                                                <input type="text" class="form-control" value="حسب المرفقات" readonly />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-8 col-sm-8 col-xs-8 text-left" style=" margin-top: 5px;">
+                                            <label> رقم الحساب : 631030 </label>
+                                        </div>
+                                        @*<div class="col-md-4 col-sm-4 col-xs-4 ">
+                        <div class="form-inline">
+                            <div class="form-group">
+                                <label>الوظيفة : </label>
+                                <input type="text" class="form-control" />
+                            </div>
+                        </div>
+                    </div>*@
+                                        @*<div class="col-md-4 col-sm-4 col-xs-4 ">
+                        <div class="form-inline">
+                            <div class="form-group">
+                                <label>المرتبة : </label>
+                                <input type="text" class="form-control" />
+                            </div>
+                        </div>
+                    </div>*@
+
+                                        <div class="clearfix"></div>
+
+                                        @*<div class="col-md-3 col-sm-3 col-xs-3 ">
+                        <div class="form-inline">
+                            <div class="form-group">
+                                <label>استنادا الي : </label>
+                                <input type="text" class="form-control" />
+                            </div>
+                        </div>
+                    </div>*@
+
+                                        @*<div class="col-md-3 col-sm-3 col-xs-3 ">
+                        <div class="form-inline">
+                            <div class="form-group">
+                                <label>رقم : </label>
+                                <input type="text" class="form-control" />
+                            </div>
+                        </div>
+                    </div>*@
+                                        @*<div class="col-md-3 col-sm-3 col-xs-3 ">
+                        <div class="form-inline">
+                            <div class="form-group">
+                                <label>تاريخ : </label>
+                                <input type="text" class="form-control" />
+                            </div>
+                        </div>
+                    </div>*@
+                                        @*<div class="col-md-3 col-sm-3 col-xs-3 ">
+                        <div class="form-inline">
+                            <div class="form-group">
+                                <label>موقع من : </label>
+                                <input type="text" class="form-control" />
+                            </div>
+                        </div>
+                    </div>*@
+                                    </div>
+
+                                    <div class="border-bottom">
+
+
+
+                                        @*<div class="col-md-4 col-sm-4 col-xs-4 text-right">
+                        <div class="form-inline">
+                            <div class="form-group">
+                                <label>لأداء مهمة رسمية هي   : </label>
+                                <input type="text" class="form-control" />
+                            </div>
+                        </div>
+                    </div>*@
+                                        @*<div class="col-md-12 col-sm-12 col-xs-12 text-right">
+                        <div class="form-inline">
+                            <div class="form-group">
+                                <label>وقت تم انتدابه بناء علي امر   : </label>
+                                <input type="text" class="form-control" />
+                            </div>
+                        </div>
+                    </div>*@
+
+                                        <div class="col-md-12 col-sm-12 col-xs-12 text-right" style=" margin-top: 5px;">
+                                            <div class="form-inline">
+                                                <div class="form-group">
+                                                    <label>أن الطالب (الطلاب) المذكور (ين) يستحق نظاما اركابا بالطائره بناء على : </label>
+                                                    @*<input type="text" class="form-control" value="الفقرة هـ من المادة 42 من اللائحة المالية" readonly />*@
+                                                    <label>@Model.StudentsTravelOrder.FirstOrDefault().StTravelRequest.TravelAdvertisement.Notes</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 col-sm-4 col-xs-4 text-right">
+                                            <div class="form-inline">
+                                                <div class="form-group">
+                                                    <label>الاسم   : </label>
+                                                    <input type="text" class="form-control" readonly value="@Model.TravelOrderDetails.Where(x => x.PhasesUsers.TravelOrderPhase.Order == 1).Select(x => x.PhasesUsers.DashBoard_Users.Name).FirstOrDefault().ToString()" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 col-sm-4 col-xs-4 text-right">
+                                            <div class="form-inline">
+                                                <div class="form-group">
+                                                    <label>الوظيفة   : </label>
+                                                    <label class="label-control">رئيس قسم التذاكر</label>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-sm-4 col-xs-4 text-right">
+                                            <div class="form-inline">
+                                                <div class="form-group">
+                                                    <label class="col-md-4 col-sm-4 col-xs-4">التوقيع   : </label>
+                                                    @{
+                                                        string signature = Model.TravelOrderDetails.Where(x => x.PhasesUsers.TravelOrderPhase.Order == 1).Select(x => x.PhasesUsers.Signature).FirstOrDefault().ToString();
+                                                        string empid = Model.TravelOrderDetails.Where(x => x.PhasesUsers.TravelOrderPhase.Order == 1).Select(x => x.PhasesUsers.UserID).FirstOrDefault().ToString();
+                                                    }
+                                                    <div class="col-md-8 col-sm-8 col-xs-8">
+                                                        <img src="~/Content/UserFiles/@empid/المستندات/@signature" style="margin-top:-20px" class="img-responsive" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="clearfix"></div>
+
+                                    <div class="border-bottom">
+
+                                        <div class="col-md-4 col-sm-4 col-xs-4 text-right" style=" margin-top: 5px;">
+                                            <div class="form-inline">
+                                                <div class="form-group">
+                                                    <label>قيمة التذكرة  : </label>
+                                                    <input type="text" class="form-control" value="@Model.StudentsTravelOrder.Sum(x => x.ApprovedAmount).ToString().TrimStart('.').ToString()" readonly />
+
+                                                    <label>ريال</label>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-7 col-sm-7 col-xs-7 text-right">
+                                            <div class="form-inline">
+                                                <div class="form-group">
+                                                    <label>كتابة : </label>
+                                                    <input type="text" class="form-control" value="@ViewData["WrittenAmount"]" readonly />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        @if (ViewBag.PhaseOne == true)
+                                        {
+                                            <div>
+
+                                                @{
+                                                    var tiarAccount = Model.TravelOrderDetails.Where(x => x.PhasesUsers.TravelOrderPhase.Order == 2).Select(x => x.PhasesUsers).FirstOrDefault();
+                                                    string tiarName = tiarAccount != null ? tiarAccount.DashBoard_Users.Name : "";
+                                                }
+                                                <div class="border-bottom">
+                                                    <div class="col-md-12 col-sm-12 col-xs-12 text-center">
+                                                        <h3 style="margin-bottom:30px;">مسئول مكتب مبيعات السعودية</h3>
+                                                    </div>
+                                                    <div class="col-md-4 col-sm-4 col-xs-4 text-right">
+                                                        <div class="form-inline">
+                                                            <div class="form-group">
+                                                                <label> الاسم : </label>
+                                                                <input type="text" class="form-control" value="@tiarName" readonly />
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4 col-sm-4 col-xs-4 text-right">
+                                                        <div class="form-inline">
+                                                            <div class="form-group">
+                                                                <label class="col-md-5 col-sm-5 col-xs-5">الختم الرسمي : </label>
+                                                                <div class="col-md-7 col-sm-7 col-xs-7">
+                                                                    <img src="~/Content/UserFiles/@tiarAccount.UserID/المستندات/@tiarAccount.Stamp1" style="margin-top:-20px;" class="img-responsive" />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-4 col-sm-4 col-xs-4 text-right">
+                                                        <div class="form-inline">
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 col-sm-4 col-xs-4">التوقيع   : </label>
+                                                                <div class="col-md-8 col-sm-8 col-xs-8">
+                                                                    <img src="~/Content/UserFiles/@tiarAccount.UserID/المستندات/@tiarAccount.Signature" style="margin-top:-25px;" class="img-responsive" />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                @{
+                                                    var financialAccount = Model.TravelOrderDetails.Where(x => x.PhasesUsers.TravelOrderPhase.Order == 3).Select(x => x.PhasesUsers).FirstOrDefault();
+                                                    string financialName = financialAccount != null ? financialAccount.DashBoard_Users.Name : "";
+
+                                                }
+
+
+
+                                                <div class="border-bottom">
+
+                                                    <div class="col-md-12 col-sm-12 col-xs-12 text-right" style=" margin-top: 5px;">
+                                                        <div class="form-inline">
+                                                            <div class="form-group">
+                                                                <h5>ان الاعتماد الذي ستدفع منه تذكرة الاركاب الصادر بها هذا الامر يتسع لدفع قيمتها للخطوط السعودية فور المطالبة بها وعلي هذا اوقع .</h5>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12 col-sm-12 col-xs-12 text-center">
+                                                        <h3 style="margin-bottom:30px;">الموظف المسئول عن الارتباطات</h3>
+                                                    </div>
+
+                                                    <div class="col-md-4 col-sm-4 col-xs-4 text-right">
+                                                        <div class="form-inline">
+                                                            <div class="form-group">
+                                                                <label> الاسم : </label>
+                                                                <input type="text" class="form-control" value="@financialName" readonly />
+                                                            </div>
+
+                                                        </div>
+
+                                                    </div>
+
+                                                    <div class="col-md-4 col-sm-4 col-xs-4 text-right">
+                                                        <div class="form-inline">
+                                                            <div class="form-group">
+                                                                <label> رقم الارتباط : </label>
+                                                                <input type="text" class="form-control" value="@Model.AgentRefNumber" readonly />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4 col-sm-4 col-xs-4 text-right">
+                                                        <div class="form-inline">
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 col-sm-4 col-xs-4">التوقيع   : </label>
+                                                                <div class="col-md-8 col-sm-8 col-xs-8">
+                                                                    <img src="~/Content/UserFiles/@financialAccount.UserID/المستندات/@financialAccount.Signature" style="margin-top:-25px;" class="img-responsive" />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="clearfix"></div>
+                                                    <div class="col-md-4 col-sm-4 col-xs-4 text-right">
+                                                    </div>
+                                                    <div class="col-md-4 col-sm-4 col-xs-4 text-right">
+                                                        <div class="form-inline">
+                                                            <div class="form-group">
+                                                                <label> تاريخ الاعتماد المالي : </label>
+                                                                <input type="text" class="form-control"
+                                                                       value="@Model.TravelOrderDetails.FirstOrDefault(x => x.PhasesUsers.TravelOrderPhase.Order == 3).Date.ToShortDateString()" readonly />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                @{
+                                                    var managerAccount = Model.TravelOrderDetails.Where(x => x.PhasesUsers.TravelOrderPhase.Order == 4).Select(x => x.PhasesUsers).FirstOrDefault();
+                                                    string managerName = managerAccount != null ? managerAccount.DashBoard_Users.Name : "";
+                                                }
+                                                <div class="border-bottom">
+
+                                                    <div class="col-md-12 col-sm-12 col-xs-12 text-center" style=" margin-top: 5px;">
+                                                        <h3 style="margin-bottom:15px;">مدير إدارة السفر</h3>
+                                                    </div>
+
+                                                    <div class="col-md-4 col-sm-4 col-xs-4 text-right">
+                                                        <div class="form-inline">
+                                                            <div class="form-group">
+                                                                <label> الاسم : </label>
+                                                                <input type="text" class="form-control" value="@managerName" readonly />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="clearfix"></div>
+                                                    <div class="col-md-4 col-sm-4 col-xs-4 text-right">
+                                                        <div class="form-inline">
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 col-sm-4 col-xs-4">التوقيع   : </label>
+                                                                <div class="col-md-8 col-sm-8 col-xs-8">
+                                                                    <img src="~/Content/UserFiles/@managerAccount.UserID/المستندات/@managerAccount.Signature" style="margin-top:-10px;" class="img-responsive" />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4 col-sm-4 col-xs-4 text-right">
+                                                        <div class="form-inline">
+                                                            <div class="form-group">
+                                                                <label class="col-md-5 col-sm-5 col-xs-5"> الختم الاول : </label>
+                                                                <div class="col-md-7 col-sm-7 col-xs-7">
+                                                                    <img src="~/Content/UserFiles/@managerAccount.UserID/المستندات/@managerAccount.Stamp1" style="margin-top:-25px;" class="img-responsive" />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4 col-sm-4 col-xs-4 text-right">
+                                                        <div class="form-inline">
+                                                            <div class="form-group">
+                                                                <label class="col-md-5 col-sm-5 col-xs-5"> الختم التاني : </label>
+                                                                <div class="col-md-7 col-sm-7 col-xs-7">
+                                                                    <img src="~/Content/UserFiles/@managerAccount.UserID/المستندات/@managerAccount.Stamp2" style="margin-top:-25px;" class="img-responsive" />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                                    }
+                                                    else
+                                                    {
+                                            <div>
+                                                <div class="border-bottom">
+                                                    <div class="col-md-12 col-sm-12 col-xs-12 text-center">
+                                                        <h4>مسئول مكتب مبيعات السعودية</h4>
+                                                    </div>
+                                                    <div class="col-md-4 col-sm-4 col-xs-4 text-right">
+                                                        <div class="form-inline">
+                                                            <div class="form-group">
+                                                                <label>الختم الرسمي : </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4 col-sm-4 col-xs-4 text-right">
+                                                        <div class="form-inline">
+                                                            <div class="form-group">
+                                                                <label> الاسم : </label>
+                                                                <input type="text" class="form-control" value="" readonly />
+                                                            </div>
+
+                                                        </div>
+
+                                                    </div>
+
+                                                    <div class="col-md-4 col-sm-4 col-xs-4 text-right">
+                                                        <div class="form-inline">
+                                                            <div class="form-group">
+                                                                <label> التوقيع : </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+
+
+
+                                                <div class="border-bottom">
+
+                                                    <div class="col-md-12 col-sm-12 col-xs-12 text-right">
+                                                        <div class="form-inline">
+                                                            <div class="form-group">
+                                                                <h5>ان الاعتماد الذي ستدفع منه تذكرة الاركاب الصادر بها هذا الامر يتسع لدفع قيمتها للخطوط السعودية فور المطالبة بها وعلي هذا اوقع .</h5>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12 col-sm-12 col-xs-12 text-center">
+                                                        <h4>الموظف المسئول عن الارتباطات</h4>
+                                                    </div>
+
+                                                    <div class="col-md-4 col-sm-4 col-xs-4 text-right">
+                                                        <div class="form-inline">
+                                                            <div class="form-group">
+                                                                <label> الاسم : </label>
+                                                                <input type="text" class="form-control" value="" readonly />
+                                                            </div>
+
+                                                        </div>
+
+                                                    </div>
+
+                                                    <div class="col-md-4 col-sm-4 col-xs-4 text-right">
+                                                        <div class="form-inline">
+                                                            <div class="form-group">
+                                                                <label> رقم الارتباط : </label>
+                                                                <input type="text" class="form-control" value="" readonly />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4 col-sm-4 col-xs-4 text-right">
+                                                        <div class="form-inline">
+                                                            <div class="form-group">
+                                                                <label> التوقيع : </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4 col-sm-4 col-xs-4 text-right">
+                                                        <div class="form-inline">
+                                                            <div class="form-group">
+                                                                <label> تاريخ الاعتماد المالي : </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+
+                                                <div class="border-bottom">
+
+                                                    <div class="col-md-12 col-sm-12 col-xs-12 text-center">
+                                                        <h4>مدير إدارة السفر</h4>
+                                                    </div>
+
+                                                    <div class="col-md-4 col-sm-4 col-xs-4 text-right">
+                                                        <div class="form-inline">
+                                                            <div class="form-group">
+                                                                <label> الاسم : </label>
+                                                                <input type="text" class="form-control" value="" readonly />
+                                                            </div>
+
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="col-md-4 col-sm-4 col-xs-4 text-right">
+                                                        <div class="form-inline">
+                                                            <div class="form-group">
+                                                                <label> التوقيع : </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4 col-sm-4 col-xs-4 text-right">
+                                                        <div class="form-inline">
+                                                            <div class="form-group">
+                                                                <label> الختم الاول : </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4 col-sm-4 col-xs-4 text-right">
+                                                        <div class="form-inline">
+                                                            <div class="form-group">
+                                                                <label> الختم التاني : </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                                    }
+
+                                    </div>
+
+
+                                    <div class="clearfix"></div>
+
+                                    <div class="col-md-12 col-sm-12 col-xs-12">
+                                        <div class="col-md-6 col-sm-6 col-xs-6">
+                                            <p>
+                                                1 - علي الجهة المصدرة لهذا الأمر وكذلك المستفيد منه مراعاة التعليمات والتقيد بها بدقة
+                                            </p>
+                                        </div>
+                                        <div class="col-md-6 col-sm-6 col-xs-6">
+                                            <p>
+                                                2 -  يوضح في خانة الإركاب اذا كانت التذاكر ستصرف علي الدرجة الاولي /  السياحية المخفضة .
+                                            </p>
+                                        </div>
+                                        <div class="col-md-12 col-sm-12 col-xs-12">
+                                            <p>
+                                                3 -  يراعي توضيح العنوان الكامل والواضح بما في ذلك رقم الهاتف إن وجد للمستفيد من هذا الامر إذا كان مقيما خارج المملكة او منتدبا في مكان ما داخل المملكة حتي يسهل علي السعودية الاتصال به وإرسال التذكرة او التذاكر اليه في المكان الذي يوجد فيه  .
+                                            </p>
+                                        </div>
+                                        <div class="col-md-6 col-sm-6 col-xs-6">
+                                            <p>
+                                                4 - تشطب العبارة التي لا يتطلب الامر استعمالها في هذا النموذج .
+                                            </p>
+                                        </div>
+                                        <div class="col-md-6 col-sm-6 col-xs-6">
+                                            <p>
+                                                5 -  لا تحدد تذكرة السفر ولا تستنزل قيمتها بعد السنة الثالثة .
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    <div class="border-1">
+
+
+
+                                        <div class="col-md-6 col-sm-6 col-xs-6 text-right">
+                                            <div class="form-inline">
+                                                <div class="form-group">
+                                                    <label> خط السير : </label>
+                                                    <input type="text" class="form-control" value="@Model.TripPath" disabled />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3 col-sm-3 col-xs-3 text-right">
+                                            <div class="form-inline">
+                                                <div class="form-group">
+                                                    <label> الدرجة : </label>
+                                                    <input type="text" class="form-control" value="@ViewBag.Level" readonly />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3 col-sm-3 col-xs-3 text-right">
+                                            <div class="form-inline">
+                                                <div class="form-group">
+                                                    <label>
+                                                        <input type="checkbox" readonly  @(ViewBag.FlightsType != null && ViewBag.FlightsType == "O" ? "checked" : "" ) />
+                                                        ذهابا
+                                                    </label>
+                                                    <label>
+                                                        <input type="checkbox" readonly @(ViewBag.FlightsType != null && ViewBag.FlightsType == "R" ? "checked" : "" ) />
+                                                        مرجع
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 col-sm-12 col-xs-12 text-right">
+                                            @{Html.RenderAction("_TravelOrderStudentsPrint", new { id = Model.ID }); }
+                                        </div>
+                                        @*<div class="col-md-12 col-sm-12 col-xs-12 text-right">
+                        <div class="form-inline">
+                            <div class="form-group">
+                                <label> <strong>اعطي المرافقون حق الاركاب الحكومي استنادا الي  :</strong> </label>
+                                <input type="text" class="form-control" />
+                            </div>
+                        </div>
+                    </div>*@
+
+
+                                    </div>
+
+                                    <div class="clearfix"></div>
+
+
+
+                                </div>
+                            </div>
+                            <div  class="col-md-12 col-sm-12 col-xs-12">
+                                <p style="text-align:right">إلي مكتب مبيعات السعودية: </p>
+                                <p style="text-align:right">
+                                    .
+                                    نأمل إعتماد إصدار عدد (@(ViewBag.StudentsTravelOrder!=null?ViewBag.StudentsTravelOrder:0)) تذكرة /تذاكر وذلك للموضح إسمه / أسمائهم أعلاه علي  الدرجة وخط السير المذكور
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<style>
+    .img-responsive {
+        display: inline-block;
+    }
+</style>
+<script type="text/javascript">
+    $(function () {
+        $("#btnPrint").click(function () {
+    debugger;
+            var contents = $("#dvContents").html();
+            var frame1 = $('<iframe />');
+            frame1[0].name = "frame1";
+            frame1.css({ "position": "absolute", "top": "-1000000px" });
+            $("body").append(frame1);
+            var frameDoc = frame1[0].contentWindow ? frame1[0].contentWindow : frame1[0].contentDocument.document ? frame1[0].contentDocument.document : frame1[0].contentDocument;
+            frameDoc.document.open();
+            //Create a new HTML document.
+            frameDoc.document.write('<html><head><title>امر اركاب حكومي </title>');
+            frameDoc.document.write('</head><body>');
+            //Append the external CSS file.
+            frameDoc.document.write('<link href="../../assets/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet"><link href="../../assets/css/rtl.css" rel="stylesheet"><link href="../../assets/css/style.css" rel="stylesheet">');
+            //Append the DIV contents.
+            frameDoc.document.write(contents);
+            frameDoc.document.write('</body></html>');
+            frameDoc.document.close();
+            setTimeout(function () {
+                window.frames["frame1"].focus();
+                window.frames["frame1"].print();
+                frame1.remove();
+            }, 500);
+        });
+    });
+</script>
+

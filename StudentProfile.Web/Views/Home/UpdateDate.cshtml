@@ -1,0 +1,112 @@
+﻿@{
+    /**/
+
+    Layout = null;
+}
+<script type="text/javascript">
+    function UpdateDataBaseByAdmin() {
+
+        swal({
+            title: "تنبيه",
+            text: "هل  تريد تحديث بيانات الطلاب",
+            icon: "warning",
+            buttons: [
+                'إلغاء',
+                'موافقة'
+            ],
+            dangerMode: true,
+        }).then(function (isConfirm) {
+            if (isConfirm) {
+                $.post("/config/UpdateDataBaseByAdmin",
+                    function (data) {
+                        if (data.isValid == false) {
+                            swal("حدث خطأ", data.msg, "error");
+                        } else {
+                            debugger;
+                            DevExpress.ui.notify({
+                                message: data.msg,
+                                type: "success",
+                                displayTime: 3000,
+                                closeOnClick: true
+                            });
+                        }
+                    });
+            } else {
+            }
+        })
+    
+    }
+
+    function updateDataBase() {
+        debugger;
+        swal({
+            title: "تنبيه",
+            text: "هل  تريد تحديث بيانات الطلاب",
+            icon: "warning",
+            buttons: [
+                'إلغاء',
+                'موافقة'
+            ],
+            dangerMode: true,
+        }).then(function (isConfirm) {
+            if (isConfirm) {
+                $.post("/config/UpdateDataBase",
+                    function (data) {
+                        if (data.isValid == false) {
+                            swal("تنبيه", "                      " + data.msg, "warning");
+                        }
+                        else {
+                            debugger;
+                            DevExpress.ui.notify({
+                                message: data.msg,
+                                type: "success",
+                                displayTime: 3000,
+                                closeOnClick: true
+                            });
+                        }
+                    });
+            } else {
+            }
+        })
+    }
+</script>
+@if (ViewBag.CanUpdateData != false || ViewBag.CanUpdateData1!=false)
+{
+    <div class="panel bg-white update-ds">
+        <div class="col-md-6 col-sm-6 col-xs-6 text-right file-ds">
+            <h4 class="no-margin">E-Register تحديث بيانات الطلاب من</h4>
+        </div>
+        <div class="col-md-6 col-sm-6 col-xs-6 text-left file-ds">
+            @if (ViewBag.CanUpdateData != null)
+            {
+                if (ViewBag.CanUpdateData == true)
+                {
+                    <a class="btn btn-danger" href="javascript:;" onclick="updateDataBase()">تحديث البيانات <i class="fa fa-refresh"></i></a>
+
+                }
+            }
+            @if (ViewBag.CanUpdateData1 != null)
+            {
+                if (ViewBag.CanUpdateData1 == true)
+                {
+
+                    <a class="btn btn-danger" href="javascript:;" onclick="UpdateDataBaseByAdmin()">مدير تحديث البيانات<i class="fa fa-refresh"></i></a>
+
+                }
+            }
+        </div>
+    </div>
+}
+    <style>
+        .update-ds {
+            width: 100%;
+            float: right;
+            background: #4ca4df !important;
+            padding-top: 5px;
+            color: white;
+            margin-bottom: 0;
+            border-radius: 0;
+            border: none !important;
+            margin-right: 0;
+        }
+    </style>

@@ -1,0 +1,97 @@
+﻿
+@{
+    ViewBag.Title = "مسافر";
+    Layout = "~/Views/Shared/_DevextremeLayout.cshtml";
+}
+
+<script src="~/Scripts/Musafer/MusaferController.js"></script>
+<script src="~/Scripts/Musafer/MusaferService.js"></script>
+<div class="container-fluid container-fullw">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel bg-white">
+                <div class="breadcrumb-wrapper text-right">
+                    <h4 class="no-margin">مسافر </h4>
+                </div>
+                <div class="panel-body">
+                    <div id="MusaferContent" ng-controller="MusaferCtrl">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-sx-12 text-right">
+                            <div id="SendRequest">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">{{StData.STUDENT_NAME}}<h3/>
+                                </div>
+                                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 text-center" style="margin-bottom:15px">
+                                    <img style="width:190px;height:140px" class="img-thumbnail" src="{{StPassportImage}}"
+                                         alt="جواز السفر" />
+                                    <div class="clearfix"></div>
+                                </div>
+
+                                <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
+                                    <div class="row">
+                                        <div style="display:none" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                                            <div class="row">
+                                                <label class="col-lg-12 col-sm-12 col-xs-12 label-control">الغرض من السفر</label>
+                                                <div class="col-lg-12 col-sm-12 col-xs-12 ">
+                                                    <div class="required-ds" id="txtReson" dx-text-box="txtReson"
+                                                         dx-validator="validationRequired"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 form-group">
+                                            <label class="col-lg-12 col-sm-12 col-xs-12 label-control">خطوط السير</label>
+                                            <div class="col-lg-12 col-sm-12 col-xs-12 ">
+                                                <div dx-select-box="TransportaionTrackingSelectBox"
+                                                     dx-validator="validationRequired"></div>
+                                            </div>
+                                        </div>
+                                        <div style="display:none" class="col-lg-4 col-md-4 col-sm-12 col-xs-12 form-group">
+                                            <label class="col-lg-12 col-sm-12 col-xs-12 label-control">درجة السفر</label>
+                                            <div class="col-lg-12 col-sm-12 col-xs-12 ">
+                                                <div id="Levels" dx-select-box="LevelSelectBox"
+                                                     dx-validator="validationRequired"></div>
+                                            </div>
+                                        </div>
+                                        <div style="display:none" class="col-lg-4 col-md-4 col-sm-12 col-xs-12 form-group">
+                                            <div class="dx-field">
+                                                <label class="col-lg-12 col-sm-12 col-xs-12 label-control">طريقة الحجز</label>
+                                                <div class="col-lg-12 col-sm-12 col-xs-12 ">
+                                                    <label id="radioTravelWay" dx-radio-group="radioTravelWay"></label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="clearfix"></div>
+
+                                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 form-group">
+                                            <label class="col-lg-12 col-sm-12 col-xs-12 label-control">تاريخ الذهاب</label>
+                                            <div class="col-lg-12 col-sm-12 col-xs-12 ">
+                                                <div dx-date-box="dateBoxFrom" style="width:100%" dx-validator="validationRequired"></div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 form-group" ng-if="TravelWay == 'R'">
+
+                                            <label class="col-lg-12 col-sm-12 col-xs-12 label-control">تاريخ العودة</label>
+                                            <div class="col-lg-12 col-sm-12 col-xs-12 ">
+                                                <div  dx-date-box="dateBoxTo" style="width:100%"></div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                                            <div class="col-lg-12 col-sm-12 col-xs-12 text-left ">
+                                                <div id="btnSave" class="btn btn-success" dx-button="btnSave"></div>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

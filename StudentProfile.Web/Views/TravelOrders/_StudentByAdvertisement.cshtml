@@ -1,0 +1,136 @@
+﻿@using System.Web.UI.WebControls;
+
+
+@Html.DevExpress().GridView(settings =>
+{
+    settings.Name = "StudentByAdvertisement";
+    settings.KeyFieldName = "ID";
+    //settings.Theme = "Material";
+    settings.Width = Unit.Percentage(100);
+    settings.CallbackRouteValues = new { Action = "_GetStudentByAdvertisement", Controller = "TravelOrders" };
+    settings.SettingsExport.EnableClientSideExportAPI = true;
+    settings.SettingsExport.ExcelExportMode = DevExpress.Export.ExportType.WYSIWYG;
+    settings.Settings.ShowFilterRow = true;
+    settings.SettingsSearchPanel.Visible = true;
+    settings.Settings.ShowHeaderFilterButton = true;
+    settings.SettingsPager.Position = PagerPosition.Bottom;
+    settings.SettingsPager.FirstPageButton.Visible = true;
+    settings.SettingsPager.LastPageButton.Visible = true;
+    settings.SettingsPager.PageSizeItemSettings.Visible = true;
+    settings.SettingsPager.PageSizeItemSettings.Items = new string[] { "10", "20", "50" };
+    settings.Settings.VerticalScrollBarMode = ScrollBarMode.Visible;
+    settings.Settings.VerticalScrollableHeight = 350;
+    settings.SettingsLoadingPanel.Mode = GridViewLoadingPanelMode.Disabled;
+    settings.EnableCallbackAnimation = false;
+    settings.CommandColumn.Visible = false;
+    settings.Toolbars.Add(t =>
+    {
+        t.EnableAdaptivity = true;
+
+        t.Items.Add(GridViewToolbarCommand.ExportToPdf);
+        t.Items.Add(GridViewToolbarCommand.ExportToXls);
+        t.Items.Add(GridViewToolbarCommand.ExportToXlsx);
+        t.Items.Add(GridViewToolbarCommand.ExportToDocx);
+        t.Items.Add(GridViewToolbarCommand.ExportToRtf);
+        t.Items.Add(GridViewToolbarCommand.ExportToCsv);
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "اسم الطالب";
+        column.FieldName = "Student_Name";
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "رقم الهوية";
+        column.FieldName = "National_ID";
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "الرقم الجامعي";
+        column.FieldName = "Student_ID";
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "الجنسية";
+        column.FieldName = "NATIONALITY_DESC";
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "المستوي";
+        column.FieldName = "Level_Desc";
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "الكلية";
+        column.FieldName = "Faculty_Name";
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "اسم الاعلان";
+        column.FieldName = "AdName";
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "تاريخ المغادرة";
+        column.FieldName = "DepartingDate";
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "تاريخ العودة";
+        column.FieldName = "ReturningDate";
+    });
+
+}).Bind(Model).GetHtml()
+ 
+<style type="text/css" >
+    #StudentByAdvertisement .dxgvCSD::-webkit-scrollbar {
+        width: 2px;
+        height: 4px;
+    }
+
+    #StudentByAdvertisement .dxgvCSD::-webkit-scrollbar-button {
+        width: 0px;
+        height: 0px;
+    }
+
+    #StudentByAdvertisement .dxgvCSD::-webkit-scrollbar-thumb {
+        background: #e1e1e1; 
+        border-radius: 50px;
+    }
+
+        #StudentByAdvertisement .dxgvCSD::-webkit-scrollbar-thumb:hover {
+            background: #ffffff;
+        }
+
+        #StudentByAdvertisement .dxgvCSD::-webkit-scrollbar-thumb:active {
+            background: #000000;
+        }
+
+    #StudentByAdvertisement .dxgvCSD::-webkit-scrollbar-track {
+        background: #666666;
+        border: 0px none #ffffff;
+        border-radius: 40px;
+    }
+
+        #StudentByAdvertisement .dxgvCSD::-webkit-scrollbar-track:hover {
+            background: #666666;
+        }
+
+        #StudentByAdvertisement .dxgvCSD::-webkit-scrollbar-track:active {
+            background: #333333;
+        }
+
+    #StudentByAdvertisement .dxgvCSD::-webkit-scrollbar-corner {
+        background: transparent;
+    }
+</style> 
+

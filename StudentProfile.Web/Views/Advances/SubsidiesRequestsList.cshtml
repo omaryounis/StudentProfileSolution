@@ -1,0 +1,334 @@
+﻿@{
+    ViewBag.Title = "قائمة طلبات الإعانة";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script>
+    function FirstAcceptAdvance(id) {
+        swal({
+            title: 'تأكيد',
+            text: "هل تريد قبول طلب السلفة؟!",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'نعم',
+            cancelButtonText: 'لأ'
+        }).then((result) => {
+            if (result.value) {
+                $.ajax({
+                    url: '/Advances/FirstAccept',
+                    data: { id: id },
+                    success: function (data) {
+                        if (data == -1) {
+                            window.location.replace("/Login/Login");
+                        }
+                        if (data == 1) {
+                            swal({
+                                title: 'تأكيد',
+                                text: "تمت الموافقة على طلب الإعانة بنجاح",
+                                type: 'success',
+                                showCancelButton: false,
+                                okButtonColor: '#3085d6',
+
+                                okButtonColor: 'حسنا',
+
+                            });
+                            SubsidiesData.PerformCallback();
+                        }
+                        else {
+                            swal({
+                                title: 'تنبيه',
+                                text: "حدث خطأ أثناء الحفظ",
+                                type: 'warning',
+                                showCancelButton: false,
+                                okButtonColor: '#d33',
+                                okButtonColor: 'حسنا',
+                            });
+                        }
+                    },
+                    error: function (data) {
+                        swal({
+                            title: 'تنبيه',
+                            text: "حدث خطأ أثناء الحفظ",
+                            type: 'warning',
+                            showCancelButton: false,
+                            okButtonColor: '#d33',
+                            okButtonColor: 'حسنا',
+                        });
+                    }
+                })
+                //StudentsCustomFieldsGridView.DeleteItemByKey(id);
+            }
+        });
+    }
+    function SecondAcceptAdvance(id) {
+        swal({
+            title: 'تأكيد',
+            text: "هل تريد قبول طلب السلفة؟!",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'نعم',
+            cancelButtonText: 'لأ'
+        }).then((result) => {
+            if (result.value) {
+                $.ajax({
+                    url: '/Advances/SecondAccept',
+                    data: { id: id },
+                    success: function (data) {
+                        if (data == -1) {
+                            window.location.replace("/Login/Login");
+                        }
+                        if (data == 1) {
+                            swal({
+                                title: 'تأكيد',
+                                text: "تمت الموافقة على طلب الإعانة بنجاح",
+                                type: 'success',
+                                showCancelButton: false,
+                                okButtonColor: '#3085d6',
+
+                                okButtonColor: 'حسنا',
+
+                            });
+                            SubsidiesData.PerformCallback();
+                        }
+                        else {
+                            swal({
+                                title: 'تنبيه',
+                                text: "حدث خطأ أثناء الحفظ",
+                                type: 'warning',
+                                showCancelButton: false,
+                                okButtonColor: '#d33',
+                                okButtonColor: 'حسنا',
+                            });
+                        }
+                    },
+                    error: function (data) {
+                        swal({
+                            title: 'تنبيه',
+                            text: "حدث خطأ أثناء الحفظ",
+                            type: 'warning',
+                            showCancelButton: false,
+                            okButtonColor: '#d33',
+                            okButtonColor: 'حسنا',
+                        });
+                    }
+                })
+                //StudentsCustomFieldsGridView.DeleteItemByKey(id);
+            }
+        });
+    }
+    function AcceptAdvance(id)
+    {
+        swal({
+            title: 'تأكيد',
+            text: "هل تريد قبول طلب السلفة؟!",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'نعم',
+            cancelButtonText: 'لأ'
+        }).then((result) => {
+            if (result.value) {
+                $.ajax({
+                    url: '/Advances/AcceptSubsidy',
+                    data: { id: id },
+                    success: function (data) {
+                        if (data == -1) {
+                            window.location.replace("/Login/Login");
+                        }
+                        if (data == 1) {
+                            swal({
+                                title: 'تأكيد',
+                                text: "تمت الموافقة على طلب الإعانة بنجاح",
+                                type: 'success',
+                                showCancelButton: false,
+                                okButtonColor: '#3085d6',
+
+                                okButtonColor: 'حسنا',
+
+                            });
+                            SubsidiesData.PerformCallback();
+                        }
+                        else {
+                            swal({
+                                title: 'تنبيه',
+                                text: "حدث خطأ أثناء الحفظ",
+                                type: 'warning',
+                                showCancelButton: false,
+                                okButtonColor: '#d33',
+                                okButtonColor: 'حسنا',
+                            });
+                        }
+                    },
+                    error: function (data) {
+                        swal({
+                            title: 'تنبيه',
+                            text: "حدث خطأ أثناء الحفظ",
+                            type: 'warning',
+                            showCancelButton: false,
+                            okButtonColor: '#d33',
+                            okButtonColor: 'حسنا',
+                        });
+                    }
+                })
+                //StudentsCustomFieldsGridView.DeleteItemByKey(id);
+            }
+        });
+    }
+    function RefuseAdvance(id) {
+        swal({
+            title: 'تأكيد',
+            text: "هل تريد رفض طلب السلفة؟!",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'نعم',
+            cancelButtonText: 'لأ'
+        }).then((result) => {
+            if (result.value) {
+                if (result.value) {
+                    $.ajax({
+                        url: '/Advances/Refuse',
+                        data: { id: id },
+                        success: function (data)
+                        {
+                            if (data == -1) {
+                                window.location.replace("/Login/Login");
+                            }
+                            if (data == 1)
+                            {
+                                swal({
+                                    title: 'تأكيد',
+                                    text: "تم رفض طلب السلفة بنجاح",
+                                    type: 'success',
+                                    showCancelButton: false,
+                                    okButtonColor: '#3085d6',
+                                    okButtonColor: 'حسنا'
+                                });
+                                SubsidiesData.PerformCallback();
+                            }
+                            else
+                            {
+                                swal({
+                                    title: 'تنبيه',
+                                    text: "حدث خطأ أثناء الحفظ",
+                                    type: 'warning',
+                                    showCancelButton: false,
+                                    okButtonColor: '#d33',
+                                    okButtonColor: 'حسنا'
+                                });
+                            }
+                        },
+                        error: function (data)
+                        {
+                            swal({
+                                title: 'تنبيه',
+                                text: "حدث خطأ أثناء الحفظ",
+                                type: 'warning',
+                                showCancelButton: false,
+                                okButtonColor: '#d33',
+                                okButtonColor: 'حسنا',
+                            });
+                        }
+                    })
+
+                }
+            }
+        });
+    }
+
+    function PayAdvance(id) {
+        swal({
+            title: 'تأكيد',
+            text: "هل تريد صرف مبلغ الاعانة؟!",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'نعم',
+            cancelButtonText: 'لأ'
+        }).then((result) => {
+            if (result.value) {
+                $.ajax({
+                    url: '/Advances/PaySubsidy',
+                    data: { id: id },
+                    success: function (data) {
+                        if (data == -1) {
+                            window.location.replace("/Login/Login");
+                        }
+                        if (data == -2) {
+                            swal({
+                                title: 'تأكيد',
+                                text: "من فضلك تأكد من ربط نوع الاعانة بحساب عمليات",
+                                type: 'warning',
+                                showCancelButton: false,
+                                okButtonColor: '#3085d6',
+
+                                okButtonColor: 'حسنا',
+
+                            });
+                            SubsidiesData.PerformCallback();
+                        }
+                        if (data == 1) {
+                            swal({
+                                title: 'تأكيد',
+                                text: "تمت الموافقة على طلب الإعانة بنجاح",
+                                type: 'success',
+                                showCancelButton: false,
+                                okButtonColor: '#3085d6',
+
+                                okButtonColor: 'حسنا',
+
+                            });
+                            SubsidiesData.PerformCallback();
+                        }
+                        else {
+                            swal({
+                                title: 'تنبيه',
+                                text: "حدث خطأ أثناء الحفظ",
+                                type: 'warning',
+                                showCancelButton: false,
+                                okButtonColor: '#d33',
+                                okButtonColor: 'حسنا',
+                            });
+                        }
+                    },
+                    error: function (data) {
+                        swal({
+                            title: 'تنبيه',
+                            text: "حدث خطأ أثناء الحفظ",
+                            type: 'warning',
+                            showCancelButton: false,
+                            okButtonColor: '#d33',
+                            okButtonColor: 'حسنا',
+                        });
+                    }
+                })
+                //StudentsCustomFieldsGridView.DeleteItemByKey(id);
+            }
+        });
+    }
+</script>
+<div class="container-fluid container-fullw">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel bg-white">
+                <div class="breadcrumb-wrapper text-right">
+                    <h4 class="no-margin">قائمة طلبات الإعانة</h4>
+                </div>
+                @if (ViewBag.ConfigError == null)
+                {
+                    Html.RenderAction("_SubsidiesRequestsList");
+                }
+                else
+                {
+                    <div class="alert alert-danger">@ViewBag.ConfigError</div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,164 @@
+﻿@using System.Drawing
+@using System.Web.UI.WebControls
+@using StudentProfile.Web.Controllers
+
+@{
+    ViewBag.Title = "تقرير بالطلاب المسلمين";
+}
+
+
+<script type="text/javascript">
+    function CountryPopulationDocumentViewerBeforeExportRequest(s, e) {
+        e.customArgs["nationalitiesCheckListBox"] = nationalitiesCheckListBox.GetSelectedValues();
+        e.customArgs["statusType"] = StatusType.GetValue();
+    }
+
+    //multiselect Combobox
+    var textSeparator = ";";
+
+    function OnListBoxSelectionChanged(listBox, args) {
+        if (args.index === -1) {
+            args.isSelected ? listBox.SelectAll() : listBox.UnselectAll();
+        }
+        UpdateSelectAllItemState();
+        UpdateText();
+    }
+
+    function UpdateSelectAllItemState() {
+        IsAllSelected()
+            ? nationalitiesCheckListBox.SelectIndices([-1])
+            : nationalitiesCheckListBox.UnselectIndices([-1]);
+    }
+
+    function IsAllSelected() {
+        for (var i = 1; i < nationalitiesCheckListBox.GetItemCount(); i++)
+            if (!nationalitiesCheckListBox.GetItem(i).selected) {
+                return false;
+            }
+        return true;
+    }
+
+    function UpdateText() {
+        var selectedItems = nationalitiesCheckListBox.GetSelectedItems();
+        NationalitiesComboBox.SetText(GetSelectedItemsText(selectedItems));
+    }
+
+    function SynchronizeListBoxValues(dropDown, args) {
+        nationalitiesCheckListBox.UnselectAll();
+        var texts = dropDown.GetText().split(textSeparator);
+        var values = GetValuesByTexts(texts);
+        nationalitiesCheckListBox.SelectValues(values);
+        UpdateSelectAllItemState();
+        UpdateText(); // for remove non-existing texts
+    }
+
+    function GetSelectedItemsText(items) {
+        var texts = [];
+        for (var i = 0; i < items.length; i++)
+            if (items[i].index !== -1)
+                texts.push(items[i].text);
+        return texts.join(textSeparator);
+    }
+
+    function GetValuesByTexts(texts) {
+        var actualValues = [];
+        var item;
+        for (var i = 0; i < texts.length; i++) {
+            item = nationalitiesCheckListBox.FindItemByText(texts[i]);
+            if (item != null)
+                actualValues.push(item.value);
+        }
+        return actualValues;
+    }
+</script>
+
+<div class="container-fluid container-fullw">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel bg-white">
+                <div class="breadcrumb-wrapper text-right">
+                    <h4 class="no-margin">تقرير بالطلاب المسلمين</h4>
+                </div>
+                <div class="panel-body">
+                    @using (Ajax.BeginForm("CountryPopulationReportDesignerPartial", new AjaxOptions {UpdateTargetId = "CountryPopulationReportDesigner"}))
+                    {
+                        <div class="col-lg-3 col-lg-3 col-sm-12 col-xs-12">
+                            @Html.DevExpress().DropDownEdit(
+                                settings =>
+                                {
+                                    settings.Name = "NationalitiesComboBox";
+                                    settings.Properties.DropDownWindowStyle.BackColor = Color.FromArgb(0xEDEDED);
+                                    settings.Properties.NullText = "الجنسية";
+                                    settings.Properties.ClearButton.DisplayMode = ClearButtonDisplayMode.OnHover;
+                                    settings.Properties.ClientSideEvents.TextChanged = "SynchronizeListBoxValues";
+                                    settings.Properties.ClientSideEvents.DropDown = "SynchronizeListBoxValues";
+                                    settings.SetDropDownWindowTemplateContent(c =>
+                                    {
+                                        Html.DevExpress().ListBox(listBoxSettings =>
+                                        {
+                                            listBoxSettings.Name = "nationalitiesCheckListBox";
+                                            listBoxSettings.ControlStyle.Border.BorderWidth = 0;
+                                            listBoxSettings.ControlStyle.BorderBottom.BorderWidth = 1;
+                                            listBoxSettings.ControlStyle.BorderBottom.BorderColor = Color.FromArgb(0xDCDCDC);
+                                            listBoxSettings.Height = Unit.Pixel(200);
+                                            listBoxSettings.Width = Unit.Percentage(100);
+                                            listBoxSettings.Properties.SelectionMode = ListEditSelectionMode.CheckColumn;
+                                            listBoxSettings.Properties.EnableSelectAll = true;
+                                            //listBoxSettings.Properties.DataSource = ReportsController.GetNationalities();
+                                            listBoxSettings.Properties.SelectAllText = "اختيار الكل";
+                                            listBoxSettings.Properties.ValueField = "Value";
+                                            listBoxSettings.Properties.ValueType = typeof(int);
+                                            listBoxSettings.Properties.TextField = "Text";
+                                            listBoxSettings.Properties.ClientSideEvents.SelectedIndexChanged = "OnListBoxSelectionChanged";
+                                        }).BindList(ReportsController.GetNationalities()).Render();
+                                        ViewContext.Writer.Write("<div style=\"margin: 6px; overflow: hidden;\">");
+                                        @Html.DevExpress().Button(
+                                            buttonSettings =>
+                                            {
+                                                buttonSettings.Name = "buttonClose";
+                                                buttonSettings.Text = "اغلاق";
+                                                buttonSettings.Style.Add("float", "right");
+                                                buttonSettings.ClientSideEvents.Click = "function(s, e){ NationalitiesComboBox.HideDropDown(); }";
+                                                buttonSettings.Height = 26;
+                                            }).Render();
+                                        ViewContext.Writer.Write("</div>");
+                                    });
+                                }).GetHtml()
+                        </div>
+                        <div class="col-lg-3 col-lg-3 col-sm-12 col-xs-12">
+                            @Html.DevExpress().ComboBox(
+                                settings =>
+                                {
+                                    settings.Name = "StatusType";
+                                    settings.Properties.NullText = "الحالة";
+                                    settings.Properties.ClearButton.DisplayMode = ClearButtonDisplayMode.OnHover;
+                                    settings.Properties.ValueField = "Value";
+                                    settings.Properties.TextField = "Text";
+                                }).BindList(ReportsController.GetStatus()).GetHtml()
+                        </div>
+                        <div class="form-group col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                            <div class="pull-left">
+                                @Html.DevExpress().Button(settings =>
+                                {
+                                    settings.Name = "btnSearch";
+                                    settings.ControlStyle.CssClass = "btn btn-primary";
+                                    settings.Text = "بحث";
+                                    settings.Images.Image.IconID = IconID.ActionsSearch16x16devav;
+                                    settings.UseSubmitBehavior = true;
+                                }).GetHtml()
+                            </div>
+                        </div>
+                        <div class="row">
+                            <br/>
+                            <br/>
+                            <br/>
+                            <div class="dx-clearfix"></div>
+                            <div id="CountryPopulationReportDesigner">
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

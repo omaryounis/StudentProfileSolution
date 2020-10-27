@@ -1,0 +1,57 @@
+﻿@Html.DevExpress().GridLookup(
+                                setting =>
+                                {
+                                    setting.Properties.Caption = "";
+                                    setting.GridViewProperties.CallbackRouteValues = new { Controller = "Students", Action = "_NationalitiesSearch" };
+                                    setting.Name = "nationality";
+                                    setting.KeyFieldName = "Value";
+                                    setting.CommandColumn.Visible = true;
+                                    setting.CommandColumn.Width = 20;
+                                    setting.CommandColumn.ShowSelectCheckbox = true;
+                                    setting.Columns.Add(c =>
+                                    {
+                                        c.FieldName = "Text";
+                                        c.Caption = "اختر";
+                                        c.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+                                        c.Settings.FilterMode = ColumnFilterMode.DisplayText;
+                                        //c.Width=
+                                    });
+
+
+                                    setting.Properties.SelectionMode = DevExpress.Web.GridLookupSelectionMode.Multiple;
+                                    setting.Properties.TextFormatString = "{0}";
+                                    setting.Properties.MultiTextSeparator = ", ";
+                                    setting.Properties.Width = 250;
+                                    setting.Properties.HelpText = "";
+                                    setting.GridViewProperties.Settings.ShowFilterRow = true;
+                                    setting.Properties.SelectionMode = GridLookupSelectionMode.Multiple;
+                                    setting.CommandColumn.Visible = true;
+                                    setting.CommandColumn.ShowSelectCheckbox = true;
+                                    setting.CommandColumn.SelectAllCheckboxMode = GridViewSelectAllCheckBoxMode.AllPages;
+                                    setting.GridViewProperties.Settings.ShowStatusBar = GridViewStatusBarMode.Visible;
+                                    setting.GridViewProperties.SettingsPager.EnableAdaptivity = true;
+                                    setting.Properties.IncrementalFilteringMode = IncrementalFilteringMode.Contains;
+                                    setting.GridViewProperties.SettingsPager.Visible = false;
+                                    setting.GridViewProperties.SettingsPager.PageSize = 5;
+                                    setting.GridViewProperties.Settings.VerticalScrollBarStyle = GridViewVerticalScrollBarStyle.VirtualSmooth;
+                                    setting.GridViewProperties.SetStatusBarTemplateContent(c =>
+                                    {
+                                        ViewContext.Writer.Write("<div style=\"padding: 2px 8px 2px 0; float: right\">");
+
+                                        Html.DevExpress().Button(btnSettings =>
+                                        {
+                                            btnSettings.Name = "NbtnClose";
+                                            btnSettings.UseSubmitBehavior = false;
+                                            btnSettings.Text = "Close";
+                                            btnSettings.ClientSideEvents.Click = "CloseNationality";
+                                        }).Render();
+                                        ViewContext.Writer.Write("</div>");
+                                    });
+
+                                    setting.DataBound = (sender, e) =>
+                                    {
+                                        var gridLookup = (MVCxGridLookup)sender;
+                                        gridLookup.GridView.Width = 250;
+                                    };
+                                }).BindList(Model).GetHtml()
+

@@ -1,0 +1,20 @@
+﻿@model string
+@using DevExpress.XtraReports.Web.DocumentViewer.Ribbon;
+@using DevExpress.Web.ASPxThemes;
+
+
+@Html.DevExpress().DocumentViewer(settings =>
+{
+    settings.Name = "PrintDocRPT";
+    settings.CallbackRouteValues = new { Controller = "Advances", Action = "PaidDocsPrintDataSource" , DocMasterIds=Model };
+    settings.ExportRouteValues = new { Controller = "Advances", Action = "PaidDocsPrintDataSource", DocMasterIds= Model };
+    settings.Report = (PrintDocRPT)ViewData["Report"];
+    settings.ToolbarMode = DocumentViewerToolbarMode.Ribbon;
+
+    settings.SettingsReportViewer.UseIFrame = true;
+
+    settings.SettingsReportViewer.TableLayout = false;
+    settings.ClientSideEvents.BeforeExportRequest = "OnBeginCallback";
+    settings.ClientSideEvents.BeginCallback = "OnBeginCallback";
+    settings.ClientSideEvents.Init = "onDocumetnViewerInit";
+}).GetHtml()

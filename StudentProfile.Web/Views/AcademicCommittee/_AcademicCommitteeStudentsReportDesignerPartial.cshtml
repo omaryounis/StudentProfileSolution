@@ -1,0 +1,28 @@
+﻿@model  StudentProfile.Web.Reports.AcademicCommitteeStudentsRPT
+
+@*@Html.DevExpress().DocumentViewer(settings =>
+    {
+        settings.Name = "PrintAcademicCommitteeStudentsRepor";
+        settings.CallbackRouteValues = new { Controller = "AcademicCommittee", Action = "AcademicCommitteeStudentsReport" };
+        settings.ExportRouteValues = new { Controller = "AcademicCommittee", Action = "AcademicCommitteeStudentsReportExport" };
+        settings.Report = Model;
+        settings.ToolbarMode = DocumentViewerToolbarMode.Ribbon;
+        settings.SettingsReportViewer.UseIFrame = false;
+        settings.SettingsReportViewer.TableLayout = false;
+        settings.ClientSideEvents.BeforeExportRequest = "AcademicCommitteeStudentsReportExportRequest";
+        settings.ClientSideEvents.Init = "onDocumetnViewerInit";
+    }).GetHtml()*@
+@using DevExpress.Web.Mvc
+@using DevExpress.Web.Mvc.UI
+@Html.DevExpress().DocumentViewer(settings =>
+{
+    settings.Name = "AcademicCommitteeStudentsRPT";
+    settings.CallbackRouteValues = new { Controller = "AcademicCommittee", Action = "AcademicCommitteeStudentsReport" };
+    settings.ExportRouteValues = new { Controller = "AcademicCommittee", Action = "AcademicCommitteeStudentsReportExport" };
+    settings.Report = Model;
+    settings.ToolbarMode = DocumentViewerToolbarMode.Ribbon;
+    settings.SettingsReportViewer.UseIFrame = false;
+    settings.SettingsReportViewer.TableLayout = false;
+    settings.ClientSideEvents.BeforeExportRequest = "AcademicCommitteeStudentsReportExportRequest";
+    settings.ClientSideEvents.Init = "onDocumetnViewerInit";
+}).GetHtml()

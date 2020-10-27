@@ -1,0 +1,158 @@
+﻿
+@{
+    /**/
+
+    /**/
+
+    ViewBag.Title = "صرف الإعانات للطلاب";
+    Layout = "~/Views/Shared/_DevextremeLayout.cshtml";
+}
+<style>
+    fieldset {
+        border: none;
+        margin: 2px 0;
+        padding: 8px 0 5px 0;
+        border: 1px solid #33333329;
+        position: relative;
+        border-radius: 5px;
+        background: #e6e6e6;
+    }
+
+    .fieldset-dds {
+        line-height: 20px;
+    }
+</style>
+
+<script src="~/Scripts/AdvancePayment/AdvancePaymentService.js"></script>
+<script src="~/Scripts/AdvancePayment/PaySubsidyController.js"></script>
+@*<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>*@
+
+<div class="container-fluid container-fullw">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel bg-white">
+
+                <div class="panel-body">
+                    <div id="CalculationBonusContent" ng-controller="PaySubsidyCtrl">
+
+                        <div class="breadcrumb-wrapper text-right" style="padding-top: 0;">
+                            <div class="row">
+                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 text-right form-group">
+                                    <h4 class="no-margin">صرف الإعانات للطلاب</h4>
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                        <br />
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                                <label class="col-md-1 col-sm-12 col-xs-12  text-right control-label">الطالب</label>
+                                <div class="col-md-5 col-sm-12 col-xs-12 ">
+                                    <div dx-select-box="DDL_Students"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+
+
+                            <div class="col-lg-12 col-sm-12 col-xs-12" style="position:relative">
+                                <div id="List" class="col-lg-12 col-sm-12 col-xs-12">
+                                    <div class="dx-viewport dx-tree-st">
+                                        <div class="demo-container">
+                                            <div id="gridAdvanceRequests" class="dx-tree-st dx-tree-st22" dx-data-grid="gridAdvanceRequests" dx-item-alias="AdvanceRequests">
+                                                <div data-options="dxTemplate: {name: 'detail'}">
+                                                    <div>
+                                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 dx-tree-st22-in">
+                                                            <div class="master-detail-caption-st text-center">تفاصيل بمراحل اعتماد لهذا الطلب</div>
+                                                            <div dx-data-grid="gridDetailAdvanceApprovedPhases(AdvanceRequests.key)"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                            <label class="col-lg-12 col-sm-12 col-xs-12 control-label text-right"> <br / > </label>
+                            <div class="btn btn-success" dx-button="btnCash"> </div>
+                        </div>
+
+                        <div class="popup" dx-popup="PopupCash">
+                            <form ng-submit="SaveAdvances($event)">
+                                <div class="row">
+
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                                        <label class="col-lg-12 col-sm-12 col-xs-12 control-label">حساب الصرف</label>
+                                        <div class="col-lg-12 col-sm-12 col-xs-12 ">
+                                            <div dx-select-box="AccountsSelectBox" dx-validator="validationRequired"></div>
+                                        </div>
+                                    </div>
+
+                                    @*<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                        <label class="col-lg-12 col-sm-12 col-xs-12 control-label">ملاحظات</label>
+                        <div class="col-lg-12 col-sm-12 col-xs-12 ">
+                            <div class="required-ds" id="txtNots" dx-text-area="txtNots"></div>
+                        </div>
+                    </div>*@
+
+
+
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                                        <label class="col-lg-12 col-sm-12 col-xs-12 control-label">تاريخ الصرف</label>
+                                        <div class="col-lg-12 col-sm-12 col-xs-12 ">
+                                            <div dx-date-box="JournalentryDate" style="width:100%"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                                        <label class="col-lg-12 col-sm-12 col-xs-12 control-label">بيان السند</label>
+                                        <div class="col-lg-12 col-sm-12 col-xs-12 ">
+                                            <div class="required-ds" id="txtJournalentryDescription" dx-text-area="txtJournalentryDescription"></div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                                        <div class="col-lg-12 col-sm-12 col-xs-12 ">
+                                            <div class="required-ds" dx-check-box="JournalentryUncheck"></div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                                        <div class="col-lg-12 col-sm-12 col-xs-12 ">
+                                            <div class="required-ds" dx-check-box="Journalentrycheck"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                                        <label class="col-lg-12 col-sm-12 col-xs-12 control-label text-right"> <br / > </label>
+                                        <div class="btn btn-success" dx-button="btnSave"> </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div dx-popup="AlertPopupOptions">
+                            <div data-options="dxTemplate: { name:'AlertPopupContent' }">
+                                <br />
+                                <div class="alert alert-success" role="alert" style="color: #155724;background-color: #d4edda;border-color: #c3e6cb;">
+                                    <h4 class="alert-heading">{{message}}</h4>
+                                    <p>لعدد : {{studentCount}} طالب </p>
+                                </div>
+
+                                <div class="col-lg-6 col-md-6 text-right">
+                                    <div dx-button="btnPrintDoc"></div>
+                                    <div dx-button="btnHome"></div>
+                                </div>
+                                <div class="col-lg-6 col-md-6 text-left">
+                                    <div dx-button="btnClose"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

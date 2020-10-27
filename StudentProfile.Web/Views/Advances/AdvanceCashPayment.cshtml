@@ -1,0 +1,210 @@
+﻿
+@{
+    ViewBag.Title = "التحصيل النقدي للسلف";
+    Layout = "~/Views/Shared/_DevextremeLayout.cshtml";
+}
+
+<script src="~/Scripts/Advances/AdvanceCashPaymentController.js"></script>
+@*<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>*@
+
+
+<div class="container-fluid container-fullw" ng-controller="AdvanceCashPaymentCtrl">
+    <div class="col-md-12">
+        <div class="panel bg-white">
+            <div class="breadcrumb-wrapper text-right">
+                <h4 class="no-margin">التحصيل النقدي للسلف</h4>
+            </div>
+            <div class="panel-body">
+                <div class="dx-tree-st dx-tree-st22" dx-data-grid="PaidAdvancesRequestGrid" dx-item-alias="PaidAdvancesRequestItem">
+
+                    <div data-options="dxTemplate: { name : 'RemainAmountDetailContent' }">
+
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12  dx-tree-st22-in dx-tree-st22-in-yellow">
+
+                            <div class="master-detail-caption-st">تفاصيل المبالغ المتبقية</div>
+                            <div class="tb-dark" dx-data-grid="GetRemainAmountDetailGrid(PaidAdvancesRequestItem.key)">
+
+                                <div data-options="dxTemplate: { name : 'PaidAmountDetailGridContent' }">
+
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+                                        <div class="master-detail-caption-st">تفاصيل المبالغ المسددة</div>
+                                        <div dx-data-grid="GetPaidAmountDetailGrid(PaidAdvancesRequestItem.key)"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br />
+                <div class="clearfix"></div>
+                <div class="clearfix"></div>
+                <div class="form-group text-left col-lg-5 col-md-5 col-sm-12 col-xs-12 pull-left">
+                    <div dx-button="PayMultiAdvance.payMultiAdvancebuttonOptions"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="popup" dx-popup="PopupOptions">
+
+        <div data-options="dxTemplate: {name: 'PopupContent'}">
+
+            <form ng-submit="onFormSubmit($event)">
+                @Html.AntiForgeryToken()
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+                                <div dx-select-box="AdvancePaymentPopUp.PaymentCOAID" dx-validator="AdvancePaymentPopUp.ValidationRules.PaymentCOAID"></div>
+                            </div>
+                        </div>
+
+                        <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+                                <div dx-number-box="AdvancePaymentPopUp.PaymentValue"></div>
+                            </div>
+                        </div>
+
+                        <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+                                <div dx-date-box="AdvancePaymentPopUp.PaymentDate"></div>
+                            </div>
+                        </div>
+
+                        <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+                                <div dx-check-box="AdvancePaymentPopUp.PayAllRemain"></div>
+                            </div>
+                        </div>
+                        <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+                                <div dx-check-box="AdvancePaymentPopUp.IsNotPosted"></div>
+                            </div>
+                        </div>
+                        <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+                                <div dx-check-box="AdvancePaymentPopUp.IsPosted"></div>
+                            </div>
+                        </div>
+
+
+
+                        <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+                                <div dx-text-area="AdvancePaymentPopUp.JournalDesc"></div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+                            <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+                                <div dx-button="AdvancePaymentPopUp.SaveButton"></div>
+                                <div dx-button="AdvancePaymentPopUp.CancelButton"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+
+        </div>
+    </div>
+
+    <div dx-popup="AlertPopupOptions">
+        <div data-options="dxTemplate: { name:'AlertPopupContent' }">
+            <br />
+            <div class="alert alert-success" role="alert" style="color: #155724;background-color: #d4edda;border-color: #c3e6cb;">
+                <h4 class="alert-heading">{{message}}</h4>
+                <p>من عدد : {{studentCount}} طالب </p>
+            </div>
+
+            <div class="col-lg-6 col-md-6 text-right">
+                <div dx-button="btnPrintDoc"></div>
+                <div dx-button="btnHome"></div>
+            </div>
+            <div class="col-lg-6 col-md-6 text-left">
+                <div dx-button="btnClose"></div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<style>
+
+
+    .list-item-ds {
+        text-align: center;
+    }
+
+        .list-item-ds .dx-list-item {
+            width: 220px !important;
+            height: 140px;
+            border: 1px solid #ddd;
+            margin: 45px 15px;
+            display: inline-block !important
+        }
+
+            .list-item-ds .dx-list-item .dx-list-item-content {
+                display: block !important;
+                line-height: 28px;
+            }
+
+                .list-item-ds .dx-list-item .dx-list-item-content i {
+                    font-size: 32px;
+                    color: #757c7d;
+                    margin-top: 18px;
+                }
+
+            .list-item-ds .dx-list-item.dx-state-hover {
+                background: #0e70a0 !important;
+                color: #fff !important
+            }
+
+                .list-item-ds .dx-list-item.dx-state-hover .dx-list-item-content i, .list-item-ds .dx-list-item.dx-state-focused .dx-list-item-content i {
+                    color: #fff !important
+                }
+
+    td.dx-command-edit {
+        text-align: center !important
+    }
+
+    /*.popup.dx-popup-wrapper.dx-overlay-modal .dx-popup-title {
+        background: #ffffff;
+        color: #313131;
+    }
+
+        .popup.dx-popup-wrapper.dx-overlay-modal .dx-popup-title .dx-closebutton .dx-icon {
+            color: #313131;
+        }*/
+
+    /*.dx-overlay-content .dx-popup-content > .dx-template-wrapper {
+        border-style: dashed;
+    }*/
+    .dx-popup-title.dx-toolbar .dx-toolbar-label {
+        font-size: 22px !important;
+    }
+
+    .dx-popup-title.dx-toolbar {
+        padding: 12px 20px !important;
+    }
+
+    .dx-popup-title .dx-closebutton .dx-icon {
+        color: #0e70a0 !important;
+    }
+
+    .swal-text {
+        text-align: center;
+    }
+
+    .dx-popup-title {
+        border-bottom: 1px solid #0e70a052 !important;
+        background: #ffffff !important;
+        color: #0e70a0 !important;
+    }
+
+    td.dx-command-edit {
+        text-align: center !important
+    }
+</style>

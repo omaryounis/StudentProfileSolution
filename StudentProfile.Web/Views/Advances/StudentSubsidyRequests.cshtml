@@ -1,0 +1,213 @@
+﻿@{
+    ViewBag.Title = "طلب الإعانات";
+    Layout = "~/Views/Shared/_DevextremeLayout.cshtml";
+}
+<script src="~/Scripts/Advances/StudentSubsidyRequests.js"></script>
+@*<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>*@
+
+
+<div class="container-fluid container-fullw" ng-controller="StudentSubsidyRequestController">
+    <div class="col-lg-12 col-xs-12 col-sm-12 col-md-12">
+        <div class="col-lg-12 col-xs-12 col-sm-12 col-md-12">
+            <div class="panel bg-white">
+                <div class="panel-body list-item-ds">
+                    <div dx-list="MenuOptions"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="popup" dx-popup="PopupOptions">
+            <div data-options="dxTemplate: {name: 'Controls'}">
+
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="panel-body" style="padding-bottom: 0px;">
+                        <div class="alert alert-warning text-right" role="alert">
+                            <b> تنبيه : </b> بحد أقصى عشرة أيام لأعتماد وتحويل أورفض الطلب
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-body">
+
+                        <form ng-submit="onFormSubmit($event)">
+                            @Html.AntiForgeryToken()
+
+
+                            <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                @*<label class="control-label col-lg-4 col-sm-4 col-md-4 col-xs-4 text-right">نوع الإعانة</label>*@
+                                <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+                                    <div dx-select-box="Advance.AdvanceType" dx-validator="Advance.ValidationRules.AdvanceType"></div>
+                                </div>
+                            </div>
+
+                            <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                @*<label class="control-label col-lg-4 col-sm-4 col-md-4 col-xs-4 text-right">مبلغ الإعانة</label>*@
+                                <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+                                    <div dx-number-box="Advance.AdvanceValue" dx-validator="Advance.ValidationRules.AdvanceValue"></div>
+                                </div>
+                            </div>
+
+                            <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+                                    <div dx-text-area="Advance.AdvanceRequestNotes"></div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+                                <div dx-button="btnUploadOptions" class="btn-block"></div>
+                            </div>
+
+                            <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+                                <div dx-button="Advance.SaveButton" class="btn-block" hidden="hidden"></div>
+                            </div>
+
+                            <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+                                <div dx-button="Advance.SaveButton" class="btn-block"></div>
+                            </div>
+
+
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+            <div data-options="dxTemplate: {name: 'Grid'}">
+                <div dx-scroll-view="{
+                                                height: 400,
+                                                direction: 'both'
+                                            }">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="alert alert-warning text-right" role="alert">
+                            <b> تنبيه : </b> بحد أقصى عشرة أيام لأعتماد وتحويل أورفض الطلب
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="dx-tree-st dx-tree-st22" dx-data-grid="AdvanceRequestsGrid">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div dx-popup="UploadFilePopupOptions">
+        @* صفحة رفع الملفات *@
+        <div data-options="dxTemplate: { name : 'UploadFileContent' }">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="row">
+                        <span class="note">
+                            يجب إرفاق صورة بطاقة رقم الحساب (IBAN) المستلمة من البنك للطالب أو للوكيل وإرفاق صورة هوية الوكيل إذا كان الحساب البنكي للوكيل
+                        </span>
+                    </div>
+                </div>
+
+                <div class="panel-body">
+                    <div dx-file-uploader="FileUploadingOptions">
+                        <span class="note">Allowed file extensions: <span>.Pdf</span>.</span>
+                    </div>
+                    <div>
+                        <div class="text-right" ng-if="MDL_UploadingFilesvalue.length > 0">
+                            <h4>الملفات المختارة</h4>
+                        </div>
+                        <div ng-repeat="val in MDL_UploadingFilesvalue">
+                            <div class="selected-item selected-item-ds text-right">
+                                <ul class="list-unstyled" dir="rtl">
+                                    <li><span class="pull-right"> اسم الملف:</span> <span>{{val.name}}</span></li>
+                                    <li><span class="pull-right">حجم الملف:</span> <span>{{val.size}}</span> bytes</li>
+                                    <li><span class="pull-right">نوع الملف:</span>  <span>{{val.type}}</span></li>
+                                </ul>
+                                <a class="btn btn-danger" href="" ng-click="RemoveUploadingFile(val.$$hashKey)">
+                                    حذف الملف <i class="fa fa-trash-o"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<style>
+    .alert-warning {
+        color: #856404;
+        background-color: #fff3cd;
+        border-color: #ffeeba;
+    }
+
+    .list-item-ds {
+        text-align: center;
+    }
+
+        .list-item-ds .dx-list-item {
+            width: 220px !important;
+            height: 140px;
+            border: 1px solid #ddd;
+            margin: 45px 15px;
+            display: inline-block !important
+        }
+
+            .list-item-ds .dx-list-item .dx-list-item-content {
+                display: block !important;
+                line-height: 28px;
+            }
+
+                .list-item-ds .dx-list-item .dx-list-item-content i {
+                    font-size: 32px;
+                    color: #757c7d;
+                    margin-top: 18px;
+                }
+
+            .list-item-ds .dx-list-item.dx-state-hover {
+                background: #0e70a0 !important;
+                color: #fff !important
+            }
+
+                .list-item-ds .dx-list-item.dx-state-hover .dx-list-item-content i, .list-item-ds .dx-list-item.dx-state-focused .dx-list-item-content i {
+                    color: #fff !important
+                }
+
+    td.dx-command-edit {
+        text-align: center !important
+    }
+
+    /*.popup.dx-popup-wrapper.dx-overlay-modal .dx-popup-title {
+        background: #ffffff;
+        color: #313131;
+    }
+
+        .popup.dx-popup-wrapper.dx-overlay-modal .dx-popup-title .dx-closebutton .dx-icon {
+            color: #313131;
+        }*/
+
+    /*.dx-overlay-content .dx-popup-content > .dx-template-wrapper {
+        border-style: dashed;
+    }*/
+    .dx-popup-title.dx-toolbar .dx-toolbar-label {
+        font-size: 22px !important;
+    }
+
+    .dx-popup-title.dx-toolbar {
+        padding: 12px 20px !important;
+    }
+
+    .dx-popup-title .dx-closebutton .dx-icon {
+        color: #0e70a0 !important;
+    }
+
+    .swal-text {
+        text-align: center;
+    }
+
+    .dx-popup-title {
+        border-bottom: 1px solid #0e70a052 !important;
+        background: #ffffff !important;
+        color: #0e70a0 !important;
+    }
+
+    td.dx-command-edit {
+        text-align: center !important
+    }
+</style>

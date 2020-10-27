@@ -1,0 +1,50 @@
+﻿@model System.Data.DataTable
+@using System.Web.UI.WebControls;
+@if (ViewBag.ClinicDataRead != null)
+{
+    if (ViewBag.ClinicDataRead == true)
+    {
+        @Html.DevExpress().GridView(settings =>
+{
+    settings.Name = "ClinicData";
+    //settings.KeyFieldName = "ID";
+    settings.Styles.Table.CssClass = "dx-table-ds";
+    // settings.Theme= r.
+    settings.Width = Unit.Percentage(100);
+    //settings.Columns.Add("Treasuries.TreasuryName").Caption = "اسم الخزنة";
+    //settings.Columns.Add("DaftersDocuments.DocNum").Caption = "رقم الايصال";
+    //settings.Columns.Add(c =>
+    //{
+    //    c.FieldName = "Amount";
+    //    c.Caption = "المبلغ الكلي";
+    //    c.PropertiesEdit.DisplayFormatString = "N2";
+    //});
+    //settings.Columns.Add(c =>
+    //{
+    //    c.FieldName = "MovementDate";
+    //    c.Caption = "تاريخ الحركة";
+    //    c.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy";
+    //});
+    //settings.Columns.Add(c =>
+    //{
+    //    c.FieldName = "BCD.BCDArValue";
+    //    //c.PropertiesEdit.DisplayFormatString = "BCD.BCDArValue";
+    //    c.Caption = "نوع الحركة";
+    //    c.GroupIndex = 0;
+    //});
+    //settings.Columns.Add("BeneficiaryName").Caption = "اسم المستفيد";
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "تاريخ الزيارة";
+        column.FieldName = "HOS_PATIENT_VST_GDATE";
+        column.Width = Unit.Percentage(15);
+        column.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy";
+    });
+    settings.Columns.Add("HOS_CLINIC_TYPE_DESC").Caption = "التخصص";
+    settings.Columns.Add("HOS_CLINIC_DESC").Caption = "اسم الطبيب";
+    settings.SettingsLoadingPanel.Mode = GridViewLoadingPanelMode.Disabled;
+    settings.SettingsText.EmptyDataRow = "لا توجد بيانات";
+    settings.EnableCallbackAnimation = false;
+}).Bind(Model).GetHtml()
+        }
+}

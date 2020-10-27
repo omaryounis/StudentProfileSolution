@@ -1,0 +1,84 @@
+﻿
+@{
+    ViewBag.Title = "تهيئة خط السير";
+    Layout = "~/Views/Shared/_DevextremeLayout.cshtml";
+}
+<script src="~/Scripts/TravelAdvertisement/TransportationTrackingController.js"></script>
+<script src="~/Scripts/TravelAdvertisement/TransportationTrackingSrvc.js"></script>
+@*<script src="~/Scripts/sweetalert2.all.js"></script>*@
+<div class="container-fluid container-fullw" ng-controller="TransportationTrackingController">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel bg-white">
+                <div class="breadcrumb-wrapper text-right">
+                    <h4 class="no-margin"> تهيئة خط السير</h4>
+                </div>
+                <div class="panel-body text-right">
+                    <div class="form-group col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                        <label class="control-label col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            الجنسيه
+                        </label>
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div dx-select-box="selectBoxNationality">
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                        <label class="control-label col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            خط السير
+                        </label>
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div dx-text-box="txtTrackingName" style="width:100%" dx-validaton="TrackingNameValidationRules"></div>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                        <label class="control-label col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <br />
+                        </label>
+                        <label class="container-checkbox">
+                            إظهار للطالب
+                            <input type="checkbox" ng-click="ISActive()" ng-checked="checkBoxValue" id="chIsAC" />
+                            <span class="checkmark"></span>
+                        </label>
+                    </div>
+
+                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 form-group">
+                        <label class="col-lg-12 col-sm-12 col-xs-12 control-label text-right">طريقة الحجز</label>
+                        <div class="col-lg-12 col-sm-12 col-xs-12 ">
+                            <span id="radioFlightsType" dx-radio-group="radioFlightsType"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                        <label class="control-label col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <br />
+                        </label>
+                        <div dx-button="btnSaveOptions"></div>
+                    </div>
+                    <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="demo-container" dir="rtl">
+                            <div id="gridContainer" class="dx-tree-st" dx-data-grid="gridTransportationTracking">
+                            </div>
+                            <br />
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    <style>
+        .container-checkbox .checkmark {
+            position: absolute !important;
+            top: 6px !important;
+        }
+
+        .container-checkbox {
+            line-height: 37px !important;
+        }
+    </style>

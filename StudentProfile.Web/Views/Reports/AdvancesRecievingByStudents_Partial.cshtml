@@ -1,0 +1,15 @@
+﻿@model  AdvancesRecievingByStudentsReport
+
+@Html.DevExpress().DocumentViewer(settings =>
+{
+    settings.Name = "AdvancesRecievingByStudentsReport";
+    settings.CallbackRouteValues = new { Controller = "Reports", Action = "AdvancesRecievingByStudents_" };
+    settings.ExportRouteValues = new { Controller = "Reports", Action = "AdvancesRecievingByStudentsExport" };
+    settings.Report = Model;
+    settings.ToolbarMode = DocumentViewerToolbarMode.Ribbon;
+    settings.SettingsReportViewer.UseIFrame = false;
+    settings.SettingsReportViewer.TableLayout = false;
+    settings.ClientSideEvents.BeforeExportRequest = "AdvancesRecievingByStudentsReportExportRequest";
+    settings.ClientSideEvents.Init = "onDocumetnViewerInit";
+}).GetHtml()
+

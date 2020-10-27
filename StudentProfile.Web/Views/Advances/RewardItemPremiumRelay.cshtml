@@ -1,0 +1,127 @@
+﻿@{
+    ViewBag.Title = "ترحيل القيود المجمعة لحسم الصندوق من المسير";
+    Layout = "~/Views/Shared/_DevextremeLayout.cshtml";
+}
+<style>
+    .swal-text {
+        text-align: center;
+    }
+
+    .dx-popup-title {
+        border-bottom: 1px solid #0e70a052 !important;
+        background: #ffffff !important;
+        color: #0e70a0 !important;
+    }
+
+        .dx-popup-title.dx-toolbar .dx-toolbar-label {
+            font-size: 22px !important;
+        }
+
+        .dx-popup-title.dx-toolbar {
+            padding: 12px 20px !important;
+        }
+
+        .dx-popup-title .dx-closebutton .dx-icon {
+            color: #0e70a0 !important;
+        }
+
+    td.dx-command-edit {
+        text-align: center !important
+    }
+
+    fieldset {
+        border: none;
+        margin: 2px 0;
+        padding: 8px 0 5px 0;
+        border: 1px solid #33333329;
+        position: relative;
+        border-radius: 5px;
+        background: #e6e6e6;
+    }
+
+    .fieldset-dds {
+        line-height: 20px;
+    }
+</style>
+
+<script src="~/Scripts/RewardItemPremiumRelay/RewardItemPremiumRelayService.js"></script>
+<script src="~/Scripts/RewardItemPremiumRelay/RewardItemPremiumRelayController.js"></script>
+<div class="container-fluid container-fullw">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel bg-white">
+                <div class="breadcrumb-wrapper text-right">
+                    <h4 class="no-margin">ترحيل حسم الصندوق</h4>
+                </div>
+                <div class="panel-body">
+                    <div id="RewardItemPremiumRelays" ng-controller="RewardItemPremiumRelaysCtrl">
+                        <div class="row">
+                            <div class="col-lg-12 col-sm-12 col-xs-12" style="position:relative">
+                                <div id="List" class="col-lg-12 col-sm-12 col-xs-12">
+                                    <div class="dx-viewport dx-tree-st">
+                                        <div class="demo-container">
+                                            <div id="gridRewardItemPremiumRelays" class="dx-tree-st dx-tree-st22" dx-data-grid="gridRewardItemPremiumRelays" dx-item-alias="AdvancesPremium">
+                                                <div data-options="dxTemplate: {name: 'detail'}">
+                                                    <div>
+                                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 dx-tree-st22-in">
+                                                            <div class="master-detail-caption-st">نموذج القيد</div>
+                                                            <div dx-data-grid="gridRewardItemPremiumRelaysDetais(AdvancesPremium.key)"></div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                            <label class="col-lg-12 col-sm-12 col-xs-12 control-label text-right"> <br / > </label>
+                            <div class="btn btn-success" dx-button="btnConfirm"> </div>
+                        </div>
+                        <div class="popup" dx-popup="PopupRelays">
+                            <div class="row">
+                                <label class="col-lg-12 col-sm-12 col-xs-12 control-label text-right">سيتم ترحيل حسم الصندوق :  </label>
+                                <div class="clearfix"></div>
+                                <div id="gridConfirmDetais" class="dx-tree-st" dx-data-grid="gridConfirmDetais"></div>
+                            </div>
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group text-center">
+                                <label class="col-lg-12 col-sm-12 col-xs-12 control-label text-center"> <br / > </label>
+                                <div class="btn btn-success" dx-button="btnRelay"> </div>
+                            </div>
+                        </div>
+
+                        @* شاشة إدخال تاريخ الترحيل وتأكيد العملية *@
+                        <div dx-popup="PostJournal.Options">
+                            <div data-options="dxTemplate: { name:'PostedJournalPopupContent' }">
+
+                                <div class="panel panel-default">
+                                    <div class="panel-body" style="padding-left: 0px;padding-right: 0px;">
+                                        <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12 form-group">
+                                            <label class="col-md-4 col-sm-4 col-xs-12 text-right control-label">تاريخ ترحيل القيد</label>
+                                            <div class="col-md-8 col-sm-8 col-xs-12">
+                                                <div style="width:100%" dx-date-box="PostJournal.DB_PostJournalDate" dx-validator="PostJournal.ValidationRules.Required"></div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 form-group text-left">
+                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                <div dx-button="PostJournal.SaveButton"></div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

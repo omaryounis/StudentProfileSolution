@@ -1,0 +1,23 @@
+﻿@model List<StudentProfile.DAL.Models.V_SIS_VIOLATION_SINGLE>
+@using System.Web.UI.WebControls;
+@if (ViewBag.ViolationListDataRead != null)
+{
+    if (ViewBag.ViolationListDataRead == true)
+    {
+        @Html.DevExpress().GridView(settings =>
+   {
+       settings.Name = "ViolationList "+ Model.FirstOrDefault()?.STUDENT_ID;
+       settings.KeyFieldName = "STUDENT_ID";
+       settings.Styles.Table.CssClass = "dx-table-ds";
+       // settings.Theme= r.
+       settings.Width = Unit.Percentage(100);
+       settings.Columns.Add("VIOLATION_NO").Caption = "رقم المخالفة";
+       settings.Columns.Add("INCIDENT_DATE").Caption = "وصف المخالفة";
+       settings.Columns.Add("VIOLATION_DESC").Caption = "تاريخ المخالفة";
+
+       settings.SettingsLoadingPanel.Mode = GridViewLoadingPanelMode.Disabled;
+       settings.EnableCallbackAnimation = false;
+       settings.SettingsText.EmptyDataRow = "لا يوجد بيانات";
+   }).Bind(Model).GetHtml()
+    }
+}

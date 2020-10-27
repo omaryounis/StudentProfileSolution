@@ -1,0 +1,95 @@
+﻿@{
+    ViewBag.Title = "تقرير السلف التفصيلي";
+    Layout = "~/Views/Shared/_DevextremeLayout.cshtml";
+}
+
+<script src="~/Scripts/Reports/AdvancesReportsService.js"></script>
+<script src="~/Scripts/Reports/AdvancesReportsController.js"></script>
+<div class="container-fluid container-fullw">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel bg-white">
+                <div class="breadcrumb-wrapper text-right">
+                    <h4 class="no-margin">اعلانات السفر </h4>
+                </div>
+                <div class="panel-body">
+                    <div id="TravelAdvertisementContent" ng-controller="AdvancesReportsCtrl">
+                        <form id="form" class="row" ng-submit="GetAdvancesRecievingByStudents($event)">
+
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4form-group">
+                                <label class="col-lg-12 col-sm-12 col-xs-12 control-label">
+                                    الطلاب
+                                </label>
+                                <div class="col-lg-12 col-sm-12 col-xs-12 dd-ds">
+                                    <div class="form-control" id="Students" dx-tag-box="StudentsMultiTag">                                         
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4form-group">
+                                <label class="col-lg-12 col-sm-12 col-xs-12 control-label">بداية السلفة</label>
+                                <div class="col-lg-12 col-sm-12 col-xs-12 ">
+                                    <div dx-date-box="AdvanceStartDate" style="width:100%"></div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4form-group">
+                                <label class="col-lg-12 col-sm-12 col-xs-12 control-label">نهاية السلفة</label>
+                                <div class="col-lg-12 col-sm-12 col-xs-12 ">
+                                    <div dx-date-box="AdvanceEndDate" style="width:100%"></div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4form-group">
+                                <label class="col-lg-12 col-sm-12 col-xs-12 control-label">بداية السداد</label>
+                                <div class="col-lg-12 col-sm-12 col-xs-12 ">
+                                    <div dx-date-box="ReturnStartDate" style="width:100%"></div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4form-group">
+                                <label class="col-lg-12 col-sm-12 col-xs-12 control-label">نهاية السداد</label>
+                                <div class="col-lg-12 col-sm-12 col-xs-12 ">
+                                    <div dx-date-box="ReturnEndDate" style="width:100%"></div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4form-group">
+                                <label class="col-lg-12 col-sm-12 col-xs-12 control-label">
+
+                                    <br />
+
+                                </label>
+                                <div class="col-lg-12 col-sm-12 col-xs-12 ">
+                                    <div id="btnView" class="btn btn-success" dx-button="btnView"></div>
+                                </div>
+                            </div>
+                        </form>
+
+
+                        <div id="List" class="col-lg-12 col-sm-12 col-xs-12">
+                            <div class="dx-viewport dx-tree-st">
+                                <div class="dx-viewport dx-tree-st">
+                                    <div class="demo-container">
+                                        <div id="gridAdvances" dx-data-grid="gridAdvances"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .control-label {
+        text-align: right
+    }
+    .dx-button.btn-success {
+        color: #fff !important;
+    }
+</style>
+

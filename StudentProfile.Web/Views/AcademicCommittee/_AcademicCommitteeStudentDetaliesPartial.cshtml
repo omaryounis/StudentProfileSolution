@@ -1,0 +1,166 @@
+﻿<!--popup-->
+<div class="popup  popup-ddds" dx-popup="PopupDetails ">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+        <div id="btnExtraChances" dx-button="btnExtraChances"> </div>
+        <div id="btnTrans" dx-button="btnTrans"> </div>
+        <div id="btnWarn" dx-button="btnWarn"> </div>
+    </div>
+    <div ng-if="showchance==true">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-left">
+            <div id="btnPrintExtraChances" dx-button="btnPrintExtraChances" style="margin-top: -60px;"> </div>
+        </div>
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 dx-tree-st" style="margin-top: 0;">
+            <div id="DetailExtraChances">
+                <table id="TableDetailExtraChances" class="table table-bordered table-ds">
+                    <tr>
+                        <th>الفصل</th>
+                        <th>الفصل من</th>
+                        <th>الفصل الي</th>
+                        <th>سبب الفرصة</th>
+                    </tr>
+
+                    <tr ng-repeat="item in DetailExtraChancesList">
+                        <td>{{item.SEMESTER}}</td>
+                        <td>{{item.START_SEMESTER}}</td>
+                        <td>{{item.END_SEMESTER}}</td>
+                        <td>{{item.REASON_NAME}}</td>
+                    </tr>
+                </table>
+                <iframe id="Area" style="display:none"></iframe>
+            </div>
+        </div>
+    </div>
+
+    <div ng-if="showtrans==true">
+
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-left">
+            <div id="btnPrintTrans" dx-button="btnPrintTrans" style="margin-top: -60px;"> </div>
+        </div>
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 dx-tree-st">
+            <div id="DetailTrans">
+                <table id="TableDetailTrans" class="table table-bordered table-ds">
+                    <tr>
+                        <th>الفصل</th>
+                        <th>الفصل من</th>
+                        <th>الفصل الي</th>
+                        <th>وصف الحركة</th>
+                        <th>تاريخ الادخال</th>
+                        <th>السبب</th>
+                    </tr>
+
+                    <tr ng-repeat="item in DetailTransList">
+                        <td>{{item.SEMESTER}}</td>
+                        <td>{{item.START_SEMESTER}}</td>
+                        <td>{{item.END_SEMESTER}}</td>
+                        <td>{{item.TRANS_NAME}}</td>
+                        <td>{{item.ENTRY_DATE}}</td>
+                        <td>{{item.REASON_NAME}}</td>
+
+                    </tr>
+                </table>
+                <iframe id="Area" style="display:none"></iframe>
+            </div>
+        </div>
+    </div>
+
+    <div ng-if="showwarning==true">
+
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-left">
+            <div id="btnPrintWarning" dx-button="btnPrintWarning" style="margin-top: -60px;"> </div>
+        </div>
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 dx-tree-st">
+            <div id="DetailWarning">
+                <table id="TableDetailWarning" class="table table-bordered table-ds">
+                    <tr>
+                        <th>السبب</th>
+                        <th>التاريخ</th>
+                        <th>ملاحظات</th>
+                    </tr>
+                    <tr ng-repeat="item in DetailWarningList">
+                        <td>{{item.REASON}}</td>
+                        <td>{{item.ENTRY_DATE}}</td>
+                        <td>{{item.NOTE}}</td>
+                    </tr>
+                </table>
+                <iframe id="Area" style="display:none"></iframe>
+            </div>
+        </div>
+    </div>
+    <br /><br />
+</div>
+
+<div class="popup" dx-popup="PopupExtraChances ">
+    <div id="btnPrintExtraChances" dx-button="btnPrintExtraChances"> </div>
+    <br />
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 dx-tree-st">
+        <div id="DetailExtraChances">
+            <table id="TableDetailExtraChances" class="table table-bordered table-ds">
+                <tr>
+                    <th>الفصل</th>
+                    <th>الفصل من</th>
+                    <th>الفصل الي</th>
+                    <th>سبب الفرصة</th>
+                </tr>
+
+                <tr ng-repeat="item in DetailExtraChancesList">
+                    <td>{{item.SEMESTER}}</td>
+                    <td>{{item.START_SEMESTER}}</td>
+                    <td>{{item.END_SEMESTER}}</td>
+                    <td>{{item.REASON_NAME}}</td>
+                </tr>
+            </table>
+            <iframe id="Area" style="display:none"></iframe>
+        </div>
+    </div>
+</div>
+<div class="popup" dx-popup="PopupTrans ">
+    <div id="btnPrintTrans" dx-button="btnPrintTrans"> </div>
+    <br />
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 dx-tree-st">
+        <div id="DetailTrans">
+            <table id="TableDetailTrans" class="table table-bordered table-ds">
+                <tr>
+                    <th>الفصل</th>
+                    <th>الفصل من</th>
+                    <th>الفصل الي</th>
+                    <th>وصف الحركة</th>
+                    <th>تاريخ الادخال</th>
+                    <th>السبب</th>
+                </tr>
+
+                <tr ng-repeat="item in DetailTransList">
+                    <td>{{item.SEMESTER}}</td>
+                    <td>{{item.START_SEMESTER}}</td>
+                    <td>{{item.END_SEMESTER}}</td>
+                    <td>{{item.TRANS_NAME}}</td>
+                    <td>{{item.ENTRY_DATE}}</td>
+                    <td>{{item.REASON_NAME}}</td>
+
+                </tr>
+            </table>
+            <iframe id="Area" style="display:none"></iframe>
+        </div>
+    </div>
+</div>
+<div class="popup" dx-popup="PopupWarning ">
+    <div id="btnPrintWarning" dx-button="btnPrintWarning"> </div>
+    <br />
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 dx-tree-st">
+        <div id="DetailWarning">
+            <table id="TableDetailWarning" class="table table-bordered table-ds">
+                <tr>
+                    <th>السبب</th>
+                    <th>التاريخ</th>
+                    <th>ملاحظات</th>
+                </tr>
+                <tr ng-repeat="item in DetailWarningList">
+                    <td>{{item.REASON}}</td>
+                    <td>{{item.ENTRY_DATE}}</td>
+                    <td>{{item.NOTE}}</td>
+                </tr>
+            </table>
+            <iframe id="Area" style="display:none"></iframe>
+        </div>
+    </div>
+</div>

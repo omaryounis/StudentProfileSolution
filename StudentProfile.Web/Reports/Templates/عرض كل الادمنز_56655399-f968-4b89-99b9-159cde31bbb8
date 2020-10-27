@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<XtraReportsLayoutSerializer SerializerVersion="17.2.5.0" Ref="1" ControlType="DevExpress.XtraReports.UI.XtraReport, DevExpress.XtraReports.v17.2, Version=17.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" Name="Report1" PageWidth="850" PageHeight="1100" Version="17.2" FilterString="[IsAdmin] = True" DataMember="Projects" DataSource="#Ref-0">
+  <Bands>
+    <Item1 Ref="2" ControlType="TopMarginBand" Name="topMarginBand1" HeightF="100" />
+    <Item2 Ref="3" ControlType="DetailBand" Name="detailBand1" HeightF="100">
+      <Controls>
+        <Item1 Ref="4" ControlType="XRCheckBox" Name="checkBox1" Text="IsAdmin" SizeF="100,22.99" LocationFloat="471.18, 77">
+          <ExpressionBindings>
+            <Item1 Ref="5" Expression="[IsAdmin]" PropertyName="CheckState" EventName="BeforePrint" />
+          </ExpressionBindings>
+        </Item1>
+        <Item2 Ref="6" ControlType="XRLabel" Name="label3" Text="label3" SizeF="100,22.99" LocationFloat="312.15, 77" Padding="2,2,0,0,100">
+          <ExpressionBindings>
+            <Item1 Ref="7" Expression="[Username]" PropertyName="Text" EventName="BeforePrint" />
+          </ExpressionBindings>
+        </Item2>
+        <Item3 Ref="8" ControlType="XRLabel" Name="label2" Text="label2" SizeF="100,22.99" LocationFloat="148.95, 77" Padding="2,2,0,0,100">
+          <ExpressionBindings>
+            <Item1 Ref="9" Expression="[Mobile]" PropertyName="Text" EventName="BeforePrint" />
+          </ExpressionBindings>
+        </Item3>
+        <Item4 Ref="10" ControlType="XRLabel" Name="label1" Text="label1" SizeF="100,22.99" LocationFloat="0, 77" Padding="2,2,0,0,100">
+          <ExpressionBindings>
+            <Item1 Ref="11" Expression="[Name]" PropertyName="Text" EventName="BeforePrint" />
+          </ExpressionBindings>
+        </Item4>
+      </Controls>
+    </Item2>
+    <Item3 Ref="12" ControlType="BottomMarginBand" Name="bottomMarginBand1" HeightF="100" />
+  </Bands>
+  <ObjectStorage>
+    <Item1 Ref="0" ObjectType="DevExpress.DataAccess.Sql.SqlDataSource,DevExpress.DataAccess.v17.2" Name="Projects1" Base64="PFNxbERhdGFTb3VyY2U+PE5hbWU+UHJvamVjdHMxPC9OYW1lPjxDb25uZWN0aW9uIE5hbWU9IkNvbm5lY3Rpb24iIENvbm5lY3Rpb25TdHJpbmc9Ilhwb1Byb3ZpZGVyPU1TU3FsU2VydmVyO2RhdGEgc291cmNlPTE3Mi4yMC45LjIwMFxNRURTUUwxXEVSUCw1MzE2Nztpbml0aWFsIGNhdGFsb2c9U2Nob29sQWNjTWFkaW5hO3BlcnNpc3Qgc2VjdXJpdHkgaW5mbz1UcnVlO3VzZXIgaWQ9RVNPTDtwYXNzd29yZD1FJDBMYTIwMDE4O211bHRpcGxlYWN0aXZlcmVzdWx0c2V0cz1UcnVlO0Nvbm5lY3Rpb24gVGltZW91dD0wOyIgLz48UXVlcnkgVHlwZT0iQ3VzdG9tU3FsUXVlcnkiIE5hbWU9IlByb2plY3RzIj48U3FsPlNFTEVDVCAqIEZST00gW0Rhc2hCb2FyZF9Vc2Vyc108L1NxbD48L1F1ZXJ5PjxSZXN1bHRTY2hlbWE+PERhdGFTZXQgTmFtZT0iUHJvamVjdHMxIj48VmlldyBOYW1lPSJQcm9qZWN0cyI+PEZpZWxkIE5hbWU9IklEIiBUeXBlPSJJbnQzMiIgLz48RmllbGQgTmFtZT0iVXNlcm5hbWUiIFR5cGU9IlN0cmluZyIgLz48RmllbGQgTmFtZT0iTmFtZSIgVHlwZT0iU3RyaW5nIiAvPjxGaWVsZCBOYW1lPSJQYXNzd29yZCIgVHlwZT0iU3RyaW5nIiAvPjxGaWVsZCBOYW1lPSJNb2JpbGUiIFR5cGU9IlN0cmluZyIgLz48RmllbGQgTmFtZT0iSXNBZG1pbiIgVHlwZT0iQm9vbGVhbiIgLz48RmllbGQgTmFtZT0iUGFzc3dvcmRIYXNoIiBUeXBlPSJTdHJpbmciIC8+PC9WaWV3PjwvRGF0YVNldD48L1Jlc3VsdFNjaGVtYT48Q29ubmVjdGlvbk9wdGlvbnMgQ2xvc2VDb25uZWN0aW9uPSJ0cnVlIiAvPjwvU3FsRGF0YVNvdXJjZT4=" />
+  </ObjectStorage>
+</XtraReportsLayoutSerializer>

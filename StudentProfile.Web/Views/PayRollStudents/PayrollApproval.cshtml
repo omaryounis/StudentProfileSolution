@@ -1,0 +1,237 @@
+﻿
+@{
+    ViewBag.Title = "إعتماد مسير المكافآت";
+    Layout = "~/Views/Shared/_DevextremeLayout.cshtml";
+}
+
+<script src="~/Scripts/PayRollStudents/PayrollApprovalService.js"></script>
+<script src="~/Scripts/PayRollStudents/PayrollApprovalController.js"></script>
+@*<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>*@
+
+<style>
+
+    .tb-title {
+        position: absolute;
+        top: 10px;
+        right: 15px;
+        z-index: 1;
+        font-size: 16px;
+        color: #0e70a0 !important;
+    }
+    .back-color {
+        color: #000;
+        font-weight: bold;
+    }
+    .dx-button-success {
+        background-color: #5cb85c;
+        border-color: white;
+        color: #fff;
+    }
+
+    .dx-button-danger {
+        background-color: #d9534f;
+        border-color: white;
+        color: #fff;
+    }
+
+    .dx-tree-st td .dx-button-has-icon .dx-button-content {
+        padding: 3px !important;
+    }
+
+    .master-detail-caption-st {
+        padding-top: 0px;
+        padding-bottom: 12px;
+        text-align: center;
+        font-size: medium;
+        font-weight: 900;
+    }
+   
+    .swal-text {
+        text-align: center;
+    }
+
+    .dx-popup-title {
+        border-bottom: 1px solid #0e70a052 !important;
+        background: #ffffff !important;
+        color: #0e70a0 !important;
+    }
+
+        .dx-popup-title.dx-toolbar .dx-toolbar-label {
+            font-size: 22px !important;
+        }
+
+        .dx-popup-title.dx-toolbar {
+            padding: 12px 20px !important;
+        }
+
+        .dx-popup-title .dx-closebutton .dx-icon {
+            color: #0e70a0 !important;
+        }
+
+    td.dx-command-edit {
+        text-align: center !important
+    }
+</style>
+
+<div class="container-fluid container-fullw" ng-controller="PayrollApprovalController">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel bg-white">
+                <div class="breadcrumb-wrapper text-right">
+                    <h2>اعتماد مسير المكافآت</h2>
+                </div>
+                <div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div dx-data-grid="PayrollsGrid" class="dx-tree-st dx-tree-st22" dx-item-alias="PayrollItem">
+                                   
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+
+    <div id="accept" class="popup" dx-popup="acceptPopup">
+        <div dx-scroll-view="{
+                                                height: 900,
+                                                direction: 'both'
+                                            }">
+            <div class="clearfix"></div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="alert alert-info col-md-12 col-sm-12 col-xs-12">تم الاعتماد من مرحله {{phase_name}}</div>
+                </div>
+            </div>
+            <div class="form-group col-md-12 col-sm-12 col-xs-12">
+                <div dx-text-area="recommendationsTextArea" dx-validator="validationRequired"></div>
+            </div>
+            <div class="form-group col-md-12 col-sm-12 col-xs-12">
+                <div dx-text-box="payNoText" dx-validator="validationRequired"></div>
+            </div>
+            <div class="form-group col-md-12 col-sm-12 col-xs-12">
+                <div dx-text-box="dafPayNoText" dx-validator="validationRequired"></div>
+            </div>
+            <div class="form-group col-md-12 col-sm-12 col-xs-12">
+                <div dx-text-box="dafPayNo2Text" dx-validator="validationRequired"></div>
+            </div>
+            <div class="clearfix"></div>
+            <div class="form-group col-md-12 col-sm-12 col-xs-12 text-center">
+                <div dx-button="acceptButton"></div>
+                <div dx-button="refuseButton"></div>
+                <div dx-button="btnUploadOptions"></div>
+                <div dx-button="btnShowFiles"></div>
+                <div dx-button="btnBank"></div>
+                <div dx-button="btnMoney"></div>
+            </div>
+
+        </div>
+
+    </div>
+    <div id="files" class="popup" dx-popup="acceptPopup.filesPopup">
+        <div dx-scroll-view="{
+                                                height: 600,
+                                                direction: 'both'
+                                            }">
+            <div class="row">
+                <div class="col-lg-12 col-sm-12 col-xs-12">
+                    <div class="dx-tree-st dx-tree-st22" dx-data-grid="PayrollsFilesGrid()"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="Bank" class="popup" dx-popup="acceptPopup.bankPopup">
+      
+                <div class="row">
+                    <div class="col-lg-12 col-sm-12 col-xs-12">
+                        <div class="tb-title">تفاصيل المسير البنكيه</div>
+                        <div class="dx-tree-st dx-tree-st22" dx-data-grid="BankGrid()" id="BankGrid"></div>
+                    </div>
+                </div>
+        </div>
+        <div id="Money" class="popup" dx-popup="acceptPopup.moneyPopup">
+           
+                <div class="row">
+                    <div class="col-lg-12 col-sm-12 col-xs-12">
+                        <div class="tb-title">تفاصيل المسير النقديه</div>
+                        <div class="dx-tree-st dx-tree-st22" dx-data-grid="MoneyGrid()" id="MoneyGrid"></div>
+                    </div>
+                </div>
+            </div>
+        
+        @* الجزء الخاص برفع المرفقات *@
+        <div dx-popup="acceptPopup.UploadFilePopupOptions">
+            <div data-options="dxTemplate: { name : 'UploadFileContent' }">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div dx-file-uploader="FileUploadingOptions">
+                            <span class="note">Allowed file extensions: <span>.Pdf</span>.</span>
+                        </div>
+                        <div>
+                            <div class="text-right" ng-if="MDL_UploadingFilesvalue.length > 0">
+                                <h4>الملفات المختارة</h4>
+                            </div>
+                            <div ng-repeat="val in MDL_UploadingFilesvalue">
+                                <div class="selected-item selected-item-ds text-right">
+                                    <ul class="list-unstyled" dir="rtl">
+                                        <li><span class="pull-right"> اسم الملف:</span> <span>{{val.name}}</span></li>
+                                        <li><span class="pull-right">حجم الملف:</span> <span>{{val.size}}</span> bytes</li>
+                                        <li><span class="pull-right">نوع الملف:</span>  <span>{{val.type}}</span></li>
+                                    </ul>
+                                    <a class="btn btn-danger" href="" ng-click="RemoveUploadingFile(val.$$hashKey)">
+                                        حذف الملف <i class="fa fa-trash-o"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<style>
+    .dx-item.dx-list-item.dx-state-focused i {
+        color: #fff !important;
+        margin-left: 15px;
+    }
+
+    .dx-list-item .dx-list-item-content {
+        padding: 15px 15px;
+    }
+
+    .list-container-new .dx-list-item {
+        display: inline-block;
+        width: 32.65%;
+        border: 1px solid #ddd !important;
+        margin-left: 1%;
+        font-size: 15px;
+        background: #fafcff;
+    }
+
+      .approvedItem {
+            /*background: #0e70a0 !important;
+            color: white !important;*/
+            
+        }
+
+    .currentItem {
+        background: #5cb85c !important;
+        color: white !important;
+    }
+
+    .list-container-new .dx-list-item:last-child {
+        margin-left: 0;
+    }
+</style>
+
+

@@ -1,0 +1,254 @@
+﻿@model List<StudentProfile.DAL.Models.StudentNotes>
+@using System.Web.UI.WebControls
+
+@*@using DevExpress.Export
+@{
+    var grid = Html.DevExpress().GridView(settings =>
+    {
+        settings.Name = "StudentIssues";
+        settings.KeyFieldName = "ID";
+        settings.Styles.Table.CssClass = "dx-table-ds";
+        settings.Styles.Header.Wrap = DefaultBoolean.True;
+        settings.Width = Unit.Percentage(100);
+        settings.RightToLeft = DefaultBoolean.True;
+        settings.CallbackRouteValues = new { Action = "_StudentIssues", Controller = "Students" };
+        settings.SettingsEditing.AddNewRowRouteValues = new { Action = "EmpDocumentGridViewPartialAddNew", Controller = "Students" };
+        settings.SettingsEditing.UpdateRowRouteValues = new { Action = "EmpDocumentGridViewPartialUpdate", Controller = "Students" };
+        //settings.SettingsEditing.DeleteRowRouteValues = new {Action = "EmpDocumentGridViewPartialDelete", Controller = "Students"};
+        settings.SettingsEditing.Mode = GridViewEditingMode.EditForm;
+        //settings.SettingsBehavior.ConfirmDelete = true;
+        settings.SettingsPager.PageSize = 10;
+        settings.Settings.ShowGroupPanel = false;
+        settings.Settings.ShowFilterRow = false;
+        //settings.SettingsBehavior.ConfirmDelete = true;
+        settings.SettingsBehavior.AllowFocusedRow = false;
+        settings.SettingsBehavior.AllowSelectByRowClick = true;
+        //SettingsText
+        settings.SettingsText.CommandNew = "اضافة";
+        settings.SettingsText.CommandUpdate = "تعديل";
+        settings.SettingsText.CommandCancel = "الغاء";
+        settings.SettingsText.CommandEdit = "تعديل";
+        //settings.SettingsText.CommandDelete = "حذف";
+        //settings.SettingsText.ConfirmDelete = "هل تريد حذف هذا العنصر؟";
+        settings.SettingsText.EmptyDataRow = "لا توجد بيانات";
+        settings.SettingsLoadingPanel.Text = "تحميل ...";
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "NoteDetails";
+            c.Caption = "الوصف";
+        });
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "Issues";
+            c.Caption = "نوع المشكلة";
+            c.ColumnType = MVCxGridViewColumnType.ComboBox;
+            var comboBoxProperties = c.PropertiesEdit as ComboBoxProperties;
+            comboBoxProperties.DataSource = ViewData["IssuesTypes"];
+            comboBoxProperties.TextField = "IssueDescription";
+            comboBoxProperties.ValueField = "ID";
+            comboBoxProperties.ValueType = typeof(int);
+        });
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "NoteDate";
+            c.Caption = "تاريخ المشكلة";
+            c.ColumnType = MVCxGridViewColumnType.DateEdit;
+        });
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "IssueDate";
+            c.Caption = "تاريخ الاصدار";
+            c.ColumnType = MVCxGridViewColumnType.DateEdit;
+            c.EditFormSettings.Visible = DefaultBoolean.True;
+            c.Visible = false;
+        });
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "StudentFiles";
+            c.Settings.AllowSort = DefaultBoolean.False;
+            c.Settings.AllowAutoFilter = DefaultBoolean.False;
+            c.Caption = "صورة المستند";
+            c.ColumnType = MVCxGridViewColumnType.BinaryImage;
+            c.EditorProperties().BinaryImage(p =>
+            {
+                p.ImageHeight = 50;
+                //p.ImageWidth = 160;
+                p.EnableServerResize = true;
+                p.ImageSizeMode = ImageSizeMode.FitProportional;
+                p.CallbackRouteValues = new { Action = "PassImageColumnPhotoUpdate", Controller = "EmpDocumentGridViewPartialDelete" };
+                p.EditingSettings.Enabled = true;
+                p.EditingSettings.UploadSettings.UploadValidationSettings.MaxFileSize = 4194304;
+                p.AlternateText = "صورة المستند";
+                p.ImageAlign = ImageAlign.Middle;
+            });
+            #region OLD METHOD
+            c.SetEditItemTemplateContent(q =>
+            {
+                var imageName = DataBinder.Eval(q.DataItem, "DocImagePath")?.ToString();
+                var pathList = Directory.GetFiles(@"C:/inetpub/wwwroot/HRMadina/images/HRImagesUploaded/");
+                var path = pathList.FirstOrDefault(x => Path.GetFileName(x) == imageName);
+                if (File.Exists(path))
+                {
+                    if (path != null)
+                    {
+                        var b = File.ReadAllBytes(path);
+                        ViewData["DocImagePath"] = b;
+                    }
+                }
+                using (Html.BeginForm())
+                {
+                    Html.RenderPartial("_DocImage");
+                }
+            });
+            c.SetDataItemTemplateContent(q =>
+            {
+                //q.client
+                var imageString = "";
+                var imageName = DataBinder.Eval(q.DataItem, "DocImagePath")?.ToString();
+                var pathList = Directory.GetFiles(@"C:/inetpub/wwwroot/HRMadina/images/HRImagesUploaded/");
+                var filename = Path.GetFileName(pathList.FirstOrDefault());
+                var path = pathList.FirstOrDefault(x => Path.GetFileName(x) == imageName);
+                if (File.Exists(path))
+                {
+                    if (path != null)
+                    {
+                        var b = File.ReadAllBytes(path);
+                        imageString = Convert.ToBase64String(b);
+                        ViewData["DocImagePath"] = b;
+                    }
+                }
+                if (ViewData["DocImagePath"] != null)
+                {
+                    //ViewContext.Writer.Write("<img src='data:image/Bmp;base64," + imageString + "' class='img img-thumbnail' onClick='OnSelectedFileOpened('"+imageName+"')'/>");
+                    ViewContext.Writer.Write("<img src='data:image/Bmp;base64," + imageString + "' class='img img-thumbnail' />");
+                }
+            });
+            #endregion
+        });
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "DocImagePath";
+            c.Settings.AllowSort = DefaultBoolean.False;
+            c.Settings.AllowAutoFilter = DefaultBoolean.False;
+            c.Caption = "تحميل صورة المستند";
+            c.EditFormSettings.Visible = DefaultBoolean.False;
+            c.SetDataItemTemplateContent(i =>
+            {
+                var imageName = DataBinder.Eval(i.DataItem, "DocImagePath")?.ToString();
+                if (string.IsNullOrEmpty(imageName))
+                {
+                    return;
+                }
+                var link =
+                    Html.ActionLink(" ", "DownloadEmpDocumentImage", new { empDocumentId = DataBinder.Eval(i.DataItem, "ID") },
+                        new { @class = "fa fa-download btn-success btn-ds-ico ", title = "تحميل صورة المستند" }).ToHtmlString();
+                ViewContext.Writer.Write(link);
+            });
+        });
+        settings.ControlStyle.CssClass = "GridViewRootClassName";
+        /*Command Column Emulation*/
+        settings.Columns.Add(column =>
+        {
+            column.Caption = "#";
+            column.Settings.AllowSort = DefaultBoolean.False;
+            column.Settings.AllowAutoFilter = DefaultBoolean.False;
+            column.EditFormSettings.Visible = DefaultBoolean.False;
+            /*DataItemTemplate*/
+            /*New - Edit - Delete Buttons*/
+            column.SetDataItemTemplateContent(c =>
+            {
+                //ViewContext.Writer.Write("<span class=\"fa fa-plus fa-ds\" onclick=\"{0}.AddNewRow();\" title='اضافة'></span>", settings.Name);
+                //ViewContext.Writer.Write("&nbsp;");
+                if (ViewBag.EmpDocumentDataUpdate != null)
+                {
+                    if (ViewBag.EmpDocumentDataUpdate == true)
+                    {
+                        ViewContext.Writer.Write("<span class=\"fa fa-pencil btn-ds-ico btn btn-success  \" onclick=\"{0}.StartEditRow('{1}');\" title='تعديل'></span>", settings.Name, c.VisibleIndex);
+                        ViewContext.Writer.Write("&nbsp;");
+                    }
+                }
+                if (ViewBag.EmpDocumentDataDelete != null)
+                {
+                    if (ViewBag.EmpDocumentDataDelete == true)
+                    {
+                        //ViewContext.Writer.Write("<span class=\"fa fa-trash btn-ds-ico btn btn-danger  \" onclick=\"{0}.DeleteRow('{1}')\" title='حذف'></span>", settings.Name, c.VisibleIndex);
+
+
+
+                        ViewContext.Writer.Write("<span class=\"fa fa-trash btn-ds-ico btn btn-danger  \" onclick=\"DeleteEmpDocument('{0}')\" title='حذف'></span>", c.KeyValue.ToString());
+
+                    }
+                }
+            });
+            /*DataItemTemplate*/
+            /*EditItemTemplate*/
+            //column.SetEditItemTemplateContent(c =>
+            //{
+            //    ViewContext.Writer.Write("<span class=\"fa fa-check fa-ds \" onclick=\"{0}.UpdateEdit();\" title='حفظ'></span>", settings.Name);
+            //    ViewContext.Writer.Write("&nbsp;");
+            //    ViewContext.Writer.Write("<span class=\"fa fa-undo fa-ds \" onclick=\"{0}.CancelEdit();\" title='الغاء'></span>", settings.Name);
+            //});
+            /*EditItemTemplate*/
+        });
+        /*Command Column Emulation*/
+        //EditForm
+        settings.SettingsPopup.EditForm.SettingsAdaptivity.Mode = PopupControlAdaptivityMode.OnWindowInnerWidth;
+        settings.SettingsPopup.EditForm.SettingsAdaptivity.SwitchAtWindowInnerWidth = 500;
+        settings.SettingsPopup.EditForm.SettingsAdaptivity.MaxWidth = 500;
+        settings.EditFormLayoutProperties.SettingsAdaptivity.AdaptivityMode = FormLayoutAdaptivityMode.SingleColumnWindowLimit;
+        settings.EditFormLayoutProperties.SettingsAdaptivity.SwitchToSingleColumnAtWindowInnerWidth = 400;
+        settings.EditFormLayoutProperties.ColCount = 4;
+        //SettingsPager
+        settings.SettingsPager.Visible = true;
+        settings.SettingsPager.EnableAdaptivity = true;
+        settings.SettingsPager.EnableAdaptivity = true;
+        settings.SettingsPager.PageSize = 10;
+        //SettingsText
+        settings.SettingsText.CommandNew = "اضافة";
+        settings.SettingsText.CommandUpdate = "حفظ";
+        settings.SettingsText.CommandCancel = "الغاء";
+        settings.SettingsText.CommandEdit = "حفظ";
+        //settings.SettingsText.CommandDelete = "حذف";
+        //settings.SettingsText.ConfirmDelete = "هل تريد حذف هذا العنصر؟";
+        settings.SettingsText.EmptyDataRow = "لا توجد بيانات";
+        settings.SettingsLoadingPanel.Text = "تحميل ...";
+        settings.SettingsAdaptivity.AdaptivityMode = GridViewAdaptivityMode.Off;
+        settings.SettingsAdaptivity.AdaptiveColumnPosition = GridViewAdaptiveColumnPosition.Right;
+        settings.SettingsAdaptivity.AdaptiveDetailColumnCount = 1;
+        settings.SettingsAdaptivity.AllowOnlyOneAdaptiveDetailExpanded = false;
+        settings.SettingsAdaptivity.HideDataCellsAtWindowInnerWidth = 0;
+        settings.SettingsExport.EnableClientSideExportAPI = true;
+        settings.SettingsExport.ExcelExportMode = ExportType.DataAware;
+        //CommandColumn
+        settings.CommandColumn.Visible = false;
+        settings.CommandColumn.ShowNewButton = true;
+        settings.CommandColumn.ShowDeleteButton = false;
+        settings.CommandColumn.ShowEditButton = false;
+        settings.CommandColumn.ShowNewButtonInHeader = false;
+        if (ViewBag.EmpDocumentDataCreate != null)
+        {
+            if (ViewBag.EmpDocumentDataCreate == true)
+            {
+                settings.Toolbars.Add(toolbar =>
+                {
+                    toolbar.Enabled = true;
+                    toolbar.Position = GridToolbarPosition.Top;
+                    toolbar.ItemAlign = GridToolbarItemAlign.Right;
+                    toolbar.Items.Add(i =>
+                    {
+                        i.Command = GridViewToolbarCommand.New;
+                        i.Text = "اضافة";
+                        i.ItemStyle.CssClass = "btn btn-primary";
+                    });
+                });
+            }
+        }
+        //settings.CommandColumn.VisibleIndex = settings.Columns.Count + 1;
+        settings.DataBinding = (s, e) => { (s as ASPxGridView)?.ForceDataRowType(typeof(List<EmpDocumentVM>)); };
+    });
+    if (ViewData["EditError"] != null)
+    {
+        grid.SetEditErrorText((string)ViewData["EditError"]);
+    }
+}
+@grid.Bind(Model).GetHtml()*@

@@ -1,0 +1,211 @@
+﻿@model IEnumerable<StudentProfile.DAL.Models.proc_EmpDocumentsDetails_Exp_New_Result>
+@using System.Web.UI.WebControls;
+
+@Html.DevExpress().GridView(settings =>
+{
+    settings.Name = "PassportData";
+    settings.KeyFieldName = "ID";
+    settings.Styles.Table.CssClass = "dx-table-ds";
+    // settings.Theme= r.
+    settings.Width = Unit.Percentage(100);
+    settings.CommandColumn.Visible = true;
+    settings.CommandColumn.ShowSelectCheckbox = true;
+    settings.CommandColumn.SelectAllCheckboxMode = GridViewSelectAllCheckBoxMode.AllPages;
+    settings.ClientSideEvents.SelectionChanged = "SelectionChanged";
+    settings.SettingsPager.PageSize = 25;
+    settings.CallbackRouteValues = new { Action = "_PassportAlerts", Controller = "Home" };
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "اسم الطالب";
+        column.FieldName = "EmpName";
+        column.VisibleIndex = 10;
+
+        column.SetDataItemTemplateContent(c =>
+        {
+            int stid = int.Parse(DataBinder.Eval(c.DataItem, "studentid").ToString());
+            string stname = DataBinder.Eval(c.DataItem, "EmpName").ToString();
+            ViewContext.Writer.Write("<a href=" + Url.Action("Index", "Students", new { id = stid }) + ">" + stname + "</a>");
+        });
+    });
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "الجنسية";
+        column.VisibleIndex = 9;
+        column.FieldName = "nationality";
+    });
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "رقم الهوية";
+        column.VisibleIndex = 8;
+        column.FieldName = "IdNumber";
+    });
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "رقم جواز السفر";
+        column.VisibleIndex = 7;
+        column.FieldName = "IdentityNum";
+    });
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "الرقم الأكاديمي";
+        column.VisibleIndex = 6;
+        column.FieldName = "studentid";
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "ExpDate";
+        column.VisibleIndex = 5;
+        column.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy";
+        column.Caption = "تاريخ الانتهاء";
+    });
+    settings.Columns.Add(column =>
+    {
+        column.UnboundType = DevExpress.Data.UnboundColumnType.Decimal;
+        column.FieldName = "leftDays";
+        column.Caption = "عدد الأيام";
+        column.ReadOnly = true;
+        column.Settings.ShowEditorInBatchEditMode = false;
+        column.Width = Unit.Percentage(15);
+        column.VisibleIndex = 4;
+        column.CellStyle.HorizontalAlign = HorizontalAlign.Center;
+    });
+
+    settings.CustomUnboundColumnData = (sender, e) =>
+    {
+        if (e.Column.FieldName == "leftDays")
+        {
+            var expDate = Convert.ToDateTime(e.GetListSourceFieldValue("ExpDate"));
+            var nowDate = DateTime.Now;
+            double? totalDays = (expDate.Date - nowDate.Date).TotalDays;
+
+            e.Value = totalDays;
+        }
+    };
+
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "رقم الجوال";
+        column.VisibleIndex = 3;
+        column.FieldName = "PhoneNo";
+    });
+
+
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "الصورة";
+        column.VisibleIndex = 2;
+        column.UnboundType = DevExpress.Data.UnboundColumnType.String;
+        //column.Width = System.Web.UI.WebControls.Unit.Percentage(15);
+        column.SetDataItemTemplateContent(c =>
+        {
+            var imgSrc = "/assets/images/user.png";
+            var studentid = DataBinder.Eval(c.DataItem, "studentid");
+            var request = (HttpWebRequest)WebRequest.Create(
+                "https://cas.iu.edu.sa/cas/MahedStudentEmoployee/FacultyPhoto/" + studentid + ".jpg");
+            request.Method = "HEAD";
+
+            bool exists;
+            try
+            {
+                request.GetResponse();
+                exists = true;
+                imgSrc = "https://cas.iu.edu.sa/cas/MahedStudentEmoployee/FacultyPhoto/" + studentid +
+                         ".jpg";
+            }
+            catch (Exception ex)
+            {
+                exists = false;
+                imgSrc = "/assets/images/user.png";
+            }
+            ViewContext.Writer.Write("<img src=" + imgSrc + " alt='user'>");
+        });
+    });
+
+    //settings.Columns.Add(column =>
+    //{
+    //    column.Caption = "تذكير";
+    //    column.VisibleIndex = 1;
+    //    column.Width = Unit.Percentage(15);
+    //    column.SetDataItemTemplateContent(c =>
+    //    {
+    //        var stname = DataBinder.Eval(c.DataItem, "EmpName")?.ToString().ToString().Replace(" ", " ");
+    //        ;
+    //        var expDate = Convert.ToDateTime(DataBinder.Eval(c.DataItem, "ExpDate"));
+    //        var nowDate = DateTime.Now;
+    //        double? totalDays = (expDate.Date - nowDate.Date).TotalDays;
+    //        var studentid = DataBinder.Eval(c.DataItem, "studentid")?.ToString().Replace(" ", "");
+    //        var idnumber = DataBinder.Eval(c.DataItem, "IdNumber")?.ToString();
+    //        var mobile = DataBinder.Eval(c.DataItem, "PhoneNo")?.ToString();
+    //        var func = string.Format("SendSMS('{0}','{1}','{2}','{3}','PassportExpiration')", studentid, totalDays, idnumber, mobile);
+    //        //var studentid = DataBinder.Eval(c.DataItem, "studentid");
+    //        //ViewContext.Writer.Write($"<a href='#' onClick={ func }></a>");
+    //        ViewContext.Writer.Write("<a href='#' onClick=" + func + "><i class='fa fa-send-o' style='font-size:24px;color:red'></i></a>");
+    //    });
+    //});
+    settings.SettingsLoadingPanel.Mode = GridViewLoadingPanelMode.Disabled;
+    settings.EnableCallbackAnimation = false;
+    settings.RightToLeft = DefaultBoolean.False;
+
+    //Export Settings
+    settings.Toolbars.Add(t =>
+    {
+        t.EnableAdaptivity = true;
+        t.Items.Add(i =>
+        {
+            i.Command = GridViewToolbarCommand.ExportToPdf;
+            i.Text = "تصدير PDF";
+        });
+        t.Items.Add(i =>
+        {
+            i.Command = GridViewToolbarCommand.ExportToXls;
+            i.Text = "تصدير Xls";
+        });
+        t.Items.Add(i =>
+        {
+            i.Command = GridViewToolbarCommand.ExportToXlsx;
+            i.Text = "تصدير Xlsx";
+        });
+        t.Items.Add(i =>
+        {
+            i.Command = GridViewToolbarCommand.ExportToDocx;
+            i.Text = "تصدير Docx";
+        });
+        t.Items.Add(i =>
+        {
+            i.BeginGroup = true;
+            i.SetTemplateContent(c =>
+            {
+                Html.DevExpress().Button(
+                    s =>
+                    {
+                        s.Name = "PassportExpiration";
+                        s.Images.Image.IconID = IconID.ContactsMessage16x16devav;
+                        s.RightToLeft = DefaultBoolean.True;
+                        s.Text = "رسالة نصية";
+                        s.ClientSideEvents.Click = "SendSMS";
+                    }).Render();
+            });
+        });
+    });
+    settings.SettingsExport.EnableClientSideExportAPI = true;
+    settings.SettingsExport.ExcelExportMode = DevExpress.Export.ExportType.WYSIWYG;
+    settings.SettingsExport.ExportedRowType = GridViewExportedRowType.All;
+    settings.SettingsExport.RightToLeft = DefaultBoolean.True;
+    //settings.SettingsExport.Styles.Preview.Paddings.PaddingLeft = Unit.Pixel(100);
+    settings.SettingsExport.LeftMargin =60;
+    settings.SettingsExport.RightMargin = 0;
+    settings.SettingsExport.PaperKind = System.Drawing.Printing.PaperKind.A4;
+
+
+    settings.SettingsExport.BeforeExport = (sender, e) =>
+    {
+        MVCxGridView gridView = sender as MVCxGridView;
+        if (sender == null)
+        {
+            return;
+        }
+        gridView.Columns[8].Visible = false;//ابلاغ
+        gridView.Columns[9].Visible = false;//الصورة
+    };
+}).Bind(Model).GetHtml()

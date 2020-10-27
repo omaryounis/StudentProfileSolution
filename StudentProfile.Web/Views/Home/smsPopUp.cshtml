@@ -1,0 +1,26 @@
+﻿@model List<StudentProfile.DAL.Models.ScMessages>
+@using System.Web.UI.WebControls;
+@{ 
+    string message = "";
+    if(ViewBag.Message != null)
+    {
+        message = ViewBag.Message;
+    }
+}
+
+@Html.DevExpress().Label(
+    settings =>
+    {
+        settings.Name = "MsgLbl";
+        settings.Text = "نص الرسالة";
+        settings.Properties.EnableClientSideAPI = true;
+    }).GetHtml()
+@Html.DevExpress().TextBox(
+                settings =>
+                {
+                    settings.Name = "MessageBody";
+                    settings.Width = Unit.Percentage(100);
+                    settings.Height = System.Web.UI.WebControls.Unit.Pixel(100);
+                    //settings.Properties.NullDisplayText = "نص الرسالة";
+                }
+            ).Bind(message).GetHtml()

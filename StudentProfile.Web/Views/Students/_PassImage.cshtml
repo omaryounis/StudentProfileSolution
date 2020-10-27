@@ -1,0 +1,13 @@
+﻿@Html.DevExpress().BinaryImage(c =>
+{
+    c.Name = "UploadedPassImage";
+    c.Properties.ImageHeight = 170;
+    c.Properties.ImageWidth = 160;
+    c.Properties.EditingSettings.Enabled = true;
+    c.Properties.EnableServerResize = true;
+    c.Properties.ImageSizeMode = ImageSizeMode.FitProportional;
+    c.CallbackRouteValues = new {Action = "PassImageColumnPhotoUpdate", Controller = "Students"};
+    c.Properties.EditingSettings.Enabled = true;
+    c.ContentBytes = (byte[])ViewData["PassImage"];
+    c.Properties.EditingSettings.UploadSettings.UploadValidationSettings.MaxFileSize = 4194304;
+}).GetHtml()

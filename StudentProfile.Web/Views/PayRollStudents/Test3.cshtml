@@ -1,0 +1,43 @@
+﻿
+@{
+    ViewBag.Title = "Test3";
+    Layout = "~/Views/Shared/_DevextremeLayout.cshtml";
+}
+
+<div class="container-fluid container-fullw ng-scope">
+    <div class="col-md-12">
+
+        <div class="panel bg-white">
+            <div class="breadcrumb-wrapper text-right">
+                <h4 class="no-margin"> اوامر الصرف </h4>
+            </div>
+            <div class="panel-body text-right">
+                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                    <label class="control-label"> رقم الشيك</label>
+                    <div dx-tag-box="simple"></div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                    <label class="control-label"> صندوق الصرف</label>
+                    <div dx-tag-box="simple"></div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                    <label class="label-control col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-12"><br /></label>
+                    <div dx-button="{
+                                stylingMode: 'text',
+                                text: 'حفظ',
+                                type: 'success',
+                                width: 120,
+                                onClick: showMessage
+                            }"></div>
+                </div>
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 dx-tree-st">
+                    <div dx-data-grid="simple"> </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+

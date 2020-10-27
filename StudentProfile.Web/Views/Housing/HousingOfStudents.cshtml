@@ -1,0 +1,2098 @@
+﻿
+@{
+    /**/
+
+    ViewBag.Title = "تسكين الطلاب";
+    Layout = "~/Views/Shared/_DevextremeLayout.cshtml";
+}
+<script src="~/Scripts/Housing/HousingOfStudentsController.js"></script>
+<script src="~/Scripts/Housing/HousingOfStudentsServices.js"></script>
+@*<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>*@
+
+
+<div class="container-fluid container-fullw" ng-controller="HousingOfStudentsCtrl">
+    <div class="row">
+        <div class="col-md-3 listOptions-ds">
+            <div class="panel bg-white">
+                <div class="breadcrumb-wrapper text-right">
+                    <h4 class="no-margin">حركات التسكين</h4>
+                </div>
+                <div class="panel-body" style="padding-top: 0; height: 100vh;">
+                    <div dx-list="listOptions"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-9 col-sm-12 col-xs-12">
+            <div class="panel bg-white">
+                <div class="panel-body">
+                    @* الصفحة الرئيسية *@
+                    <div class="col-md-12 col-sm-12 col-xs-12 dx-overlay-wrapper-font">
+                        <div class="panel-group" id="accordionTwo" dir="rtl" role="tablist" aria-multiselectable="true">
+                            <div class="panel panel-default">
+                                <div class="panel-heading" role="tab" style="background-color: #ffffff">
+                                    <div class="col-lg-12 col-sm-12 col-xs-12 ">
+                                        <div dx-select-box="DL_Students"></div>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+                                <div id="collapseTwo" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingTwo">
+
+                                    <div class="panel-body">
+                                        <div class="col-md-12">
+                                            <div class="row">
+                                                <div class="col-md-4" style="border-left:1px solid #ddd">
+
+                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                        <div class="long-title"><h4>البيانات الشخصية</h4></div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                                                            <label class="col-md-12 col-sm-12 col-xs-12   text-right control-label">الجنسية</label>
+                                                            <div class="col-md-12 col-sm-12 col-xs-12 ">
+                                                                <div dx-Text-box="TB_Nationality"></div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                                                            <label class="col-md-12 col-sm-12 col-xs-12   text-right control-label">تاريخ الميلاد</label>
+                                                            <div class="col-md-12 col-sm-12 col-xs-12 ">
+                                                                <div style="width:100%" dx-date-box="DB_BirthDate"></div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-12 col-md-4 col-sm-12 col-xs-12 form-group">
+                                                            <label class="col-md-12 col-sm-12 col-xs-12   text-right control-label">النوع</label>
+                                                            <div class="col-md-12 col-sm-12 col-xs-12 ">
+                                                                <div dx-Text-box="TB_GenderName"></div>
+                                                            </div>
+                                                        </div>
+
+
+                                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                                                            <label class="col-md-12 col-sm-12 col-xs-12   text-right control-label">الكلية</label>
+                                                            <div class="col-md-12 col-sm-12 col-xs-12 ">
+                                                                <div dx-Text-box="TB_Facultiy"></div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                                                            <label class="col-md-12 col-sm-12 col-xs-12   text-right control-label">رقم الموبايل</label>
+                                                            <div class="col-md-12 col-sm-12 col-xs-12 ">
+                                                                <div dx-Text-box="TB_MobileNumber"></div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                                                            <label class="col-md-12 col-sm-12 col-xs-12   text-right control-label">محل الميلاد</label>
+                                                            <div class="col-md-12 col-sm-12 col-xs-12 ">
+                                                                <div dx-Text-box="TB_BirthCity"></div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                                                            <label class="col-md-12 col-sm-12 col-xs-12   text-right control-label">نوع الدراسة</label>
+                                                            <div class="col-md-12 col-sm-12 col-xs-12 ">
+                                                                <div dx-Text-box="TB_StudyTypeName"></div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                                                            <label class="col-md-12 col-sm-12 col-xs-12   text-right control-label">الدرجة العلمية</label>
+                                                            <div class="col-md-12 col-sm-12 col-xs-12 ">
+                                                                <div dx-Text-box="TB_DegreeName"></div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                                                            <label class="col-md-12 col-sm-12 col-xs-12 p-l-0 text-right control-label">الحالة الأكاديمية</label>
+                                                            <div class="col-md-12 col-sm-12 col-xs-12 ">
+                                                                <div dx-Text-box="TB_StatusName"></div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                                                            <label class="col-md-12 col-sm-12 col-xs-12   text-right control-label">المستوي</label>
+                                                            <div class="col-md-12 col-sm-12 col-xs-12 ">
+                                                                <div dx-Text-box="TB_LevelName"></div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-8">
+                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                        <div class="long-title"><h4>بيانات السكن</h4></div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                                                            <div class="table-responsive">
+                                                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                                                    <table class="table table-st table-sm-f table-inverse table-bordered table-center">
+                                                                        <tbody>
+                                                                            <tr>
+                                                                                <td>
+                                                                                    نوع السكن
+                                                                                </td>
+
+                                                                                <td>
+                                                                                    <div dx-select-box="DL_HousingTypes" dx-validator=""></div>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td>
+                                                                                    الوحدة الإدارية
+                                                                                </td>
+                                                                                <td>
+                                                                                    <div dx-select-box="DL_Coms"></div>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td>
+                                                                                    القسم
+                                                                                </td>
+                                                                                <td>
+                                                                                    <div dx-select-box="DL_Units"></div>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td>
+                                                                                    الدور
+                                                                                </td>
+                                                                                <td>
+                                                                                    <div dx-select-box="DL_Floors"></div>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td>
+                                                                                    الشقة / الغرفة
+                                                                                </td>
+                                                                                <td>
+                                                                                    <div dx-select-box="DL_Rooms"></div>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr ng-if="MDL_HousingTypeId === 1">
+                                                                                <td>
+                                                                                    موقع السرير
+                                                                                </td>
+                                                                                <td>
+                                                                                    <div dx-select-box="DL_Beds"></div>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td>
+                                                                                    القائم بالعمل
+                                                                                </td>
+                                                                                <td>
+                                                                                    <div dx-text-box="txt_UserLastUpdated"></div>
+                                                                                </td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                                                            <label class="col-md-12 col-sm-12 col-xs-12  text-right control-label">رقم الحركة</label>
+                                                            <div class="col-md-12 col-sm-12 col-xs-12 ">
+                                                                <div dx-Text-box="TB_HousingNumberAuto" dx-validator=""></div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                                                            <label class="col-md-12 col-sm-12 col-xs-12   text-right control-label">تاريخ التسكين الميلادي</label>
+                                                            <div class="col-md-12 col-sm-12 col-xs-12  ">
+                                                                <div style="width:100%" dx-date-box="DB_HousingDateMeladi"></div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                                                            <label class="col-md-12 col-sm-12 col-xs-12  text-right control-label">تاريخ التسكين الهجري</label>
+                                                            <div class="col-md-12 col-sm-12 col-xs-12 ">
+                                                                <div dx-Text-box="TB_HousingDateHigri"></div>‍‍‍‍
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                                                            <label class="col-md-12 col-sm-12 col-xs-12 text-right control-label">ملاحظات حركة التسكين الحالية </label>
+                                                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                                                <div dx-text-area="TA_HousingNotes"></div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div dx-popup="TabsPopupOptions">
+        @* صفحة التسكين *@
+        <div data-options="dxTemplate: { name : 'StudentHousingContent' }">
+            <div class="panel-group">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="row">
+                                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 form-group">
+                                        <label class="col-md-12 col-sm-12 col-xs-12 text-right control-label">تاريخ التسكين الميلادي</label>
+                                        <div class="col-md-12 col-sm-12 col-xs-12  ">
+                                            <div style="width:100%" id="HousingDateId" dx-date-box="DB_HousingDateMeladi"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 form-group">
+                                        <label class="col-md-12 col-sm-12 col-xs-12  text-right control-label">تاريخ التسكين الهجري</label>
+                                        <div class="col-md-12 col-sm-12 col-xs-12 ">
+                                            <div dx-Text-box="TB_HousingDateHigri"></div>‍‍‍‍
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 form-group">
+                                        <label class="col-md-12 col-sm-12 col-xs-12  text-right control-label">رقم الحركة</label>
+                                        <div class="col-md-12 col-sm-12 col-xs-12 ">
+                                            <div dx-Text-box="TB_HousingNumberAuto" dx-validator=""></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                                        <div class="table-responsive">
+                                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                                <table class="table table-st table-inverse table-bordered table-center">
+                                                    <thead>
+                                                        <tr>
+                                                            <td>
+
+                                                                نوع السكن
+
+                                                            </td>
+                                                            <td>
+
+                                                                الوحدة الإدارية
+
+                                                            </td>
+                                                            <td>
+
+                                                                القسم
+
+                                                            </td>
+                                                            <td>
+
+                                                                الدور
+
+                                                            </td>
+                                                            <td>
+
+                                                                الشقة / الغرفة
+
+                                                            </td>
+                                                            <td ng-if="MDL_HousingTypeId === 1">
+
+                                                                موقع السرير
+
+                                                            </td>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr style="background-color: #f7f7f7 !important;">
+                                                            <td>
+                                                                <div dx-select-box="DL_HousingTypes" dx-validator=""></div>
+                                                            </td>
+                                                            <td>
+                                                                <div dx-select-box="DL_Coms"></div>
+                                                            </td>
+                                                            <td>
+                                                                <div dx-select-box="DL_Units"></div>
+                                                            </td>
+                                                            <td>
+                                                                <div dx-select-box="DL_Floors"></div>
+                                                            </td>
+                                                            <td>
+                                                                <div dx-select-box="DL_Rooms"></div>
+                                                            </td>
+                                                            <td ng-if="MDL_HousingTypeId === 1">
+                                                                <div dx-select-box="DL_Beds"></div>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                                        <label class="col-md-12 col-sm-12 col-xs-12 text-right control-label">ملاحظات خاصة بحركة التسكين </label>
+                                        <div class="col-md-12 col-sm-12 col-xs-12">
+                                            <div dx-text-area="TA_HousingNotes"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-left">
+                                    <div dx-button="btnSaveHousingOfStudents"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        @* صفحة تسليم العهد إلي الطالب *@
+        <div data-options="dxTemplate: { name : 'HousingDeliveryToStudentContent' }">
+            <div dx-scroll-view="{
+                                height: 500,
+                                direction: 'both'
+                            }">
+
+                <div class="row">
+                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 form-group">
+                        <label class="col-md-12 col-sm-12 col-xs-12   text-right control-label">تاريخ الإستلام </label>
+                        <div class="col-md-12 col-sm-12 col-xs-12  ">
+                            <div style="width:100%" dx-date-box="DB_ReceivingDateMeladi"></div>
+                        </div>
+                    </div>
+                    @*<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 form-group">
+                        <label class="col-md-12 col-sm-12 col-xs-12  text-right control-label">تاريخ الإستلام الهجري</label>
+                        <div class="col-md-12 col-sm-12 col-xs-12 ">
+                            <div dx-Text-box="TB_ReceivingDateHigri"></div>‍‍‍‍
+                        </div>
+                    </div>*@
+                </div>
+                <div class="col-md-12">
+                    <div class="table-responsive">
+                        <table class="table table-st table-inverse table-bordered table-center">
+                            <thead>
+                                <tr>
+                                    <td>
+
+                                        نوع السكن
+
+                                    </td>
+                                    <td>
+
+                                        الوحدة الإدارية
+
+                                    </td>
+                                    <td>
+
+                                        القسم
+
+                                    </td>
+                                    <td>
+
+                                        الدور
+
+                                    </td>
+                                    <td>
+
+                                        الشقة / الغرفة
+
+                                    </td>
+                                    <td ng-if="MDL_HousingTypeId === 1">
+
+                                        موقع السرير
+
+                                    </td>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <tr style="background-color: #f7f7f7 !important;">
+                                    <td>
+                                        <div dx-select-box="DL_HousingTypes" dx-validator=""></div>
+                                    </td>
+                                    <td>
+                                        <div dx-select-box="DL_Coms"></div>
+                                    </td>
+                                    <td>
+                                        <div dx-select-box="DL_Units"></div>
+                                    </td>
+                                    <td>
+                                        <div dx-select-box="DL_Floors"></div>
+                                    </td>
+                                    <td>
+                                        <div dx-select-box="DL_Rooms"></div>
+                                    </td>
+                                    <td ng-if="MDL_HousingTypeId === 1">
+                                        <div dx-select-box="DL_Beds"></div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+
+                <br />
+
+                <div class="col-md-12">
+                    <div class="table-responsive">
+                        <table class="table table-st table-inverse table-bordered table-center">
+                            <thead style="background: #0e70a0;">
+                                <tr>
+                                    <td>
+                                        <b>
+                                            التصنيف
+                                        </b>
+                                    </td>
+                                    <td>
+                                        <b>
+                                            اسم الأثاث
+                                        </b>
+                                    </td>
+                                    <td></td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr style="background-color: #f7f7f7 !important;">
+                                    <td>
+                                        <div dx-select-box="DL_Categories"></div>
+                                    </td>
+                                    <td>
+                                        <div dx-select-box="DL_Furnitures"></div>
+                                    </td>
+                                    <td>
+
+                                        <button data-placement="top" title="إضافة" ng-show="AddRowShow" ng-init="AddRowShow=true" class="btn_plus btn btn-success btn-sm" ng-click="AddUpdateHousingFurniture()">
+                                            <i class="fa fa-plus"></i>
+                                        </button>
+                                        <button data-placement="top" title="حفظ التعديل" ng-show="UpdateRowShow" class="btn btn-warning btn-sm" ng-click="AddUpdateHousingFurniture()">
+                                            <i class="fa fa-edit"></i>
+                                        </button>
+                                        <button type="button" ng-show="NewRowShow" data-placement="top" title="جديد" ng-click="clearFields()" class="btn_plus btn btn-info btn-sm">
+                                            <i class="fa fa-file"></i>
+                                        </button>
+                                        <button type="button" data-placement="top" title="مسح المسودة" class="btn btn-danger btn-sm" ng-click="clearFields()">
+                                            <i class="fa fa-eraser"></i>
+                                        </button>
+                                    </td>
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <fieldset>
+                        <div id="gridContainer" class="dx-tree-st dx-tree-st22" dx-data-grid="HousingFurnitureGrid" style="margin-right: 100px;"></div>
+                    </fieldset>
+                </div>
+                <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12 text-left">
+                    <div dx-button="btnSaveHousingOfStudents"></div>
+                </div>
+                <div class="clearfix"></div>
+                <br />
+                <div class="clearfix"></div>
+            </div>
+
+        </div>
+
+        @* صفحة استلام العهد من الطالب *@
+        <div data-options="dxTemplate: { name : 'HousingDeliveryFromStudentContent' }">
+            <div dx-scroll-view="{
+                                height: 'auto',
+                                direction: 'both'
+                            }">
+
+                <div class="col-md-12">
+                    <div class="table-responsive">
+                        <table class="table table-st table-inverse table-bordered table-center">
+                            <thead>
+                                <tr>
+                                    <td>
+
+                                        نوع السكن
+
+                                    </td>
+                                    <td>
+
+                                        الوحدة الإدارية
+
+                                    </td>
+                                    <td>
+
+                                        القسم
+
+                                    </td>
+                                    <td>
+
+                                        الدور
+
+                                    </td>
+                                    <td>
+
+                                        الشقة / الغرفة
+
+                                    </td>
+                                    <td ng-if="MDL_HousingTypeId === 1">
+
+                                        موقع السرير
+
+                                    </td>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <tr style="background-color: #f7f7f7 !important;">
+                                    <td>
+                                        <div dx-select-box="DL_HousingTypes" dx-validator=""></div>
+                                    </td>
+                                    <td>
+                                        <div dx-select-box="DL_Coms"></div>
+                                    </td>
+                                    <td>
+                                        <div dx-select-box="DL_Units"></div>
+                                    </td>
+                                    <td>
+                                        <div dx-select-box="DL_Floors"></div>
+                                    </td>
+                                    <td>
+                                        <div dx-select-box="DL_Rooms"></div>
+                                    </td>
+                                    <td ng-if="MDL_HousingTypeId === 1">
+                                        <div dx-select-box="DL_Beds"></div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <fieldset>
+                        <div id="gridContainer" class="dx-tree-st dx-tree-st22" dx-data-grid="HousingFurnitureGrid" style="margin-right: 100px;"></div>
+                    </fieldset>
+                </div>
+
+            </div>
+        </div>
+
+        @* صفحة نقل الطالب *@
+        <div data-options="dxTemplate: { name : 'StudentHousingTransferContent' }">
+            <div dx-scroll-view="{
+                                height: 500,
+                                direction: 'both'
+                            }">
+                <div class="col-md-6 col-sm-12 col-xs-12 dx-overlay-wrapper-font">
+                    <div class="panel-group" id="accordionTwo" dir="rtl" role="tablist" aria-multiselectable="true">
+                        <div class="panel panel-default">
+                            <div class="panel-heading panel-heading-ds" role="tab" id="headingTwo">
+                                <h4 class="panel-title panel-title-ds">
+                                    <a role="button" class="accord" data-toggle="collapse" data-parent="#accordionTwo" href="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo" style="background: #0e70a0;color: #fff;">
+                                        بيانات السكن الحالية
+                                    </a>
+                                </h4>
+                            </div>
+                            <div id="collapseTwo" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingTwo">
+
+                                <div class="panel-body">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="row">
+                                                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 form-group">
+                                                    <label class="col-md-12 col-sm-12 col-xs-12  text-right control-label">رقم الحركة</label>
+                                                    <div class="col-md-12 col-sm-12 col-xs-12 ">
+                                                        <div dx-Text-box="TB_HousingNumberAuto" dx-validator=""></div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12 form-group">
+                                                    <label class="col-md-12 col-sm-12 col-xs-12   text-right control-label">تاريخ التسكين الميلادي</label>
+                                                    <div class="col-md-12 col-sm-12 col-xs-12  ">
+                                                        <div style="width:100%" id="HousingDateId" dx-date-box="DB_HousingDateMeladi"></div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12 form-group">
+                                                    <label class="col-md-12 col-sm-12 col-xs-12  text-right control-label">تاريخ التسكين الهجري</label>
+                                                    <div class="col-md-12 col-sm-12 col-xs-12 ">
+                                                        <div dx-Text-box="TB_HousingDateHigri"></div>‍‍‍‍
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                                                    <div class="table-responsive">
+                                                        <div class="col-md-12 col-sm-12 col-xs-12">
+                                                            <table class="table table-st table-sm-f table-inverse table-bordered table-center">
+                                                                <tbody>
+                                                                    <tr>
+                                                                        <td>
+                                                                            نوع السكن
+                                                                        </td>
+
+                                                                        <td>
+                                                                            <div dx-select-box="DL_HousingTypes" dx-validator=""></div>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>
+                                                                            الوحدة الإدارية
+                                                                        </td>
+                                                                        <td>
+                                                                            <div dx-select-box="DL_Coms"></div>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>
+                                                                            القسم
+                                                                        </td>
+                                                                        <td>
+                                                                            <div dx-select-box="DL_Units"></div>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>
+                                                                            الدور
+                                                                        </td>
+                                                                        <td>
+                                                                            <div dx-select-box="DL_Floors"></div>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>
+                                                                            الشقة / الغرفة
+                                                                        </td>
+                                                                        <td>
+                                                                            <div dx-select-box="DL_Rooms"></div>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr ng-if="MDL_HousingTypeId === 1">
+                                                                        <td>
+                                                                            موقع السرير
+                                                                        </td>
+                                                                        <td>
+                                                                            <div dx-select-box="DL_Beds"></div>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>
+                                                                            القائم بالعمل
+                                                                        </td>
+                                                                        <td>
+                                                                            <div dx-text-box="txt_UserLastUpdated"></div>
+                                                                        </td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                                                    <label class="col-md-12 col-sm-12 col-xs-12 text-right control-label">ملاحظات حركة التسكين الحالية </label>
+                                                    <div class="col-md-12 col-sm-12 col-xs-12">
+                                                        <div dx-text-area="TA_HousingNotes"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-sm-12 col-xs-12 dx-overlay-wrapper-font">
+                    <div class="panel-group" id="accordiontThree" dir="rtl" role="tablist" aria-multiselectable="true">
+                        <div class="panel panel-default">
+                            <div class="panel-heading panel-heading-ds" role="tab" id="headingThree">
+                                <h4 class="panel-title panel-title-ds">
+                                    <a role="button" class="accord" data-toggle="collapse" data-parent="#accordionThree" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree" style="font-size: 15px;background: #0e70a0;color: #fff;">
+                                        بيانات السكن المنتقل إليه
+                                    </a>
+                                </h4>
+                            </div>
+                            <div id="collapseThree" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingThree">
+
+                                <div class="panel-body">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="row">
+                                                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 form-group">
+                                                    <label class="col-md-12 col-sm-12 col-xs-12 text-right control-label">رقم الحركة</label>
+                                                    <div class="col-md-12 col-sm-12 col-xs-12 ">
+                                                        <div dx-Text-box="TB_HousingNumberAuto_Instance" dx-validator=""></div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12 form-group">
+                                                    <label class="col-md-12 col-sm-12 col-xs-12   text-right control-label">تاريخ الانتقال الميلادي</label>
+                                                    <div class="col-md-12 col-sm-12 col-xs-12  ">
+                                                        <div style="width:100%" dx-date-box="DB_HousingTransferingDateMeladi"></div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12 form-group">
+                                                    <label class="col-md-12 col-sm-12 col-xs-12  text-right control-label">تاريخ الانتقال الهجري</label>
+                                                    <div class="col-md-12 col-sm-12 col-xs-12 ">
+                                                        <div dx-Text-box="TB_HousingTransferingDateHigri"></div>‍‍‍‍
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                                                    <div class="table-responsive">
+                                                        <div class="col-md-12 col-sm-12 col-xs-12">
+                                                            <table class="table table-sm-f table-st table-inverse table-bordered table-center">
+                                                                <tbody>
+                                                                    <tr>
+                                                                        <td>
+                                                                            نوع السكن
+                                                                        </td>
+                                                                        <td>
+                                                                            <div dx-select-box="DL_HousingTypes_Instance" dx-validator=""></div>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>
+                                                                            الوحدة الإدارية
+                                                                        </td>
+                                                                        <td>
+                                                                            <div dx-select-box="DL_Coms_Instance"></div>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>
+                                                                            القسم
+                                                                        </td>
+                                                                        <td>
+                                                                            <div dx-select-box="DL_Units_Instance"></div>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>
+                                                                            الدور
+                                                                        </td>
+                                                                        <td>
+                                                                            <div dx-select-box="DL_Floors_Instance"></div>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>
+                                                                            الشقة / الغرفة
+                                                                        </td>
+                                                                        <td>
+                                                                            <div dx-select-box="DL_Rooms_Instance"></div>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr ng-if="MDL_HousingTypeId_Instance === 1">
+                                                                        <td>
+                                                                            موقع السرير
+                                                                        </td>
+                                                                        <td>
+                                                                            <div dx-select-box="DL_Beds_Instance"></div>
+                                                                        </td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                                                    <label class="col-md-12 col-sm-12 col-xs-12 text-right control-label">ملاحظات حركة التسكين الحالية </label>
+                                                    <div class="col-md-12 col-sm-12 col-xs-12">
+                                                        <div dx-text-area="TA_HousingNotes_Instance"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-left">
+                        <div dx-button="btnSaveHousingOfStudents"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        @* صفحة تبديل السكن *@
+        <div data-options="dxTemplate: { name : 'StudentHousingReplacementContent' }">
+            <div id="scrollview" class="poupup-dds" dx-scroll-view="{ showScrollbar: 'always' ,  direction: 'both' , height: 700 }">
+
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="panel-group" id="accordionTwo" dir="rtl" role="tablist" aria-multiselectable="true">
+                        <div class="panel panel-default">
+                            <div class="panel-heading panel-heading-ds" role="tab" id="headingTwo">
+                                <h4 class="panel-title panel-title-ds">
+                                    <a role="button" class="accord" data-toggle="collapse" data-parent="#accordionTwo" href="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo" style="font-size: 15px;background: #0e70a0;color: #fff;">
+                                        تفاصيل حركة التبديل
+                                    </a>
+                                </h4>
+                            </div>
+                            <div id="collapseTwo" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingTwo">
+
+                                <div class="panel-body" style="padding-bottom: 0px;padding-top: 10px;">
+                                    <div class="row">
+                                        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 form-group">
+                                            <label class="col-md-7 col-sm-12 col-xs-12 l-h-30 text-right control-label">رقم الحركة</label>
+                                            <div class="col-md-5 col-sm-12 col-xs-12 ">
+                                                <div dx-Text-box="TB_ReplacementNumberAuto" dx-validator=""></div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12 form-group">
+                                            <label class="col-md-4 col-sm-12 col-xs-12 l-h-30 text-right control-label">تاريخ التبديل الميلادي</label>
+                                            <div class="col-md-8 col-sm-12 col-xs-12  ">
+                                                <div style="width:100%" dx-date-box="DB_ReplacementDateMeladi"></div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12 form-group">
+                                            <label class="col-md-4 col-sm-12 col-xs-12 l-h-30  text-right control-label">تاريخ التبديل الهجري</label>
+                                            <div class="col-md-8 col-sm-12 col-xs-12 ">
+                                                <div dx-Text-box="TB_ReplacementDateHigri"></div>‍‍‍‍
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-12 col-xs-12 dx-overlay-wrapper-font">
+                    <div class="panel-group" id="accordionTwo" dir="rtl" role="tablist" aria-multiselectable="true">
+                        <div class="panel panel-default">
+                            <div class="panel-heading" role="tab" style="background-color: #ffffff">
+                                <div class="col-lg-12 col-sm-12 col-xs-12 ">
+                                    <div dx-select-box="DL_Students"></div>
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div id="collapseTwo" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingTwo">
+
+                                <div class="panel-body">
+                                    <div class="row">
+
+                                        <div class="col-md-6" style="border-left:1px solid #ddd">
+
+                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                <div class="long-title"><h4>البيانات الشخصية</h4></div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                                                    <label class="col-md-12 col-sm-12 col-xs-12   text-right control-label">الجنسية</label>
+                                                    <div class="col-md-12 col-sm-12 col-xs-12 ">
+                                                        <div dx-Text-box="TB_Nationality"></div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                                                    <label class="col-md-12 col-sm-12 col-xs-12   text-right control-label">تاريخ الميلاد</label>
+                                                    <div class="col-md-12 col-sm-12 col-xs-12 ">
+                                                        <div style="width:100%" dx-date-box="DB_BirthDate"></div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                                                    <label class="col-md-12 col-sm-12 col-xs-12   text-right control-label">النوع</label>
+                                                    <div class="col-md-12 col-sm-12 col-xs-12 ">
+                                                        <div dx-Text-box="TB_GenderName"></div>
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                                                    <label class="col-md-12 col-sm-12 col-xs-12   text-right control-label">الكلية</label>
+                                                    <div class="col-md-12 col-sm-12 col-xs-12 ">
+                                                        <div dx-Text-box="TB_Facultiy"></div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                                                    <label class="col-md-12 col-sm-12 col-xs-12   text-right control-label">رقم الموبايل</label>
+                                                    <div class="col-md-12 col-sm-12 col-xs-12 ">
+                                                        <div dx-Text-box="TB_MobileNumber"></div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                                                    <label class="col-md-12 col-sm-12 col-xs-12   text-right control-label">محل الميلاد</label>
+                                                    <div class="col-md-12 col-sm-12 col-xs-12 ">
+                                                        <div dx-Text-box="TB_BirthCity"></div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                                                    <label class="col-md-12 col-sm-12 col-xs-12   text-right control-label">نوع الدراسة</label>
+                                                    <div class="col-md-12 col-sm-12 col-xs-12 ">
+                                                        <div dx-Text-box="TB_StudyTypeName"></div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                                                    <label class="col-md-12 col-sm-12 col-xs-12   text-right control-label">الدرجة العلمية</label>
+                                                    <div class="col-md-12 col-sm-12 col-xs-12 ">
+                                                        <div dx-Text-box="TB_DegreeName"></div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                                                    <label class="col-md-12 col-sm-12 col-xs-12 p-l-0 text-right control-label">الحالة الأكاديمية</label>
+                                                    <div class="col-md-12 col-sm-12 col-xs-12 ">
+                                                        <div dx-Text-box="TB_StatusName"></div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                                                    <label class="col-md-12 col-sm-12 col-xs-12   text-right control-label">المستوي</label>
+                                                    <div class="col-md-12 col-sm-12 col-xs-12 ">
+                                                        <div dx-Text-box="TB_LevelName"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                <div class="long-title"><h4>بيانات السكن</h4></div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                                                    <div class="table-responsive">
+                                                        <div class="col-md-12 col-sm-12 col-xs-12">
+                                                            <table class="table table-st table-sm-f table-inverse table-bordered table-center">
+                                                                <tbody>
+                                                                    <tr>
+                                                                        <td>
+                                                                            نوع السكن
+                                                                        </td>
+
+                                                                        <td>
+                                                                            <div dx-select-box="DL_HousingTypes" dx-validator=""></div>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>
+                                                                            الوحدة الإدارية
+                                                                        </td>
+                                                                        <td>
+                                                                            <div dx-select-box="DL_Coms"></div>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>
+                                                                            القسم
+                                                                        </td>
+                                                                        <td>
+                                                                            <div dx-select-box="DL_Units"></div>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>
+                                                                            الدور
+                                                                        </td>
+                                                                        <td>
+                                                                            <div dx-select-box="DL_Floors"></div>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>
+                                                                            الشقة / الغرفة
+                                                                        </td>
+                                                                        <td>
+                                                                            <div dx-select-box="DL_Rooms"></div>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr ng-if="MDL_HousingTypeId === 1">
+                                                                        <td>
+                                                                            موقع السرير
+                                                                        </td>
+                                                                        <td>
+                                                                            <div dx-select-box="DL_Beds"></div>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>
+                                                                            القائم بالعمل
+                                                                        </td>
+                                                                        <td>
+                                                                            <div dx-text-box="txt_UserLastUpdated"></div>
+                                                                        </td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                                                    <label class="col-md-12 col-sm-12 col-xs-12  text-right control-label">رقم الحركة</label>
+                                                    <div class="col-md-12 col-sm-12 col-xs-12 ">
+                                                        <div dx-Text-box="TB_HousingNumberAuto" dx-validator=""></div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                                                    <label class="col-md-12 col-sm-12 col-xs-12   text-right control-label">تاريخ التسكين الميلادي</label>
+                                                    <div class="col-md-12 col-sm-12 col-xs-12  ">
+                                                        <div style="width:100%" id="HousingDateId" dx-date-box="DB_HousingDateMeladi"></div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                                                    <label class="col-md-12 col-sm-12 col-xs-12  text-right control-label">تاريخ التسكين الهجري</label>
+                                                    <div class="col-md-12 col-sm-12 col-xs-12 ">
+                                                        <div dx-Text-box="TB_HousingDateHigri"></div>‍‍‍‍
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                                                    <label class="col-md-12 col-sm-12 col-xs-12 text-right control-label">ملاحظات حركة التسكين الحالية </label>
+                                                    <div class="col-md-12 col-sm-12 col-xs-12">
+                                                        <div dx-text-area="TA_HousingNotes"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-12 col-xs-12 dx-overlay-wrapper-font">
+                    <div class="panel-group" id="accordiontThree" dir="rtl" role="tablist" aria-multiselectable="true">
+                        <div class="panel panel-default">
+                            <div class="panel-heading" role="tab" style="background-color: #ffffff">
+                                <div class="col-lg-12 col-sm-12 col-xs-12 ">
+                                    <div dx-select-box="DL_Students_Instance"></div>
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div id="collapseThree" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingThree">
+
+                                <div class="panel-body">
+                                    <div class="row">
+
+                                        <div class="col-md-6" style="border-left:1px solid #ddd">
+
+                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                <div class="long-title"><h4>البيانات الشخصية</h4></div>
+                                            </div>
+                                            <div class="row">
+
+                                                <div class="col-md-12 col-sm-12 col-xs-12 form-group">
+                                                    <label class="col-md-12 col-sm-12 col-xs-12   text-right control-label">الجنسية</label>
+                                                    <div class="col-md-12 col-sm-12 col-xs-12 ">
+                                                        <div dx-Text-box="TB_Nationality_Instance"></div>
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="col-md-12 col-sm-12 col-xs-12 form-group">
+                                                    <label class="col-md-12 col-sm-12 col-xs-12   text-right control-label">تاريخ الميلاد</label>
+                                                    <div class="col-md-12 col-sm-12 col-xs-12 ">
+                                                        <div style="width:100%" dx-date-box="DB_BirthDate_Instance"></div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12 col-sm-12 col-xs-12 form-group">
+                                                    <label class="col-md-12 col-sm-12 col-xs-12   text-right control-label">النوع</label>
+                                                    <div class="col-md-12 col-sm-12 col-xs-12 ">
+                                                        <div dx-Text-box="TB_GenderName_Instance"></div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                                                    <label class="col-md-12 col-sm-12 col-xs-12   text-right control-label">الكلية</label>
+                                                    <div class="col-md-12 col-sm-12 col-xs-12 ">
+                                                        <div dx-Text-box="TB_Facultiy_Instance"></div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                                                    <label class="col-md-12 col-sm-12 col-xs-12   text-right control-label">رقم الموبايل</label>
+                                                    <div class="col-md-12 col-sm-12 col-xs-12 ">
+                                                        <div dx-Text-box="TB_MobileNumber_Instance"></div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                                                    <label class="col-md-12 col-sm-12 col-xs-12   text-right control-label">محل الميلاد</label>
+                                                    <div class="col-md-12 col-sm-12 col-xs-12 ">
+                                                        <div dx-Text-box="TB_BirthCity_Instance"></div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                                                    <label class="col-md-12 col-sm-12 col-xs-12   text-right control-label">نوع الدراسة</label>
+                                                    <div class="col-md-12 col-sm-12 col-xs-12 ">
+                                                        <div dx-Text-box="TB_StudyTypeName_Instance"></div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                                                    <label class="col-md-12 col-sm-12 col-xs-12   text-right control-label">الدرجة العلمية</label>
+                                                    <div class="col-md-12 col-sm-12 col-xs-12 ">
+                                                        <div dx-Text-box="TB_DegreeName_Instance"></div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                                                    <label class="col-md-12 col-sm-12 col-xs-12 p-l-0 text-right control-label">الحالة الأكاديمية</label>
+                                                    <div class="col-md-12 col-sm-12 col-xs-12 ">
+                                                        <div dx-Text-box="TB_StatusName_Instance"></div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                                                    <label class="col-md-12 col-sm-12 col-xs-12   text-right control-label">المستوي</label>
+                                                    <div class="col-md-12 col-sm-12 col-xs-12 ">
+                                                        <div dx-Text-box="TB_LevelName_Instance"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                <div class="long-title"><h4>بيانات السكن</h4></div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                                                    <div class="table-responsive">
+                                                        <div class="col-md-12 col-sm-12 col-xs-12">
+                                                            <table class="table table-st table-sm-f table-inverse table-bordered table-center">
+                                                                <tbody>
+                                                                    <tr>
+                                                                        <td>
+                                                                            نوع السكن
+                                                                        </td>
+
+                                                                        <td>
+                                                                            <div dx-select-box="DL_HousingTypes_Instance" dx-validator=""></div>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>
+                                                                            الوحدة الإدارية
+                                                                        </td>
+                                                                        <td>
+                                                                            <div dx-select-box="DL_Coms_Instance"></div>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>
+                                                                            القسم
+                                                                        </td>
+                                                                        <td>
+                                                                            <div dx-select-box="DL_Units_Instance"></div>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>
+                                                                            الدور
+                                                                        </td>
+                                                                        <td>
+                                                                            <div dx-select-box="DL_Floors_Instance"></div>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>
+                                                                            الشقة / الغرفة
+                                                                        </td>
+                                                                        <td>
+                                                                            <div dx-select-box="DL_Rooms_Instance"></div>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr ng-if="MDL_HousingTypeId_Instance === 1">
+                                                                        <td>
+                                                                            موقع السرير
+                                                                        </td>
+                                                                        <td>
+                                                                            <div dx-select-box="DL_Beds_Instance"></div>
+                                                                        </td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                                                    <label class="col-md-12 col-sm-12 col-xs-12  text-right control-label">رقم الحركة</label>
+                                                    <div class="col-md-12 col-sm-12 col-xs-12 ">
+                                                        <div dx-Text-box="TB_HousingNumberAuto_Instance"></div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                                                    <label class="col-md-12 col-sm-12 col-xs-12   text-right control-label">تاريخ التسكين الميلادي</label>
+                                                    <div class="col-md-12 col-sm-12 col-xs-12  ">
+                                                        <div style="width:100%" id="HousingDateId" dx-date-box="DB_HousingDateMeladi_Replacement"></div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                                                    <label class="col-md-12 col-sm-12 col-xs-12  text-right control-label">تاريخ التسكين الهجري</label>
+                                                    <div class="col-md-12 col-sm-12 col-xs-12 ">
+                                                        <div dx-Text-box="TB_HousingDateHigri_Replacement"></div>‍‍‍‍
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                                                    <label class="col-md-12 col-sm-12 col-xs-12 text-right control-label">ملاحظات حركة التسكين الحالية </label>
+                                                    <div class="col-md-12 col-sm-12 col-xs-12">
+                                                        <div dx-text-area="TA_HousingNotes_Instance"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-left">
+                        <div dx-button="btnShowPopUpReplacementNotes"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        @* صفحة اخلاء الطرف *@
+        <div data-options="dxTemplate: { name : 'StudentHousingClearanceContent' }">
+            <div id="scrollview" dx-scroll-view="{ showScrollbar: 'always' ,  direction: 'both'}">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            
+                       
+                                <div class="panel-body" style="padding-bottom: 0px;padding-top: 10px;">
+                                    <div class="row">
+
+                                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 form-group">
+                                            <label class="col-md-12 col-sm-12 col-xs-12 l-h-30 text-right control-label">تاريخ الاخلاء الميلادي</label>
+                                            <div class="col-md-12 col-sm-12 col-xs-12  ">
+                                                <div style="width:100%" dx-date-box="ClearanceDateMeladi"></div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 form-group">
+                                            <label class="col-md-12 col-sm-12 col-xs-12 l-h-30  text-right control-label">تاريخ الاخلاء الهجري</label>
+                                            <div class="col-md-12 col-sm-12 col-xs-12 ">
+                                                <div dx-Text-box="ClearanceDateHigri"></div>‍‍‍‍
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                                            <label class="col-md-12 col-sm-12 col-xs-12 l-h-30 text-right control-label">الملاحظات</label>
+                                            <div class="col-md-12 col-sm-12 col-xs-12 ">
+                                                <div dx-Text-area="txt_ClearanceNote"></div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-left">
+                                                <div  class="btn btn-primary" dx-button="btnSaveClearance"></div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+               
+
+                      
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-sm-12 col-xs-12 dx-overlay-wrapper-font">
+            <div class="panel-group" id="accordionTwo" dir="rtl" role="tablist" aria-multiselectable="true">
+                <div class="panel panel-default">
+                    <div class="panel-heading" role="tab" style="background-color: #ffffff">
+                        <div class="col-lg-12 col-sm-12 col-xs-12 ">
+                            <div dx-select-box="DL_Students"></div>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div id="collapseTwo" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingTow">
+
+                        <div class="panel-body">
+                            <div class="row">
+
+                                <div class="col-md-6" style="border-left:1px solid #ddd">
+
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                        <div class="long-title"><h4>البيانات الشخصية</h4></div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                                            <label class="col-md-12 col-sm-12 col-xs-12   text-right control-label">الجنسية</label>
+                                            <div class="col-md-12 col-sm-12 col-xs-12 ">
+                                                <div dx-Text-box="TB_Nationality"></div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                                            <label class="col-md-12 col-sm-12 col-xs-12   text-right control-label">تاريخ الميلاد</label>
+                                            <div class="col-md-12 col-sm-12 col-xs-12 ">
+                                                <div style="width:100%" dx-date-box="DB_BirthDate"></div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                                            <label class="col-md-12 col-sm-12 col-xs-12   text-right control-label">النوع</label>
+                                            <div class="col-md-12 col-sm-12 col-xs-12 ">
+                                                <div dx-Text-box="TB_GenderName"></div>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                                            <label class="col-md-12 col-sm-12 col-xs-12   text-right control-label">الكلية</label>
+                                            <div class="col-md-12 col-sm-12 col-xs-12 ">
+                                                <div dx-Text-box="TB_Facultiy"></div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                                            <label class="col-md-12 col-sm-12 col-xs-12   text-right control-label">رقم الموبايل</label>
+                                            <div class="col-md-12 col-sm-12 col-xs-12 ">
+                                                <div dx-Text-box="TB_MobileNumber"></div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                                            <label class="col-md-12 col-sm-12 col-xs-12   text-right control-label">محل الميلاد</label>
+                                            <div class="col-md-12 col-sm-12 col-xs-12 ">
+                                                <div dx-Text-box="TB_BirthCity"></div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                                            <label class="col-md-12 col-sm-12 col-xs-12   text-right control-label">نوع الدراسة</label>
+                                            <div class="col-md-12 col-sm-12 col-xs-12 ">
+                                                <div dx-Text-box="TB_StudyTypeName"></div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                                            <label class="col-md-12 col-sm-12 col-xs-12   text-right control-label">الدرجة العلمية</label>
+                                            <div class="col-md-12 col-sm-12 col-xs-12 ">
+                                                <div dx-Text-box="TB_DegreeName"></div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                                            <label class="col-md-12 col-sm-12 col-xs-12 p-l-0 text-right control-label">الحالة الأكاديمية</label>
+                                            <div class="col-md-12 col-sm-12 col-xs-12 ">
+                                                <div dx-Text-box="TB_StatusName"></div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                                            <label class="col-md-12 col-sm-12 col-xs-12   text-right control-label">المستوي</label>
+                                            <div class="col-md-12 col-sm-12 col-xs-12 ">
+                                                <div dx-Text-box="TB_LevelName"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                        <div class="long-title"><h4>بيانات السكن</h4></div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                                            <div class="table-responsive">
+                                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                                    <table class="table table-st table-sm-f table-inverse table-bordered table-center">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>
+                                                                    نوع السكن
+                                                                </td>
+
+                                                                <td>
+                                                                    <div dx-select-box="DL_HousingTypes" dx-validator=""></div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    الوحدة الإدارية
+                                                                </td>
+                                                                <td>
+                                                                    <div dx-select-box="DL_Coms"></div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    القسم
+                                                                </td>
+                                                                <td>
+                                                                    <div dx-select-box="DL_Units"></div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    الدور
+                                                                </td>
+                                                                <td>
+                                                                    <div dx-select-box="DL_Floors"></div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    الشقة / الغرفة
+                                                                </td>
+                                                                <td>
+                                                                    <div dx-select-box="DL_Rooms"></div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr ng-if="MDL_HousingTypeId === 1">
+                                                                <td>
+                                                                    موقع السرير
+                                                                </td>
+                                                                <td>
+                                                                    <div dx-select-box="DL_Beds"></div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    القائم بالعمل
+                                                                </td>
+                                                                <td>
+                                                                    <div dx-text-box="txt_UserLastUpdated"></div>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                                            <label class="col-md-12 col-sm-12 col-xs-12  text-right control-label">رقم الحركة</label>
+                                            <div class="col-md-12 col-sm-12 col-xs-12 ">
+                                                <div dx-Text-box="TB_HousingNumberAuto" dx-validator=""></div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                                            <label class="col-md-12 col-sm-12 col-xs-12   text-right control-label">تاريخ التسكين الميلادي</label>
+                                            <div class="col-md-12 col-sm-12 col-xs-12  ">
+                                                <div style="width:100%" id="HousingDateId" dx-date-box="DB_HousingDateMeladi"></div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                                            <label class="col-md-12 col-sm-12 col-xs-12  text-right control-label">تاريخ التسكين الهجري</label>
+                                            <div class="col-md-12 col-sm-12 col-xs-12 ">
+                                                <div dx-Text-box="TB_HousingDateHigri"></div>‍‍‍‍
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                                            <label class="col-md-12 col-sm-12 col-xs-12 text-right control-label">ملاحظات حركة التسكين الحالية </label>
+                                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                                <div dx-text-area="TA_HousingNotes"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-sm-12 col-xs-12 dx-overlay-wrapper-font">
+            <div class="panel-group" id="accordiontThree" dir="rtl" role="tablist" aria-multiselectable="true">
+                <div class="panel panel-default">
+                    <div class="panel-heading" role="tab" style="background-color: #ffffff">
+                        <div class="col-lg-12 col-sm-12 col-xs-12 ">
+                            <div dx-select-box="DL_Students_Instance"></div>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div id="collapseThree" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingThree">
+
+                        <div class="panel-body">
+                            <div class="row">
+
+                                <div class="col-md-6" style="border-left:1px solid #ddd">
+
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                        <div class="long-title"><h4>البيانات الشخصية</h4></div>
+                                    </div>
+                                    <div class="row">
+
+                                        <div class="col-md-12 col-sm-12 col-xs-12 form-group">
+                                            <label class="col-md-12 col-sm-12 col-xs-12   text-right control-label">الجنسية</label>
+                                            <div class="col-md-12 col-sm-12 col-xs-12 ">
+                                                <div dx-Text-box="TB_Nationality_Instance"></div>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="col-md-12 col-sm-12 col-xs-12 form-group">
+                                            <label class="col-md-12 col-sm-12 col-xs-12   text-right control-label">تاريخ الميلاد</label>
+                                            <div class="col-md-12 col-sm-12 col-xs-12 ">
+                                                <div style="width:100%" dx-date-box="DB_BirthDate_Instance"></div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 col-sm-12 col-xs-12 form-group">
+                                            <label class="col-md-12 col-sm-12 col-xs-12   text-right control-label">النوع</label>
+                                            <div class="col-md-12 col-sm-12 col-xs-12 ">
+                                                <div dx-Text-box="TB_GenderName_Instance"></div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                                            <label class="col-md-12 col-sm-12 col-xs-12   text-right control-label">الكلية</label>
+                                            <div class="col-md-12 col-sm-12 col-xs-12 ">
+                                                <div dx-Text-box="TB_Facultiy_Instance"></div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                                            <label class="col-md-12 col-sm-12 col-xs-12   text-right control-label">رقم الموبايل</label>
+                                            <div class="col-md-12 col-sm-12 col-xs-12 ">
+                                                <div dx-Text-box="TB_MobileNumber_Instance"></div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                                            <label class="col-md-12 col-sm-12 col-xs-12   text-right control-label">محل الميلاد</label>
+                                            <div class="col-md-12 col-sm-12 col-xs-12 ">
+                                                <div dx-Text-box="TB_BirthCity_Instance"></div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                                            <label class="col-md-12 col-sm-12 col-xs-12   text-right control-label">نوع الدراسة</label>
+                                            <div class="col-md-12 col-sm-12 col-xs-12 ">
+                                                <div dx-Text-box="TB_StudyTypeName_Instance"></div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                                            <label class="col-md-12 col-sm-12 col-xs-12   text-right control-label">الدرجة العلمية</label>
+                                            <div class="col-md-12 col-sm-12 col-xs-12 ">
+                                                <div dx-Text-box="TB_DegreeName_Instance"></div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                                            <label class="col-md-12 col-sm-12 col-xs-12 p-l-0 text-right control-label">الحالة الأكاديمية</label>
+                                            <div class="col-md-12 col-sm-12 col-xs-12 ">
+                                                <div dx-Text-box="TB_StatusName_Instance"></div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                                            <label class="col-md-12 col-sm-12 col-xs-12   text-right control-label">المستوي</label>
+                                            <div class="col-md-12 col-sm-12 col-xs-12 ">
+                                                <div dx-Text-box="TB_LevelName_Instance"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                        <div class="long-title"><h4>بيانات السكن</h4></div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                                            <div class="table-responsive">
+                                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                                    <table class="table table-st table-sm-f table-inverse table-bordered table-center">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>
+                                                                    نوع السكن
+                                                                </td>
+
+                                                                <td>
+                                                                    <div dx-select-box="DL_HousingTypes_Instance" dx-validator=""></div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    الوحدة الإدارية
+                                                                </td>
+                                                                <td>
+                                                                    <div dx-select-box="DL_Coms_Instance"></div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    القسم
+                                                                </td>
+                                                                <td>
+                                                                    <div dx-select-box="DL_Units_Instance"></div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    الدور
+                                                                </td>
+                                                                <td>
+                                                                    <div dx-select-box="DL_Floors_Instance"></div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    الشقة / الغرفة
+                                                                </td>
+                                                                <td>
+                                                                    <div dx-select-box="DL_Rooms_Instance"></div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr ng-if="MDL_HousingTypeId_Instance === 1">
+                                                                <td>
+                                                                    موقع السرير
+                                                                </td>
+                                                                <td>
+                                                                    <div dx-select-box="DL_Beds_Instance"></div>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                                            <label class="col-md-12 col-sm-12 col-xs-12  text-right control-label">رقم الحركة</label>
+                                            <div class="col-md-12 col-sm-12 col-xs-12 ">
+                                                <div dx-Text-box="TB_HousingNumberAuto_Instance"></div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                                            <label class="col-md-12 col-sm-12 col-xs-12   text-right control-label">تاريخ التسكين الميلادي</label>
+                                            <div class="col-md-12 col-sm-12 col-xs-12  ">
+                                                <div style="width:100%" id="HousingDateId" dx-date-box="DB_HousingDateMeladi_Instance"></div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                                            <label class="col-md-12 col-sm-12 col-xs-12  text-right control-label">تاريخ التسكين الهجري</label>
+                                            <div class="col-md-12 col-sm-12 col-xs-12 ">
+                                                <div dx-Text-box="TB_HousingDateHigri_Instance"></div>‍‍‍‍
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                                            <label class="col-md-12 col-sm-12 col-xs-12 text-right control-label">ملاحظات حركة التسكين الحالية </label>
+                                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                                <div dx-text-area="TA_HousingNotes_Instance"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+    </div>
+
+    <div dx-popup="InternalPopup">
+        @* ملاحظات استلام العهد *@
+        <div data-options="dxTemplate: { name : 'HousingDeliveryFromStudentContent-Return' }">
+            <div class="panel-group">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                                <label class="col-md-12 col-sm-12 col-xs-12 text-right control-label">تاريخ استلام العهدة</label>
+                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                    <div style="width:100%" id="HousingDateId" dx-date-box="DB_HousingReceivedFromDateMeladi"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <br />
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                                <label class="col-md-12 col-sm-12 col-xs-12 text-right control-label">ملاحظات خاصة بعملية الاستلام</label>
+                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                    <div dx-text-area="TA_HousingNotes"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-left">
+                            <div dx-button="btnSaveHousingOfStudents"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        @* ملاحظات تبديل السكن *@
+        <div data-options="dxTemplate: { name : 'StudentHousingReplacementContent-Notes' }">
+            <div class="row">
+                <div class="col-md-6 col-sm-12 col-xs-12 dx-overlay-wrapper-font">
+                    <div class="panel-group" id="accordionTwo" dir="rtl" role="tablist" aria-multiselectable="true">
+                        <div class="panel panel-default">
+                            <div class="panel-heading" role="tab">
+                                <div class="clearfix"></div>
+                                <div class="panel-body">
+                                    @*<div class="row">
+                                            <div class="col-lg-12 col-sm-12 col-xs-12 form-group ">
+                                                <div dx-select-box="DL_Students"></div>
+                                            </div>
+                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                                                <label class="col-md-12 col-sm-12 col-xs-12 text-right control-label">ملاحظات تبديل السكن تتعلق بهذا الطالب </label>
+                                                <div dx-text-area="TA_ReplacementNotes_FirstSt"></div>
+                                            </div>
+                                        </div>*@
+                                    <div class="row">
+                                        <div class="col-lg-12 col-sm-12 col-xs-12 form-group ">
+                                            <div dx-select-box="DL_Students"></div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                                            <label class="col-md-12 col-sm-12 col-xs-12 text-right control-label">ملاحظات تبديل السكن تتعلق بهذا الطالب</label>
+                                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                                <div dx-text-area="TA_ReplacementNotes_FirstSt"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-12 col-xs-12 dx-overlay-wrapper-font">
+                    <div class="panel-group" id="accordionTwo" dir="rtl" role="tablist" aria-multiselectable="true">
+                        <div class="panel panel-default">
+                            <div class="panel-heading" role="tab">
+                                <div class="clearfix"></div>
+                                <div class="panel-body">
+                                    @*<div class="row">
+                                            <div class="col-lg-12 col-sm-12 col-xs-12 form-group ">
+                                                <div dx-select-box="DL_Students_Instance"></div>
+                                            </div>
+                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                                                <label class="col-md-12 col-sm-12 col-xs-12 text-right control-label">ملاحظات تبديل السكن تتعلق بهذا الطالب</label>
+
+                                                <div dx-text-area="TA_ReplacementNotes_SecondSt"></div>
+
+                                            </div>
+                                        </div>*@
+                                    <div class="row">
+                                        <div class="col-lg-12 col-sm-12 col-xs-12 form-group ">
+                                            <div dx-select-box="DL_Students_Instance"></div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                                            <label class="col-md-12 col-sm-12 col-xs-12 text-right control-label">ملاحظات تبديل السكن تتعلق بهذا الطالب</label>
+                                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                                <div dx-text-area="TA_ReplacementNotes_SecondSt"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-left">
+                        <div dx-button="btnSaveHousingOfStudents"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    .swal-text {
+        /*background-color: #FEFAE3;
+        padding: 17px;
+        border: 1px solid #F0E1A1;
+        display: block;
+        margin: 22px;*/
+        text-align: center;
+        /*color: #61534e;*/
+    }
+
+    .control-label {
+        line-height: 25px;
+    }
+
+    .dx-overlay-wrapper-font .control-label {
+        font-size: 12px !important;
+    }
+
+    .dx-popup-title {
+        border-bottom: 1px solid #0e70a052 !important;
+        background: #ffffff !important;
+        color: #0e70a0 !important;
+    }
+
+        .dx-popup-title.dx-toolbar .dx-toolbar-label {
+            font-size: 22px !important;
+        }
+
+        .dx-popup-title.dx-toolbar {
+            padding: 12px 20px !important;
+        }
+
+        .dx-popup-title .dx-closebutton .dx-icon {
+            color: #0e70a0 !important;
+        }
+    /*.scrollable-container {
+                    padding-right: 0px;
+                    padding-left: 15px;
+                }
+
+
+                .dx-rtl .dx-scrollable, .dx-rtl.dx-scrollable {
+                    width: 1290px;
+                }*/
+    /*.dx-popup-wrapper > .dx-overlay-content {
+                                height: auto !important;
+                            }
+
+    #scrollview {
+        height: 500px;
+    }*/
+
+    .long-title h3 {
+        font-weight: 200;
+        font-size: 28px;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    /*vt*/
+    /*.dd-font .dx-texteditor-input {
+        font-size: 16px !important;
+    }*/
+
+    fieldset {
+        border: none;
+        margin: 2px 0;
+        padding: 8px 0 5px 0;
+        border: 1px solid #e6e6e6;
+        position: relative;
+        border-radius: 5px;
+    }
+
+    .fieldset-dds {
+        line-height: 20px;
+    }
+
+    .table {
+        margin-bottom: 5px;
+    }
+
+    .form-group {
+        margin-bottom: 5px;
+    }
+
+    .breadcrumb-wrapper {
+        /*margin: 15px 15px 0 15px;
+        padding: 0px 15px;
+        border-bottom: 1px solid #ddd;*/
+        margin: 15px 15px 0 15px;
+        padding: 11px 15px;
+        border-bottom: 1px solid #ddd;
+    }
+
+    /*.dxeFocused_MetropolisBlue {
+        border: 1px solid #ccc !important;
+    }*/
+
+    /*.dxeButtonEditButtonHover_MetropolisBlue {
+        background: #949494 !important;
+        color: #333 !important;
+    }*/
+
+    /*.dxeListBoxItem_MetropolisBlue {
+        font-size: 14px;
+        padding: 7px 5px;
+    }*/
+
+    /*input[type="text"].dxeEditArea_MetropolisBlue {
+        line-height: 26px !important;
+        padding: 0 4px !important;
+    }*/
+
+    .panel-heading.panel-heading-ds {
+        border: 0;
+        /*border-left: 1px solid #0e70a0;
+        border-right: 1px solid #0e70a0;*/
+        border-top: 1px solid #0e70a0;
+        min-height: 100%;
+        padding: 0;
+    }
+
+    .dx-texteditor.dx-state-readonly {
+        border-color: #ddd !important;
+    }
+
+    .panel-title.panel-title-ds > a, .panel-title.panel-title-ds > a:active {
+        /*color: #555;*/
+        display: block;
+        font-size: 16px;
+        font-weight: bold;
+        letter-spacing: 1px;
+        padding: 12px 15px;
+        text-decoration: none;
+        text-transform: uppercase;
+        word-spacing: 3px;
+    }
+
+    .panel-heading.panel-heading-ds .accord:before {
+        border: 1px solid #ccc;
+        border-radius: 50%;
+        content: "\f077";
+        float: left;
+        font-family: FontAwesome;
+        margin-top: -8px;
+        padding: 7px;
+        transition: all 0.5s;
+    }
+
+    .panel-heading.panel-heading-ds a.collapsed:before {
+        -moz-transform: rotate(180deg);
+        -webkit-transform: rotate(180deg);
+        transform: rotate(180deg);
+    }
+
+    .c-v .panel-group {
+        margin-bottom: 0;
+    }
+
+    .c-v .panel-collapse {
+        border-bottom: 1px solid #ddd;
+        border-left: 1px solid #ddd;
+        border-right: 1px solid #ddd;
+        margin-bottom: 10px;
+    }
+
+    .dx-field-value:not(.dx-switch):not(.dx-checkbox):not(.dx-button) {
+        width: 100% !important;
+    }
+
+    .dx-dropdowneditor-input-wrapper {
+        background: #fff;
+        border: 1px solid #c8c7cc;
+    }
+
+    .check-test {
+        flex: none !important;
+    }
+
+    textarea:focus {
+        outline-style: solid;
+        outline-width: 0px;
+    }
+
+    .dx-state-disabled.dx-widget, .dx-state-readonly.dx-widget {
+        cursor: not-allowed !important;
+        pointer-events: auto !important
+    }
+
+        .dx-state-disabled.dx-widget .dx-texteditor-input, .dx-state-disabled .dx-tab-content {
+            cursor: not-allowed !important;
+        }
+
+        .dx-state-readonly.dx-widget .dx-texteditor-input {
+            cursor: -webkit-grab;
+            cursor: grab;
+        }
+
+    /*.dx-tab.dx-tab-selected {
+        background-color: #e8f1f5;
+    }*/
+    .dx-tab.dx-tab-selected .dx-item-content.dx-tab-content {
+        color: #0e70a0;
+    }
+
+    .dx-tab .dx-item-content.dx-tab-content {
+        font-size: 17px;
+    }
+
+    .l-h-30 {
+        line-height: 35px !important;
+        font-size: 13px !important;
+    }
+
+    .p-l-0 {
+        padding-left: 0
+    }
+    /*.long-title h4 {
+        margin-top: 0 !important
+    }*/
+    .dx-list {
+        height: 90%;
+        /*position: absolute;*/
+        top: 0;
+        bottom: 0;
+    }
+
+    .info {
+        margin-top: 5px;
+        height: 78px;
+        text-align: center;
+    }
+
+    .image-container {
+        width: 65px;
+        float: left;
+        margin-right: 20px;
+    }
+
+        .image-container img {
+            display: block;
+            width: 100%;
+        }
+
+    .dx-tabs.dx-navbar {
+        text-align: center;
+        position: absolute;
+        bottom: 0;
+    }
+
+    .listOptions-ds .dx-list-item-content {
+        font-weight: normal;
+        padding: 15px 10px 15px 10px;
+        border-top: 0;
+        border-bottom: 1px solid #ddd;
+        cursor: pointer;
+        transition: .5s;
+    }
+
+
+        .listOptions-ds .dx-list-item-content:hover {
+            background: #0e70a0;
+            color: #FFF;
+        }
+
+
+        .listOptions-ds .dx-list-item-content i {
+            margin-left: 10px;
+            transition: all 0.3s ease;
+        }
+
+
+        .listOptions-ds .dx-list-item-content:hover i {
+            margin-left: 15px;
+            color: #FFF;
+        }
+
+    td.dx-command-edit {
+        text-align: center !important
+    }
+
+    .note-ds {
+        background-color: #fffecc !important;
+    }
+    .poupup-dds .dx-popup-content {
+        height: 70vh !important;
+        overflow-y: scroll;
+    }
+    .btn-d-edit {
+        font-family: "JF Flat Regular" !important;
+        line-height: 23px !important;
+    }
+        .btn-d-edit.dx-icon-edit:before {
+            content: "\f01a" !important;
+            font: normal normal normal 20px/1 FontAwesome !important;
+        }
+</style>

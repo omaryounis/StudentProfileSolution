@@ -1,0 +1,47 @@
+﻿
+@{
+    ViewBag.Title = "DeliverToStudent";
+    Layout = "~/Views/Shared/_DevextremeLayout.cshtml";
+}
+<script src="~/Scripts/ExchangeOrder/StudentsCashService.js"></script>
+<script src="~/Scripts/ExchangeOrder/StudentsCashController.js"></script>
+<div class="container-fluid container-fullw ng-scope">
+    <div class="col-md-12">
+        <div class="panel bg-white" ng-controller="StudentsCashCtrl">
+            <div class="breadcrumb-wrapper text-right">
+                <h4 class="no-margin">تسليم المكافات للطلاب</h4>
+            </div>
+            <div class="panel-body text-right">
+                <form ng-submit="SearchForStudentsRewards">
+                    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                        <label class="control-label">رقم الشيك</label>
+                        <div dx-select-box="Checkselectbox"dx-validator="validationRequired"></div>
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                        <label class="control-label"> رقم امر الاركاب</label>
+                        <div dx-tag-box="exchangeOrderstagbox" dx-validator="validationRequired"></div>
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                        <label class="control-label"> رقم المسير</label>
+                        <div dx-tag-box="payrollstagbox" dx-validator="validationRequired"></div>
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                        <label class="label-control col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-12"><br /></label>
+                        <div class="icon-btn" dx-button="btnSearch"><i class="fa fa-search"></i></div>
+                    </div>
+                </form>
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 dx-tree-st">
+                    <div dx-data-grid="StudentsCashGrid"> </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    .icon-btn {
+        margin-top: 7px;
+    }
+</style>
+
+
+

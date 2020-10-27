@@ -1,0 +1,29 @@
+﻿
+@{
+    ViewBag.Title = "تحميل ملف الصراف";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>DownLoadSarafFile</h2>
+
+
+
+
+
+<div class="container">
+    <div class="editor">
+        @Html.DevExpress().ComboBox(settings => {
+            settings.Name = "comboBox1";
+            settings.Width = 180;
+            settings.SelectedIndex = 0;
+            settings.Properties.DisplayFormatString = "Assembly v{0}";
+            settings.Properties.ValueType = typeof(string);
+            settings.Properties.Items.Add("1.1");
+            settings.Properties.Items.Add("1.2");
+            settings.Properties.Items.Add("1.3");
+        }).GetHtml()
+    </div>
+    <div class="content">
+        DisplayFormatString = "Assembly v{0}"
+    </div>
+</div>

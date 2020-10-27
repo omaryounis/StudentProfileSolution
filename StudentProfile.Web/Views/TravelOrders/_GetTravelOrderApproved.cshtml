@@ -1,0 +1,188 @@
+﻿@model List<StudentProfile.Web.VM.TravelOrdersVM>
+@using System.Drawing.Printing
+@using System.Web.UI.WebControls
+@using StudentProfile.Components.Security
+@Html.DevExpress().GridView(settings =>
+{
+    settings.Name = "TravelOrdersManager";
+    settings.KeyFieldName = "ID";
+    settings.Styles.Table.CssClass = "dx-table-ds";
+    // settings.Theme= r.
+    settings.Width = Unit.Percentage(100);
+    settings.CallbackRouteValues = new { Action = "_GetTravelOrderApproved", Controller = "TravelOrders" };
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "رقم الاركاب";
+        //column.Width = Unit.Percentage(15);
+        column.FieldName = "TripNumber";
+    });
+
+    //settings.SettingsExport.EnableClientSideExportAPI = true;
+    //settings.SettingsExport.ExcelExportMode = DevExpress.Export.ExportType.WYSIWYG;
+    //settings.Toolbars.Add(t =>
+    //{
+    //    t.EnableAdaptivity = true;
+
+    //    t.Items.Add(GridViewToolbarCommand.ExportToPdf);
+    //    t.Items.Add(GridViewToolbarCommand.ExportToXls);
+    //    t.Items.Add(GridViewToolbarCommand.ExportToXlsx);
+    //    t.Items.Add(GridViewToolbarCommand.ExportToDocx);
+    //    t.Items.Add(GridViewToolbarCommand.ExportToRtf);
+    //    t.Items.Add(GridViewToolbarCommand.ExportToCsv);
+    //});
+
+    //Export Settings
+    settings.Toolbars.Add(t =>
+    {
+        t.Position = GridToolbarPosition.Top;
+        t.ItemAlign = GridToolbarItemAlign.Right;
+        //t.Items.Add(GridViewToolbarCommand.ShowCustomizationDialog);
+    });
+    settings.Toolbars.Add(t =>
+    {
+        t.EnableAdaptivity = true;
+        t.Items.Add(i =>
+        {
+            i.Command = GridViewToolbarCommand.ExportToPdf;
+            i.Text = "تصدير PDF";
+        });
+        t.Items.Add(i =>
+        {
+            i.Command = GridViewToolbarCommand.ExportToXls;
+            i.Text = "تصدير Xls";
+        });
+        t.Items.Add(i =>
+        {
+            i.Command = GridViewToolbarCommand.ExportToXlsx;
+            i.Text = "تصدير Xlsx";
+        });
+        t.Items.Add(i =>
+        {
+            i.Command = GridViewToolbarCommand.ExportToDocx;
+            i.Text = "تصدير Docx";
+        });
+
+    });
+    settings.SettingsExport.EnableClientSideExportAPI = true;
+    settings.SettingsExport.ExcelExportMode = DevExpress.Export.ExportType.WYSIWYG;
+    settings.SettingsExport.RightToLeft = DefaultBoolean.True;
+    settings.SettingsExport.Landscape = true;
+    settings.SettingsExport.PaperKind = PaperKind.A4;
+
+
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "خط السير";
+        //column.Width = Unit.Percentage(15);
+        column.FieldName = "TripPath";
+
+    });
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "نوع الرحلة";
+        //column.Width = Unit.Percentage(15);
+        column.FieldName = "TravelType";
+    });
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "تاريخ الترحيل";
+        //column.Width = Unit.Percentage(15);
+        column.FieldName = "TravelOrderDate";
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "تاريخ إصدار أمر الإركاب";
+        column.FieldName = "CreationDate";
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "نوع امر الاركاب";
+        //column.Width = Unit.Percentage(15);
+        column.FieldName = "TripType";
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "الجنسية";
+        //column.Width = Unit.Percentage(15);
+        column.FieldName = "Nationality";
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "عدد الطلاب";
+        column.FieldName = "StudentsCount";
+    });
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "قيمة أمر الإركاب";
+        column.FieldName = "ApprovedAmount";
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "رقم الارتباط";
+        //column.Width = Unit.Percentage(15);
+        column.FieldName = "AgentRefNumber1";
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "#";
+        column.Width = System.Web.UI.WebControls.Unit.Percentage(15);
+        column.SetDataItemTemplateContent(c =>
+        {
+
+            ViewContext.Writer.Write("<input type='hidden' value=" + c.KeyValue + " id='ID' name='ID'/>");
+            ViewContext.Writer.Write("<a class='btn btn-primary btn-sm' style='color:#fff !important;margin-top: 5px;' href=" + Url.Action("TravelOrderPrint", "TravelOrders", new { travelOrderID = c.KeyValue }) + " target='_blank'> <i class='fa fa-print'></i> طباعة </a>");
+            ViewContext.Writer.Write("<a class='btn btn-primary btn-sm' style='color:#fff !important;margin-top: 5px;' href=" + Url.Action("_TravelOrderReport", "TravelOrders", new { TravelOrderID = c.KeyValue }) + " target='_blank'> <i class='fa fa-list'></i> تفاصيل </a>");
+        });
+    });
+
+    settings.SettingsBehavior.AllowSelectByRowClick = false;
+    settings.CommandColumn.Visible = true;
+    settings.CommandColumn.Width = Unit.Percentage(5);
+    settings.CommandColumn.SelectAllCheckboxMode = GridViewSelectAllCheckBoxMode.AllPages;
+    settings.SettingsDetail.AllowOnlyOneMasterRowExpanded = false;
+    settings.SettingsDetail.ShowDetailRow = true;
+    //settings.ClientSideEvents.SelectionChanged = "SelectionChanged";
+    settings.ClientSideEvents.BeginCallback = "SetLevel";
+    settings.SetDetailRowTemplateContent(c =>
+    {
+
+        Html.RenderAction("_TravelOrdersDetails", new { id = c.KeyValue, isTravelAgent = false });
+    });
+
+
+
+    settings.SettingsPager.PageSize = 10;
+
+    settings.SettingsPager.Position = PagerPosition.Bottom;
+    settings.SettingsPager.FirstPageButton.Visible = true;
+    settings.SettingsPager.LastPageButton.Visible = true;
+    settings.SettingsPager.PageSizeItemSettings.Visible = true;
+    settings.SettingsPager.PageSizeItemSettings.Items = new string[] { "10", "20", "50" };
+
+
+    settings.SettingsLoadingPanel.Mode = GridViewLoadingPanelMode.Disabled;
+
+    settings.EnableCallbackAnimation = false;
+    settings.TotalSummary.Add(new ASPxSummaryItem()
+    {
+        SummaryType = DevExpress.Data.SummaryItemType.Sum,
+        FieldName = "ApprovedAmount",
+        DisplayFormat = "الإجمالي: {0}"
+    });
+    settings.TotalSummary.Add(new ASPxSummaryItem()
+    {
+        SummaryType = DevExpress.Data.SummaryItemType.Count,
+        FieldName = "TripNumber",
+        DisplayFormat = "عدد اوامر الاركاب: {0}"
+    });
+    settings.Settings.ShowFooter = true;
+
+}).Bind(Model).GetHtml()
+
+

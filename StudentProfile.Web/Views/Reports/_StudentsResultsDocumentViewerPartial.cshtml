@@ -1,0 +1,7 @@
+@Html.DevExpress().WebDocumentViewer(settings => {
+    settings.Name = "StudentsResultsDocumentViewer";
+    //settings.CallbackRouteValues = new { Controller = "Reports", Action = "StudentsResultsDocumentViewerPartial" };
+    //settings.ExportRouteValues = new { Controller = "Reports", Action = "StudentsResultsDocumentViewerPartialExport" };
+    //settings.Report = (XtraReport)Model;
+    //settings.ToolbarMode = DocumentViewerToolbarMode.Ribbon;
+}).GetHtml()

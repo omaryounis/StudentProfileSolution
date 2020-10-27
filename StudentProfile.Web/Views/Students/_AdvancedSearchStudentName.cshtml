@@ -1,0 +1,22 @@
+﻿@model List<SelectListItem>
+
+@Html.DevExpress().ComboBox(settings =>
+{
+    settings.Name = "studentId";
+    settings.CallbackRouteValues = new {Controller = "Students", Action = "_AdvancedSearchStudentName"};
+    settings.Properties.IncrementalFilteringMode = IncrementalFilteringMode.StartsWith;
+    settings.Properties.CallbackPageSize = 15;
+    settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    settings.Properties.DropDownStyle = DropDownStyle.DropDown;
+    settings.Properties.IncrementalFilteringMode = IncrementalFilteringMode.Contains;
+    settings.Properties.TextField = "Text";
+    settings.Properties.ValueField = "Value";
+    settings.Properties.ValueType = typeof(int?);
+    settings.Properties.FilterMinLength = 3;
+    settings.Properties.CallbackPageSize = 50;
+    settings.Properties.ClearButton.DisplayMode = ClearButtonDisplayMode.Auto;
+    settings.Properties.ClearButton.Enabled = true;
+    settings.Properties.ValidationSettings.RequiredField.IsRequired = false;
+    settings.Properties.ClientSideEvents.BeginCallback = "function OnBeginCallback(s, e) {e.customArgs['txt'] = s.stateObject.rawValue;}";
+    settings.Properties.NullText = "ادخل اسم الطالب";
+}).BindList(Model).GetHtml()

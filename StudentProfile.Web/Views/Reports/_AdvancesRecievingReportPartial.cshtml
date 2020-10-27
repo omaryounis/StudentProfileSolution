@@ -1,0 +1,14 @@
+﻿@model GetAdvancesRecievingRPT
+
+@Html.DevExpress().DocumentViewer(settings =>
+{
+    settings.Name = "GetAdvancesRecievingRPT";
+    settings.CallbackRouteValues = new { Controller = "Reports", Action = "AdvancesRecievingReport" };
+    settings.ExportRouteValues = new { Controller = "Reports", Action = "AdvancesRecievingReportExport" };
+    settings.Report = Model;
+    settings.ToolbarMode = DocumentViewerToolbarMode.Ribbon;
+    settings.SettingsReportViewer.UseIFrame = false;
+    settings.SettingsReportViewer.TableLayout = false;
+    settings.ClientSideEvents.BeforeExportRequest = "AdvancesRecievingReportExportRequest";
+    settings.ClientSideEvents.Init = "onDocumetnViewerInit";
+}).GetHtml()

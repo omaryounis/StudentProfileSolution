@@ -1,0 +1,149 @@
+﻿@using System.Drawing.Printing
+@using System.Web.UI.WebControls
+@using DevExpress.DataAccess.Sql
+@using DevExpress.Export
+@model IEnumerable<StudentProfile.DAL.Models.proc_GetStudentsViolations_Result>
+
+@Html.DevExpress().GridView(settings =>
+{
+    settings.Name = "TrafficData";
+    settings.KeyFieldName = "ResidentViolationId";
+    settings.Styles.Table.CssClass = "dx-table-ds";
+    // settings.Theme= r.
+    settings.Width = Unit.Percentage(100);
+    settings.CommandColumn.Visible = true;
+    settings.CommandColumn.VisibleIndex = 0;
+    settings.CommandColumn.ShowSelectCheckbox = true;
+    settings.RightToLeft = DefaultBoolean.False;
+    settings.CommandColumn.SelectAllCheckboxMode = GridViewSelectAllCheckBoxMode.AllPages;
+    settings.ClientSideEvents.SelectionChanged = "SelectionChanged";
+    settings.SettingsPager.PageSize = 25;
+    settings.CallbackRouteValues = new { Action = "_TrafficAlerts", Controller = "Home" };
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "اسم الطالب";
+        column.VisibleIndex = 9;
+        column.FieldName = "student_name";
+        column.SetDataItemTemplateContent(c =>
+        {
+            var stid = int.Parse(DataBinder.Eval(c.DataItem, "student_id").ToString());
+            var stname = DataBinder.Eval(c.DataItem, "student_name").ToString();
+            ViewContext.Writer.Write("<a href=" + Url.Action("Index", "Students", new { id = stid }) + ">" + stname + "</a>");
+        });
+    });
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "الجنسية";
+        column.VisibleIndex = 8;
+        column.FieldName = "NATIONALITY_DESC";
+    });
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "رقم الهوية";
+        column.VisibleIndex = 7;
+        column.FieldName = "IdNumber";
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "student_id";
+        column.VisibleIndex = 6;
+        //column.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy";
+        column.Caption = "الرقم الأكاديمي";
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "fingerprintid";
+        column.VisibleIndex = 5;
+        //column.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy";
+        column.Caption = "رقم البصمة";
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "رقم الجوال";
+        column.VisibleIndex = 4;
+        column.FieldName = "mobile_phone";
+    });
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "قيمة المخالفة";
+        column.VisibleIndex = 3;
+        //column.PropertiesEdit.DisplayFormatString = "N2";
+        column.FieldName = "amount";
+    });
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "الصورة";
+        column.VisibleIndex = 2;
+        //column.Width = System.Web.UI.WebControls.Unit.Percentage(15);
+        column.SetDataItemTemplateContent(c =>
+        {
+            var imgSrc = "/assets/images/user.png";
+            var studentid = DataBinder.Eval(c.DataItem, "student_id");
+            var request = (HttpWebRequest)WebRequest.Create(
+                "https://cas.iu.edu.sa/cas/MahedStudentEmoployee/FacultyPhoto/" + studentid + ".jpg");
+            request.Method = "HEAD";
+
+            bool exists;
+            try
+            {
+                request.GetResponse();
+                exists = true;
+                imgSrc = "https://cas.iu.edu.sa/cas/MahedStudentEmoployee/FacultyPhoto/" + studentid +
+                         ".jpg";
+            }
+            catch (Exception ex)
+            {
+                exists = false;
+                imgSrc = "/assets/images/user.png";
+            }
+            ViewContext.Writer.Write("<img src=" + imgSrc + " alt='user'>");
+        });
+    });
+
+    //settings.Columns.Add(column =>
+    //{
+    //    column.Caption = "تذكير";
+    //    column.Width = Unit.Percentage(15);
+    //    column.SetDataItemTemplateContent(c =>
+    //    {
+    //        var stname = DataBinder.Eval(c.DataItem, "student_name")?.ToString().ToString().Replace(" ", " ");
+    //        ;
+    //        var value = DataBinder.Eval(c.DataItem, "amount");
+    //        var studentid = DataBinder.Eval(c.DataItem, "student_id")?.ToString().Replace(" ", "");
+    //        var idnumber = DataBinder.Eval(c.DataItem, "IdNumber")?.ToString();
+    //        var mobile = DataBinder.Eval(c.DataItem, "mobile_phone")?.ToString();
+    //        var func = string.Format("SendSMS('{0}','{1}','{2}','{3}','TrafficIssues')", studentid, value, idnumber, mobile);
+    //        //var studentid = DataBinder.Eval(c.DataItem, "studentid");
+    //        //ViewContext.Writer.Write($"<a href='#' onClick={ func }></a>");
+    //        ViewContext.Writer.Write("<a href='#' onClick=" + func + "><i class='fa fa-send-o' style='font-size:24px;color:red'></i></a>");
+    //    });
+    //});
+    settings.Toolbars.Add(t =>
+    {
+        
+        t.EnableAdaptivity = true;
+
+        t.Items.Add(i =>
+        {
+            i.BeginGroup = true;
+            i.SetTemplateContent(c =>
+            {
+                Html.DevExpress().Button(
+                    s =>
+                    {
+                        s.Name = "TrafficIssues";
+                        s.Images.Image.IconID = IconID.ContactsMessage16x16devav;
+                        s.RightToLeft = DefaultBoolean.True;
+                        s.Text = "رسالة نصية";
+                        s.ClientSideEvents.Click = "SendSMS";
+                    }).Render();
+            });
+        });
+    });
+    
+    settings.SettingsLoadingPanel.Mode = GridViewLoadingPanelMode.Disabled;
+    settings.EnableCallbackAnimation = false;
+    //settings.RightToLeft = DefaultBoolean.True;
+
+}).Bind(Model).GetHtml()

@@ -1,0 +1,18 @@
+﻿@model CountryPopulation
+@*@Html.DevExpress().WebDocumentViewer(settings => { settings.Name = "TravelStudentsWebDocumentViewer"; }).Bind(Model).GetHtml()*@
+
+
+@Html.DevExpress().DocumentViewer(settings =>
+{
+    settings.Name = "TravelStudentsWebDocumentViewer";
+    settings.CallbackRouteValues = new { Controller = "Reports", Action = "CountryPopulationReportDesignerPartial" };
+    settings.ExportRouteValues = new { Controller = "Reports", Action = "CountryPopulationReportDesignerPartial" };
+    settings.Report = Model;
+    settings.ToolbarMode = DocumentViewerToolbarMode.Ribbon;
+    settings.SettingsReportViewer.UseIFrame = true;
+    settings.SettingsReportViewer.TableLayout = false;
+    settings.SettingsLoadingPanel.Text = "تحميل";
+    settings.ClientSideEvents.BeginCallback = "CountryPopulationDocumentViewerBeforeExportRequest";
+    settings.ClientSideEvents.Init = "onDocumetnViewerInit";
+
+}).GetHtml()

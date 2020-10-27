@@ -1,0 +1,127 @@
+﻿
+@*@model List<StudentProfile.DAL.Models.usp_GetStudentsForTickets_Result>*@
+
+
+@using System.Web.UI.WebControls;
+
+@Html.DevExpress().GridView(settings =>
+{
+    settings.Name = "TravelOrdersTickets";
+    settings.KeyFieldName = "TravelOrderID";
+    settings.Styles.Table.CssClass = "dx-table-ds";
+    // settings.Theme= r.
+    settings.Width = Unit.Percentage(100);
+    settings.CallbackRouteValues = new { Action = "_GetTicketAssigning", Controller = "TravelOrders" };
+    settings.SettingsExport.EnableClientSideExportAPI = true;
+    settings.SettingsExport.ExcelExportMode = DevExpress.Export.ExportType.WYSIWYG;
+    settings.Toolbars.Add(t =>
+    {
+        t.EnableAdaptivity = true;
+        t.Items.Add(GridViewToolbarCommand.ExportToPdf);
+        t.Items.Add(GridViewToolbarCommand.ExportToXls);
+        t.Items.Add(GridViewToolbarCommand.ExportToXlsx);
+        t.Items.Add(GridViewToolbarCommand.ExportToDocx);
+        t.Items.Add(GridViewToolbarCommand.ExportToRtf);
+        t.Items.Add(GridViewToolbarCommand.ExportToCsv);
+    });
+    settings.SettingsLoadingPanel.Mode = GridViewLoadingPanelMode.Disabled;
+    settings.EnableCallbackAnimation = false;
+    settings.SettingsPager.PageSize = 20;
+
+
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "رقم الاركاب";
+        //column.Width = Unit.Percentage(15);
+        column.FieldName = "TripNumber";
+    });
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "خط السير";
+        //column.Width = Unit.Percentage(15);
+        column.FieldName = "TripPath";
+
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "الرقم المرجعي";
+        //column.Width = Unit.Percentage(15);
+        column.FieldName = "AgentRefNumber";
+
+    });
+
+    //settings.Columns.Add(column =>
+    //{
+    //    column.Caption = "عدد الطلاب";
+    //    column.SetDataItemTemplateContent(c =>
+    //    {
+    //        ViewContext.Writer.Write("<span>" + Model.Count() + "</span>");
+    //    });
+    //});
+
+
+    //settings.Columns.Add(column =>
+    //{
+    //    column.Caption = "اسم الطالب";
+    //    //column.Width = Unit.Percentage(15);
+    //    column.FieldName = "Student_Name";
+
+    //});
+    //settings.Columns.Add(column =>
+    //{
+    //    column.Caption = "رقم الجواز";
+    //    //column.Width = Unit.Percentage(15);
+    //    column.FieldName = "PassportNumber";
+
+    //});
+
+    //settings.Columns.Add(column =>
+    //{
+    //    column.Caption = "رقم التذكرة";
+    //    //column.Width = Unit.Percentage(15);
+    //    column.FieldName = "TicketNumber";
+    //    column.SetDataItemTemplateContent((c) =>
+    //    {
+    //        string ticket = DataBinder.Eval(c.DataItem, "TicketNumber")?.ToString();
+
+    //        string Name = "TicketNumber_" + c.KeyValue;
+
+    //        ViewContext.Writer.Write("<input type='text' id='" + Name + "' , name = '" + Name + "' value='" + ticket + "'/>");
+
+    //    });
+    //});
+    //settings.Columns.Add(column =>
+    //{
+    //    column.Caption = "القيمة المعتمدة";
+    //    column.FieldName = "ApprovedAmount";
+    //    column.SetDataItemTemplateContent((c) =>
+    //    {
+    //        string Approvedvalue = DataBinder.Eval(c.DataItem, "ApprovedAmount")?.ToString();
+    //        string Name = "ApprovedAmount_" + c.KeyValue;
+    //        ViewContext.Writer.Write("<input type='number' id='" + Name + "' , name = '" + Name + "' value='" + Approvedvalue + "' onchange= 'changeApprovedAmount(" + c.KeyValue + "," + Approvedvalue + ")'/>");
+
+    //    });
+
+    //});
+
+
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "تفاصيل الطلاب";
+        // column.Width = System.Web.UI.WebControls.Unit.Percentage(15);
+        column.SetDataItemTemplateContent(c =>
+        {
+            // var selectedData = Model.Where(x => x.ID == int.Parse(c.KeyValue.ToString())).SingleOrDefault();
+            ViewContext.Writer.Write("<input type='button' class='btn btn-success btn-sm' value='تفاصيل الطلاب' onclick= '_TravelOrdersTicketDetails(" + c.KeyValue + ")'/>");
+
+            //ViewContext.Writer.Write("<input type='button' class='btn btn-success btn-sm' value='حفظ' onclick= 'SaveTicketNumber(" + c.KeyValue + ")'/>");
+        });
+    });
+    settings.SettingsPager.PageSize = 20;
+
+    settings.SettingsLoadingPanel.Mode = GridViewLoadingPanelMode.Disabled;
+    settings.EnableCallbackAnimation = false;
+}).Bind(Model).GetHtml()
+
+

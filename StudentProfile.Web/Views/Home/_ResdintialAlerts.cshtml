@@ -1,0 +1,231 @@
+﻿@using System.Drawing.Printing
+@using System.Web.UI.WebControls
+@using DevExpress.Export
+@model IQueryable<StudentProfile.DAL.Models.proc_EmpDocumentsDetails_Exp_New_Result>
+
+@Html.DevExpress().GridView(settings =>
+{
+    settings.Name = "ResdintialData";
+    settings.KeyFieldName = "ID";
+    settings.Styles.Table.CssClass = "dx-table-ds";
+    // settings.Theme= r.
+    settings.Width = Unit.Percentage(100);
+    settings.CommandColumn.Visible = true;
+    settings.CommandColumn.ShowSelectCheckbox = true;
+    settings.CommandColumn.SelectAllCheckboxMode = GridViewSelectAllCheckBoxMode.AllPages;
+    settings.SettingsPager.PageSize = 25;
+    settings.CallbackRouteValues = new {Action = "_ResdintialAlerts", Controller = "Home"};
+    settings.ClientSideEvents.SelectionChanged = "SelectionChanged";
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "اسم الطالب";
+        column.VisibleIndex = 8;
+        column.FieldName = "EmpName";
+        column.SetDataItemTemplateContent(c =>
+        {
+            var stid = int.Parse(DataBinder.Eval(c.DataItem, "studentid").ToString());
+            var stname = DataBinder.Eval(c.DataItem, "EmpName").ToString();
+            ViewContext.Writer.Write("<a href=" + Url.Action("Index", "Students", new {id = stid}) + ">" + stname + "</a>");
+        });
+    });
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "الجنسية";
+        column.VisibleIndex = 7;
+        column.FieldName = "nationality";
+    });
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "رقم الهوية";
+        column.VisibleIndex = 6;
+        column.FieldName = "IdNumber";
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "ExpDate";
+        column.VisibleIndex = 5;
+        column.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy";
+        column.Caption = "تاريخ الانتهاء";
+    });
+    settings.Columns.Add(column =>
+    {
+        column.UnboundType = DevExpress.Data.UnboundColumnType.Decimal;
+        column.FieldName = "leftDays";
+        column.Caption = "عدد الأيام";
+        column.ReadOnly = true;
+        column.Settings.ShowEditorInBatchEditMode = false;
+        column.Width = Unit.Percentage(15);
+        column.VisibleIndex = 4;
+        column.CellStyle.HorizontalAlign = HorizontalAlign.Center;
+    });
+
+    settings.CustomUnboundColumnData = (sender, e) =>
+    {
+        if (e.Column.FieldName == "leftDays")
+        {
+            var expDate = Convert.ToDateTime(e.GetListSourceFieldValue("ExpDate"));
+            var nowDate = DateTime.Now;
+            double? totalDays = (expDate.Date - nowDate.Date).TotalDays;
+
+            e.Value = totalDays;
+        }
+    };
+
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "رقم الجوال";
+        column.VisibleIndex = 3;
+        column.FieldName = "PhoneNo";
+    });
+
+    //settings.Columns.Add(column =>
+    //{
+    //    //column.FieldName = "photo";
+    //    column.Caption = "الصورة";
+    //    column.VisibleIndex = 2;
+    //    column.SetDataItemTemplateContent(c =>
+    //    {
+
+    //        var webClient = new WebClient();
+    //        var studentid = DataBinder.Eval(c.DataItem, "studentid");
+    //        byte[] imageBytes = webClient.DownloadData($"https://cas.iu.edu.sa/cas/MahedStudentEmoployee/FacultyPhoto/{studentid}.jpg");
+
+    //        if (imageBytes!=null)
+    //        {
+    //            Html.DevExpress().BinaryImage(image =>
+    //            {
+    //                image.Name = "image" + studentid.ToString();
+    //                image.
+    //            }).GetHtml();
+    //        }
+
+    //        //string imageUrl = studentid != null ?
+    //        //    $"https://cas.iu.edu.sa/cas/MahedStudentEmoployee/FacultyPhoto/{studentid}.jpg" : "~/assets/images/user.png";
+
+    //        //Html.DevExpress().Image(image =>
+    //        //{
+    //        //    image.Name = "image" + studentid.ToString();
+    //        //    image.ImageUrl = imageUrl;
+    //        //}).GetHtml();
+    //    });
+    //});
+
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "الصورة";
+        column.VisibleIndex = 2;
+        column.UnboundType = DevExpress.Data.UnboundColumnType.String;
+        //column.Width = System.Web.UI.WebControls.Unit.Percentage(15);
+        column.SetDataItemTemplateContent(c =>
+        {
+            var imgSrc = "/assets/images/user.png";
+            var studentid = DataBinder.Eval(c.DataItem, "studentid");
+            var request = (HttpWebRequest)WebRequest.Create(
+                "https://cas.iu.edu.sa/cas/MahedStudentEmoployee/FacultyPhoto/" + studentid + ".jpg");
+            request.Method = "HEAD";
+
+            bool exists;
+            try
+            {
+                request.GetResponse();
+                exists = true;
+                imgSrc = "https://cas.iu.edu.sa/cas/MahedStudentEmoployee/FacultyPhoto/" + studentid +
+                         ".jpg";
+            }
+            catch (Exception ex)
+            {
+                exists = false;
+                imgSrc = "/assets/images/user.png";
+            }
+            ViewContext.Writer.Write("<img src=" + imgSrc + " alt='user'>");
+        });
+    });
+
+    //settings.Columns.Add(column =>
+    //{
+    //    column.Caption = "تذكير";
+    //    column.VisibleIndex = 1;
+    //    column.Width = Unit.Percentage(15);
+    //    column.SetDataItemTemplateContent(c =>
+    //    {
+    //        var stname = DataBinder.Eval(c.DataItem, "EmpName")?.ToString().ToString().Replace(" ", " ");
+    //        ;
+    //        var expDate = Convert.ToDateTime(DataBinder.Eval(c.DataItem, "ExpDate"));
+    //        var nowDate = DateTime.Now;
+    //        double? totalDays = (expDate.Date - nowDate.Date).TotalDays;
+    //        var studentid = DataBinder.Eval(c.DataItem, "studentid")?.ToString().Replace(" ", "");
+    //        var idnumber = DataBinder.Eval(c.DataItem, "IdNumber")?.ToString();
+    //        var mobile = DataBinder.Eval(c.DataItem, "PhoneNo")?.ToString();
+    //        var func = string.Format("SendSMS('{0}','{1}','{2}','{3}','ResidenceExpiration')", studentid, totalDays, idnumber, mobile);
+    //        //var studentid = DataBinder.Eval(c.DataItem, "studentid");
+    //        //ViewContext.Writer.Write($"<a href='#' onClick={ func }></a>");
+    //        ViewContext.Writer.Write("<a href='#' onClick=" + func + "><i class='fa fa-send-o' style='font-size:24px;color:red'></i></a>");
+    //    });
+    //});
+    settings.SettingsLoadingPanel.Mode = GridViewLoadingPanelMode.Disabled;
+    settings.EnableCallbackAnimation = false;
+    settings.RightToLeft = DefaultBoolean.False;
+    settings.ClientSideEvents.BeginCallback = "doPager";
+
+    //Export Settings
+    settings.Toolbars.Add(t =>
+    {
+        t.EnableAdaptivity = true;
+        t.Items.Add(i =>
+        {
+            i.Command = GridViewToolbarCommand.ExportToPdf;
+            i.Text = "تصدير PDF";
+        });
+        t.Items.Add(i =>
+        {
+            i.Command = GridViewToolbarCommand.ExportToXls;
+            i.Text = "تصدير Xls";
+        });
+        t.Items.Add(i =>
+        {
+            i.Command = GridViewToolbarCommand.ExportToXlsx;
+            i.Text = "تصدير Xlsx";
+        });
+        t.Items.Add(i =>
+        {
+            i.Command = GridViewToolbarCommand.ExportToDocx;
+            i.Text = "تصدير Docx";
+        });
+        t.Items.Add(i =>
+        {
+            i.BeginGroup = true;
+            i.SetTemplateContent(c =>
+            {
+                Html.DevExpress().Button(
+                    s =>
+                    {
+                        s.Name = "ResidenceExpiration";
+                        s.Images.Image.IconID = IconID.ContactsMessage16x16devav;
+                        s.RightToLeft = DefaultBoolean.True;
+                        s.Text = "رسالة نصية";
+                        s.ClientSideEvents.Click = "SendSMS";
+                    }).Render();
+            });
+        });
+    });
+    settings.SettingsExport.EnableClientSideExportAPI = true;
+    settings.SettingsExport.ExcelExportMode = ExportType.WYSIWYG;
+    settings.SettingsExport.ExportedRowType = GridViewExportedRowType.All;
+    settings.SettingsExport.RightToLeft = DefaultBoolean.True;
+    //settings.SettingsExport.Styles.Preview.Paddings.PaddingLeft = Unit.Pixel(100);
+    //settings.SettingsExport.LeftMargin =40 ;
+    //settings.SettingsExport.RightMargin = 0;
+    settings.SettingsExport.PaperKind = PaperKind.A4;
+
+
+    settings.SettingsExport.BeforeExport = (sender, e) =>
+    {
+        MVCxGridView gridView = sender as MVCxGridView;
+        if (sender == null)
+        {
+            return;
+        }
+        gridView.Columns[7].Visible = false;//ابلاغ
+        gridView.Columns[6].Visible = false;//الصورة
+    };
+}).Bind(Model).GetHtml()

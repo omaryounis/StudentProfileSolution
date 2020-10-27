@@ -1,0 +1,91 @@
+﻿@{
+    ViewBag.Title = "الاعلانات";
+    Layout = "~/Views/Shared/_DevextremeLayout.cshtml";
+}
+<style>
+    .red-bg {
+        color: red;
+    }
+</style>
+<script src="~/Scripts/StudentAdvertisement/StudentAdvertisementService.js"></script>
+<script src="~/Scripts/StudentAdvertisement/StudentAdvertisementController.js"></script>
+<div class="container-fluid container-fullw">
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12" ng-controller="StudentAdvertisementCtrl">
+
+            @*<div class="row">
+                    <div class="col-md-12">
+                        <div class="alert alert-success col-md-12 col-sm-12 col-xs-12" ng-if="IsValidStudentData" style="text-align:right">{{NotifyMsg}}</div>
+                    </div>
+                </div>*@
+
+            <div class="panel bg-white">
+                <div class="breadcrumb-wrapper text-right">
+                    <h4 class="no-margin">الاعلانات</h4>
+                </div>
+                <div class="panel-body">
+                    <div>
+                        <div id="List" class="col-lg-12 col-sm-12 col-xs-12">
+                            <div class="table-responsive">
+                                <div class="dx-viewport dx-tree-st">
+                                    <div class="demo-container">
+                                        <div id="gridStudentAdvertisement" dx-data-grid="gridStudentAdvertisement"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--popupStData-->
+                        <!-- Modal -->
+                        <div class="modal fade" id="popupStData" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header" dir="rtl">
+                                        <h4 class="modal-title" id="myModalLabel">السماح للطالب</h4>
+                                    </div>
+                                    <div class="modal-body" dir="rtl">
+                                        <div class="col-md-12 col-sm-12">
+                                            <div ng-if="AllowStudent == false">
+                                                <div class="alert alert-danger">
+                                                    <p>غير مسموح لك التقديم على اعلانات السفر لانك غير مسجل بمنحة خارجية</p>
+                                                </div>
+                                                <div id="btnClose" class="btn btn-danger" dx-button="btnClose"></div>
+                                            </div>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div dx-popup="_PopupOptions">
+                            <div data-options="dxTemplate: { name : '_PopupContent' }">
+                                <div class="panel bg-white">
+                                    <div class="panel-body">
+                                        <div dx-data-grid="RequestsDetailsGrid()" class="dx-tree-st dx-tree-st22">
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+
+
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    .table-responsive .dx-popup-wrapper > .dx-overlay-content {
+        left: 50% !important;
+        top: 50% !important;
+        transform: translate(-50%, -50%) !important;
+    }
+</style>

@@ -1,0 +1,66 @@
+﻿@model  List<StudentProfile.Web.Controllers.PayRollStudentsList>
+
+<h2 style="text-align:center">مسير مكافئات الطلاب</h2>
+
+<table class="table table-bordered">
+    <tr>
+        <th class="text-right">رقم المسير</th>
+        <th class="text-right">التاريخ</th>
+        <th class="text-right">القيمة</th>
+    </tr>
+    @foreach (var item in Model)
+    {
+    <tr>
+        <td class="text-right">@item.Payrollltem</td>
+        <td class="text-right">@item.InsertDate.ToString("dd/MM/yyyy")</td>
+        <td class="text-right">@item.Value</td>
+    </tr>
+    }
+
+</table>
+
+<style>
+
+    .table {
+        border-collapse: collapse !important;
+        width:100%;
+        direction:rtl
+    }
+
+        .table td,
+        .table th {
+            background-color: #fff !important;
+            text-align:center;
+            padding:8px 12px
+        }
+        .table th {
+            background-color: #1576d7 !important;
+            color: #fff;
+            border-color: rgba(250,250,250,0.4)
+        }
+            .table-bordered th,
+            .table-bordered td {
+                border: 1px solid #ddd !important;
+            }
+
+    .table-bordered {
+        border: 1px solid #ddd;
+    }
+
+        .table-bordered > thead > tr > th,
+        .table-bordered > tbody > tr > th,
+        .table-bordered > tfoot > tr > th,
+        .table-bordered > thead > tr > td,
+        .table-bordered > tbody > tr > td,
+        .table-bordered > tfoot > tr > td {
+            border: 1px solid #ddd;
+        }
+
+        .table-bordered > thead > tr > th,
+        .table-bordered > thead > tr > td {
+            border-bottom-width: 2px;
+        }
+    .text-right {
+        text-align:right !important
+    }
+</style>

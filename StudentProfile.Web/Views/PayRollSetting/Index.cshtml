@@ -1,0 +1,178 @@
+﻿
+@{
+    ViewBag.Title = "اسناد المستخدمين لمرحلة الاعتماد";
+    Layout = "~/Views/Shared/_DevextremeLayout.cshtml";
+}
+<script src="~/Scripts/PayRollSetting/PayRollSetting.js"></script>
+<script src="~/Scripts/PayRollSetting/PayRollSettingSrvc.js"></script>
+<script src="~/Scripts/sweetalert2.all.js"></script>
+<div class="container-fluid container-fullw" ng-controller="PayRollSettingController">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel bg-white">
+                <div class="breadcrumb-wrapper text-right">
+                    <h4 class="no-margin"> اسناد المستخدمين لمرحلة الاعتماد</h4>
+                </div>
+                <div class="panel-body text-right">
+                    <div class="form-group col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                        <label class="control-label col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            مرحلة الاعتماد
+                        </label>
+                        <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+                            <div dx-select-box="selectBoxPayRollPhases">
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                            <div class="button-info" dx-button="{
+                        text: '+',
+                        onClick:showPayRollPhasesPopUp
+                    }"></div>
+                        </div>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                        <label class="control-label col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            المسؤول
+                        </label>
+                        <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+                            <div dx-select-box="selectBoxUser">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                        <label class="control-label col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <br />
+                        </label>
+                        <label class="container-checkbox">
+                            تفعيل/ايقاف
+                            <input type="checkbox" ng-click="ISActive()" ng-checked="checkBoxValue" id="chIsAC" />
+                            <span class="checkmark"></span>
+                        </label>
+                    </div>
+
+                    <div class="form-group col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                        <label class="control-label col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <br />
+                        </label>
+                        <div dx-button="btnSaveOptions"></div>
+                    </div>
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="demo-container" dir="rtl">
+                            <div id="gridContainer" class="dx-tree-st" dx-data-grid="PayRollPhasesUserGrid">
+                            </div>
+                            <br />
+                            <div class="options">
+                                <div class="caption">Options</div>
+                                <div class="option">
+                                    <div id="autoExpand" dx-check-box="checkBoxOptions"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="PayRollPhasesPopUp">
+        <div ng-init="newPayRollPhases">
+            <div class="popup ds-popup"
+                 dx-popup="PayRollPhasesPopUp">
+                <div data-options="dxTemplate: { name:'PayRollPhasesContent' }" >
+                    <div class="row">
+                        <div class="form-group col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                            <label class="control-label col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                اسم المرحله
+                            </label>
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div dx-text-box="txtPhaseName" style="width:100%" dx-validato="PhaseNameValidationRules"></div>
+                            </div>
+                        </div>
+                        <div class="form-group col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                            <label class="control-label col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                ترتيب المرحله
+                            </label>
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div style="width:100%" dx-number-box="txtPhaseOrder"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                            <label class="control-label col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <br />
+                            </label>
+                            <div dx-check-box="FinancialApprovechckBox"></div>
+                        </div>
+                        <div class="form-group col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                            <label class="control-label col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <br />
+                            </label>
+                            <div dx-check-box="IssuingExchangeOrderchckBox"></div>
+                        </div>
+                        <div class="form-group col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                            <label class="control-label col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <br />
+                            </label>
+                            <div dx-check-box="IssuingPaymentOrderchckBox"></div>
+                        </div>
+
+                        <div class="form-group col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                            <label class="control-label col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <br />
+                            </label>
+                            <div dx-button="btnSave"></div>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12 dx-tree-st">
+                                <div id="gridPayrollPhases" dx-data-grid="gridPayrollPhases"></div>
+                        <div class="clearfix"></div>
+
+
+                    </div>
+            </div>
+        </div>
+    </div>
+    <br />
+    <div id="PhaseEditingPopUp">
+        <div ng-init="newPhaseEditing">
+            <div class="popup ds-popup"
+                 dx-popup="PhaseEditingPopUp">
+                <div data-options="dxTemplate: { name:'PhaseEditingContent' }">
+                    <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <label class="control-label col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            مرحلة الاعتماد
+                        </label>
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div dx-select-box="selectBoxPayRollPhasesEditing">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <label class="control-label col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            المسؤول
+                        </label>
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div dx-select-box="selectBoxUserEditing">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div dx-button="btnSaveEditing"></div>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .container-checkbox .checkmark {
+        position: absolute !important;
+        top: 6px !important;
+    }
+    .container-checkbox {
+        line-height: 37px !important;
+    }
+</style>

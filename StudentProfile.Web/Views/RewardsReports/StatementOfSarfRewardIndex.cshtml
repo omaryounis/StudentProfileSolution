@@ -1,0 +1,662 @@
+﻿@using System.Drawing
+@using System.Web.UI.WebControls
+@{
+    ViewBag.Title = "تقرير بحالةإستلام المكافآت";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    table.dxeRoot_MetropolisBlue {
+        width: 100%;
+    }
+</style>
+
+<script>
+    //function StatementOfSarfRewardDocumentViewerBeforeExportRequest(s, e) {
+    //    debugger;
+    //    e.customArgs["facultiesCheckListBox"] = facultiesCheckListBox.GetSelectedValues().join();
+    //    e.customArgs["degreeCheckListBox"] = degreeCheckListBox.GetSelectedValues().join();
+    //    e.customArgs["stutesCheckListBox"] = stutesCheckListBox.GetSelectedValues().join();
+    //    e.customArgs["levelsCheckListBox"] = levelsCheckListBox.GetSelectedValues().join();
+    //    e.customArgs["YearsComboBox"] = YearsComboBox.GetValue();
+    //    e.customArgs["MonthComboBox"] = MonthComboBox.GetValue();
+    //    e.customArgs["PayrollComboBox"] = PayrollComboBox.GetValue();
+    //}
+
+    function fillMonths(YearId) {
+        $.ajax({
+            type: 'GET',
+            url: '@Url.Action("GetMonths", "RewardsReports")',
+            datatype: 'application/json"',
+            data: { YearsComboBox: YearId },
+            success: function (data) {
+                MonthComboBox.ClearItems();
+
+                $(data).each(function (indx, obj) {
+                    MonthComboBox.AddItem(obj.Text, obj.Value);
+                });
+            }
+        });
+    }
+
+
+    function fillPayrollNumbers(MonthId) {
+        $.ajax({
+            type: 'GET',
+            url: '@Url.Action("GetPayrollNumbers", "PayRollStudents")',
+            datatype: 'application/json"',
+            data: { YearsComboBox: YearsComboBox.GetValue(), MonthComboBox: MonthId},
+            success: function (data) {
+                PayrollComboBox.ClearItems();
+
+                $(data).each(function (indx, obj) {
+                    PayrollComboBox.AddItem(obj.Text, obj.Value);
+                });
+            }
+        });
+    }
+
+    //multiselect Combobox
+    var textSeparator = ";";
+
+
+    function GetSelectedItemsText(items) {
+        var texts = [];
+        for (var i = 0; i < items.length; i++)
+            if (items[i].index !== -1)
+                texts.push(items[i].text);
+        return texts.join(textSeparator);
+    }
+
+    //Faculties
+    function FacultiesOnListBoxSelectionChanged(listBox, args) {
+        if (args.index === -1) {
+            args.isSelected ? listBox.SelectAll() : listBox.UnselectAll();
+        }
+        FacultiesUpdateSelectAllItemState();
+        FacultiesUpdateText();
+    }
+
+    function FacultiesUpdateSelectAllItemState() {
+        FacultiesIsAllSelected()
+            ? facultiesCheckListBox.SelectIndices([-1])
+            : facultiesCheckListBox.UnselectIndices([-1]);
+    }
+
+    function FacultiesIsAllSelected() {
+        for (var i = 1; i < facultiesCheckListBox.GetItemCount(); i++)
+            if (!facultiesCheckListBox.GetItem(i).selected) {
+                return false;
+            }
+        return true;
+    }
+
+    function FacultiesUpdateText() {
+        var selectedItems = facultiesCheckListBox.GetSelectedItems();
+        FacultiesComboBox.SetText(GetSelectedItemsText(selectedItems));
+    }
+
+    function FacultiesSynchronizeListBoxValues(dropDown, args) {
+        facultiesCheckListBox.UnselectAll();
+        var texts = dropDown.GetText().split(textSeparator);
+        var values = FacultiesGetValuesByTexts(texts);
+        facultiesCheckListBox.SelectValues(values);
+        FacultiesUpdateSelectAllItemState();
+        FacultiesUpdateText(); // for remove non-existing texts
+    }
+
+    function FacultiesGetValuesByTexts(texts) {
+        var actualValues = [];
+        var item;
+        for (var i = 0; i < texts.length; i++) {
+            item = facultiesCheckListBox.FindItemByText(texts[i]);
+            if (item != null)
+                actualValues.push(item.value);
+        }
+        return actualValues;
+    }
+
+
+    //Degrees
+    function DegreesOnListBoxSelectionChanged(listBox, args) {
+        if (args.index === -1) {
+            args.isSelected ? listBox.SelectAll() : listBox.UnselectAll();
+        }
+        DegreesUpdateSelectAllItemState();
+        DegreesUpdateText();
+    }
+
+    function DegreesUpdateSelectAllItemState() {
+        DegreesIsAllSelected()
+            ? degreeCheckListBox.SelectIndices([-1])
+            : degreeCheckListBox.UnselectIndices([-1]);
+    }
+
+    function DegreesIsAllSelected() {
+        for (var i = 1; i < degreeCheckListBox.GetItemCount(); i++)
+            if (!degreeCheckListBox.GetItem(i).selected) {
+                return false;
+            }
+        return true;
+    }
+
+    function DegreesUpdateText() {
+        var selectedItems = degreeCheckListBox.GetSelectedItems();
+        DegreesComboBox.SetText(GetSelectedItemsText(selectedItems));
+    }
+
+    function DegreesSynchronizeListBoxValues(dropDown, args) {
+        degreeCheckListBox.UnselectAll();
+        var texts = dropDown.GetText().split(textSeparator);
+        var values = DegreesGetValuesByTexts(texts);
+        degreeCheckListBox.SelectValues(values);
+        DegreesUpdateSelectAllItemState();
+        DegreesUpdateText(); // for remove non-existing texts
+    }
+
+    function DegreesGetValuesByTexts(texts) {
+        var actualValues = [];
+        var item;
+        for (var i = 0; i < texts.length; i++) {
+            item = degreeCheckListBox.FindItemByText(texts[i]);
+            if (item != null)
+                actualValues.push(item.value);
+        }
+        return actualValues;
+    }
+
+
+    //Stutes
+    function StutesOnListBoxSelectionChanged(listBox, args) {
+        if (args.index === -1) {
+            args.isSelected ? listBox.SelectAll() : listBox.UnselectAll();
+        }
+        StutesUpdateSelectAllItemState();
+        StutesUpdateText();
+    }
+
+    function StutesUpdateSelectAllItemState() {
+        StutesIsAllSelected()
+            ? stutesCheckListBox.SelectIndices([-1])
+            : stutesCheckListBox.UnselectIndices([-1]);
+    }
+
+    function StutesIsAllSelected() {
+        for (var i = 1; i < stutesCheckListBox.GetItemCount(); i++)
+            if (!stutesCheckListBox.GetItem(i).selected) {
+                return false;
+            }
+        return true;
+    }
+
+    function StutesUpdateText() {
+        var selectedItems = stutesCheckListBox.GetSelectedItems();
+        StutesComboBox.SetText(GetSelectedItemsText(selectedItems));
+    }
+
+    function StutesSynchronizeListBoxValues(dropDown, args) {
+        stutesCheckListBox.UnselectAll();
+        var texts = dropDown.GetText().split(textSeparator);
+        var values = StutesGetValuesByTexts(texts);
+        stutesCheckListBox.SelectValues(values);
+        StutesUpdateSelectAllItemState();
+        StutesUpdateText(); // for remove non-existing texts
+    }
+
+    function StutesGetValuesByTexts(texts) {
+        var actualValues = [];
+        var item;
+        for (var i = 0; i < texts.length; i++) {
+            item = stutesCheckListBox.FindItemByText(texts[i]);
+            if (item != null)
+                actualValues.push(item.value);
+        }
+        return actualValues;
+    }
+
+    //Levels
+    function LevelsOnListBoxSelectionChanged(listBox, args) {
+        if (args.index === -1) {
+            args.isSelected ? listBox.SelectAll() : listBox.UnselectAll();
+        }
+        LevelsUpdateSelectAllItemState();
+        LevelsUpdateText();
+    }
+
+    function LevelsUpdateSelectAllItemState() {
+        LevelsIsAllSelected()
+            ? levelsCheckListBox.SelectIndices([-1])
+            : levelsCheckListBox.UnselectIndices([-1]);
+    }
+
+    function LevelsIsAllSelected() {
+        for (var i = 1; i < levelsCheckListBox.GetItemCount(); i++)
+            if (!levelsCheckListBox.GetItem(i).selected) {
+                return false;
+            }
+        return true;
+    }
+
+    function LevelsUpdateText() {
+        var selectedItems = levelsCheckListBox.GetSelectedItems();
+        LevelsComboBox.SetText(GetSelectedItemsText(selectedItems));
+    }
+
+    function LevelsSynchronizeListBoxValues(dropDown, args) {
+        levelsCheckListBox.UnselectAll();
+        var texts = dropDown.GetText().split(textSeparator);
+        var values = LevelsGetValuesByTexts(texts);
+        levelsCheckListBox.SelectValues(values);
+        LevelsUpdateSelectAllItemState();
+        LevelsUpdateText(); // for remove non-existing texts
+    }
+
+    function LevelsGetValuesByTexts(texts) {
+        var actualValues = [];
+        var item;
+        for (var i = 0; i < texts.length; i++) {
+            item = levelsCheckListBox.FindItemByText(texts[i]);
+            if (item != null)
+                actualValues.push(item.value);
+        }
+        return actualValues;
+    }
+
+
+    function removesignatureValue() {
+        $('nobr').remove(":contains('-1')");
+    }
+
+    //Students
+    function StudentsOnListBoxSelectionChanged(listBox, args) {
+        if (args.index === -1) {
+            args.isSelected ? listBox.SelectAll() : listBox.UnselectAll();
+        }
+        StudentsUpdateSelectAllItemState();
+        StudentsUpdateText();
+    }
+
+    function StudentsUpdateSelectAllItemState() {
+        StudentsIsAllSelected()
+            ? StudentsCheckListBox.SelectIndices([-1])
+            : StudentsCheckListBox.UnselectIndices([-1]);
+    }
+
+    function StudentsIsAllSelected() {
+        for (var i = 1; i < StudentsCheckListBox.GetItemCount(); i++)
+            if (!StudentsCheckListBox.GetItem(i).selected) {
+                return false;
+            }
+        return true;
+    }
+
+    function StudentsUpdateText() {
+        var selectedItems = StudentsCheckListBox.GetSelectedItems();
+        StudentsComboBox.SetText(GetSelectedItemsText(selectedItems));
+    }
+
+    function StudentsSynchronizeListBoxValues(dropDown, args) {
+        StudentsCheckListBox.UnselectAll();
+        var texts = dropDown.GetText().split(textSeparator);
+        var values = StudentsGetValuesByTexts(texts);
+        StudentsCheckListBox.SelectValues(values);
+        StudentsUpdateSelectAllItemState();
+        StudentsUpdateText(); // for remove non-existing texts
+    }
+
+    function StudentsGetValuesByTexts(texts) {
+        var actualValues = [];
+        var item;
+        for (var i = 0; i < texts.length; i++) {
+            item = StudentsCheckListBox.FindItemByText(texts[i]);
+            if (item != null)
+                actualValues.push(item.value);
+        }
+        return actualValues;
+    }
+</script>
+
+<div class="container-fluid container-fullw">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel bg-white">
+                <div class="breadcrumb-wrapper text-right">
+                    <h4 class="no-margin">تقرير بحالةإستلام المكافآت</h4>
+                </div>
+                <div class="panel-body">
+                    @using (Ajax.BeginForm("StatementOfSarfRewardReport", new AjaxOptions
+                    {
+                        UpdateTargetId = "StatementOfSarfRewardReportDesigner",
+                        OnComplete = "removesignatureValue()"
+                    }))
+                    {
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-right">
+                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 form-group">
+                                <label>الكلية</label>
+                                @Html.DevExpress().DropDownEdit(
+                     settings =>
+                     {
+                                settings.Name = "FacultiesComboBox";
+                                settings.Properties.DropDownWindowStyle.BackColor = Color.FromArgb(0xEDEDED);
+                                settings.Properties.NullText = "اختر";
+                                settings.Properties.ClearButton.DisplayMode = ClearButtonDisplayMode.OnHover;
+                                settings.Properties.ClientSideEvents.TextChanged = "FacultiesSynchronizeListBoxValues";
+                                settings.Properties.ClientSideEvents.DropDown = "FacultiesSynchronizeListBoxValues";
+                                settings.Properties.ValidationSettings.RequiredField.IsRequired = false;
+                                settings.Properties.ValidationSettings.ErrorTextPosition = ErrorTextPosition.Bottom;
+                                settings.SetDropDownWindowTemplateContent(c =>
+                                {
+                                    @Html.DevExpress().ListBox(listBoxSettings =>
+                                    {
+                                        listBoxSettings.Name = "facultiesCheckListBox";
+                                        listBoxSettings.ControlStyle.Border.BorderWidth = 0;
+                                        listBoxSettings.ControlStyle.BorderBottom.BorderWidth = 1;
+                                        listBoxSettings.ControlStyle.BorderBottom.BorderColor = Color.FromArgb(0xDCDCDC);
+                                        listBoxSettings.Width = Unit.Percentage(100);
+                                        listBoxSettings.Properties.SelectionMode = ListEditSelectionMode.CheckColumn;
+                                        listBoxSettings.Properties.EnableSelectAll = true;
+                                        listBoxSettings.Properties.SelectAllText = "اختيار الكل";
+                                        listBoxSettings.Properties.ValueField = "Value";
+                                        listBoxSettings.Properties.ValueType = typeof(int);
+                                        listBoxSettings.Properties.TextField = "Text";
+                                        listBoxSettings.Properties.ClientSideEvents.SelectedIndexChanged = "FacultiesOnListBoxSelectionChanged";
+                                    }).BindList(ViewBag.Faculties).Render();
+                                    ViewContext.Writer.Write("<div style=\"margin: 6px; overflow: hidden;\">");
+                                    @Html.DevExpress().Button(
+                                        buttonSettings =>
+                                        {
+                                            buttonSettings.Name = "FacultiesbuttonClose";
+                                            buttonSettings.Text = "اغلاق";
+                                            buttonSettings.Style.Add("float", "right");
+                                            buttonSettings.ClientSideEvents.Click = "function(s, e){ FacultiesComboBox.HideDropDown(); }";
+                                            buttonSettings.Height = 26;
+                                        }).Render();
+                                    ViewContext.Writer.Write("</div>");
+                                });
+                            }).GetHtml()
+
+                            </div>
+
+                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 form-group">
+                                <label>الدرجة العلمية</label>
+                                @Html.DevExpress().DropDownEdit(
+                                settings =>
+                                {
+                                settings.Name = "DegreesComboBox";
+                                settings.Properties.DropDownWindowStyle.BackColor = Color.FromArgb(0xEDEDED);
+                                settings.Properties.NullText = "اختر";
+                                settings.Properties.ClearButton.DisplayMode = ClearButtonDisplayMode.OnHover;
+                                settings.Properties.ClientSideEvents.TextChanged = "DegreesSynchronizeListBoxValues";
+                                settings.Properties.ClientSideEvents.DropDown = "DegreesSynchronizeListBoxValues";
+                                settings.Properties.ValidationSettings.ErrorTextPosition = ErrorTextPosition.Bottom;
+                                settings.Properties.ValidationSettings.RequiredField.IsRequired = false;
+                                settings.SetDropDownWindowTemplateContent(c =>
+                                {
+                                    @Html.DevExpress().ListBox(listBoxSettings =>
+                                    {
+                                        listBoxSettings.Name = "degreeCheckListBox";
+                                        listBoxSettings.ControlStyle.Border.BorderWidth = 0;
+                                        listBoxSettings.ControlStyle.BorderBottom.BorderWidth = 1;
+                                        listBoxSettings.ControlStyle.BorderBottom.BorderColor = Color.FromArgb(0xDCDCDC);
+                                        listBoxSettings.Width = Unit.Percentage(100);
+                                        listBoxSettings.Properties.SelectionMode = ListEditSelectionMode.CheckColumn;
+                                        listBoxSettings.Properties.EnableSelectAll = true;
+                                        listBoxSettings.Properties.SelectAllText = "اختيار الكل";
+                                        listBoxSettings.Properties.ValueField = "Value";
+                                        listBoxSettings.Properties.ValueType = typeof(int);
+                                        listBoxSettings.Properties.TextField = "Text";
+                                        listBoxSettings.Properties.ClientSideEvents.SelectedIndexChanged = "DegreesOnListBoxSelectionChanged";
+                                    }).BindList(ViewBag.Degrees).Render();
+                                    ViewContext.Writer.Write("<div style=\"margin: 6px; overflow: hidden;\">");
+                                    @Html.DevExpress().Button(
+                                     buttonSettings =>
+                                     {
+                                         buttonSettings.Name = "DegreesbuttonClose";
+                                         buttonSettings.Text = "اغلاق";
+                                         buttonSettings.Style.Add("float", "right");
+                                         buttonSettings.ClientSideEvents.Click = "function(s, e){ DegreesComboBox.HideDropDown(); }";
+                                         buttonSettings.Height = 26;
+                                     }).Render();
+                                    ViewContext.Writer.Write("</div>");
+                                });
+                            }).GetHtml()
+
+
+
+                            </div>
+
+                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 form-group">
+                                <label>الحالة</label>
+                                @Html.DevExpress().DropDownEdit(
+                             settings =>
+                             {
+                                settings.Name = "StutesComboBox";
+                                settings.Properties.DropDownWindowStyle.BackColor = Color.FromArgb(0xEDEDED);
+                                settings.Properties.NullText = "اختر";
+                                settings.Properties.ClearButton.DisplayMode = ClearButtonDisplayMode.OnHover;
+                                settings.Properties.ClientSideEvents.TextChanged = "StutesSynchronizeListBoxValues";
+                                settings.Properties.ClientSideEvents.DropDown = "StutesSynchronizeListBoxValues";
+                                settings.Properties.ValidationSettings.RequiredField.IsRequired = false;
+                                settings.Properties.ValidationSettings.ErrorTextPosition = ErrorTextPosition.Bottom;
+                                settings.SetDropDownWindowTemplateContent(c =>
+                                {
+                                    @Html.DevExpress().ListBox(listBoxSettings =>
+                                    {
+                                        listBoxSettings.Name = "stutesCheckListBox";
+                                        listBoxSettings.ControlStyle.Border.BorderWidth = 0;
+                                        listBoxSettings.ControlStyle.BorderBottom.BorderWidth = 1;
+                                        listBoxSettings.ControlStyle.BorderBottom.BorderColor = Color.FromArgb(0xDCDCDC);
+                                        listBoxSettings.Width = Unit.Percentage(100);
+                                        listBoxSettings.Properties.SelectionMode = ListEditSelectionMode.CheckColumn;
+                                        listBoxSettings.Properties.EnableSelectAll = true;
+                                        listBoxSettings.Properties.SelectAllText = "اختيار الكل";
+                                        listBoxSettings.Properties.ValueField = "Value";
+                                        listBoxSettings.Properties.ValueType = typeof(int);
+                                        listBoxSettings.Properties.TextField = "Text";
+                                        listBoxSettings.Properties.ClientSideEvents.SelectedIndexChanged = "StutesOnListBoxSelectionChanged";
+                                    }).BindList(ViewBag.Stutes).Render();
+                                    ViewContext.Writer.Write("<div style=\"margin: 6px; overflow: hidden;\">");
+                                    @Html.DevExpress().Button(
+                                     buttonSettings =>
+                                     {
+                                         buttonSettings.Name = "StutesbuttonClose";
+                                         buttonSettings.Text = "اغلاق";
+                                         buttonSettings.Style.Add("float", "right");
+                                         buttonSettings.ClientSideEvents.Click = "function(s, e){ StutesComboBox.HideDropDown(); }";
+                                         buttonSettings.Height = 26;
+                                     }).Render();
+                                    ViewContext.Writer.Write("</div>");
+                                });
+                            }).GetHtml()
+
+                            </div>
+
+                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 form-group">
+                                <label>المستوي</label>
+
+                                @Html.DevExpress().DropDownEdit(
+                   settings =>
+                   {
+                                settings.Name = "LevelsComboBox";
+                                settings.Properties.DropDownWindowStyle.BackColor = Color.FromArgb(0xEDEDED);
+                                settings.Properties.NullText = "اختر";
+                                settings.Properties.ClearButton.DisplayMode = ClearButtonDisplayMode.OnHover;
+                                settings.Properties.ClientSideEvents.TextChanged = "LevelsSynchronizeListBoxValues";
+                                settings.Properties.ClientSideEvents.DropDown = "LevelsSynchronizeListBoxValues";
+                                settings.Properties.ValidationSettings.RequiredField.IsRequired = false;
+                                settings.Properties.ValidationSettings.ErrorTextPosition = ErrorTextPosition.Bottom;
+                                settings.SetDropDownWindowTemplateContent(c =>
+                                {
+                                    @Html.DevExpress().ListBox(listBoxSettings =>
+                                    {
+                                        listBoxSettings.Name = "levelsCheckListBox";
+                                        listBoxSettings.ControlStyle.Border.BorderWidth = 0;
+                                        listBoxSettings.ControlStyle.BorderBottom.BorderWidth = 1;
+                                        listBoxSettings.ControlStyle.BorderBottom.BorderColor = Color.FromArgb(0xDCDCDC);
+                                        listBoxSettings.Width = Unit.Percentage(100);
+                                        listBoxSettings.Properties.SelectionMode = ListEditSelectionMode.CheckColumn;
+                                        listBoxSettings.Properties.EnableSelectAll = true;
+                                        listBoxSettings.Properties.SelectAllText = "اختيار الكل";
+                                        listBoxSettings.Properties.ValueField = "Value";
+                                        listBoxSettings.Properties.ValueType = typeof(int);
+                                        listBoxSettings.Properties.TextField = "Text";
+                                        listBoxSettings.Properties.ClientSideEvents.SelectedIndexChanged = "LevelsOnListBoxSelectionChanged";
+                                    }).BindList(ViewBag.Levels).Render();
+                                    ViewContext.Writer.Write("<div style=\"margin: 6px; overflow: hidden;\">");
+                                    @Html.DevExpress().Button(
+                                     buttonSettings =>
+                                     {
+                                         buttonSettings.Name = "LevelsbuttonClose";
+                                         buttonSettings.Text = "اغلاق";
+                                         buttonSettings.Style.Add("float", "right");
+                                         buttonSettings.ClientSideEvents.Click = "function(s, e){ LevelsComboBox.HideDropDown(); }";
+                                         buttonSettings.Height = 26;
+                                     }).Render();
+                                    ViewContext.Writer.Write("</div>");
+                                });
+                            }).GetHtml()
+                            </div>
+
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 form-group">
+                                <label>السنة</label>
+
+                                @Html.DevExpress().ComboBox(settings => {
+                                settings.Name = "YearsComboBox";
+                                settings.Width = Unit.Percentage(100);
+                                settings.SelectedIndex = -1;
+                                settings.Properties.ValidationSettings.RequiredField.IsRequired = true;
+                                settings.Properties.ValidationSettings.ErrorTextPosition = ErrorTextPosition.Bottom;
+                                settings.Properties.ClientSideEvents.SelectedIndexChanged = "function (s,e){if(s.GetValue() == null){s.SetText(null);}else{fillMonths(s.GetValue());}}";
+                            }).BindList(ViewBag.Years).GetHtml()
+                            </div>
+
+                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 form-group">
+                                <label>الشهر</label>
+                                @Html.DevExpress().ComboBox(settings => {
+                                settings.Name = "MonthComboBox";
+                                settings.Width = Unit.Percentage(100);
+                                settings.SelectedIndex = -1;
+                                settings.ClientEnabled = true;
+                                settings.Properties.EnableClientSideAPI = true;
+                                settings.Properties.ValueType = typeof(string);
+                                settings.Properties.ValidationSettings.RequiredField.IsRequired = true;
+                                settings.Properties.ValidationSettings.ErrorTextPosition = ErrorTextPosition.Bottom;
+                                settings.Properties.ClientSideEvents.SelectedIndexChanged = "function (s,e){if(s.GetValue() == null){s.SetText(null);}else{fillPayrollNumbers(s.GetValue());}}";
+                            }).GetHtml()
+                            </div>
+
+                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 form-group">
+                                <label>المسير</label>
+
+                                @Html.DevExpress().ComboBox(settings => {
+                                settings.Name = "PayrollComboBox";
+                                settings.Width = Unit.Percentage(100);
+                                settings.SelectedIndex = -1;
+                                settings.ClientEnabled = true;
+                                settings.Properties.EnableClientSideAPI = true;
+                                settings.Properties.ValueType = typeof(string);
+                                settings.Properties.ValidationSettings.RequiredField.IsRequired = false;
+                                settings.Properties.ValidationSettings.ErrorTextPosition = ErrorTextPosition.Bottom;
+                            }).GetHtml()
+                            </div>
+
+                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 form-group">
+                                <label>حالة الاستلام</label>
+                                @Html.DevExpress().ComboBox(settings => {
+                               settings.Name = "RecevieStatusComboBox";
+                               settings.Width = Unit.Percentage(100);
+                               settings.SelectedIndex = -1;
+                               settings.Properties.ValidationSettings.RequiredField.IsRequired = false;
+                               settings.Properties.ValidationSettings.ErrorTextPosition = ErrorTextPosition.Bottom;
+                               settings.Properties.ValueType = typeof(int);
+                               settings.Properties.Items.Add("الكل",null);
+                               settings.Properties.Items.Add("مستلمة",1);
+                               settings.Properties.Items.Add("غير مستلمة",0);
+                           }).GetHtml()
+                            </div>
+                            <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 ">
+                                <label>اسم الطالب</label>
+                                @Html.DevExpress().DropDownEdit(
+     settings =>
+     {
+         settings.Name = "StudentsComboBox";
+         settings.Properties.DropDownWindowStyle.BackColor = Color.FromArgb(0xEDEDED);
+         settings.Properties.NullText = "بحث بالإسـم   _   برقم الهوية   _   بالرقم الجامعي";
+         settings.Properties.ClearButton.DisplayMode = ClearButtonDisplayMode.OnHover;
+         settings.Properties.ClientSideEvents.TextChanged = "StudentsSynchronizeListBoxValues";
+         settings.Properties.ClientSideEvents.DropDown = "StudentsSynchronizeListBoxValues";
+         settings.Properties.ValidationSettings.ErrorTextPosition = ErrorTextPosition.Bottom;
+         settings.Properties.ValidationSettings.RequiredField.IsRequired = false;
+
+         settings.SetDropDownWindowTemplateContent(c =>
+         {
+             @Html.DevExpress().ListBox(listBoxSettings =>
+             {
+                 listBoxSettings.Name = "StudentsCheckListBox";
+                 listBoxSettings.ControlStyle.Border.BorderWidth = 0;
+                 listBoxSettings.ControlStyle.BorderBottom.BorderWidth = 1;
+                 listBoxSettings.ControlStyle.BorderBottom.BorderColor = Color.FromArgb(0xDCDCDC);
+                 listBoxSettings.Width = Unit.Percentage(100);
+                 listBoxSettings.Properties.SelectionMode = ListEditSelectionMode.CheckColumn;
+                 listBoxSettings.Properties.EnableSelectAll = true;
+                 listBoxSettings.Properties.FilteringSettings.ShowSearchUI = true;
+                 listBoxSettings.Properties.SelectAllText = "اختيار الكل";
+                 listBoxSettings.Properties.ValueField = "Value";
+                 listBoxSettings.Properties.ValueType = typeof(int);
+                 listBoxSettings.Properties.TextField = "Text";
+                 listBoxSettings.Properties.ClientSideEvents.SelectedIndexChanged = "StudentsOnListBoxSelectionChanged";
+             }).BindList(ViewBag.StudentNames).Render();
+             ViewContext.Writer.Write("<div style=\"margin: 6px; overflow: hidden;\">");
+             @Html.DevExpress().Button(
+              buttonSettings =>
+              {
+                  buttonSettings.Name = "StudentsbuttonClose";
+                  buttonSettings.Text = "اغلاق";
+                  buttonSettings.Style.Add("float", "right");
+                  buttonSettings.ClientSideEvents.Click = "function(s, e){ DegreesComboBox.HideDropDown(); }";
+                  buttonSettings.Height = 26;
+              }).Render();
+             ViewContext.Writer.Write("</div>");
+         });
+     }).GetHtml()
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 text-right form-group">
+                                <label class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-right"><br /></label>
+                                @Html.DevExpress().Button(settings =>
+                                {
+                                settings.Name = "btnView";
+                                settings.ControlStyle.CssClass = "btn btn-success";
+                                settings.Text = "عرض";
+                                settings.UseSubmitBehavior = true;
+                            }).GetHtml()
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <br />
+                            <br />
+                            <br />
+                            <div id="StatementOfSarfRewardReportDesigner">
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .dxbButton_MetropolisBlue.btn-success {
+        background-color: #26B99A !important;
+        border: 1px solid #169F85 !important;
+        color: #fff !important
+    }
+
+    .dxbButton_MetropolisBlue {
+        padding: 5px !important;
+        font-family: "JF Flat Regular" !important;
+    }
+</style>
+
+
+

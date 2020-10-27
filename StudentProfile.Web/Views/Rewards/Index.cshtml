@@ -1,0 +1,398 @@
+﻿@{
+    /**/
+
+    ViewBag.Title = " تهيئة المكافآت ";
+    Layout = "~/Views/Shared/_DevextremeLayout.cshtml";
+}
+
+<script src="~/Scripts/Rewards/RewardsController.js"></script>
+<script src="~/Scripts/Rewards/RewardsService.js"></script>
+
+<style>
+    .control-label {
+        text-align: right
+    }
+
+    fieldset {
+        border: none;
+        margin: 2px 0;
+        padding: 8px 0 5px 0;
+        border: 1px solid #33333329;
+        position: relative;
+        border-radius: 5px;
+    }
+
+    .fieldset-dds {
+        line-height: 20px;
+    }
+
+    legend {
+        font-size: 18px;
+        color: inherit;
+        text-align: right;
+        border: none;
+        background: #fff;
+        position: absolute;
+        top: -17px;
+        width: auto;
+        right: 5px;
+        padding: 3px 10px;
+    }
+
+    .panel-body {
+        padding: 10px 15px;
+    }
+    .dx-rtl.dx-show-clear-button.dx-dropdowneditor-button-visible .dx-tag-container {
+        padding-right: 0;
+        padding-left: 64px;
+        width: 200px;
+        overflow: hidden;
+    }
+</style>
+
+<div class="container-fluid container-fullw" ng-controller="RewardCtrl">
+    <div class="col-md-12">
+
+
+        <div class="panel bg-white">
+            <div class="breadcrumb-wrapper text-right">
+                <h4 class="no-margin"> تهيئة المكافآت </h4>
+
+            </div>
+            <div class="panel-body">
+                <form id="RewardDetailsFormId">
+
+                    <input type="hidden" id="RewardDetailsId" />
+
+                    <div class="clearfix"></div>
+                    <fieldset style="background: #eeeeee;">
+                        <div class="form-group col-lg-3 col-md-4 col-sm-12 col-xs-12">
+                            <label class="col-md-4 col-sm-12 col-xs-12 control-label p-l-0">
+                                فئة المكافأة
+                            </label>
+                            <div class="col-lg-8 col-sm-12 col-xs-12 dx-btn-group">
+                                <div id="dxSelect_RewardCategoryId" class='col-lg-12' style="overflow:hidden" dx-tag-box="DL_RewardCategories"
+                                     dx-validator="VR_RewardCategories"></div>
+
+                                @if (ViewBag.Create != null)
+                                {
+                                    if (ViewBag.Create)
+                                    {
+
+                                        <div id="btnshow" dx-button="btnShowRewardCategoryPopUp">
+                                        </div>
+                                    }
+                                }
+                            </div>
+                        </div>
+                        <div class="form-group col-lg-3 col-md-4 col-sm-12 col-xs-12">
+                            <label class="col-md-3 col-sm-12 col-xs-12 control-label p-l-0">
+                                الكلية
+                            </label>
+                            <div class="col-md-9 col-sm-10 col-xs-10">
+                                <div id="dxSelect_FacultyBranchId" class='col-lg-12' dx-validator="VR_FacultyBranches" dx-tag-box='DL_FacultyBranches'></div>
+                            </div>
+                        </div>
+                        <div class="form-group col-lg-3 col-md-4 col-sm-12 col-xs-12">
+                            <label class="col-md-4 col-sm-12 col-xs-12 control-label p-l-0">
+                                الدرجة العلمية
+                            </label>
+                            <div class="col-md-8 col-sm-10 col-xs-10">
+                                <div id="dxSelect_EducationLevelId" class='col-lg-12' dx-validator="VR_EducationLevels" dx-tag-box='DL_EducationLevels'></div>
+                            </div>
+                        </div>
+                        <div class="form-group col-lg-3 col-md-2 col-sm-12 col-xs-12">
+                            <label class="col-md-4 col-sm-12 col-xs-12 control-label p-l-0">
+                                الحالة الأكاديمية
+                            </label>
+                            <div class="col-md-8 col-sm-10 col-xs-10">
+                                <div id="dxSelect_StudentStatusAcademyId" class='col-lg-12' dx-validator="VR_StudentStatusAcademyId" dx-tag-box='DL_StudentStatusAcademyId'></div>
+                            </div>
+                        </div>
+                    </fieldset>
+                    <div class="clearfix"></div>
+                    <fieldset class="fieldset-dds" style="margin-bottom:0; background: #eeeeee;">
+                        <div class="form-group col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                            <label class="col-md-12 col-sm-12 col-xs-12 control-label">
+                                اسم البند
+                            </label>
+                            <div class="col-lg-12 col-sm-12 col-xs-12 dx-btn-group">
+                                <div id="dxSelect_AllowanceId" class='col-lg-12' dx-validator="VR_Allowances" dx-select-box='DL_Allowances'></div>
+                                @if (ViewBag.Create != null)
+                                {
+                                    if (ViewBag.Create)
+                                    {
+
+                                        <div id="btnshow" dx-button="btnShowRewardItemsPopUp">
+                                            @*<i class="fa fa-plus"></i>*@
+                                        </div>
+                                    }
+                                }
+                            </div>
+                        </div>
+                        <div class="form-group col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                            <label class="col-md-12 col-sm-12 col-xs-12 control-label">
+                                القيمة
+                            </label>
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <div class='col-lg-12' dx-validator="VR_Amount" dx-number-box='TX_Amount_RewardForm'></div>
+                            </div>
+                        </div>
+                        <div class="form-group col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                            <label class="col-md-12 col-sm-12 col-xs-12 control-label">
+                                نوع القيمة
+                            </label>
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <div id="dxSelect_AmountTypeId" class='col-lg-12' dx-select-box='DL_AmountType' dx-validator="VR_AmountType"></div>
+                            </div>
+                        </div>
+                        <div class="form-group col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                            <label class="col-md-12 col-sm-12 col-xs-12 control-label">
+                                نوع الدراسة
+                            </label>
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <div id="dxSelect_EducationTypeId" class='col-lg-12' dx-validator="VR_EducationTypes" dx-select-box='DL_EducationTypes'></div>
+                            </div>
+                        </div>
+                        <div class="form-group col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                            <label class="col-md-12 col-sm-12 col-xs-12 control-label">
+                                نوع المعدل
+                            </label>
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <div id="dxSelect_RateTypeId" class='col-lg-12' dx-validator="VR_RateType" dx-select-box='DL_RateType'></div>
+                            </div>
+                        </div>
+                        <div class="form-group col-lg-1 col-md-1 col-sm-12 col-xs-12">
+                            <label class="col-md-12 col-sm-12 col-xs-12 control-label">
+                                من معدل
+                            </label>
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <div class='col-lg-12' dx-validator="VR_FromRate" dx-number-box='TX_FromRate'></div>
+                            </div>
+                        </div>
+                        <div class="form-group col-lg-1 col-md-1 col-sm-12 col-xs-12">
+                            <label class="col-md-12 col-sm-12 col-xs-12 control-label">
+                                إلي معدل
+                            </label>
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <div class='col-lg-12' dx-validator="VR_ToRate" dx-number-box='TX_ToRate'></div>
+                            </div>
+                        </div>
+                        <div class="form-group col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                            <label class="col-md-12 col-sm-12 col-xs-12 control-label">
+                                نوع التسجيل
+                            </label>
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <div id="DL_RegisterTypes" class='col-lg-12' dx-validator="VR_RegisterTypes" dx-select-box='DL_RegisterTypes'></div>
+                            </div>
+                        </div>
+                        <div class="form-group col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                            <label class="col-md-12 col-sm-12 col-xs-12 control-label">
+                                أدني ساعات دراسية
+                            </label>
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <div class='col-lg-12' dx-validator="VR_MiniHoursNo" dx-number-box='TX_MiniHoursNo'></div>
+                            </div>
+                        </div>
+                        <div class="form-group col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                            <label class="col-md-12 col-sm-12 col-xs-12 control-label">
+                                عدد الفصول
+                            </label>
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <div class='col-lg-12' dx-validator="VR_ClassesNo" dx-number-box='TX_ClassesNo'></div>
+                            </div>
+                        </div>
+                        <div class="form-group col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                            <label class="col-md-12 col-sm-12 col-xs-12 control-label">
+                                عدد مرات الإستحقاق
+                            </label>
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <div class='col-lg-9' dx-validator="VR_DuesNo" dx-number-box='TX_DuesNo'></div>
+                                <div class='col-lg-3' dx-text-box="TX_DuesNoFormat"></div>
+                            </div>
+                        </div>
+
+                        <div class="form-group col-lg-3 col-md-2 col-sm-12 col-xs-12" style="padding-left: 17px;padding-right: 17px;">
+                            <fieldset>
+                                <div id="widget"></div>
+                            </fieldset>
+                        </div>
+
+
+                        <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-left">
+
+                                @if (ViewBag.Create != null)
+                                {
+                                    if (ViewBag.Create)
+                                    {
+                                        <div dx-button="btnCancelRewardDetailsEdit"></div>
+                                        <div id="btnSaveReward" dx-button="submitButtonOptions_RewardForm" ng-show="SaveRewardButtonShow" ng-init=" SaveRewardButtonShow=true"></div>
+
+                                    }
+                                }
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+                <fieldset>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="panel panel-white">
+                                <div class="panel-body" style="padding-top:0">
+                                    <div class="clearfix"></div>
+                                    <div dir="rtl" style="width: 100%">
+                                        <div class="demo-container">
+                                            <div id="gridContainer" class="dx-tree-st" dx-data-grid="RewardGrid" dx-item-alias="gridContainer">
+                                            </div>
+                                        </div>
+                                        <input id="RewardIdHidden" type="hidden" value="" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+
+            </div>
+
+
+
+            <div id="popupOptionsId" dx-popup="popupOptions">
+                <div data-options="dxTemplate: { name : 'info' }">
+                    <div dx-scroll-view="{
+                                height: 500,
+                                direction: 'both'
+                            }">
+
+                        <form id="RewardcategoryForm" name="RewardcategoryForm">
+
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div class="row">
+                                    <fieldset>
+                                        <fieldset style="background: #eeeeee;">
+                                            <input type="hidden" id="RewardCategoryId" />
+
+                                            <div class="form-group col-sm-3 col-md-3 col-xs-12">
+                                                <label class="control-label">اسم الفئة</label>
+                                                <div class="width_100" dx-select-box="pop_Rewardcategory.DL_CategoriesIntegration" dx-validator="pop_Rewardcategory.VR_CategoriesIntegration"></div>
+                                            </div>
+
+                                            <div class="form-group col-sm-2 col-md-2 col-xs-12">
+                                                <label class="control-label">اسم الفئة بالعربي</label>
+                                                <div class="width_100" dx-text-box="pop_Rewardcategory.TX_CategoryName_Arb" dx-validator="pop_Rewardcategory.VR_CategoryName_Arb"></div>
+                                            </div>
+
+                                            <div class="form-group col-sm-2 col-md-2 col-xs-12">
+                                                <label class="control-label">اسم الفئة بالإنجليزي</label>
+                                                <div class="width_100" dx-text-box="pop_Rewardcategory.TX_CategoryName_Eng" dx-validator="pop_Rewardcategory.VR_CategoryName_Eng"></div>
+                                            </div>
+
+                                            <div class="form-group col-sm-3 col-md-3 col-xs-12">
+                                                <label class="control-label">الجنسية</label>
+                                                <div class="width_100" id="DL_NationalityId" dx-tag-box="pop_Rewardcategory.DL_Nationality" dx-validator="pop_Rewardcategory.VR_Nationality"></div>
+                                            </div>
+
+                                            <div class="form-group col-md-2 col-sm-12 col-xs-12 text-left">
+                                                <label class="control-label col-sm-12 col-md-12 col-xs-12 "><br /></label>
+
+                                                <div ng-show="SaveRewcatFormPopup" dx-button="submitButtonOptions_RewcatForm"></div>
+                                                <div ng-show="NewRewcatFormPopup" dx-button="btnNew_RewcatForm"></div>
+                                                <div ng-show="DeleteRewcatFormPopup" dx-button="btnDelete_RewcatForm"></div>
+                                            </div>
+                                        </fieldset>
+                                        <fieldset>
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="panel panel-white">
+                                                        <div class="panel-body" style="padding-top: 0">
+                                                            <div class="clearfix"></div>
+                                                            <div dir="rtl" style="width: 100%">
+                                                                <div class="demo-container">
+                                                                    <div id="RewardCategoryGrid" class="dx-tree-st" dx-data-grid="RewardCategoryGrid" dx-item-alias="RewardCategoryGridContainer">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </fieldset>
+                                    </fieldset>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+
+            <div id="popupOptionsId_RewardItems" dx-popup="popupOptions_RewardItems">
+                <div data-options="dxTemplate: { name : 'information' }">
+                    <div dx-scroll-view="{
+                                width:100%,
+                                height: 500,
+                                direction: 'both'
+                            }">
+                        <form id="RewardItemForm" name="RewardItemForm">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"> 
+                                    <fieldset style="background: #eeeeee;">
+                                        <input type="hidden" id="RewardItemId" />
+
+                                        <div class="form-group col-sm-3 col-md-3 col-xs-12">
+                                            <label class="control-label">اسم البند بالعربي</label>
+                                            <div class="width_100" dx-text-box="TX_RewardItemName_Arb" dx-validator="VR_RewardItemName_Arb"></div>
+                                        </div>
+
+                                        <div class="form-group col-sm-3 col-md-3 col-xs-12">
+                                            <label class="control-label">اسم البند بالإنجليزي</label>
+                                            <div class="width_100" dx-text-box="TX_RewardItemName_Eng" dx-validator="VR_RewardItemName_Eng"></div>
+                                        </div>
+
+                                        <div class="form-group col-sm-3 col-md-3 col-xs-12">
+                                            <label class="control-label">نوع البند</label>
+                                            <div class="width_100" dx-select-box="DL_RewardItemTypes" dx-validator="VR_RewardItemTypes"></div>
+                                        </div>
+                                        <div class="form-group col-sm-3 col-md-3 col-xs-12">
+                                            <label class="control-label">نوع الصرف</label>
+                                            <div class="width_100" dx-select-box="DL_RewardItemExpensesTypes" dx-validator="VR_RewardItemExpensesTypes"></div>
+                                        </div>
+
+                                        <div class="form-group col-sm-6 col-md-6 col-xs-12">
+                                            <div dx-check-box="CK_AfterCheckingResult"></div>
+                                            <div class="clearfix"></div>
+                                            <div dx-check-box="CK_IsAdvanceReturn"></div>
+                                        </div>
+                                        <div class="form-group col-sm-6 col-md-6 col-xs-12 text-left">
+                                            <div ng-show="SaveRewItemFormPopup" dx-button="submitButtonOptions_RewItemForm"></div>
+                                            <div ng-show="NewRewItemFormPopup" dx-button="btnNew_RewItemForm"></div>
+                                        </div> 
+                                    </fieldset>
+                                    <fieldset> 
+                                            <div class="col-md-12">
+                                                <div class="panel panel-white">
+                                                    <div class="panel-body" style="padding-top: 0">
+                                                        <div class="clearfix"></div>
+                                                        <div dir="rtl" style="width: 100%">
+                                                            <div class="demo-container">
+                                                                <div id="RewardItemsGrid" class="dx-tree-st" dx-data-grid="RewardItemsGrid" dx-item-alias="RewardItemsGridContainer">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                    </fieldset> 
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+
+    </div>
+</div>
+
+
+

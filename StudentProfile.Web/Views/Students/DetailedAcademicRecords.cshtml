@@ -1,0 +1,283 @@
+﻿@model List<StudentProfile.DAL.Models.proc_GetStudentGrades_Result>
+@{
+    Layout = null;
+}
+
+@using System.Globalization;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>السجل الأكاديمي المفصل</title>
+
+    <!-- Bootstrap -->
+    <link href="~/assets/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Bootstrap rtl -->
+    <link href="~/assets/css/report.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center form-group">
+                <div class="row">
+                    <button id="btnPrint" class="btn btn-info">طباعة</button>
+                </div>
+            </div>
+        </div>
+        <div id="printThis">
+            <header>
+                <div class="row">
+
+                    <table class="tb-top" style="width: 33.33%;float: right">
+                        <tr>
+                            <td class="text-center">
+                                <h3>المملكة العربية السعودية</h3>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-center">
+                                <h3>وزارة التعليم العالي</h3>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-center">
+                                <h3>الجامعة الاسلامية بالمدينة المنورة</h3>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <table class="tb-top" style="width: 33.33%;float: right">
+                        <tr>
+                            <td class="text-center">
+                                <h3> بسم الله الرحمن الرحيم </h3>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-center">
+                                <img height="70" src="~/assets/images/logo.png" />
+                            </td>
+                        </tr>
+
+
+                    </table>
+
+                    <table class="tb-top" style="width: 33.33%;float: right">
+                        <tr>
+                            <td class="text-center">
+
+                                <h4></h4>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-center">
+                                @{
+                                    CultureInfo hijriDate = CultureInfo.GetCultureInfo("ar-SA");
+
+                                    string nowStr = DateTime.Now.ToString("dd-MM-yyyy", hijriDate);
+                                }
+                                <h4>تاريخ الطباعة : @nowStr</h4>
+                            </td>
+                        </tr>
+
+                    </table>
+                </div>
+            </header>
+            <div class="row panel-ds">
+                <table class="bold-td" style="width: 40%;float: right">
+                    <tr>
+                        <td class="text-left">
+                            الاسم :
+                        </td>
+                        <td class="text-right">
+                            @Model.FirstOrDefault().STUDENT_NAME
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-left">
+                            الجنسية :
+                        </td>
+                        <td class="text-right">
+                            @Model.FirstOrDefault().Nationality_Desc
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="text-left">
+                            نوع الدراسة :
+                        </td>
+                        <td class="text-right">
+                            @Model.FirstOrDefault().STUDY_DESC
+                        </td>
+                    </tr>
+                </table>
+
+                <table class="bold-td" style="width: 50%;float: left">
+                    <tr>
+                        <td class="text-left">
+                            الرقم الجامعي :
+                        </td>
+                        <td class="text-right">
+                            @Model.FirstOrDefault().STUDENT_ID
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="row panel-ds b-0">
+                @foreach (var semester in Model.GroupBy(x=>x.SEMESTER))
+                {
+                    string year = "14" + semester.Key.ToString().Substring(0,semester.Key.ToString().Length - 1);
+                    string semesterId = semester.Key.ToString().LastOrDefault().ToString();
+
+                <div class="col-lg-12 col-md-12 col-xs-12 text-center">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr class="active" style="background-color: #f5f5f5!important">
+                                <th style="background-color: #f5f5f5!important">@year هـ</th>
+                                <th style="background-color: #f5f5f5!important" colspan="3">المقرر</th>
+                                <th style="background-color: #f5f5f5!important" rowspan="2">الدرجة النهائية</th>
+                                <th style="background-color: #f5f5f5!important" colspan="2">التقدير</th>
+                                <th style="background-color: #f5f5f5!important" rowspan="2">النقاط</th>
+                            </tr>
+                            <tr class="active" style="background-color: #f5f5f5!important">
+                                @if (semesterId == "1")
+                                {
+                                    <th style="background-color: #f5f5f5!important">
+                                        الفصل الأول
+                                    </th>
+                                }
+                                else
+                                {
+                                    <th style="background-color: #f5f5f5!important">الفصل الثاني</th>
+                                }
+                                <th style="background-color: #f5f5f5!important">رمزه</th>
+                                <th style="background-color: #f5f5f5!important">اسمه</th>
+                                <th style="background-color: #f5f5f5!important">وحداته</th>
+                                <th style="background-color: #f5f5f5!important">وزنه</th>
+                                <th style="background-color: #f5f5f5!important">رمزه</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.Where(x=>x.SEMESTER == semester.Key))
+                            {
+                            <tr>
+                                @if(Model.Where(x => x.SEMESTER == semester.Key).FirstOrDefault() == item) {
+                                <td rowspan="@Model.Where(x => x.SEMESTER == semester.Key).Count()"></td>
+                                }
+                                <td>@item.COURSE_CODE </td>
+                                <td>@item.COURSE_NAME</td>
+                                <td>@item.CRD_HRS</td>
+                                <td>@item.CONFIRMED_MARK</td>
+                                <td>@item.QUALITY_POINTS</td>
+                                <td>@item.LETTER_GRADE</td>
+                                <td>@item.POINTS</td>
+                            </tr>
+                            }
+                        </tbody>
+                        <tr>
+                            <td></td>
+                            <td colspan="2">المجموع</td>
+                            <td>@Model.Where(x => x.SEMESTER == semester.Key).Sum(x => x.CRD_HRS)</td>
+                            <td></td>
+                            <td colspan="2"></td>
+
+                            <td>@Model.Where(x => x.SEMESTER == semester.Key).Sum(x => x.POINTS)</td>
+                        </tr>
+                        <tr>
+                            <td class="b-0"></td>
+                            <td class="b-0" colspan="6">
+                                <label class="pull-right">المعدل : فصلي (@Model.Where(x => x.SEMESTER == semester.Key).FirstOrDefault().SEMESTER_GPA) / تراكمي (@Model.Where(x => x.SEMESTER == semester.Key).FirstOrDefault().CUM_GPA)  من خمسة  </label>
+                                <label class="pull-left"> التقدير </label>
+                            </td>
+                            <td class="b-0"></td>
+                        </tr>
+                        <tfoot>
+                        
+                        </tfoot>
+                    </table>
+                </div>
+                }
+            </div>
+            <div class="row b-0">
+                <div class="col-lg-12 col-md-12 col-xs-12 text-center">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th> عدد الوحدات المقررة</th>
+                                <th> عدد الوحدات المدروسة </th>
+                                <th>عدد الوحدات المنجزة </th>
+                                <th>عدد الوحدات المتبقية </th>
+                                <th>حالة الطالب الدراسية </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>@Model.Sum(x=>x.CRD_HRS)</td>
+                                <td>@Model.Where(x=>x.SEMESTER_GPA != null).Sum(x => x.CRD_HRS)</td>
+                                <td>@Model.Where(x=>x.SEMESTER_GPA != null).Sum(x => x.CRD_HRS)</td>
+                                <td>@(Model.Sum(x => x.CRD_HRS) - Model.Where(x => x.SEMESTER_GPA != null).Sum(x => x.CRD_HRS))</td>
+                                <td>@Model.FirstOrDefault().STATUS_DESC</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="row">
+                <table style="width: 100%">
+                    <tr>
+                        <td style="width: 33.33%" class="text-center">
+                            <h3> أمين الاختبارات </h3>
+                            <h3>الشيخ / امين بن عبد الله أحمد مختار</h3>
+                        </td>
+                        <td style="width: 33.33%" class="text-center">
+                            <h3> الختم</h3>
+                        </td>
+                        <td style="width: 33.33%" class="text-center">
+                            <h3>عميد الكلية </h3>
+                            <h3>أ.د/ عبد الرحمن بن رباح الردادي</h3>
+                        </td>
+                    </tr>
+                </table>
+
+            </div>
+        </div>
+
+    </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="~/assets/vendors/jquery/dist/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="~/assets/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script>
+
+document.getElementById("btnPrint").onclick = function () {
+    printElement(document.getElementById("printThis"));
+}
+
+function printElement(elem) {
+    
+
+    var domClone = elem.cloneNode(true);
+    var $printSection = document.getElementById("printSection");
+    if (!$printSection) {
+        var $printSection = document.createElement("div");
+        $printSection.id = "printSection";
+        document.body.appendChild($printSection);
+    }
+
+    $printSection.innerHTML = "";
+    $printSection.appendChild(domClone);
+    
+    var x = $('#print-header .summary').text();
+    var x = $('#print-header .summary').val();
+    window.print();
+}
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,68 @@
+﻿@using StudentProfile.DAL.Models.VM
+@model AdvancesVM
+
+
+<style>
+    img.dxWeb_pcCloseButton_MetropolisBlue {
+        /*position: absolute !important;*/
+        clip: rect(0, 10px, 200px, 0) !important;
+        /* clip: shape(top, right, bottom, left); NB 'rect' is the only available option */
+    }
+</style>
+<div class="panel panel-default" style="direction: rtl" id="courses">
+    <div class="panel panel-body">
+        @if (ViewBag.FinancesDataRead != null)
+        {
+            if (ViewBag.FinancesDataRead == true)
+            {
+                if (ViewBag.Advances != null)
+                {
+                    <table class="table table-bordered dx-table-ds22">
+                        <tr>
+                            <th>نوع البند</th>
+                            <th>اسم البند</th>
+                            <th>تاريخ البند</th>
+                            <th>قيمة البند</th>
+                            <th>المسدد</th>
+                            <th>المبلغ المتبقى</th>
+                            <th>#</th>
+                        </tr>
+                        @foreach (var item in (ViewBag.Advances as ICollection<AdvancesVM>))
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.AdvanceType)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Name)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.date)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.AdvanceValue)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Paid)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.reset)
+                                </td>
+                                <td>
+                                    @if (item.Attachements != null && item.Attachements.Count() > 0)
+                                    {
+                                        using (Ajax.BeginForm("DownloadAdvancesArchive", "Students", new { studentId= item.StudentId,  advanceRequestName=item.Name, pathStr =string.Join(",", item.Attachements)}, new AjaxOptions { OnSuccess = "DownloadFiles", HttpMethod = "Post" }))
+                                        {
+                                            <button class='btn btn-ds-ico btn-success' title='تحميل المرفقات' type='submit'><i class='fa fa-download'></i></button>
+                                        }
+                                    }
+                                </td>
+                            </tr>
+                        }
+
+                    </table>
+                }
+            }
+        }
+    </div>
+</div>

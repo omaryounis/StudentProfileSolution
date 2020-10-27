@@ -1,0 +1,131 @@
+﻿
+@{
+    ViewBag.Title = "إنشاء أوامر الإركاب";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+<link href="~/assets/vendors/nprogress/nprogress.css" rel="stylesheet" />
+<script src="~/assets/vendors/nprogress/nprogress.js"></script>
+
+<script>
+    var selectedRows = [];
+    function StartLoader() {
+        NProgress.start(); // start
+        NProgress.set(0.4); // To set a progress percentage, call .set(n), where n is a number between 0..1
+        NProgress.inc(); // To increment the progress bar, just use .inc(). This increments it with a random amount. This will never get to 100%: use it for every image load (or similar).If you want to increment by a specific value, you can pass that as a parameter
+        NProgress.configure({
+            target: '#pageDiv'
+        });
+        NProgress.configure({ ease: 'ease', speed: 500 }); // Adjust animation settings using easing (a CSS easing string) and speed (in ms). (default: ease and 200)
+        NProgress.configure({ trickleSpeed: 800 }); //Adjust how often to trickle/increment, in ms.
+        NProgress.configure({ showSpinner: false });//Turn off loading spinner by setting it to false. (default: true)
+        NProgress.configure({ parent: '#partialView' });//specify this to change the parent container. (default: body)
+        //selectedRows = [];
+    }
+    function EndLoader() {
+        NProgress.done(); // end
+    }
+    function SelectionChanged(s, e) {
+        debugger;
+        s.GetSelectedFieldValues('ID', SelectionCallback);
+    }
+    function SelectionCallback(values) {
+        
+        selectedRows = [];
+        for (var i = 0; i < values.length; i++) {
+            debugger;
+            var Id= values[i];
+            selectedRows.push(Id);
+        }
+        debugger;
+    }
+    function ExportToTravelingAgent() {
+        debugger;
+        
+        if (selectedRows.length >0){
+           
+            var type = Number($("input[name='radioList']:checked").val());
+            var dataToSend = JSON.stringify({ requestIDs: selectedRows, type: 1 });
+            console.log(dataToSend);
+        var notify = { Message: '', Type: '', status: 0 };
+        $.ajax({
+            url: '/TravelOrders/GenerateNewTravelOrders',
+            contentType: 'application/json; charset=utf-8',
+            type:'post',
+            dataType: 'json',
+            data: dataToSend,
+            success: function (data) {
+                debugger;
+                var response = data;
+                notify.Message = response['Message'];
+                notify.Type = response['Type'];
+                notify.status = response['status'];
+
+                DevExpress.ui.notify({ message: notify.Message, type: notify.Type, displayTime: 3000, closeOnClick: true });
+                selectedRows = [];
+                TravelFreeRequests.PerformCallback();
+            },
+            error: function (data) {
+                var response = data;
+                notify.Message = response['Message'];
+                notify.Type = response['Type'];
+                notify.status = response['status'];
+                
+                DevExpress.ui.notify({ message: notify.Message, type: notify.Type, displayTime: 3000, closeOnClick: true });
+            }
+        })
+        }
+        else {
+            DevExpress.ui.notify({ message: "من فضلك اختر رغبات سفر أولا", type: "info", displayTime: 3000, closeOnClick: true });
+        }
+    }
+</script>
+<div class="container-fluid container-fullw">
+    <div class="row">
+        <div class="col-md-12" id="pageDiv">
+            <div class="panel bg-white">
+                <div class="breadcrumb-wrapper text-right">
+                    <h4 class="no-margin">انشاء اوامر الاركاب</h4>
+                </div>
+                <div class="panel-body">
+                    @using (Ajax.BeginForm("_GetFreeTravelRequests", "TravelOrders", new AjaxOptions { OnBegin = "StartLoader", OnComplete = "EndLoader", UpdateTargetId = "partialView" }))
+                    {
+                    <div class="col-md-7 col-sm-12 col-xs12 form-group text-right">
+                        @Html.DevExpress().ComboBox(
+                            settings =>
+                            {
+                                settings.Name = "AdID";
+                                settings.Properties.NullText = "اعلان السفر";
+                                settings.Properties.ClearButton.DisplayMode = ClearButtonDisplayMode.OnHover;
+                                settings.Properties.ValueField = "Value";
+                                settings.Properties.TextField = "Text";
+                            }).BindList(ViewBag.TravelAds).GetHtml()
+                    </div>
+                            @*<div class="col-md-3 col-sm-12 col-xs12 form-group text-right">
+                                <label for="r1">  حسب خط السير فقط </label> <input type="radio" id="r1" value="0" name="radioList" checked/>
+                            </div>
+                            <div class="col-md-3 col-sm-12 col-xs12 form-group text-right">
+                                <label for="r2">  حسب خط السير والجنسية </label> <input type="radio" id="r2" value="1" name="radioList" />
+                            </div>*@
+                            <div class="col-md-3 col-sm-12 col-xs12 form-group text-right">
+                                <button type="button" class="btn btn-success" onclick="ExportToTravelingAgent()">تصدير للطيار</button>
+                                <input type="submit" class="btn btn-primary" value="عرض الرغبات" />
+                            </div>
+
+
+                            }
+                            <div class="clearfix"></div>
+                            <br />
+                            <div class="clearfix"></div>
+
+                            <fieldset>
+                                @using (Html.BeginForm())
+                                {
+                                    <div id="partialView"></div>
+                                }
+                                </fieldset>
+                        </div>
+                    </div>
+        </div>
+    </div>
+</div>

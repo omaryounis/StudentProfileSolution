@@ -1,0 +1,155 @@
+﻿@using System.Drawing
+@using System.Web.UI.WebControls
+@{
+    ViewBag.Title = "تقرير تحصيل السلف";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    table.dxeRoot_MetropolisBlue {
+        width: 100%;
+    }
+</style>
+
+<script>
+    function AdvancesRecievingReportExportRequest(s, e) {
+        e.customArgs["AdvancesNameComboBox"] = AdvancesNameComboBox.GetValue();
+        e.customArgs["txtDocNumber"] = txtDocNumber.GetValue();
+        e.customArgs["ReciveMethodComboBox"] = ReciveMethodComboBox.GetValue();
+        e.customArgs["DateFrom"] = DateFrom.GetValue();
+        e.customArgs["DateTo"] = DateTo.GetValue();
+    }
+
+</script>
+
+<div class="container-fluid container-fullw">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel bg-white">
+                <div class="breadcrumb-wrapper text-right">
+                    <h4 class="no-margin">تقرير تحصيل السلف</h4>
+                </div>
+                <div class="panel-body">
+                    @using (Ajax.BeginForm("AdvancesRecievingReport", new AjaxOptions
+                    {
+                        UpdateTargetId = "AdvancesRecievingReportDesigner"
+                    }))
+                    { 
+
+                        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 form-group">
+                            <label>تاريخ البداية</label>
+                            <div class="editor">
+                                @Html.DevExpress().DateEdit(settings =>
+                           {
+                               settings.Name = "DateFrom";
+                               settings.Properties.NullText = "MM/dd/yyyy";
+                               settings.Properties.EditFormat = EditFormat.Custom;
+                               settings.Properties.EditFormatString = "MM/dd/yyyy";
+                               settings.Width = Unit.Percentage(100);
+                               settings.Properties.CalendarProperties.FastNavProperties.DisplayMode = FastNavigationDisplayMode.Inline;
+                               //settings.Properties.ValidationSettings.RequiredField.IsRequired = true;
+                               //settings.Date = DateTime.Now;
+                               settings.Width = Unit.Percentage(100);
+                           }).GetHtml()
+                            </div>
+
+                        </div>
+
+                        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 form-group">
+                            <label>تاريخ النهاية</label>
+                            <div class="editor">
+                                @Html.DevExpress().DateEdit(settings =>
+                           {
+                               settings.Name = "DateTo";
+                               settings.Properties.NullText = "MM/dd/yyyy";
+                               settings.Properties.EditFormat = EditFormat.Custom;
+                               settings.Properties.EditFormatString = "MM/dd/yyyy";
+                               settings.Width = Unit.Percentage(100);
+                               settings.Properties.CalendarProperties.FastNavProperties.DisplayMode = FastNavigationDisplayMode.Inline;
+                               //settings.Properties.ValidationSettings.RequiredField.IsRequired = true;
+                               //settings.Date = DateTime.Now;
+                               settings.Width = Unit.Percentage(100);
+                           }).GetHtml()
+                            </div>
+
+                        </div>
+
+                        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 form-group">
+                            <label>اسم السلفة</label>
+
+                            @Html.DevExpress().ComboBox(settings => {
+                           settings.Name = "AdvancesNameComboBox";
+                           settings.Width = Unit.Percentage(100);
+                           settings.SelectedIndex = -1;
+                           settings.Properties.NullText = "اختر";
+                           //settings.Properties.ValidationSettings.RequiredField.IsRequired = true;
+                           settings.Properties.ValidationSettings.ErrorTextPosition = ErrorTextPosition.Bottom;
+                           settings.Properties.ClientSideEvents.SelectedIndexChanged = "function (s,e){if(s.GetValue() == null){s.SetText(null);}else{fillMonths(s.GetValue());}}";
+                       }).BindList(ViewBag.AdvancesName).GetHtml()
+
+                        </div> 
+
+                        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 form-group">
+                            <label>رقم السند</label>
+                            @Html.DevExpress().SpinEdit(settings =>
+                        {
+                            settings.Name = "txtDocNumber";
+                            settings.Width = Unit.Percentage(100);
+                            settings.Properties.ValidationSettings.Display = Display.Dynamic;
+                        }).GetHtml()
+                        </div>
+
+                        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 form-group">
+                            <label>طريقة السداد</label>
+                            @Html.DevExpress().ComboBox(settings => {
+                           settings.Name = "ReciveMethodComboBox";
+                           settings.Width = Unit.Percentage(100);
+                           settings.SelectedIndex = -1;
+                           settings.Properties.NullText = "اختر";
+                           //settings.Properties.ValidationSettings.RequiredField.IsRequired = true;
+                           settings.Properties.ValidationSettings.ErrorTextPosition = ErrorTextPosition.Bottom;
+                           settings.Properties.Items.Add("سداد نقدي","1");
+                           settings.Properties.Items.Add("خصم من المكافئات","2");
+                       }).GetHtml()
+                        </div>
+
+                        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 form-group">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="margin-bottom: 6px;">
+                                <br />
+                            </div>
+                                @Html.DevExpress().Button(settings =>
+                       {
+                           settings.Name = "btnView";
+                           settings.ControlStyle.CssClass = "btn btn-success";
+                           settings.Text = "عرض";
+                           settings.UseSubmitBehavior = true;
+                       }).GetHtml()
+                            </div>
+
+                             
+                        <div class="row">
+                            <br />
+                            <br />
+                            <br />
+                            <div id="AdvancesRecievingReportDesigner">
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>  
+</div>
+
+<style>
+    .dxbButton_MetropolisBlue.btn-success {
+        background-color: #26B99A !important;
+        border: 1px solid #169F85 !important;
+        color: #fff !important
+    }
+
+    .dxbButton_MetropolisBlue {
+        padding: 5px !important;
+        font-family: "JF Flat Regular" !important;
+    }
+</style>
+

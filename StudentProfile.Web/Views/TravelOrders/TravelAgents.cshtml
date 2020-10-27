@@ -1,0 +1,417 @@
+﻿@using System.Web.UI.WebControls
+@{
+    ViewBag.Title = "تسعير أوامر الإركاب";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    int studentsTravelOrderID = 0;
+}
+
+<script>
+    var selectedRows = [];
+    var detaildselectedRows = [];
+    var givenPrice = [];
+    function SelectionChanged(s, e) {
+        debugger;
+
+        //if (e.isSelected) {
+        //    var id = s.GetRowKey(e.visibleIndex);
+        //    var price = $('#GivenAmount_' + id + '_I').val();
+        //    if (price == "" || parseFloat(price) == 0) {
+        //        DevExpress.ui.notify({ message: "من فضلك قم بتسعير امر الاركاب المختار", type: "error", displayTime: 3000, closeOnClick: true });
+        //        s.UnselectRowsByKey(id);
+        //        return;
+        //    }
+        //}
+        s.GetSelectedFieldValues('ID', SelectionCallback);
+    }
+    function DeleteFlight(detailsId)
+    {
+        debugger;
+        $.ajax({
+            url: '/TravelOrders/DeleteFlight?ticketId=' + detailsId,
+            contentType: 'application/json; charset=utf-8',
+            type: 'POST',
+            dataType: 'json',
+            //data: { ticketId: detailsId},
+            success: function (data) {
+                debugger;
+
+                if(data==""){
+                DevExpress.ui.notify({ message: "تم الحذف بنجاح", type: "success", displayTime: 3000, closeOnClick: true });
+                StudentsTicketingGrid.PerformCallback();
+                }
+
+                else {
+                    DevExpress.ui.notify({ message: "حدث خطأ أثناء الحذف", type: "error", displayTime: 3000, closeOnClick: true });
+                }
+            },
+            error: function (data) {
+
+
+                DevExpress.ui.notify({ message: "حدث خطأ أثناء الحذف", type: "error", displayTime: 3000, closeOnClick: true });
+            }
+        })
+    }
+    function detailsSelectionChanged(s, e) {
+        debugger;
+
+        if (e.isSelected) {
+            var id = s.GetRowKey(e.visibleIndex);
+            //var price = $('#GivenAmount_' + id + '_I').val();
+            //if (price == "" || parseFloat(price) == 0) {
+            //    DevExpress.ui.notify({ message: "من فضلك قم بتسعير امر الاركاب المختار", type: "error", displayTime: 3000, closeOnClick: true });
+            //    s.UnselectRowsByKey(id);
+            //    return;
+            //}
+        }
+        s.GetSelectedFieldValues('StudentTravelOrderID', detailsSelectionCallback);
+    }
+    function detailsSelectionCallback(values) {
+
+        detaildselectedRows = [];
+        for (var i = 0; i < values.length; i++) {
+
+            var Id = values[i];
+
+            detaildselectedRows.push(Id);
+
+        }
+        if (selectedRows.length > 0) {
+            var lastSelectedAmount = givenPrice[givenPrice.length - 1];
+            var id = selectedRows[selectedRows.length - 1];
+            if (lastSelectedAmount == null || lastSelectedAmount == "" || parseFloat(lastSelectedAmount) == 0) {
+                DevExpress.ui.notify({ message: "من فضلك قم بتسعير و حفظ امر الاركاب المختار", type: "error", displayTime: 3000, closeOnClick: true });
+                TravelOrdersPricing.UnselectRowsByKey(id);
+                return;
+            }
+        }
+    }
+    function SetSelectedDetails(s, e) {
+        debugger;
+        //var key = s.GetRowKey(e.visibleIndex);
+        //var grid = ASPxClientControl.GetControlCollection().GetByName("TravelOrdersPricingDetails_" + key);
+        //s.SelectRowsByKey(detaildselectedRows);
+        //e.cancel = true;
+    }
+    function SelectionCallback(values) {
+
+        selectedRows = [];
+        givenPrice = [];
+        for (var i = 0; i < values.length; i++) {
+
+            var Id = values[i];
+
+            selectedRows.push(Id);
+
+
+        }
+
+    }
+    function ExportToFinancial() {
+        debugger;
+        var dataToSend = JSON.stringify(selectedRows);
+        var notify = { Message: '', Type: '', status: 0 };
+        $.ajax({
+            url: '/TravelOrders/ExportToNextLevel',
+            contentType: 'application/json; charset=utf-8',
+            type: 'post',
+            dataType: 'json',
+            data: dataToSend,
+            success: function (data) {
+                debugger;
+                var response = data;
+                notify.Message = response['Message'];
+                notify.Type = response['Type'];
+                notify.status = response['status'];
+
+                DevExpress.ui.notify({ message: notify.Message, type: notify.Type, displayTime: 3000, closeOnClick: true });
+                selectedRows = [];
+                TravelOrdersPricing.PerformCallback();
+            },
+            error: function (data) {
+                var response = data;
+                notify.Message = response['Message'];
+                notify.Type = response['Type'];
+                notify.status = response['status'];
+
+                DevExpress.ui.notify({ message: notify.Message, type: notify.Type, displayTime: 3000, closeOnClick: true });
+            }
+        })
+    }
+    function SaveTripPrice() {
+        var amountarr = [];
+        var isValid = true;
+        var keysarr = JSON.parse(TravelOrdersDetails.GetKeyValues());
+        keysarr.forEach(function (value, indx) {
+            debugger; var priceControl = ASPxClientControl.GetControlCollection().GetByName('GivenAmount_' + value);
+            if (!priceControl.GetIsValid()) {
+                isValid = false;
+            }
+            var price = priceControl.GetValue();
+            amountarr.push({ Id: Number(value), Amount: parseFloat(price) });
+        });
+        if (isValid) {
+            var dataToSend = JSON.stringify({ 'details': amountarr });
+            var notify = { Message: '', Type: '', status: 0 };
+            $.ajax({
+                url: '/TravelOrders/SaveTripPricing',
+                type: 'POST',
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'json',
+                data: dataToSend,
+                success: function (data) {
+                    var response = data;
+                    notify.Message = response['Message'];
+                    notify.Type = response['Type'];
+                    notify.status = response['status'];
+                    TravelOrdersPricing.PerformCallback();
+                    DevExpress.ui.notify({ message: notify.Message, type: notify.Type, displayTime: 3000, closeOnClick: true });
+                },
+                error: function (data) {
+                    var response = data;
+                    notify.Message = response['Message'];
+                    notify.Type = response['Type'];
+                    notify.status = response['status'];
+
+                    DevExpress.ui.notify({ message: notify.Message, type: notify.Type, displayTime: 3000, closeOnClick: true });
+                }
+            })
+        }
+        else {
+            DevExpress.ui.notify({ message: "برجاء التأكد من ادخال قيمة اكبر من الصفر في جميع اسعار التذاكر", type: 'error', displayTime: 3000, closeOnClick: true });
+        }
+    }
+    function GetTravelOrderDetails(id) {
+        debugger;
+        $.ajax({
+            url: '/TravelOrders/_StudentsTicketingDetails',
+            data: { travelOrderId: id, lastLevel: false, addTicket: true },
+            success: function (data) {
+                $('#details').html(data);
+                pcTravelOrderDetails.Show();
+                $("#txt_TotalPrice").val('');
+                $("#txt_TotalPriceOrder").val('');
+            },
+            error: function (data) {
+            }
+        })
+    }
+
+    function CanselTravelOrderDetails(id) {
+        var result = DevExpress.ui.dialog.confirm("<i>هل انت متاكد؟</i>", "تاكيد الالغاء");
+        result.done(function (dialogResult) {
+            if (dialogResult) {
+                debugger;
+                $.ajax({
+                    url: '/TravelOrders/CanselTravelOrderDetails',
+                    data: { id: id, isTravelAgent: true },
+                    success: function (data) {
+                        if (data.status == 200) {
+                            DevExpress.ui.notify({ message: data.Message, type: data.Type, displayTime: 3000, closeOnClick: true });
+                            location.reload();
+                        }
+                        if (data.status == 500) {
+                            DevExpress.ui.notify({ message: data.Message, type: data.data.Type, displayTime: 3000, closeOnClick: true });
+                        }
+                    },
+                    error: function (data) {
+                    }
+                })
+
+            }
+        });
+    }
+
+    function OpenNewPopup(key,ticketdetailsID) {
+        debugger;
+        $.ajax({
+            url: '/TravelOrders/InsertFlightPopup',
+            data: { studentticketDetailID: ticketdetailsID, lastLevel: false },
+            success: function (data) {
+                $("#ticketsDetails").html(data);
+                pcStudentsTicketsDetails.Show();
+                $("#StudentsTravelOrderID").val(key);
+            },
+            error: function (data) {
+            }
+        });
+
+    };
+
+    function CompleteFlightSaving(response) {
+        debugger;
+        if (response.responseJSON == "") {
+           
+            StudentsTicketingGrid.PerformCallback();
+            pcStudentsTicketsDetails.Hide();
+            DevExpress.ui.notify({ message: "تمت الإضافة بنجاح", type: "success", displayTime: 3000, closeOnClick: true });
+        }
+        else {
+            DevExpress.ui.notify({ message: response.responseJSON, type: "error", displayTime: 3000, closeOnClick: true });
+        }
+    };
+    function TotalPriceChange() {
+        debugger;
+        $("#txt_TotalPriceOrder").val('');
+        var TotalPriceOrder = 0;
+
+        var mainTxtValue = $("#txt_TotalPrice").val();
+        var txts = document.getElementsByClassName('AmountTexts');
+
+        $(txts).each(function (indx, item) {
+            debugger;
+            var control = ASPxClientControl.GetControlCollection().GetByName(item.id);
+            control.SetValue(Number(mainTxtValue) / txts.length);
+            TotalPriceOrder += control.GetValue();
+        });
+        $("#txt_TotalPriceOrder").val(TotalPriceOrder);
+    }
+
+    function TotalPriceOrderChange() {
+        debugger;
+        $("#txt_TotalPriceOrder").val('');
+        var TotalPriceOrder = 0;
+        var txts = document.getElementsByClassName('AmountTexts');
+
+        $(txts).each(function (indx, item) {
+            debugger;
+            var control = ASPxClientControl.GetControlCollection().GetByName(item.id);
+            TotalPriceOrder += control.GetValue();
+        });
+        $("#txt_TotalPriceOrder").val(TotalPriceOrder);
+    }
+</script>
+<div class="container-fluid container-fullw">
+    <div class="row">
+        <div class="col-md-12" id="pageDiv">
+            <div class="panel bg-white">
+                <div class="breadcrumb-wrapper text-right">
+                    <h4 class="no-margin">تسعير اوامر الاركاب</h4>
+                </div>
+                <div class="panel-body">
+                    @using (Html.BeginForm())
+                    {
+                        Html.RenderAction("_GetTravelOrdersPricing");
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    .ActiveTT {
+        background-color: #607D8B !important;
+        color: #fff;
+        border-color: #607d8b !important;
+    }
+
+    .dxm-rtl .dxm-horizontal ul.dx {
+        width: 100%;
+        text-align: left;
+    }
+    .dxm-rtl .dxm-horizontal ul.dx.dxm-image-r.dxm-noImages {
+        text-align: center;
+    }
+
+    ul.dx.dxm-image-r.dxm-noImages li {
+        display: inline-block
+    }
+    .dxm-horizontal.dxm-autoWidth > ul > li, .dxm-horizontal.dxm-noWrap > ul > li {
+        display: inline-block; 
+    }
+    .dxmLite_MetropolisBlue .dxm-horizontal .dxm-image-r .dxm-hasText .dxm-image {
+        margin-right: 5px;
+        float: left;
+    }
+
+        ul.dx.dxm-image-r.dxm-noImages li .dxbButton_MetropolisBlue {
+            line-height: 35px;
+            font-family: "JF Flat Regular";
+            margin: 15px 3px;
+            border: 1px solid #03a9f4;
+            border-radius: 5px;
+            background: #03a9f4;
+            color: #fff;
+            font-size: 18px;
+        }
+
+            ul.dx.dxm-image-r.dxm-noImages li .dxbButton_MetropolisBlue:hover {
+                background: #03a9f4;
+                color: #fff;
+            }
+
+        ul.dx.dxm-image-r.dxm-noImages li .dxbButton_MetropolisBlue div.dxb {
+            padding: 11px 8px 12px;
+        }
+
+    .dxgvControl_MetropolisBlue, .dxgvDisabled_MetropolisBlue {
+        border: 0 !important;
+    }
+
+
+
+    .dxgvTable_MetropolisBlue tr td {
+        font-family: "JF Flat Regular";
+        font-size: 12px;
+    }
+
+    .dx-table-ds-in > tbody > tr:first-child > td {
+        background: #ff8159 !important;
+        color: #fff !important;
+    }
+
+    .dx-table-ds-in {
+        margin: 10px 0 10px 0;
+    }
+
+    #details h4 {
+        color: #4383b6;
+    }
+
+    .control-label {
+        font-family: "JF Flat Regular";
+    }
+</style>
+
+@Html.DevExpress().PopupControl(
+settings =>
+{
+    settings.Name = "pcTravelOrderDetails";
+    settings.Width = 960;
+    settings.AllowDragging = true;
+    settings.CloseAction = CloseAction.CloseButton;
+    settings.RightToLeft = DefaultBoolean.True;
+    settings.CloseOnEscape = true;
+    settings.PopupAnimationType = AnimationType.None;
+    settings.HeaderText = " ";
+
+    settings.Modal = true;
+    settings.AutoUpdatePosition = true;
+    settings.PopupHorizontalAlign = PopupHorizontalAlign.WindowCenter;
+    settings.PopupVerticalAlign = PopupVerticalAlign.WindowCenter;
+    settings.SetContent(() =>
+    {
+
+
+        //ViewContext.Writer.Write("<div class='col-md-2 col-xs-2 col-sm-12'>");
+        //ViewContext.Writer.Write("<div class='form-group col-md-12 col-xs-12 col-sm-12'><div class='row'>");
+        //ViewContext.Writer.Write("<lable class='col-md-12 col-xs-12 col-sm-12 control-label'>اجمالى تذاكر امر الاركاب </lable>");
+        //ViewContext.Writer.Write("<div class='col-md-12 col-xs-12 col-sm-12'><input id='txt_TotalPrice' class='form-control' onchange='TotalPriceChange()' type='number' /></div>");
+        //ViewContext.Writer.Write("</div></div>");
+        //ViewContext.Writer.Write("<div class='form-group col-md-12 col-xs-12 col-sm-12'><div class='row'>");
+        //ViewContext.Writer.Write("<lable class='col-md-12 col-xs-12 col-sm-12 control-label'>اجمالي المبلغ </lable>");
+        //ViewContext.Writer.Write("<div class='col-md-12 col-xs-12 col-sm-12'><input id='txt_TotalPriceOrder' class='form-control' readonly type='number' /></div>");
+        //ViewContext.Writer.Write("</div></div></div>");
+
+        ViewContext.Writer.Write("<div class='col-md-12 col-xs-12 col-sm-12' id='details'></div>");
+
+        //ViewContext.Writer.Write("<div class='clearfix'></div><div class='col-md-12 col-xs-12 col-sm-12 text-left'>");
+        //ViewContext.Writer.Write("<input type='submit' class='btn btn-success btn-sm' value='حفظ' onclick='SaveTripPrice()'/>");
+        //ViewContext.Writer.Write("</div>");
+    });
+
+    settings.ClientSideEvents.CloseUp = "function(s, e){ ASPxClientEdit.ClearEditorsInContainer(null, '', true); }";
+}).GetHtml()
+<div id="ticketsDetails">
+    @*@{Html.RenderAction("InsertFlightPopup", "TravelOrder", new { studentticketDetailID = 0, lastLevel = false });
+    }*@
+    </div>

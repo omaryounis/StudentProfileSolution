@@ -1,0 +1,29 @@
+﻿@model List<StudentProfile.DAL.Models.VM.HousingDetailsVM> 
+@using System.Web.UI.WebControls;
+@if (ViewBag.HousingDataRead != null)
+{
+    if (ViewBag.HousingDataRead == true)
+    {
+        @Html.DevExpress().GridView(settings =>
+   {
+       settings.Name = "ResidenceList";
+       settings.KeyFieldName = "stud_code";
+       settings.Styles.Table.CssClass = "dx-table-ds";
+       // settings.Theme= r.
+       settings.Width = Unit.Percentage(100);
+       settings.Columns.Add("IsFamilial").Caption = "نوع السكن";
+       settings.Columns.Add("DepartementName").Caption = "نوع الوحده";
+       settings.Columns.Add("HousingNumber").Caption = "رقم الوحدة";
+       settings.Columns.Add("FloorName").Caption = "رقم الدور";
+       settings.Columns.Add("SiteName").Caption = "رقم الغرفة";
+       settings.Columns.Add("BedLocationCode").Caption = "رقم السرير";
+       settings.Columns.Add("OperationNo").Caption = "رقم العمليه";
+       settings.Columns.Add("InsertionDate").Caption = "تاريخ العمليه";
+       settings.Columns.Add("LastUpdated").Caption = "القائم بأعمال التسكين";
+       settings.Columns.Add("NotesOfHosing").Caption = "ملاحظات علي التسكين";
+       settings.SettingsLoadingPanel.Mode = GridViewLoadingPanelMode.Disabled;
+       settings.EnableCallbackAnimation = false;
+   }).Bind(Model).GetHtml()
+
+    }
+}

@@ -1,0 +1,176 @@
+﻿@model List<StudentProfile.DAL.Models.Usp_GetTravelOrderDetailsWithTicketDetails_Result>
+@using System.Web.UI.WebControls;
+
+@{ 
+    bool lastlevel = (bool)ViewData["lastLevel"];
+    bool addTicket = (bool)ViewData["addTicket"];
+}
+@Html.DevExpress().GridView(settings =>
+{
+    settings.Name = "StudentsTicketingGrid";
+    settings.KeyFieldName = "ID";
+    settings.Styles.Table.CssClass = "dx-table-ds";
+    // settings.Theme= r.
+    settings.Width = Unit.Percentage(100);
+    settings.CallbackRouteValues = new { Action = "_StudentsTicketingDetails", Controller = "TravelOrders" ,Model.FirstOrDefault().TravelOrderID, lastlevel , addTicket};
+    settings.SettingsExport.EnableClientSideExportAPI = true;
+    settings.Settings.ShowFilterRow = false;
+    settings.SettingsSearchPanel.Visible = false;
+
+    settings.Settings.ShowHeaderFilterButton = false;
+
+    //settings.Toolbars.Add(t =>
+    //{
+    //    t.EnableAdaptivity = true;
+
+    //    t.Items.Add(GridViewToolbarCommand.ExportToPdf);
+    //    t.Items.Add(GridViewToolbarCommand.ExportToXls);
+    //    t.Items.Add(GridViewToolbarCommand.ExportToXlsx);
+    //    t.Items.Add(GridViewToolbarCommand.ExportToDocx);
+    //    t.Items.Add(GridViewToolbarCommand.ExportToRtf);
+    //    t.Items.Add(GridViewToolbarCommand.ExportToCsv);
+    //});
+
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "اسم الطالب";
+        column.Width = Unit.Percentage(15);
+        column.FieldName = "Student_Name";
+
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "الجنسية";
+        column.Width = Unit.Percentage(15);
+        column.FieldName = "NATIONALITY_DESC";
+
+    });
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "تاريخ بداية الرحلة";
+        column.Width = Unit.Percentage(15);
+        column.FieldName = "FromDate";
+
+    });
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "تاريخ نهاية الرحلة";
+        column.Width = Unit.Percentage(15);
+        column.FieldName = "ToDate";
+
+    });
+    settings.Columns.Add(column =>
+    {
+        column.Visible = lastlevel;
+        column.Caption = "أرقام التذاكر";
+        column.Width = Unit.Percentage(15);
+        column.FieldName = "ConcatinatedTicketNumbers";
+
+    });
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "التكلفة";
+        column.Width = Unit.Percentage(15);
+        column.FieldName = "GivenAmount";
+
+    });
+    if ((bool)ViewData["addTicket"])
+    {
+        settings.Columns.Add(column =>
+        {
+            column.Caption = "#";
+            column.Width = System.Web.UI.WebControls.Unit.Percentage(15);
+            column.SetDataItemTemplateContent(c =>
+            {
+                Html.DevExpress().Button(x =>
+                {
+                    x.Name = "AddNewStoppingFlight_" + c.KeyValue;
+                    x.ClientEnabled = true;
+                    x.Text = "";
+                    x.EnableClientSideAPI = true;
+                    x.ClientSideEvents.Click = "function(s,e){OpenNewPopup('" + c.KeyValue + "','" + 0 + "');}";
+                    x.Images.Image.IconID = IconID.ActionsAdd16x16;
+                }).Render();
+            });
+        });
+    }
+    settings.SettingsPager.PageSize = 20;
+    settings.SettingsLoadingPanel.Mode = GridViewLoadingPanelMode.Disabled;
+    settings.EnableCallbackAnimation = false;
+
+
+    settings.SetDetailRowTemplateContent(c =>
+    {
+        Html.DevExpress().GridView(x =>
+        {
+            x.Name = "StudentsTicketingDetailsGrid_" + c.KeyValue;
+            x.KeyFieldName = "StudentTicketDetailID";
+            x.Styles.Table.CssClass = "dx-table-ds";
+            // settings.Theme= r.
+            x.Width = Unit.Percentage(100);
+            x.SettingsExport.EnableClientSideExportAPI = true;
+            //x.Settings.ShowFilterRow = true;
+            //x.SettingsSearchPanel.Visible = true;
+
+            x.Columns.Add(column =>
+            {
+                column.Caption = "من مدينة";
+                column.Width = Unit.Percentage(15);
+                column.FieldName = "FromCity";
+
+            });
+
+            x.Columns.Add(column =>
+            {
+                column.Caption = "إلى مدينة";
+                column.Width = Unit.Percentage(15);
+                column.FieldName = "ToCity";
+
+            });
+            x.Columns.Add(column =>
+            {
+                column.Caption = "رقم التذكرة";
+                column.Width = Unit.Percentage(15);
+                column.FieldName = "TicketNumber";
+
+            });
+            x.Columns.Add(column =>
+            {
+                column.Caption = "قيمة التذكرة";
+                column.Width = Unit.Percentage(15);
+                column.FieldName = "TicketValue";
+
+            });
+            if ((bool)ViewData["addTicket"])
+            {
+                x.Columns.Add(column =>
+                {
+                    column.Caption = "#";
+                    column.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+                    column.SetDataItemTemplateContent(b =>
+                    {
+                        ViewContext.Writer.Write("<button type='button' class='btn btn-success btn-sm' tooltip='تعديل' onclick= 'OpenNewPopup(" + c.KeyValue + "," + b.KeyValue + ")'><i class='fa fa-edit'></i></button>");
+                        ViewContext.Writer.Write("<button type='button' class='btn btn-danger btn-sm' tooltip='حذف' onclick= 'DeleteFlight(" + b.KeyValue + ")'><i class='fa fa-trash'/></button>");
+                    });
+                });
+            }
+            //x.Settings.ShowHeaderFilterButton = true;
+
+        }).Bind(Model.Where(p=>p.ID == (int)c.KeyValue)).Render();
+    });
+
+
+
+    settings.SettingsLoadingPanel.Mode = GridViewLoadingPanelMode.Disabled;
+    settings.EnableCallbackAnimation = false;
+    settings.SettingsBehavior.AllowSelectByRowClick = false;
+    settings.CommandColumn.Visible = true;
+    settings.CommandColumn.Width = Unit.Percentage(5);
+    settings.CommandColumn.ShowSelectCheckbox = true;
+    settings.CommandColumn.SelectAllCheckboxMode = GridViewSelectAllCheckBoxMode.AllPages;
+    settings.SettingsDetail.AllowOnlyOneMasterRowExpanded = false;
+    settings.SettingsDetail.ShowDetailRow = true;
+
+
+}).Bind(Model.GroupBy(x => new {x.TravelOrderID, x.GivenAmount, x.NATIONALITY_DESC, x.Student_Name, x.StudentID, x.ID, x.ConcatinatedTicketNumbers,x.FromDate,x.ToDate }).Select(x=>x.Key)).GetHtml()

@@ -1,0 +1,98 @@
+﻿
+@{
+    ViewBag.Title = "رفع ملفات البنك";
+    Layout = "~/Views/Shared/_DevextremeLayout.cshtml";
+}
+<script src="~/Scripts/Rewards/UploadBankFiles.js"></script>
+
+<style>
+    .control-label {
+        text-align: right
+    }
+
+    fieldset {
+        border: none;
+        margin: 2px 0;
+        padding: 8px 0 5px 0;
+        border: 1px solid #33333329;
+        position: relative;
+        border-radius: 5px;
+    }
+
+    .fieldset-dds {
+        line-height: 20px;
+    }
+
+    legend {
+        font-size: 18px;
+        color: inherit;
+        text-align: right;
+        border: none;
+        background: #fff;
+        position: absolute;
+        top: -17px;
+        width: auto;
+        right: 5px;
+        padding: 3px 10px;
+    }
+
+    .panel-body {
+        padding: 10px 15px;
+    }
+
+    /*#fileuploader-container {
+        border: 1px solid #d3d3d3;
+        margin: 20px 20px 0 20px;
+    }*/
+</style>
+
+<div class="container-fluid container-fullw" ng-controller="UploadBankFiles">
+    <div class="col-md-12">
+
+        <div class="panel bg-white">
+            <div class="breadcrumb-wrapper text-right">
+                <h4 class="no-margin"> رفع الملفات المستلمة من البنك </h4>
+            </div>
+        </div>
+
+        <div class="panel bg-white col-lg-5 col-sm-5 col-xs-5 text-right">
+            <fieldset style="background: #333;color: white;">
+                <div class="panel-heading">
+                    <h2>( Feedback ) رفع الملف المستلم من البنك </h2>
+                </div>
+                <div class="panel-body">
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div id="fileuploader-container">
+                                <div class="widget-container">
+                                    <div dx-file-uploader="AcceptedFilesOptions">
+                                        <span class="note">Allowed file extensions: <span>.txt</span>.</span>
+                                    </div>
+                                    <div class="content">
+                                        <div ng-if="AcceptedFilesvalue.length > 0">
+                                            <h4>الملفات المختارة</h4>
+                                        </div>
+                                        <div ng-repeat="val in AcceptedFilesvalue">
+                                            <div class="selected-item">
+                                                اسم الملف:
+                                                <span>{{val.name}}</span><br />
+                                                حجم الملف:
+                                                <span>{{val.size}}</span>bytes<br />
+                                                نوع الملف:
+                                                <span>{{val.type}}</span><br />
+                                                <a href="" ng-click="RemoveAcceptedFile(val.$$hashKey)">
+                                                    <i class="fa fa-remove"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+
+    </div>
+</div>

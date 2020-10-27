@@ -1,0 +1,1065 @@
+﻿@using System.Web.Optimization
+
+<!DOCTYPE html>
+<html lang="en" ng-app="app">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    @*<meta name="viewport" content="width=device-width, initial-scale=1">*@
+
+    <title>@ViewBag.Title </title>
+    <link href="~/assets/images/IU_ALL_COLOR_RGB.png" rel="icon" />
+    <!-- Bootstrap -->
+    <link href="~/assets/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="~/assets/vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <!-- Custom Theme Style -->
+    <link href="~/assets/build/css/custom.min.css" rel="stylesheet">
+
+    <!-- jQuery -->
+    <script src="~/assets/vendors/jquery/dist/jquery.min.js"></script>
+
+    @*<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>*@
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <link href="~/Content/dx.common.css" rel="stylesheet" />
+    <link href="~/Content/dx.light.css" rel="stylesheet" />
+    <script src="~/assets/vendors/jszip/dist/jszip.min.js"></script>
+    <script src="~/assets/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+
+    @Html.DevExpress().GetStyleSheets(
+        new StyleSheet { ExtensionSuite = ExtensionSuite.NavigationAndLayout },
+        new StyleSheet { ExtensionSuite = ExtensionSuite.Editors },
+        new StyleSheet { ExtensionSuite = ExtensionSuite.GridView, Theme = "Aqua" }
+        )
+
+    @Html.DevExpress().GetScripts(
+        new Script { ExtensionSuite = ExtensionSuite.NavigationAndLayout },
+        new Script { ExtensionSuite = ExtensionSuite.Editors },
+        new Script { ExtensionSuite = ExtensionSuite.GridView }
+        )
+    <link href="~/assets/css/rtl.css" rel="stylesheet">
+    <link href="~/assets/css/style.css" rel="stylesheet">
+
+    <script src="~/Scripts/angular.js"></script>
+    <script src="~/Scripts/angular-cookies.min.js"></script>
+    <script src="~/Scripts/cldr.js"></script>
+    <script src="~/Scripts/cldr/event.js"></script>
+    <script src="~/Scripts/cldr/supplemental.js"></script>
+    <script src="~/Scripts/cldr/unresolved.js"></script>
+    <script src="~/Scripts/globalize.js"></script>
+    <script src="~/Scripts/globalize/number.js"></script>
+    <script src="~/Scripts/globalize/currency.js"></script>
+    <script src="~/Scripts/globalize/message.js"></script>
+    <script src="~/Scripts/globalize/date.js"></script>
+    <script src="~/Scripts/dx.all.js"></script>
+    <script src="~/Scripts/aspnet/dx.aspnet.data.js"></script>
+    <script src="~/Scripts/aspnet/dx.aspnet.mvc.js"></script>
+    <script>DevExpress.config({ rtlEnabled: true });</script>
+    <script src="~/Scripts/angular/Module.js"></script>
+
+    <!--General Service Angular-->
+    <script src="~/Scripts/General/GenericService.js"></script>
+    <script src="~/Scripts/General/HelperServices.js"></script>
+
+    <script src="~/Scripts/spin.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/angular-spinner.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/angular-loading-spinner.js"></script>
+
+    @* Alerts *@
+    <script src="~/Scripts/sweetalert.min.js"></script>
+
+    @using StudentProfile.Components.Security;
+    @{
+        var currentUser = HttpContext.Current.Session["UserId"] as StudentProfile.DAL.Models.DashBoard_Users;
+        if (currentUser == null)
+        {
+            { Html.RenderAction("Login", "Login"); }
+        }
+    }
+    <script>
+        $(document).ajaxStart(function () {
+            debugger;
+            $(".se-pre-con").show();
+        }).ajaxStop(function () {
+            $(".se-pre-con").hide();
+        });
+        $(window).on('load',
+            function () {
+                $(".se-pre-con").fadeOut(2000);
+            });
+        $(document).ajaxComplete(function (event, request, settings) {
+
+            if (request.status === 401) {
+                window.location.replace("/Login/Login");
+            }
+        });
+    </script>
+</head>
+<body class="nav-md">
+    <script type="text/javascript">
+        $(document).ajaxComplete(function (event, request, settings) {
+
+            if (request.status === 401) {
+                window.location.replace("/Login/Login");
+            }
+        });
+        //RealTime Update
+        var timeout;
+        function scheduleGridUpdate(grid) {
+            window.clearTimeout(timeout);
+            timeout = window.setTimeout(
+                function () { grid.Refresh(); },
+                2000
+            );
+        }
+        function grid_Init(s, e) {
+            scheduleGridUpdate(s);
+        }
+        function grid_BeginCallback(s, e) {
+            window.clearTimeout(timeout);
+        }
+        function grid_EndCallback(s, e) {
+            scheduleGridUpdate(s);
+        }
+                                            //End RealTime Update
+    </script>
+
+    <span us-spinner="{radius:30, width:8, length: 16}"></span>
+    <div class="container body">
+        <div class="main_container">
+            <div class="iu-page-header">
+                <div class="iulogocontainer">
+                    <a href="#">
+                        <img class="iulogo" src="~/assets/images/IU_ALL_COLOR_RGB.png">
+                    </a>
+                </div>
+            </div>
+            <div class="top_nav">
+                <div class="nav_menu">
+                    <div class="container-fluid">
+                        <nav>
+                            <div class="row">
+                                <!-- Navigation -->
+                                @if (currentUser != null && currentUser.IsStudent)
+                                {
+                                    <div class="col-lg-12 col-xs-12 col-sm-12 col-md-12">
+                                        <ul class="nav top-nav-ds pull-right">
+                                            <li>
+                                                <a href="@Url.Action("UpdateData", "Students" ,new{ @id= EncryptDecrypt.Encrypt(($"{currentUser.Username}").ToString(), false).ToString() })"> تحديث بياناتى  <i class="fa fa-plane"></i></a>
+                                            </li>
+
+                                            <li>
+                                                <a href="@Url.Action("StudentAdvanceRequests", "Advances")">طلبات القروض<i class="fa fa-money"></i></a>
+                                            </li>
+                                            <li>
+                                                <a href="@Url.Action("StudentSubsidyRequests", "Advances")">طلبات الإعانات<i class="fa fa-hand-o-left"></i></a>
+                                            </li>
+                                            <li>
+                                                <a href="@Url.Action("StudentAdvertisement", "Musafer")">رغبات السفر<i class="fa fa-plane"></i></a>
+                                            </li>
+                                            <li>
+                                                <a href="@Url.Action("StudentActivityRequests", "AcademicActivities")">
+                                                    المشاركات والدورات<i class="fa fa-pie-chart"></i>
+                                                </a>
+                                            </li>
+                                        </ul>
+
+                                        <ul class="nav top-nav-ds pull-left">
+                                            <li class="dropdown pull-left">
+                                                <a href="javascript:;" class="user-profile dropdown-toggle"   aria-expanded="false">
+                                                    <img src="~/assets/images/user.png" alt="">@currentUser.Name
+                                                    <span class=" fa fa-angle-down"></span>
+                                                </a>
+                                                <ul class="dropdown-menu dropdown-usermenu pull-right">
+                                                    <li>
+                                                        <a href="@Url.Action("LogOut", "Login")"><i class="fa fa-sign-out pull-right"></i> خروج</a>
+                                                    </li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="col-lg-12 col-xs-12 col-sm-12 col-md-12">
+                                        <ul class="nav top-nav-ds pull-right">
+                                            <li class="dropdown" style="display:none">
+                                                <a href="@Url.Action("Index", "Students")">بحث عن طالب<i class="fa fa-search"></i></a>
+                                            </li>
+                                            <li class="dropdown">
+                                                <a href="javascript:;" class="user-profile dropdown-toggle"   aria-expanded="false">
+                                                    <span class="fa fa-angle-down"></span>
+                                                    الرئيسية
+                                                    <i class="fa fa-home"></i>
+                                                </a>
+                                                <ul class="dropdown-menu dropdown-usermenu pull-right">
+                                                    <li>
+                                                        <a href="@Url.Action("AdvancedSearch", "Students")">
+                                                            بحث متقدم<i class="fa fa-search-plus"></i>
+                                                        </a>
+                                                    </li>
+                                                    <li class="dropdown">
+                                                        <a href="@Url.Action("UploadResidentExcelFile", "Reports")"> تحديث مستندات الطلاب <i class="fa fa-file"></i></a>
+                                                    </li>
+                                                    <li class="dropdown dropdown-submenu">
+                                                        <a href="javascript:;" class="user-profile dropdown-toggle"   aria-expanded="false">
+
+                                                            التقارير
+                                                            <i class="fa fa-bar-chart"></i>
+                                                        </a>
+                                                        <ul class="dropdown-menu dropdown-usermenu pull-right">
+                                                            <li>
+                                                                <a href="@Url.Action("CountryPopulation", "Reports")">
+                                                                    <i class="fa fa-area-chart pull-right"></i>تقرير نسب الطلاب المسلمين
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="@Url.Action("AvailableTerminated", "Reports")">
+                                                                    <i class="fa fa-area-chart pull-right"></i>تقرير المقيمين
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="@Url.Action("CustomFieldsReport", "Reports")">
+                                                                    <i class="fa fa-area-chart pull-right"></i>تقرير الحقول المخصصة
+                                                                </a>
+                                                            </li>
+                                                        </ul>
+                                                    </li>
+                                                    <li class="dropdown dropdown-submenu">
+                                                        <a href="javascript:;" class="user-profile dropdown-toggle"   aria-expanded="false">
+
+                                                            التهيئة
+                                                            <i class="fa fa-gear"></i>
+                                                        </a>
+                                                        <ul class="dropdown-menu dropdown-usermenu pull-right">
+                                                            <li>
+                                                                <a href="@Url.Action("Sms", "Config")"><i class="fa fa-gear pull-right"></i>تهيئة الرسائل النصية</a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="@Url.Action("CustomFields", "Config")"><i class="fa fa-gear pull-right"></i> تهيئة الحقول المخصصة</a>
+                                                            </li>
+                                                            @*<li>
+                                                            <a href="@Url.Action("StudentAdvanceConfig", "Advances")"><i class="fa fa-gear pull-right"></i> تهيئة حسابات القروض و الإعانات</a>
+                                                        </li>*@
+                                                            <li>
+                                                                <a href="@Url.Action("IssuesConfig", "Config")">
+                                                                    <i class="fa fa-gear pull-right"></i>تهيئة تصنيفات الملاحظات
+                                                                </a>
+                                                            </li>
+                                                        </ul>
+                                                    </li>
+
+                                                    <li class="dropdown dropdown-submenu">
+                                                        <a href="javascript:;" class="user-profile dropdown-toggle"   aria-expanded="false">
+
+                                                            الحماية
+                                                            <i class="fa fa-shield"></i>
+                                                        </a>
+                                                        <ul class="dropdown-menu dropdown-usermenu pull-right">
+                                                            <li>
+                                                                <a href="@Url.Action("Users", "Security")"><i class="fa fa-user pull-right"></i> المستخدمين</a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="@Url.Action("Groups", "Security")"><i class="fa fa-group pull-right"></i> المجموعات</a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="@Url.Action("UserGroup", "Security")"><i class="fa fa-sitemap pull-right"></i> مجموعات المستخدمين</a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="@Url.Action("ScreensPermissions", "Security")"><i class="fa fa-shield pull-right"></i> صلاحيات الشاشات</a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="@Url.Action("SecretPermissions", "Security")"><i class="fa fa-shield pull-right"></i> صلاحيات السرية</a>
+                                                            </li>
+                                                            @*<li>
+                                                            <a href="@Url.Action("FilterGroupsNew", "Config")">
+                                                                <i class="fa fa-shield pull-right"></i>صلاحيات موافقات القروض
+                                                            </a>
+                                                        </li>*@
+                                                            <li>
+                                                                <a href="@Url.Action("index", "TravelOrderPhases")">
+                                                                    <i class="fa fa-shield pull-right"></i>صلاحيات نظام مسافر
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="@Url.Action("index", "AcademicCommitteeUsers")">
+                                                                    <i class="fa fa-shield pull-right"></i>صلاحيات اللجنة الاكاديمية
+                                                                </a>
+                                                            </li>
+                                                        </ul>
+                                                    </li>
+                                                </ul>
+                                            </li>
+
+
+                                            <li class="dropdown">
+                                                <a href="javascript:;" class="user-profile dropdown-toggle"   aria-expanded="false">
+                                                    <span class="fa fa-angle-down"></span>
+                                                    نظام مسافر
+                                                    <i class="fa fa-bar-chart"></i>
+                                                </a>
+                                                <ul class="dropdown-menu dropdown-usermenu pull-right">
+                                                    <li class="dropdown dropdown-submenu">
+                                                        <a href="#" class="dropdown-toggle">اعدادات الاعلان <i class="fa fa-plane"></i></a>
+                                                        <ul class="dropdown-menu">
+                                                            <li>
+                                                                <a href="@Url.Action("Advertisement", "TravelAdvertisement")">قائمة اعلانات السفر<i class="fa fa-plane"></i></a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="@Url.Action("Index", "TravelAdvertisement")">إضافة إعلان السفر<i class="fa fa-plane"></i></a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="@Url.Action("TransportationTracking", "TravelAdvertisement")">تهيئة خط السير<i class="fa fa-plane"></i></a>
+                                                            </li>
+                                                        </ul>
+                                                    </li>
+                                                    <li class="dropdown dropdown-submenu">
+                                                        <a href="#" class="dropdown-toggle"> اضافة وتعديل الرغبات للطالب <i class="fa fa-plane"></i></a>
+                                                        <ul class="dropdown-menu">
+                                                            <li>
+                                                                <a href="@Url.Action("StudentDesiresByAdmin", "Musafer")">اضافة رغبات سفر للطلاب<i class="fa fa-plane"></i></a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="@Url.Action("TravelRequestReview", "Musafer")">عرض رغبات السفر<i class="fa fa-plane"></i></a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="@Url.Action("Index", "TravelOrders")">انشاء أوامر الاركاب<i class="fa fa-plane"></i></a>
+                                                            </li>
+
+                                                        </ul>
+                                                    </li>
+                                                    <li class="dropdown dropdown-submenu">
+                                                        <a href="#" class="dropdown-toggle"> مراحل اعتماد التذاكر <i class="fa fa-plane"></i></a>
+                                                        <ul class="dropdown-menu">
+                                                            <li>
+                                                                <a href="@Url.Action("TravelAgents", "TravelOrders")">تسعير أوامر الإركاب<i class="fa fa-plane"></i></a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="@Url.Action("TicketAssigning", "TravelOrders")">إصدار تذاكر السفر<i class="fa fa-plane"></i></a>
+
+                                                            </li>
+                                                        </ul>
+                                                    </li>
+
+                                                    <li>
+                                                        <a href="@Url.Action("Index", "UniversityStudentsTracking")">مراجعة بيانات الطلاب<i class="fa fa-plane"></i></a>
+                                                    </li>
+
+                                                    <li>
+                                                        <a href="@Url.Action("Index", "RevisionPassport")">وثائق الطلاب<i class="fa fa-plane"></i></a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="@Url.Action("TravelOrdersFinancial", "TravelOrders")">  الاعتماد المالي<i class="fa fa-plane"></i></a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="@Url.Action("TravelOrderManager", "TravelOrders")"> اعتماد مدير السفر<i class="fa fa-plane"></i></a>
+
+                                                    </li>
+                                                    <li>
+                                                        <a href="@Url.Action("GetTravelOrderApproved", "TravelOrders")"> اوامر الاركاب المعتمدة<i class="fa fa-plane"></i></a>
+
+                                                    </li>
+                                                    <li class="dropdown dropdown-submenu">
+                                                        <a href="#" class="dropdown-toggle"> التقارير  </a>
+                                                        <ul class="dropdown-menu">
+                                                            <li>
+                                                                <a href="@Url.Action("TravelStudents", "Reports")">
+                                                                    <i class="fa fa-pie-chart pull-right"></i>بيان بالطلاب المسافرين
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="@Url.Action("TravelStudentDetails", "Reports")">
+                                                                    <i class="fa fa-area-chart pull-right"></i>بيان تفصيلى بالطلاب المسافرين
+                                                                </a>
+                                                            </li>
+                                                            @*<li>
+                    <a href="@Url.Action("InstituteTravelStudents", "Reports")">
+                        <i class="fa fa-pie-chart pull-right"></i>بيان بطلاب المعاهد المسافرين
+                    </a>
+                </li>
+                <li>
+                    <a href="@Url.Action("InstituteTravelStudentsDetails", "Reports")">
+                        <i class="fa fa-area-chart pull-right"></i>بيان تفصيلى بطلاب المعاهد المسافرين
+                    </a>
+                </li>*@
+                                                            <li>
+                                                                <a href="@Url.Action("AdvertisementStudentsReport", "Reports")">
+                                                                    <i class="fa fa-area-chart pull-right"></i>تقرير الطلاب المسجلين في الاعلانات
+                                                                </a>
+                                                            </li>
+                                                        </ul>
+                                                    </li>
+                                                </ul>
+                                            </li>
+                                            @*<li class="dropdown">
+                                            <a href="@Url.Action("AllStudentsCourses", "Students")">
+                                                السجل المهاري<i class="fa fa-file"></i>
+                                            </a>
+                                        </li>*@
+                                            <li class="dropdown">
+                                                <a href="javascript:;" class="user-profile dropdown-toggle"   aria-expanded="false">
+                                                    <span class="fa fa-angle-down"></span>
+                                                    السجل المهاري
+                                                    <i class="fa fa-bar-chart"></i>
+                                                </a>
+                                                <ul class="dropdown-menu dropdown-usermenu pull-right">
+                                                    <li class="dropdown dropdown-submenu">
+                                                        <a href="#" class="dropdown-toggle"  > تهيئة المشاركات  </a>
+                                                        <ul class="dropdown-menu">
+                                                            <li>
+                                                                <a href="@Url.Action("ActivityPhases", "AcademicActivities")">
+                                                                    <i class="fa fa-gear pull-right"></i>   تهيئة مراحل إعتماد المشاركات القديمة
+
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="@Url.Action("ActivityMenusConfig", "AcademicActivities")">
+                                                                    <i class="fa fa-gear pull-right"></i>   تهيئة قوائم المشاركات الجديدة
+
+                                                                </a>
+                                                            </li>
+                                                        </ul>
+                                                    </li>
+
+                                                    <li class="dropdown dropdown-submenu">
+                                                        <a href="#" class="dropdown-toggle"  > المشاركات القديمة  </a>
+                                                        <ul class="dropdown-menu">
+                                                            <li>
+                                                                <a href="@Url.Action("AdminActivityRequests", "AcademicActivities")">
+                                                                    <i class="fa fa-area-chart pull-right"></i>  إدخال المشاركات والدورات القديمة
+
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="@Url.Action("ActivityDecisionTaking", "AcademicActivities")">
+                                                                    <i class="fa fa-pie-chart pull-right"></i>   متابعة واعتماد طلبات المشاركات القديمة
+
+                                                                </a>
+                                                            </li>
+                                                        </ul>
+                                                    </li>
+                                                    <li class="dropdown dropdown-submenu">
+                                                        <a href="#" class="dropdown-toggle"  > المشاركات الجديدة  </a>
+                                                        <ul class="dropdown-menu">
+                                                            <li>
+                                                                <a href="@Url.Action("CreateActivityMenus", "AcademicActivities")">
+                                                                    <i class="fa fa-area-chart pull-right"></i>  إنشاء قوائم مشاركات الطلاب
+
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="@Url.Action("SearchActivityMenus", "AcademicActivities")">
+                                                                    <i class="fa fa-search pull-right"></i>   استعراض قوائم مشاركات الطلاب
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="@Url.Action("NewActivityDecisionTaking", "AcademicActivities")">
+                                                                    <i class="fa fa-pie-chart pull-right"></i>   متابعة واعتماد قوائم مشاركات الطلاب
+
+                                                                </a>
+                                                            </li>
+                                                        </ul>
+                                                    </li>
+                                                </ul>
+                                            </li>
+
+
+                                            @*@{ Html.RenderAction("UpdateDate", "Home"); }*@
+                                            <li class="dropdown">
+                                                <a href="javasc41ript:;" class="user-profile dropdown-toggle"   aria-expanded="false">
+                                                    <span class="fa fa-angle-down"></span>
+                                                    القروض و الإعانات
+                                                    <i class="fa fa-money"></i>
+                                                </a>
+                                                <ul class="dropdown-menu dropdown-usermenu pull-right">
+                                                    <li class="dropdown dropdown-submenu">
+                                                        <a href="#" class="dropdown-toggle"  > التهيئة  </a>
+                                                        <ul class="dropdown-menu">
+                                                            <li>
+                                                                <a href="@Url.Action("StudentAdvanceConfig", "Advances")"><i class="fa fa-gear pull-right"></i> تهيئة القروض والإعانات وحسم الصندوق</a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="@Url.Action("StudentAdvancePhases", "Advances")">
+                                                                    <i class="fa fa-gear pull-right"></i>تهيئة مراحل إعتماد القروض والإعانات
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="@Url.Action("StudentAdvanceSettingConfig", "Advances")">
+                                                                    <i class="fa fa-gear pull-right"></i>تهيئة ضوابط عدم استحقاق القروض
+                                                                </a>
+                                                            </li>
+                                                        </ul>
+                                                    </li>
+                                                    <li>
+                                                        <a href="@Url.Action("StudentAdvanceOperations", "Advances")">
+                                                            اضافة طلبات القروض والاعانات
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="@Url.Action("AdvancesRequestTraking", "Advances")">
+                                                            متابعة طلبات القروض والاعانات
+                                                        </a>
+                                                    </li>
+                                                    <li class="dropdown dropdown-submenu">
+                                                        <a href="#" class="dropdown-toggle"  > إعتمادات القروض والاعانات  </a>
+                                                        <ul class="dropdown-menu">
+                                                            <li>
+                                                                <a href="@Url.Action("AdvanceDecisionTaking", "Advances")">
+                                                                    <i class="fa fa-area-chart pull-right"></i>إعتمادات طلبات القروض المرسلة
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="@Url.Action("SubsidyDecisionTaking", "Advances")">
+                                                                    <i class="fa fa-area-chart pull-right"></i>إعتمادات طلبات الإعانات المرسلة
+                                                                </a>
+                                                            </li>
+                                                        </ul>
+                                                    </li>
+                                                    <li class="dropdown dropdown-submenu">
+                                                        <a href="#" class="dropdown-toggle"  > صرف القروض والاعانات  </a>
+                                                        <ul class="dropdown-menu">
+                                                            <li>
+                                                                <a href="@Url.Action("index", "AdvancePayment")"><i class="fa fa-search pull-right"></i> صرف القروض للطلاب</a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="@Url.Action("PaySubsidy", "AdvancePayment")"><i class="fa fa-search pull-right"></i> صرف الإعانات للطلاب</a>
+                                                            </li>
+                                                        </ul>
+                                                    </li>
+                                                    <li class="dropdown dropdown-submenu">
+                                                        <a href="#" class="dropdown-toggle"  > تحصيل القروض   </a>
+                                                        <ul class="dropdown-menu">
+                                                            <li>
+                                                                <a href="@Url.Action("AdvanceCashPayment", "Advances")"><i class="fa fa-money pull-right"></i>تحصيل القروض</a>
+                                                            </li>
+                                                        </ul>
+                                                    </li>
+                                                    <li class="dropdown dropdown-submenu">
+                                                        <a href="#" class="dropdown-toggle"  >السندات التي تم إصدارها</a>
+                                                        <ul class="dropdown-menu">
+                                                            <li>
+                                                                <a href="@Url.Action("AdvanceCashMovements", "Advances")"><i class="fa fa-print pull-right"></i> طباعة السندات التي تم إصدارها</a>
+                                                            </li>
+                                                        </ul>
+                                                    </li>
+                                                    <li class="dropdown dropdown-submenu">
+                                                        <a href="#" class="dropdown-toggle"  >ترحيل القيود المجمعة</a>
+                                                        <ul class="dropdown-menu">
+                                                            <li>
+                                                                <a href="@Url.Action("PaidAdvancesAggregateJournal", "Advances")">ترحيل القيود المجمعة لسندات صرف القروض</a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="@Url.Action("PaidSubsidiesAggregateJournal", "Advances")">ترحيل القيود المجمعة لسندات صرف الإعانات</a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="@Url.Action("ReceiveAdvancesAggregateJournal", "Advances")">ترحيل القيود المجمعة لسندات تحصيل القروض</a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="@Url.Action("AdvancesPremiumRelay", "Advances")">ترحيل القيود المجمعة لأقساط القروض من مسير المكافأت</a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="@Url.Action("RewardItemPremiumRelay", "Advances")">ترحيل القيود المجمعة لأقساط حسم الصندوق من مسير المكافأت</a>
+                                                            </li>
+                                                        </ul>
+                                                    </li>
+
+                                                    <li class="dropdown dropdown-submenu">
+                                                        <a href="#" class="dropdown-toggle"  >التقارير</a>
+                                                        <ul class="dropdown-menu">
+                                                            <li>
+                                                                <a href="@Url.Action("AdvancesRecievingReportIndex", "Reports")">تقرير تحصيل القروض</a>
+                                                            </li>
+
+                                                            <li>
+                                                                <a href="@Url.Action("GetAdvancesPaymentByUsersReportIndex", "Reports")">تقرير  كشف حساب البنود المصروفه</a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="@Url.Action("GetAdvancesRecievingByStudentIndex_", "Reports")">تقرير القروض التفصيلي</a>
+                                                            </li>
+
+                                                        </ul>
+                                                    </li>
+                                                    @*<li class="dropdown dropdown-submenu">
+                                                    <a href="#" class="dropdown-toggle"  > اضافة طلبات القروض والاعانات </a>
+                                                    <ul class="dropdown-menu">
+                                                        <li>
+                                                            <a href="@Url.Action("StudentAdvanceRequestsForAdmin", "AdvancesForAdmin")"><i class="fa fa-plus pull-right"></i>إضافة طلب سلفة</a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="@Url.Action("StudentSubsidyRequestsForAdmin", "AdvancesForAdmin")"><i class="fa fa-plus pull-right"></i>إضافة طلب اعانة</a>
+                                                        </li>
+                                                    </ul>
+                                                </li>*@
+                                                    @*<li>
+                                                        <a href="@Url.Action("SubsidiesRequestsList", "Advances")"><i class="fa fa-search pull-right"></i>قائمة طلبات الإعانة</a>
+                                                </li>*@
+                                                    @*<li>
+                                                    <a href="@Url.Action("RequestStauts", "Advances")">
+                                                        <i class="fa fa-area-chart pull-right"></i>حالة الطلبات
+                                                    </a>
+                                                </li>
+                                                <li class="dropdown dropdown-submenu">
+                                                    <a href="#" class="dropdown-toggle"  >  التقارير </a>
+                                                    <ul class="dropdown-menu">
+                                                        <li>
+                                                            <a href="@Url.Action("Advances", "Reports")">
+                                                                <i class="fa fa-area-chart pull-right"></i>تقرير مفصل بسلف الطلاب
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="@Url.Action("AdvancesAggregate", "Reports")">
+                                                                <i class="fa fa-area-chart pull-right"></i>تقرير مجمع بسلف الطلاب
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="@Url.Action("SubsidiesDetailed", "Reports")">
+                                                                <i class="fa fa-area-chart pull-right"></i>تقرير مفصل باعانات الطلاب
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </li>*@
+                                                </ul>
+                                            </li>
+
+                                            <li class="dropdown">
+                                                <a href="javascript:;" class="user-profile dropdown-toggle"   aria-expanded="false">
+                                                    <span class="fa fa-angle-down"></span>
+                                                    نظام المكافأت
+                                                    <i class="fa fa-bar-chart"></i>
+                                                </a>
+                                                <ul class="dropdown-menu dropdown-usermenu pull-right">
+
+                                                    <li class="dropdown dropdown-submenu">
+                                                        <a href="#" class="dropdown-toggle"  > التهيئة <i class="fa fa-cogs"></i></a>
+                                                        <ul class="dropdown-menu">
+
+                                                            <li>
+                                                                <a href="@Url.Action("index", "Rewards")">
+                                                                    <i class="fa fa-area-chart pull-right"></i>تهيئة المكافئات
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="@Url.Action("index", "AcademicCommitteeUsersPerm")">
+                                                                    <i class="fa fa-shield pull-right"></i>صلاحيات مامورى الصرف
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="@Url.Action("Index", "PayRollSetting")">
+                                                                    <i class="fa fa-area-chart pull-right"></i>  اسناد المستخدمين لمرحلة الاعتماد
+                                                                </a>
+                                                            </li>
+
+                                                        </ul>
+                                                    </li>
+                                                    <li class="dropdown dropdown-submenu">
+                                                        <a href="#" class="dropdown-toggle"  > حركات المكافئات <i class="fa fa-plane"></i></a>
+                                                        <ul class="dropdown-menu">
+                                                            <li>
+                                                                <a href="@Url.Action("UploadBankFiles", "Rewards")"><i class="fa fa-user pull-right"></i> رفع الملفات المستلمة من البنك</a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="@Url.Action("SarafFileIndex", "PayRollStudents")"><i class="fa fa-area-chart pull-right"></i> ملف الصراف</a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="@Url.Action("index", "CalculationBonus")">
+                                                                    <i class="fa fa-area-chart pull-right"></i>إحتساب المكافئات
+                                                                </a>
+                                                            </li>
+
+                                                        </ul>
+                                                    </li>
+                                                    <li class="dropdown dropdown-submenu">
+                                                        <a href="#" class="dropdown-toggle"  > مراجعة ومتابعة المكافئات  <i class="fa fa-plane"></i></a>
+                                                        <ul class="dropdown-menu">
+                                                            <li>
+                                                                <a href="@Url.Action("PayrollApproval", "PayRollStudents")">
+                                                                    <i class="fa fa-area-chart pull-right"></i>إعتماد المكافئات
+                                                                </a>
+                                                            </li>
+                                                            <li class="dropdown dropdown-submenu">
+                                                                <a href="#" class="dropdown-toggle"  > <i class="fa fa-area-chart pull-right"></i>   إعتماد المسير النقدي  </a>
+                                                                <ul class="dropdown-menu">
+                                                                    <li>
+                                                                        <a href="@Url.Action("PayrollApprovalWithMoney", "PayRollStudents")">
+                                                                            مرحله توزيع المسيرات على مندوبى الصرف
+                                                                        </a>
+                                                                    </li>
+
+                                                                </ul>
+                                                            </li>
+                                                            <li>
+                                                                <a href="@Url.Action("PayrollApprovalWithMoneyForIssuingChecks", "PayRollStudents")">
+                                                                    مرحله اصدار الشيكات لكل مندوب وفق امر الصرف التوزيعى
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="@Url.Action("CheckFiles", "PayRollStudents")">
+                                                                    رفع مرفقات الشيك
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="@Url.Action("CancelChecks", "PayRollStudents")">
+                                                                    إلغاء الشيك
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="@Url.Action("PayrollTracking", "PayRollStudents")">
+                                                                    متابعه حالة المسير
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="@Url.Action("ReceiveChecks", "PayRollStudents")">
+                                                                    مرحله تسليم الشيكات
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="@Url.Action("DelevirPayroll", "PayRollStudents")">
+                                                                    مرحلة تسليم المكافأات
+                                                                </a>
+                                                            </li>
+                                                            @*<li>
+                                                            <a href="@Url.Action("ExchangeOrder", "PayRollStudents")">
+                                                                <i class="fa fa-area-chart pull-right"></i>إنشاء أوامر الصرف
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="@Url.Action("CashCheck", "ExchangeOrder")">
+                                                                <i class="fa fa-area-chart pull-right"></i>إنشاء الشيكات
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="@Url.Action("DeliverToRep", "ExchangeOrder")">
+                                                                <i class="fa fa-area-chart pull-right"></i>تسليم لمندوب الصرف
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="@Url.Action("StudentsCash", "ExchangeOrder")">
+                                                                <i class="fa fa-area-chart pull-right"></i>تسليم للطلاب
+                                                            </a>
+                                                        </li>*@
+                                                            @*<li>
+                                                            <a href="@Url.Action("AdvancesPremiumRelay", "Advances")">
+                                                                <i class="fa fa-area-chart pull-right"></i>ترحيل اقساط القروض
+                                                            </a>
+                                                        </li>*@
+                                                        </ul>
+                                                    </li>
+
+                                                    <li class="dropdown dropdown-submenu">
+                                                        <a href="#" class="dropdown-toggle"  > التقارير   <i class="fa fa-plane"></i></a>
+                                                        <ul class="dropdown-menu">
+                                                            <li>
+                                                                <a href="@Url.Action("CheckDataReportIndex", "Reports")"><i class="fa fa-check pull-right"></i> تقرير بحالة الشيكات</a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="@Url.Action("AdvanceDataReportIndex", "Reports")"><i class="fa fa-check pull-right"></i> تقرير بإستلام المكافأت</a>
+                                                            </li>
+
+                                                            <li>
+                                                                <a href="@Url.Action("index", "PayRollStudents")"><i class="fa fa-user pull-right"></i> تقرير مسير رواتب الطلاب</a>
+                                                            </li>
+
+                                                            <li>
+                                                                <a href="@Url.Action("PayrollRefusalSearch", "Rewards")"><i class="fa fa-user pull-right"></i> تقرير بالطلاب غير المستحقين والأسباب</a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="@Url.Action("PayRollByDegreeIndex", "PayRollStudents")"><i class="fa fa-area-chart pull-right"></i> تقرير خلاصة المسير بالمراحل العلمية</a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="@Url.Action("PayRollByStudentIndex", "PayRollStudents")"><i class="fa fa-area-chart pull-right"></i> تقرير مجمع بمسير الطالب</a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="@Url.Action("PayRollByFacultiesIndex", "PayRollStudents")"><i class="fa fa-area-chart pull-right"></i> تقرير خلاصة المسير بالكليات</a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="@Url.Action("StudentsWithoutBankNumberIndex", "Reports")">
+                                                                    <i class="fa fa-area-chart pull-right"></i>تقرير الطلاب بدون ارقام هويه وارقام بنك
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="@Url.Action("StatementOfSarfRewardIndex", "RewardsReports")">
+                                                                    <i class="fa fa-area-chart pull-right"></i>تقرير بحالةإستلام المكافآت
+                                                                </a>
+                                                            </li>
+
+                                                        </ul>
+                                                    </li>
+
+
+                                                </ul>
+                                            </li>
+
+
+                                            <li class="dropdown">
+                                                <a href="javascript:;" class="user-profile dropdown-toggle"   aria-expanded="false">
+                                                    <span class="fa fa-angle-down"></span>
+                                                    نظام التسكين
+                                                    <i class="fa fa-bar-chart"></i>
+                                                </a>
+                                                <ul class="dropdown-menu dropdown-usermenu pull-right">
+                                                    <li class="dropdown dropdown-submenu submenu-rtl">
+                                                        <a href="#" class="dropdown-toggle"  > التهيئة </a>
+                                                        <ul class="dropdown-menu">
+                                                            <li>
+                                                                <a href="@Url.Action("index", "Asset")">
+                                                                    <i class="fa fa-area-chart pull-right"></i>دليل المواقع
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="@Url.Action("HousingFurniture", "Housing")">
+                                                                    <i class="fa fa-area-chart pull-right"></i>تهيئة الاثاث
+                                                                </a>
+                                                            </li>
+
+                                                            @*<li>
+                                                            <a href="@Url.Action("index", "ViolationsDecisions")">
+                                                                <i class="fa fa-area-chart pull-right"></i>تهيئة قرارات المخالفات
+                                                            </a>
+                                                        </li>*@
+                                                        </ul>
+                                                    </li>
+
+                                                    @*<li>
+                                                    <a href="@Url.Action("supervisorsdefinition", "Housing")">
+                                                        <i class="fa fa-area-chart pull-right"></i>   تهيئة المشرفيين
+                                                    </a>
+                                                </li>*@
+                                                    <li>
+                                                        <a href="@Url.Action("HousingOfStudents", "Housing")">
+                                                            <i class="fa fa-pie-chart pull-right"></i>   حركات التسكين
+                                                        </a>
+                                                    </li>
+
+                                                </ul>
+                                            </li>
+
+
+                                            <li class="dropdown">
+                                                <a href="javascript:;" class="user-profile dropdown-toggle"   aria-expanded="false">
+                                                    <span class="fa fa-angle-down"></span>
+                                                    النظام السلوكي
+                                                    <i class="fa fa-bar-chart"></i>
+                                                </a>
+                                                <ul class="dropdown-menu dropdown-usermenu pull-right">
+
+
+                                                    <li class="dropdown dropdown-submenu submenu-rtl">
+                                                        <a href="#" class="dropdown-toggle"  > التهيئة </a>
+                                                        <ul class="dropdown-menu">
+                                                            <li>
+                                                                <a href="@Url.Action("index", "Issues")">
+                                                                    <i class="fa fa-area-chart pull-right"></i>  تهيئة المخالفات
+                                                                </a>
+                                                            </li>
+
+                                                            <li>
+                                                                <a href="@Url.Action("Violation", "Housing")">
+                                                                    <i class="fa fa-area-chart pull-right"></i>  صلاحيات اقسام المخالفات
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="@Url.Action("index", "ViolationsDecisions")">
+                                                                    <i class="fa fa-area-chart pull-right"></i>تهيئة قرارات المخالفات
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="@Url.Action("supervisorsdefinition", "Housing")">
+                                                                    <i class="fa fa-area-chart pull-right"></i>   تهيئة المشرفيين
+                                                                </a>
+                                                            </li>
+                                                        </ul>
+                                                    </li>
+                                                    <li class="dropdown dropdown-submenu submenu-rtl">
+                                                        <a href="#" class="dropdown-toggle"  > حركات علي المخالفات </a>
+                                                        <ul class="dropdown-menu">
+                                                            <li>
+                                                                <a href="@Url.Action("AddViolation", "Housing")">
+                                                                    <i class="fa fa-area-chart pull-right"></i>  اضافة المخالفات
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="@Url.Action("ViolationDecisionTaking", "ViolationsDecisions")">
+                                                                    <i class="fa fa-area-chart pull-right"></i> النظر في المخالفات
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="@Url.Action("ViolationDecisionByUser", "ViolationsDecisions")">
+                                                                    <i class="fa fa-area-chart pull-right"></i> المخالفات الموجة للمستخدم
+                                                                </a>
+                                                            </li>
+                                                        </ul>
+                                                    </li>
+                                                    <li class="dropdown dropdown-submenu">
+                                                        <a href="javascript:;" class="user-profile dropdown-toggle"   aria-expanded="false">
+
+                                                            التقارير
+                                                            <i class="fa fa-bar-chart"></i>
+                                                        </a>
+                                                        <ul class="dropdown-menu dropdown-usermenu pull-right">
+
+                                                            <li>
+                                                                <a href="@Url.Action("StudentNotesRPT", "Reports")">
+                                                                    <i class="fa fa-area-chart pull-right"></i>تقرير مخالفات الطلاب
+                                                                </a>
+                                                            </li>
+                                                        </ul>
+                                                    </li>
+                                                </ul>
+                                            </li>
+                                            <li class="dropdown">
+                                                <a href="javascript:;" class="user-profile dropdown-toggle"   aria-expanded="false">
+                                                    <span class="fa fa-angle-down"></span>
+                                                    اللجنة الاكاديمية
+                                                    <i class="fa fa-bar-chart"></i>
+                                                </a>
+                                                <ul class="dropdown-menu dropdown-usermenu pull-right">
+                                                    <li>
+                                                        <a href="@Url.Action("SeparatedStudents", "AcademicCommittee")">
+                                                            <i class="fa fa-area-chart pull-right"></i>   انشاء قائمة الطلاب للجنة الاكاديمة
+
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="@Url.Action("AcademicCommittee", "AcademicCommittee")">
+                                                            <i class="fa fa-pie-chart pull-right"></i>   قرار للجنة الاكاديمة
+
+                                                        </a>
+                                                    </li>
+
+                                                    <li>
+                                                        <a href="@Url.Action("AcademicCommitteeReportIndex", "AcademicCommittee")">
+                                                            <i class="fa fa-pie-chart pull-right"></i>   تقرير للجنة الاكاديمة
+
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </li>
+
+                                            <li class="dropdown">
+                                                <a href="javascript:;" class="user-profile dropdown-toggle"   aria-expanded="false">
+                                                    <span class="fa fa-angle-down"></span>
+                                                    الدراسات العليا
+                                                    <i class="fa fa-bar-chart"></i>
+                                                </a>
+                                                <ul class="dropdown-menu dropdown-usermenu pull-right">
+                                                    @*<li>
+                                                        <a href="@Url.Action("index", "GraduateStudies")">
+                                                            <i class="fa fa-area-chart pull-right"></i>   قائمة طلاب الدراسات العليا
+
+                                                        </a>
+                                                    </li>*@
+                                                    <li>
+                                                        <a href="@Url.Action("index", "StudentsStudies")">
+                                                            <i class="fa fa-area-chart pull-right"></i>   قائمة البيانات الأساسية للدراسات العليا
+
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="@Url.Action("index", "StudentsStudiesGraduate")">
+                                                            <i class="fa fa-area-chart pull-right"></i>   قائمة طلاب الدراسات العليا
+
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </li>
+
+
+                                        </ul>
+                                        <ul class="nav top-nav-ds pull-left">
+                                            <li class="dropdown pull-left">
+                                                <a href="javascript:;" class="user-profile dropdown-toggle"   aria-expanded="false">
+                                                    <img src="~/assets/images/user.png" alt="">@currentUser.Name
+                                                    <span class=" fa fa-angle-down"></span>
+                                                </a>
+                                                <ul class="dropdown-menu dropdown-usermenu pull-right dropdown-menu-right-new">
+                                                    <li>
+                                                        <a href="@Url.Action("ChangePassword", "Login")"><i class="fa fa-pencil-square-o pull-right"></i> تغيير كلمة المرور</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="@Url.Action("LogOut", "Login")"><i class="fa fa-sign-out pull-right"></i> خروج</a>
+                                                    </li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                }
+                            </div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col-md-12 left_col" style="display: none">
+                <div class="left_col scroll-view">
+
+                    @*<div class="navbar nav_title" style="border: 0;">
+                    <a href="#" class="site_title"> <span>الجامعة الاسلامية بالمدينة المنورة </span></a>
+                </div>*@
+                    <!-- menu profile quick info
+            <div class="profile pull-right">
+                <div class="profile_pic  pull-right">
+                    <img src="~/assets/images/user.png" alt="..." class="img-circle profile_img">
+                </div>
+                <div class="profile_info pull-right">
+                    <span>اهلا بك</span>
+                    <h2>admin</h2>
+                </div>
+            </div> -->
+                    <!-- /menu profile quick info -->
+                    <!-- sidebar menu -->
+                    <!-- /sidebar menu -->
+                    <!-- /menu footer buttons -->
+                    <div class="sidebar-footer hidden-small">
+                        <a data-toggle="tooltip" data-placement="top" title="Settings">
+                            <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+                        </a>
+                        <a data-toggle="tooltip" data-placement="top" title="FullScreen">
+                            <span class="glyphicon glyphicon-fullscreen" aria-hidden="true"></span>
+                        </a>
+                        <a data-toggle="tooltip" data-placement="top" title="Lock">
+                            <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
+                        </a>
+                        <a data-toggle="tooltip" data-placement="top" title="Logout" href="@Url.Action("LogOut", "Login")">
+                            <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
+                        </a>
+                    </div>
+                    <!-- /menu footer buttons -->
+                </div>
+            </div>
+        
+            <!-- page content -->
+            <div class="right_col" role="main">
+                <div class="row">
+                    <div class="col-md-12">
+                        @{Html.RenderAction("UpdateDate", "Home");}
+                    </div>
+                    @*<div class="col-md-6">
+                        @{Html.RenderAction("UpdateByAdmin", "Home");}
+                    </div>*@
+                </div>
+                @RenderBody()
+
+                <div class="clearfix"></div>
+                <!--Section: Testimonials v.1-->
+                <!--Section: Testimonials v.1-->
+
+            </div>
+            <!-- /page content -->
+            <!-- footer content -->
+            <footer>
+                <div class="col-lg-12 col-xs-12 col-sm-12 col-md-12 text-center">
+                    جميع الحقوق محفوظة للجامعة الاسلامية بالمدينة المنورة
+                </div>
+                <div class="clearfix"></div>
+            </footer>
+            <!-- /footer content -->
+        </div>
+    </div>
+
+
+</body>
+</html>

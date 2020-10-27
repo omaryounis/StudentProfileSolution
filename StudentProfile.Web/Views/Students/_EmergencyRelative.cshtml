@@ -1,0 +1,126 @@
+﻿@using System.Web.UI.WebControls
+@model StudentProfile.DAL.Models.EmergencyRelatives
+@using (Ajax.BeginForm("SaveEmergencyRelative", "Students", FormMethod.Post, new AjaxOptions { UpdateTargetId = "StBasicData" }))
+{
+    Html.DevExpress().FormLayout(s =>
+    {
+        s.Name = "EmergencyRelativeModal";
+
+        s.RequiredMarkDisplayMode = RequiredMarkMode.None;
+        s.Width = Unit.Percentage(100);
+        s.Height = Unit.Percentage(100);
+
+
+        s.NestedExtensionWidth = Unit.Percentage(100);
+        s.Items.Add(itemSettings =>
+        {
+            itemSettings.Name = " ";
+            itemSettings.Caption = " ";
+            itemSettings.SetNestedContent(() =>
+            {
+                ViewContext.Writer.Write(
+                    Html.HiddenFor(m => m.ID).ToHtmlString()+"<br/>"+
+                Html.HiddenFor(m => m.StudentIDNumber).ToHtmlString() + "<br/>" +
+               "<input type='hidden' name='StudentID' value='"+ViewData["stID"]+"'/>");
+            });
+        });
+        s.Items.Add(m => m.Name, i =>
+        {
+            i.Name = "Name";
+            i.Caption = "الأسم";
+            i.NestedExtensionType = FormLayoutNestedExtensionItemType.TextBox;
+            i.NestedExtension().TextBox(c =>
+            {
+                c.Properties.EnableClientSideAPI = true;
+                c.Properties.ValidationSettings.RequiredField.IsRequired = true;
+                c.Properties.ValidationSettings.RequiredField.ErrorText = "حقل مطلوب";
+                c.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.Text;
+                c.Properties.ValidationSettings.Display = Display.Static;
+            });
+            i.RequiredMarkDisplayMode = FieldRequiredMarkMode.Required;
+
+
+        });
+        s.Items.Add(m => m.Relation, i =>
+        {
+            i.Name = "Relation";
+            i.Caption = "صلة القرابة";
+            i.NestedExtensionType = FormLayoutNestedExtensionItemType.TextBox;
+            i.RequiredMarkDisplayMode = FieldRequiredMarkMode.Required;
+            i.NestedExtension().TextBox(c =>
+            {
+                c.Properties.EnableClientSideAPI = true;
+                c.Properties.ValidationSettings.RequiredField.IsRequired = true;
+                c.Properties.ValidationSettings.RequiredField.ErrorText = "حقل مطلوب";
+                c.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.Text;
+                c.Properties.ValidationSettings.Display = Display.Static;
+            });
+
+
+        });
+        s.Items.Add(m => m.PhoneNumber, i =>
+        {
+            i.Name = "PhoneNumber";
+            i.Caption = "رقم الهاتف";
+            i.NestedExtensionType = FormLayoutNestedExtensionItemType.TextBox;
+            i.RequiredMarkDisplayMode = FieldRequiredMarkMode.Required;
+            i.NestedExtension().TextBox(c =>
+            {
+                c.Properties.EnableClientSideAPI = true;
+                c.Properties.ValidationSettings.RequiredField.IsRequired = true;
+                c.Properties.ValidationSettings.RequiredField.ErrorText = "حقل مطلوب";
+                c.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.Text;
+                c.Properties.ValidationSettings.Display = Display.Static;
+            });
+
+
+        });
+        s.Items.Add(m => m.Email, i =>
+        {
+            i.Name = "Email";
+            i.Caption = "البريد الالكتروني";
+            i.NestedExtensionType = FormLayoutNestedExtensionItemType.TextBox;
+            i.RequiredMarkDisplayMode = FieldRequiredMarkMode.Required;
+            i.NestedExtension().TextBox(c =>
+            {
+                c.Properties.EnableClientSideAPI = true;
+                c.Properties.ValidationSettings.RequiredField.IsRequired = true;
+                c.Properties.ValidationSettings.RequiredField.IsRequired = true;
+                c.Properties.ValidationSettings.RequiredField.ErrorText = "حقل مطلوب";
+                c.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.Text;
+                c.Properties.ValidationSettings.Display = Display.Static;
+            });
+
+
+        });
+        s.Items.Add(m => m.Email, i =>
+        {
+            i.ShowCaption = DefaultBoolean.False;
+            i.SetNestedContent(() =>
+            {
+                Html.DevExpress().Button(
+                    buttonSettings =>
+                    {
+                        buttonSettings.Name = "btnSaveEmergency";
+                        buttonSettings.ControlStyle.CssClass = "button";
+                        buttonSettings.Width = 80;
+                        buttonSettings.Text = "حفظ";
+                        buttonSettings.Images.Image.IconID = IconID.SaveSave32x32;
+                        buttonSettings.UseSubmitBehavior = true;
+                    }
+                    ).Render();
+                Html.DevExpress().Button(
+                    buttonSettings =>
+                    {
+                        buttonSettings.Name = "btnCancelEmergency";
+                        buttonSettings.ControlStyle.CssClass = "button";
+                        buttonSettings.Width = 80;
+                        buttonSettings.Text = "الغاء";
+                        buttonSettings.Images.Image.IconID = IconID.ActionsClose32x32;
+                        buttonSettings.ClientSideEvents.Click = "function(s, e){ pcSaveEmergencyRelative.Hide(); }";
+                    }
+                    ).Render();
+            });
+        });
+    }).Render();
+}

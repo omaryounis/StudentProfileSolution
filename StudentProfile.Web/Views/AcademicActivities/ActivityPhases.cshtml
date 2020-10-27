@@ -1,0 +1,217 @@
+﻿@{
+    ViewBag.Title = "تهيئة مراحل اعتماد طلبات المشاركات";
+    Layout = "~/Views/Shared/_DevextremeLayout.cshtml";
+}
+
+<script src="~/Scripts/AcademicActivities/AcademicActivitiesService.js"></script>
+<script src="~/Scripts/AcademicActivities/ActivityPhasesController.js"></script>
+@*<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>*@
+
+<style>
+    .swal-text {
+        text-align: center;
+    }
+
+    .dx-popup-title {
+        border-bottom: 1px solid #0e70a052 !important;
+        background: #ffffff !important;
+        color: #0e70a0 !important;
+    }
+
+        .dx-popup-title.dx-toolbar .dx-toolbar-label {
+            font-size: 22px !important;
+        }
+
+        .dx-popup-title.dx-toolbar {
+            padding: 12px 20px !important;
+        }
+
+        .dx-popup-title .dx-closebutton .dx-icon {
+            color: #0e70a0 !important;
+        }
+
+    td.dx-command-edit {
+        text-align: center !important
+    }
+
+    .dx-tabs.dx-navbar {
+        text-align: center;
+        position: absolute;
+        bottom: 0;
+    }
+
+    .listOptions-ds .dx-list-item-content {
+        font-weight: normal;
+        padding: 15px 10px 15px 10px;
+        border-top: 0;
+        border-bottom: 1px solid #ddd;
+        cursor: pointer;
+        transition: .5s;
+    }
+
+
+        .listOptions-ds .dx-list-item-content:hover {
+            background: #0e70a0;
+            color: #FFF;
+        }
+
+
+        .listOptions-ds .dx-list-item-content i {
+            margin-left: 10px;
+            transition: all 0.3s ease;
+        }
+
+
+        .listOptions-ds .dx-list-item-content:hover i {
+            margin-left: 15px;
+            color: #FFF;
+        }
+
+    td.dx-command-edit {
+        text-align: center !important
+    }
+</style>
+
+<div class="container-fluid container-fullw" ng-controller="ActivityPhasesCtrl">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel bg-white">
+                <div class="breadcrumb-wrapper text-right" style="margin:0">
+                    <h4 class="no-margin"> تهيئة مراحل اعتماد طلبات المشاركات</h4>
+                </div>
+
+                <div class="panel-body">
+                    <div class="row">
+
+                        <div class="col-md-3 col-sm-12 col-xs-12 listOptions-ds">
+                            <div class="panel bg-white">
+                                <div class="panel-body">
+                                    <div class="panel panel-default">
+                                        <div class="panel-body" style="height: 29vh;text-align: center;background-color: #2196f314">
+                                            <div dx-list="MenuOptions"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-9 col-sm-12 col-xs-12">
+                            <div class="panel bg-white">
+                                <div class="panel-body">
+                                    <div class="panel panel-default">
+                                        <div class="panel-body">
+                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                <div class="dx-tree-st dx-tree-st22" style="margin-top: 10px;" dx-data-grid="ActivityPhasesGrid"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="popup" dx-popup="PopupOptions">
+                    <div data-options="dxTemplate: {name: 'ActivityUsersContent'}">
+
+                        <div class="panel bg-white">
+                            <div class="panel-body">
+                                <form ng-submit="onFormSubmit($event)">
+                                    @Html.AntiForgeryToken()
+                                    <div class="row">
+
+                                        <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                            <label class="col-md-12 col-sm-12 col-xs-12  text-right control-label">المرحلة</label>
+                                            <div class="col-md-12 col-sm-12 col-xs-12 ">
+                                                <div dx-select-box="DL_ActivityPhases" dx-validator="VR_ActivityPhasesForm_Required"></div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+                                            <label class="col-md-12 col-sm-12 col-xs-12   text-right control-label">المستخدم</label>
+                                            <div class="col-md-12 col-sm-12 col-xs-12 ">
+                                                <div dx-select-box="DL_Users" dx-validator="VR_ActivityPhasesForm_Required"></div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+                                            <div dx-button="btnSaveOptions" class="btn-block"></div>
+                                        </div>
+                                    </div>
+
+                                </form>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div data-options="dxTemplate: {name: 'ActivityPhasesContent'}">
+                        <div class="panel bg-white">
+                            <div class="panel-body">
+                                <form ng-submit="onFormSubmit($event)">
+                                    @Html.AntiForgeryToken()
+                                    <div class="row">
+
+
+                                        <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                            <label class="col-md-12 col-sm-12 col-xs-12  text-right control-label">المرحلة</label>
+                                            <div class="col-md-12 col-sm-12 col-xs-12 ">
+                                                <div dx-text-box="TB_ActivityPhase" dx-validator="VR_ActivityPhasesForm_Required"></div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                            <label class="col-md-12 col-sm-12 col-xs-12  text-right control-label"> ترتيب المرحلة</label>
+                                            <div class="col-md-12 col-sm-12 col-xs-12 ">
+                                                <div dx-number-box="NB_PhaseOrder" dx-validator="VR_ActivityPhasesForm_Required"></div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                            <div class="col-md-12 col-sm-12 col-xs-12 ">
+                                                <div dx-button="btnSaveOptions"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div data-options="dxTemplate: {name: 'ActivityPhasesEditingContent'}">
+
+                        <form ng-submit="onFormSubmit($event)">
+                            @Html.AntiForgeryToken()
+                            <div class="row">
+                                <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <label class="col-md-12 col-sm-12 col-xs-12  text-right control-label">المرحلة</label>
+                                    <div class="col-md-12 col-sm-12 col-xs-12 ">
+                                        <div dx-select-box="DL_ActivityPhases" dx-validator="VR_ActivityPhasesForm_Required"></div>
+                                    </div>
+                                </div>
+                                <hr />
+                                @* ادخل الإســم الجديــد *@
+                                <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <label class="col-md-12 col-sm-12 col-xs-12  text-right control-label">ادخل الاسم الجديد</label>
+                                    <div class="col-md-12 col-sm-12 col-xs-12">
+                                        <div dx-text-box="TB_ActivityPhase" dx-validator="VR_ActivityPhasesForm_Required"></div>
+                                    </div>
+                                </div>
+
+                                @* ادخل الترتـيب الجديــد *@
+                                <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <label class="col-md-12 col-sm-12 col-xs-12 text-right control-label">ادخل الترتيب الجديد</label>
+                                    <div class="col-md-12 col-sm-12 col-xs-12">
+                                        <div dx-number-box="NB_PhaseOrder" dx-validator="VR_ActivityPhasesForm_Required"></div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <div class="col-md-12 col-sm-12 col-xs-12 ">
+                                        <div dx-button="btnSaveOptions"></div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

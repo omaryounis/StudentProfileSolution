@@ -1,0 +1,84 @@
+﻿@model IEnumerable<StudentProfile.DAL.Models.proc_GetRunawayAliens_Result>
+@using System.Drawing.Printing
+@using System.Web.UI.WebControls
+@using DevExpress.Export
+
+@Html.DevExpress().GridView(settings =>
+{
+    settings.Name = "RunawayData";
+    settings.KeyFieldName = "Id";
+    settings.Styles.Table.CssClass = "dx-table-ds";
+    // settings.Theme= r.
+    settings.Width = Unit.Percentage(100);
+    //settings.CommandColumn.Visible = true;
+    //settings.CommandColumn.VisibleIndex = 10;
+
+    //settings.CommandColumn.ShowSelectCheckbox = true;
+    settings.RightToLeft = DefaultBoolean.False;
+    //settings.CommandColumn.SelectAllCheckboxMode = GridViewSelectAllCheckBoxMode.AllPages;
+    //settings.SettingsDetail.AllowOnlyOneMasterRowExpanded = false;
+    //settings.SettingsDetail.ShowDetailRow = true;
+    //settings.ClientSideEvents.SelectionChanged = "SelectionChanged";
+    settings.SettingsPager.PageSize = 25;
+    settings.CallbackRouteValues = new {Action = "_RunawayAlerts", Controller = "Home"};
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "الرقم الأكاديمي";
+        column.FieldName = "studentid";
+    });
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "رقم الإقامة";
+        column.FieldName = "IdNumber";
+    });
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "اسم الطالب";
+        column.FieldName = "student_name";
+        column.SetDataItemTemplateContent(c =>
+        {
+            var stname = DataBinder.Eval(c.DataItem, "STUDENT_NAME").ToString();
+            if (DataBinder.Eval(c.DataItem, "studentid") != null)
+            {
+                int stid = int.Parse(DataBinder.Eval(c.DataItem, "studentid").ToString());
+                ViewContext.Writer.Write("<a href=" + Url.Action("Index", "Students", new {id = stid}) + ">" + stname + "</a>");
+            }
+            else
+            {
+                ViewContext.Writer.Write(stname);
+            }
+        });
+    });
+
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "nationality";
+        //column.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy";
+        column.Caption = "الجنسية";
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "تاريخ الإصدار";
+        column.FieldName = "ISSUANCEDATE";
+        column.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy";
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "تاريخ الدخول";
+        column.FieldName = "ENTRYDATE";
+        column.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy";
+    });
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "رقم الهاتف";
+        column.FieldName = "PhoneNo";
+        column.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy";
+    });
+
+    settings.SettingsLoadingPanel.Mode = GridViewLoadingPanelMode.Disabled;
+    settings.EnableCallbackAnimation = false;
+    settings.RightToLeft = DefaultBoolean.True;
+}).Bind(Model).GetHtml()

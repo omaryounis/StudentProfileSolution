@@ -1,0 +1,440 @@
+@using System.Web.UI.WebControls
+@using StudentProfile.Web.Controllers
+@using StudentProfile.DAL.Models
+@using DevExpress.Export
+@model List<StudentNotes>
+@{
+    var grid = Html.DevExpress().GridView(settings =>
+    {
+        settings.Name = "StudentNotesGridView";
+        settings.KeyFieldName = "NoteId";
+        settings.Width = Unit.Percentage(95);
+        settings.CallbackRouteValues = new {Controller = "Students", Action = "StudentNotesGridViewPartial"};
+        settings.SettingsEditing.AddNewRowRouteValues = new {Controller = "Students", Action = "StudentNotesGridViewPartialAddNew"};
+        settings.SettingsEditing.UpdateRowRouteValues = new {Controller = "Students", Action = "StudentNotesGridViewPartialUpdate"};
+        settings.SettingsEditing.DeleteRowRouteValues = new {Controller = "Students", Action = "StudentNotesGridViewPartialDelete"};
+        settings.Styles.Table.CssClass = "dx-table-ds dd-table";
+        settings.Styles.Header.Wrap = DefaultBoolean.True;
+        settings.Width = Unit.Percentage(100);
+        settings.RightToLeft = DefaultBoolean.True;
+        settings.SettingsEditing.Mode = GridViewEditingMode.EditForm;
+        settings.Settings.ShowGroupPanel = false;
+        settings.Settings.ShowFilterRow = false;
+        settings.SettingsBehavior.AllowFocusedRow = false;
+        settings.SettingsBehavior.AllowSelectByRowClick = true;
+
+        //SettingsText
+        settings.SettingsText.CommandEdit = "ÍÝÙ";
+        settings.SettingsText.CommandNew = "ÇÖÇÝÉ";
+        settings.SettingsText.CommandUpdate = "ÍÝÙ";
+        settings.SettingsText.CommandCancel = "ÇáÛÇÁ";
+        //settings.SettingsText.CommandDelete = "ÍÐÝ";
+        //settings.SettingsText.ConfirmDelete = "åá ÊÑíÏ ÍÐÝ åÐÇ ÇáÚäÕÑ¿";
+        settings.SettingsText.EmptyDataRow = "áÇ ÊæÌÏ ÈíÇäÇÊ";
+        settings.SettingsLoadingPanel.Text = "ÊÍãíá ...";
+        settings.SettingsEditing.Mode = GridViewEditingMode.EditFormAndDisplayRow;
+        settings.SettingsBehavior.ConfirmDelete = true;
+
+        settings.SettingsAdaptivity.AdaptivityMode = GridViewAdaptivityMode.HideDataCells;
+        settings.SettingsAdaptivity.AdaptiveColumnPosition = GridViewAdaptiveColumnPosition.Right;
+        settings.SettingsAdaptivity.AdaptiveDetailColumnCount = 1;
+        settings.SettingsAdaptivity.AllowOnlyOneAdaptiveDetailExpanded = false;
+        settings.SettingsAdaptivity.HideDataCellsAtWindowInnerWidth = 0;
+        settings.ControlStyle.CssClass = "GridViewRootClassName";
+
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "NoteDate";
+            c.Caption = "ÊÇÑíÎ ÇáãáÇÍÙÉ";
+            c.ColumnType = MVCxGridViewColumnType.DateEdit;
+            c.EditorProperties().DateEdit(tb =>
+            {
+                tb.DisplayFormatString = "dd/MM/yyyy";
+                tb.ValidationSettings.RequiredField.IsRequired = true;
+                tb.ValidationSettings.RequiredField.ErrorText = "ÍÞá ÇÌÈÇÑì";
+            });
+        });
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "NoteDetails";
+            c.Caption = "æÕÝ ÇáãÔßáÉ";
+            c.ColumnType = MVCxGridViewColumnType.Memo;
+            c.EditorProperties().Memo(tb =>
+            {
+                tb.ValidationSettings.RequiredField.IsRequired = true;
+                tb.ValidationSettings.RequiredField.ErrorText = "ÍÞá ÇÌÈÇÑì";
+            });
+        });
+
+        if ((bool?) ViewData["SecretPermisson"] == true)
+        {
+            settings.Columns.Add(c =>
+            {
+                c.FieldName = "IsSecret";
+                c.Caption = "ÓÑí";
+                c.ColumnType = MVCxGridViewColumnType.CheckBox;
+                c.EditorProperties().CheckBox(cb =>
+                {
+                    cb.ClientInstanceName = "IsSecret";
+                    cb.Style.CssClass = "text-ds";
+
+                    //cb.ClientSideEvents.ValueChanged = "IsSecretValueChanged";
+                });
+            });
+        }
+        if ((bool?) ViewData["TopSecretPermisson"] == true)
+        {
+            settings.Columns.Add(c =>
+            {
+                c.FieldName = "IsTopSecret";
+                c.Caption = "ÓÑí ááÛÇíÉ";
+                c.ColumnType = MVCxGridViewColumnType.CheckBox;
+                c.EditorProperties().CheckBox(cb =>
+                {
+                    cb.ClientInstanceName = "IsTopSecret";
+                    cb.Style.CssClass = "text-ds";
+
+                    //cb.ClientSideEvents.ValueChanged = "IsTopSecretValueChanged";
+                });
+            });
+        }
+        if (ViewBag.NotesDataDownloadAttachments != null)
+        {
+            if (ViewBag.NotesDataDownloadAttachments == true)
+            {
+                settings.Columns.Add(c =>
+                {
+                    c.FieldName = "StudentFiles";
+                    c.Caption = "ÇáãÑÝÞÇÊ";
+                    c.Visible = false;
+                    c.EditFormSettings.Visible = DefaultBoolean.True;
+                    c.EditFormSettings.VisibleIndex = 5;
+                    c.Settings.AllowSort = DefaultBoolean.False;
+                    c.Settings.AllowAutoFilter = DefaultBoolean.False;
+                    c.ColumnType = MVCxGridViewColumnType.BinaryImage;
+                    c.SetEditItemTemplateContent(container =>
+                    {
+                        using (Html.BeginForm("StudentNoteFilesUpload", "Students", FormMethod.Post))
+                        {
+                            Html.DevExpress().UploadControl(ucSettings =>
+                            {
+                                ucSettings.Name = "myFile";
+                                settings.CallbackRouteValues = new {Action = "StudentNoteFilesUpload", Controller = "Students"};
+                                ucSettings.UploadMode = UploadControlUploadMode.Auto;
+                                ucSettings.Width = Unit.Percentage(100);
+                                ucSettings.ShowAddRemoveButtons = true;
+                                ucSettings.AdvancedModeSettings.EnableFileList = true;
+                                ucSettings.AdvancedModeSettings.EnableMultiSelect = true;
+                                ucSettings.ShowProgressPanel = false;
+                                ucSettings.ShowClearFileSelectionButton = true;
+                                ucSettings.ShowUploadButton = true;
+                                ucSettings.AutoStartUpload = false;
+                                ucSettings.RightToLeft = DefaultBoolean.True;
+                                ucSettings.ShowUploadButton = true;
+                                ucSettings.UploadButton.Text = "ÑÝÚ";
+                                ucSettings.UploadButton.Image.IconID = IconID.ActionsUp232x32;
+                                ucSettings.UploadButton.ImagePosition = ImagePosition.Right;
+                                ucSettings.BrowseButton.Text = "ÇÓÊÚÑÇÖ...";
+                                ucSettings.NullText = "ÇÎÊÑ ãÑÝÞÇÊ....";
+                                ucSettings.ClientEnabled = true;
+                                //ucSettings.ClientSideEvents.TextChanged = "OnTextChanged";
+                                ucSettings.ClientSideEvents.FilesUploadComplete = "OnFilesUploadComplete";
+                                //ucSettings.ClientSideEvents.FileUploadComplete = "OnFileUploadComplete";
+                                //ucSettings.ClientSideEvents.FileUploadComplete = "function(s, e) { if(e.isValid) { avatarUrl.SetValue(e.callbackData) } }";
+                            }).Render();
+                        }
+                        var noteid = container.KeyValue;
+                        if (noteid != null) //íÊã ÊÚÏíá ÇáãáÇÍÙÉ
+                        {
+                            var noteId = int.Parse(noteid.ToString());
+                            var model = Model.SingleOrDefault(x => x.NoteId == noteId);
+                            var studentId = DataBinder.Eval(container.DataItem, "StDetailId");
+                            if (model?.StudentFiles != null && model.StudentFiles.Count > 0)
+                            {
+                                var files = model.StudentFiles.ToList();
+                                ViewContext.Writer.Write("<div id='filesContain'>");
+                                var studentNotesFileNames = new List<string>();
+                                foreach (var file in files)
+                                {
+                                    studentNotesFileNames.Add(file.FilePath);
+                                    ViewContext.Writer.Write("<a target='_blank' href='/content/userfiles/" + studentId + "/ÇáãáÇÍÙÇÊ/" + file.FilePath + "'>" + file.FilePath + "</a>");
+                                    ViewContext.Writer.Write("<br />");
+                                }
+                                Session["studentNotesFileNames"] = studentNotesFileNames;
+                                ViewContext.Writer.Write("</div>");
+                            }
+                            else
+                            {
+                                ViewContext.Writer.Write("<div id='filesContain'></div>");
+                            }
+                        }
+                        else
+                        {
+                            ViewContext.Writer.Write("<div id='filesContain'></div>");
+                        }
+                    });
+                });
+            }
+        }
+
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "IssueId";
+            c.Caption = "äæÚ ÇáãáÇÍÙÉ";
+            c.ColumnType = MVCxGridViewColumnType.ComboBox;
+            c.EditorProperties().ComboBox(p =>
+            {
+                p.DataSource = StudentsController.GetIssuess();
+                p.TextField = "Text";
+                p.ValueField = "Value";
+                p.ValidationSettings.RequiredField.IsRequired = true;
+                p.ValidationSettings.RequiredField.ErrorText = "ÍÞá ÇÌÈÇÑì";
+            });
+        });
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "Punishment";
+            c.Caption = "ÇáÚÞæÈÉ ÇáÊÃÏíÈíÉ";
+            c.ColumnType = MVCxGridViewColumnType.Memo;
+            c.EditorProperties().Memo(tb =>
+            {
+                //tb.Rows = 3;
+                //tb.Style.Container.Components. = 2;
+                tb.ValidationSettings.RequiredField.IsRequired = true;
+                tb.ValidationSettings.RequiredField.ErrorText = "ÍÞá ÇÌÈÇÑì";
+            });
+        });
+        settings.Columns.Add(c =>
+        {
+
+            c.FieldName = "PunichedBy";
+            c.Caption = "ÌåÉ ÅÕÏÇÑ ÇáÚÞæÈÉ";
+            c.ColumnType = MVCxGridViewColumnType.ComboBox;
+            c.EditorProperties().ComboBox(p =>
+            {
+
+                p.DataSource = ViewBag.Punishments;
+                p.TextField = "Text";
+                p.ValueField = "Value";
+                p.ValidationSettings.RequiredField.IsRequired = true;
+                p.ValidationSettings.RequiredField.ErrorText = "ÍÞá ÇÌÈÇÑì";
+            });
+        });
+        if (ViewBag.NotesDataDownloadAttachments != null)
+        {
+            if (ViewBag.NotesDataDownloadAttachments == true)
+            {
+                settings.Columns.Add(c =>
+                {
+                    c.FieldName = "StudentFiles";
+                    c.Settings.AllowSort = DefaultBoolean.False;
+                    c.Settings.AllowAutoFilter = DefaultBoolean.False;
+                    c.Caption = "ÊÍãíá ÇáãÑÝÞÇÊ";
+                    c.EditFormSettings.Visible = DefaultBoolean.False;
+                    c.SetDataItemTemplateContent(i =>
+                    {
+                        var noteid = i.KeyValue;
+                        var intNoteId = int.Parse(noteid.ToString());
+                        var model = Model.SingleOrDefault(x => x.NoteId == intNoteId);
+                        if (model?.StudentFiles != null && model.StudentFiles.Count > 0)
+                        {
+                            var studentId = DataBinder.Eval(i.DataItem, "StDetailId");
+                            var noteId = DataBinder.Eval(i.DataItem, "NoteId")?.ToString();
+                            using (Ajax.BeginForm("DownloadStudentArchive", "Students", new {noteid = noteId, stID = studentId}, new AjaxOptions {OnSuccess = "DownloadFiles", HttpMethod = "Post"}))
+                            {
+                                ViewContext.Writer.Write("<button class='btn btn-ds-ico btn-success' title='ÊÍãíá ÇáãÑÝÞÇÊ' type='submit'><i class='fa fa-download'></i></button>");
+                            }
+                        }
+                    });
+                });
+            }
+        }
+
+        settings.Columns.Add(c =>
+        {
+            c.Caption = "ÇÖÇÝÉ ÈæÇÓØÉ";
+            c.ColumnType = MVCxGridViewColumnType.TextBox;
+            c.EditFormSettings.Visible = DefaultBoolean.False;
+            c.SetDataItemTemplateContent(i =>
+            {
+                var userId = int.Parse(DataBinder.Eval(i.DataItem, "AddedBy")?.ToString());
+                using (var db = new SchoolAccGam3aEntities())
+                {
+                    var user = db.DashBoard_Users.SingleOrDefault(dashBoardUsers => dashBoardUsers.ID == userId);
+
+                    if (user != null)
+                    {
+                        ViewContext.Writer.Write($"<p>{user.Username}</p>");
+                    }
+                }
+            });
+        });
+        settings.Columns.Add(c =>
+        {
+            c.Caption = "ÊÍÏíË ÈæÇÓØÉ";
+            c.ColumnType = MVCxGridViewColumnType.TextBox;
+            c.EditFormSettings.Visible = DefaultBoolean.False;
+            c.SetDataItemTemplateContent(i =>
+            {
+                int? userId = null;
+                var stringuser = DataBinder.Eval(i.DataItem, "LastUpdatedBy")?.ToString();
+                if (!string.IsNullOrEmpty(stringuser))
+                {
+                    userId = int.Parse(stringuser);
+                    using (var db = new SchoolAccGam3aEntities())
+                    {
+                        var user = db.DashBoard_Users.SingleOrDefault(dashBoardUsers => dashBoardUsers.ID == userId);
+
+                        if (user != null)
+                        {
+                            ViewContext.Writer.Write($"<p>{user.Username}</p>");
+                        }
+                    }
+                }
+                else
+                {
+                    ViewContext.Writer.Write("<p></p>");
+                }
+            });
+        });
+
+
+
+        /*Command Column Emulation*/
+        settings.Columns.Add(column =>
+        {
+            column.Caption = "#";
+            column.Settings.AllowSort = DefaultBoolean.False;
+            column.Settings.AllowAutoFilter = DefaultBoolean.False;
+            column.EditFormSettings.Visible = DefaultBoolean.False;
+            /*DataItemTemplate*/
+            /*New - Edit - Delete Buttons*/
+            column.SetDataItemTemplateContent(c =>
+            {
+                if (ViewBag.NotesDataUpdate != null)
+                {
+                    if (ViewBag.NotesDataUpdate == true)
+                    {
+                        ViewContext.Writer.Write("<span class=\"fa fa-pencil btn-ds-ico btn btn-success  \" onclick=\"EditStudentNote('{0}');\" title='ÊÚÏíá'></span>", c.VisibleIndex);
+                        ViewContext.Writer.Write("&nbsp;");
+                    }
+                }
+
+                if (ViewBag.NotesDataDelete != null)
+                {
+                    if (ViewBag.NotesDataDelete == true)
+                    {
+                        ViewContext.Writer.Write("<span class=\"fa fa-trash btn-ds-ico btn btn-danger  \" onclick=\"DeleteStudentNote('{0}')\" title='ÍÐÝ'></span>", c.KeyValue.ToString());
+                    }
+                }
+            });
+            /*DataItemTemplate*/
+            /*EditItemTemplate*/
+            //column.SetEditItemTemplateContent(c =>
+            //{
+            //    ViewContext.Writer.Write("<span class=\"fa fa-check fa-ds \" onclick=\"{0}.UpdateEdit();\" title='ÍÝÙ'></span>", settings.Name);
+            //    ViewContext.Writer.Write("&nbsp;");
+            //    ViewContext.Writer.Write("<span class=\"fa fa-undo fa-ds \" onclick=\"{0}.CancelEdit();\" title='ÇáÛÇÁ'></span>", settings.Name);
+            //});
+            /*EditItemTemplate*/
+        });
+        /*Command Column Emulation*/
+
+        //EditForm
+        //settings.SettingsPopup.EditForm.SettingsAdaptivity.Mode = PopupControlAdaptivityMode.OnWindowInnerWidth;
+        //settings.SettingsPopup.EditForm.SettingsAdaptivity.SwitchAtWindowInnerWidth = 500;
+        //settings.SettingsPopup.EditForm.SettingsAdaptivity.MaxWidth = 500;
+        //settings.EditFormLayoutProperties.SettingsAdaptivity.AdaptivityMode = FormLayoutAdaptivityMode.SingleColumnWindowLimit;
+        //settings.EditFormLayoutProperties.SettingsAdaptivity.SwitchToSingleColumnAtWindowInnerWidth = 400;
+        //settings.EditFormLayoutProperties.ColCount = 4;
+
+        //SettingsPager
+        settings.SettingsPager.Visible = true;
+        settings.SettingsPager.EnableAdaptivity = true;
+        settings.SettingsPager.EnableAdaptivity = true;
+        settings.SettingsPager.PageSize = 10;
+
+        settings.SettingsAdaptivity.AdaptivityMode = GridViewAdaptivityMode.Off;
+        settings.SettingsAdaptivity.AdaptiveColumnPosition = GridViewAdaptiveColumnPosition.Right;
+        settings.SettingsAdaptivity.AdaptiveDetailColumnCount = 1;
+        settings.SettingsAdaptivity.AllowOnlyOneAdaptiveDetailExpanded = false;
+        settings.SettingsAdaptivity.HideDataCellsAtWindowInnerWidth = 0;
+        settings.SettingsExport.EnableClientSideExportAPI = true;
+        settings.SettingsExport.ExcelExportMode = ExportType.DataAware;
+
+        //CommandColumn
+        settings.CommandColumn.Visible = false;
+        settings.CommandColumn.ShowNewButton = false;
+        settings.CommandColumn.ShowDeleteButton = false;
+        settings.CommandColumn.ShowEditButton = false;
+        settings.CommandColumn.ShowNewButtonInHeader = false;
+
+
+        if (ViewBag.NotesDataCreate != null)
+        {
+            if (ViewBag.NotesDataCreate == true)
+            {
+                settings.Toolbars.Add(toolbar =>
+                {
+                    toolbar.Enabled = true;
+                    toolbar.Position = GridToolbarPosition.Top;
+                    toolbar.ItemAlign = GridToolbarItemAlign.Right;
+                    toolbar.Items.Add(i =>
+                    {
+                        i.Command = GridViewToolbarCommand.New;
+                        i.Text = "ÇÖÇÝÉ";
+                        i.ItemStyle.CssClass = "btn btn-primary";
+                    });
+                });
+            }
+        }
+
+        //ClientSideEvents
+        //settings.ClientSideEvents.BatchEditConfirmShowing = "OnBatchStartEditing";
+        //settings.ClientSideEvents.BatchEditConfirmShowing = "OnBatchConfirm";
+        //settings.ClientSideEvents.BatchEditEndEditing = "OnBatchEditEndEditing";
+        settings.ClientSideEvents.BeginCallback = "StudentNotesGridViewBeginCallback";
+        //settings.CommandColumn.VisibleIndex = settings.Columns.Count + 1;
+        settings.DataBinding = (s, e) => { (s as ASPxGridView)?.ForceDataRowType(typeof(List<StudentNotes>)); };
+        settings.EditFormLayoutProperties.AlignItemCaptionsInAllGroups = true;
+        settings.EditFormLayoutProperties.AlignItemCaptions = true;
+        settings.InitNewRow = (s, e) => { e.NewValues["NoteDate"] = DateTime.Now; };
+    });
+    if (ViewData["EditError"] != null)
+    {
+        grid.SetEditErrorText((string) ViewData["EditError"]);
+    }
+}
+@if (ViewBag.NotesDataRead != null)
+{
+    if (ViewBag.NotesDataRead == true)
+    {
+        @grid.Bind(Model).GetHtml()
+    }
+}
+<style>
+    .dxeMemoEditArea_MetropolisBlue.dxeMemoEditAreaSys {
+        width:97% !important
+    }
+    .dxflVATSys.dxflCaptionCell_MetropolisBlue {
+        width: 16% !important;
+        text-align: right !important;
+    }
+    .dxgvTable_MetropolisBlue tr td.dxflCaptionCell_MetropolisBlue {
+        width: 16% !important;
+        text-align: right !important;
+    }
+    .dx-table-ds table.dxeButtonEditSys, .dx-table-ds table.dxeTextBoxSys {
+        width: 90% !important;
+        margin-right: 0 !important;
+    }
+    #StudentNotesGridView_DXEFL_DXEditor6{
+        width: 90% !important;
+    }
+    #StudentNotesGridView_DXEFL_DXEditor7{
+        width: 100% !important;
+    }
+    #myFile_UploadInputs{
+        width: 97% !important;
+    }
+</style>

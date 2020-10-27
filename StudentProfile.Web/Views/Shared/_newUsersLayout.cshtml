@@ -1,0 +1,142 @@
+﻿<!DOCTYPE html>
+<html lang="en" ng-app="app">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>@ViewBag.Title </title>
+    <link href="~/assets/images/IU_ALL_COLOR_RGB.png" rel="icon" />
+    <!-- Bootstrap -->
+    <link href="~/assets/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="~/assets/vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <!-- NProgress -->
+    <link href="~/assets/vendors/nprogress/nprogress.css" rel="stylesheet">
+    <!-- iCheck -->
+    <link href="~/assets/vendors/iCheck/skins/flat/green.css" rel="stylesheet">
+    <!-- bootstrap-progressbar -->
+    <link href="~/assets/vendors/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css" rel="stylesheet">
+    <!-- JQVMap -->
+    <link href="~/assets/vendors/jqvmap/dist/jqvmap.min.css" rel="stylesheet" />
+    <!-- bootstrap-daterangepicker -->
+    <link href="~/assets/vendors/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
+    <!-- carousel -->
+    <link rel="stylesheet" href="~/assets/css/owl.carousel.css">
+    <link rel="stylesheet" href="~/assets/css/owl.theme.default.css">
+    <!-- Custom Theme Style -->
+    <link href="~/assets/build/css/custom.min.css" rel="stylesheet">
+    <!-- rtl Bootstrap -->
+    <link href="~/assets/css/rtl.css" rel="stylesheet">
+    <link href="~/assets/css/style.css" rel="stylesheet">
+    <link href="~/assets/fancybox/jquery.fancybox.min.css" rel="stylesheet" />
+    <!-- jQuery -->
+    <script src="~/assets/vendors/jquery/dist/jquery.min.js"></script>
+    @*<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>*@
+    <!-- Bootstrap -->
+    <script src="~/assets/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="~/assets/fancybox/jquery.fancybox.min.js"></script>
+    <script src="~/Scripts/sweetalert2.all.js"></script>
+</head>
+<body class="nav-md">
+    <script type="text/javascript">
+    </script>
+    <script>
+        $(document).ajaxStart(function () {
+            $(".se-pre-con").show();
+        }).ajaxStop(function () {
+            $(".se-pre-con").hide();
+        });
+        $(window).on('load',
+            function () {
+                $(".se-pre-con").fadeOut(2000);
+            });
+    </script>
+    <div class="se-pre-con" style="display: block;" id="se-pre-con">
+        <div id="floatingCirclesG">
+            <div class="f_circleG" id="frotateG_01"></div>
+            <div class="f_circleG" id="frotateG_02"></div>
+            <div class="f_circleG" id="frotateG_03"></div>
+            <div class="f_circleG" id="frotateG_04"></div>
+            <div class="f_circleG" id="frotateG_05"></div>
+            <div class="f_circleG" id="frotateG_06"></div>
+            <div class="f_circleG" id="frotateG_07"></div>
+            <div class="f_circleG" id="frotateG_08"></div>
+        </div>
+    </div>
+    <div class="container body">
+        <div class="main_container">
+            <div class="iu-page-header">
+                <div class="iulogocontainer">
+                    <a href="/">
+                        <img class="iulogo" src="~/assets/images/IU_ALL_COLOR_RGB.png">
+                    </a>
+                </div>
+            </div>
+
+            <div class="top_nav">
+                <div class="nav_menu">
+                    <div class="container-fluid">
+                        <nav>
+                          
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12 left_col" style="display: none">
+                <div class="left_col scroll-view">
+                    @*<div class="navbar nav_title" style="border: 0;">
+                            <a href="#" class="site_title"> <span>الجامعة الاسلامية بالمدينة المنورة </span></a>
+                        </div>*@
+                    <!-- menu profile quick info
+                    <div class="profile pull-right">
+                        <div class="profile_pic  pull-right">
+                            <img src="~/assets/images/user.png" alt="..." class="img-circle profile_img">
+                        </div>
+                        <div class="profile_info pull-right">
+                            <span>اهلا بك</span>
+                            <h2>admin</h2>
+                        </div>
+                    </div> -->
+                    <!-- /menu profile quick info -->
+                    <!-- sidebar menu -->
+                    <!-- /sidebar menu -->
+                    <!-- /menu footer buttons -->
+                    <div class="sidebar-footer hidden-small">
+                        <a data-toggle="tooltip" data-placement="top" title="Settings">
+                            <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+                        </a>
+                        <a data-toggle="tooltip" data-placement="top" title="FullScreen">
+                            <span class="glyphicon glyphicon-fullscreen" aria-hidden="true"></span>
+                        </a>
+                        <a data-toggle="tooltip" data-placement="top" title="Lock">
+                            <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
+                        </a>
+                        <a data-toggle="tooltip" data-placement="top" title="Logout" href="@Url.Action("LogOut", "Login")">
+                            <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
+                        </a>
+                    </div>
+                    <!-- /menu footer buttons -->
+                </div>
+            </div>
+            <!-- page content -->
+            <div class="right_col" role="main">
+                @RenderBody()
+                <div class="clearfix"></div>
+                <!--Section: Testimonials v.1-->
+                <!--Section: Testimonials v.1-->
+            </div>
+            <!-- /page content -->
+            <!-- footer content -->
+            <footer>
+                <div class="col-md-12 text-center">
+                    جميع الحقوق محفوظة للجامعة الاسلامية بالمدينة المنورة
+                </div>
+                <div class="clearfix"></div>
+            </footer>
+            <!-- /footer content -->
+        </div>
+    </div>
+</body>
+</html>

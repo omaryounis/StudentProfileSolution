@@ -1,0 +1,98 @@
+﻿@{
+    ViewBag.Title = "عرض رغبات السفر";
+    Layout = "~/Views/Shared/_DevextremeLayout.cshtml";
+}
+<script src="~/Scripts/Musafer/TravelRequestReviewController.js"></script>
+
+<style>
+    .control-label {
+        text-align: right
+    }
+    fieldset {
+        border: none;
+        margin: 2px 0;
+        padding: 8px 0 5px 0;
+        border: 1px solid #33333329;
+        position: relative;
+        border-radius: 5px;
+    }
+
+    .fieldset-dds {
+        line-height: 20px;
+    }
+
+    legend {
+        font-size: 18px;
+        color: inherit;
+        text-align: right;
+        border: none;
+        background: #fff;
+        position: absolute;
+        top: -17px;
+        width: auto;
+        right: 5px;
+        padding: 3px 10px;
+    }
+
+    .panel-body {
+        padding: 10px 15px;
+    }
+    .dx-datagrid .dx-datagrid-content .dx-datagrid-table .dx-row .dx-command-edit-with-icons .dx-link {
+        width: 26px;
+        height: 23px;
+    }
+</style>
+
+<div class="container-fluid container-fullw" ng-controller="TravelRequestReviewCtrl">
+    <div class="col-md-12">
+        <div class="panel bg-white">
+            <div class="breadcrumb-wrapper text-right">
+                <h4 class="no-margin">عرض رغبات السفر</h4>
+            </div>
+            <div class="panel-body">
+                <fieldset>
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                        <label class="col-lg-1 col-sm-1 col-xs-1 control-label text-right">
+                            إسم الإعلان
+                        </label>
+                        <div class="col-lg-7 col-sm-7 col-xs-7">
+                            <div dx-tag-box='DL_TravelAdvertisementNames'></div>
+                        </div>
+
+                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 text-right">
+                            <div dx-button="btn_Search"></div>
+                        </div>
+                    </div>
+                </fieldset>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="panel panel-white">
+                            <div class="panel-body" style="padding-top:0">
+                                <div class="clearfix"></div>
+                                <div dir="rtl" style="width: 100%">
+                                    <div class="demo-container">
+                                        <div class="dx-tree-st" dx-data-grid="TravelRequestsGrid" dx-item-alias="TravelRequestsGrid">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+</div>
+<style>
+
+.container-fullw {
+    margin-top: 15px;
+    width: 100%;
+    float: right;
+    overflow-y: auto; 
+    min-height: calc(100vh - 217px);
+}
+</style>

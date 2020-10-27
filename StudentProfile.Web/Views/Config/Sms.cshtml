@@ -1,0 +1,173 @@
+﻿@using System.Web.UI.WebControls
+@using StudentProfile.Controllers
+@{ ViewBag.Title = "تهيئة الرسائل"; }
+<style>
+    .ActionsSearch_button {
+        height: 38px;
+        width: 85px !important;
+        background: #309ad4;
+        color: #fff;
+        border: 0;
+        font-weight: bold;
+    }
+</style>
+<script>
+    function EditSMSConfig(id) {
+        swal({
+            title: "تعديل التهيئة ",
+            text: "هل تريد تعديل التهيئة",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonClass: "btn btn-success",
+            cancelButtonClass: "btn btn-danger",
+            buttonsStyling: false,
+            reverseButtons: true,
+            confirmButtonText: "نعم",
+            cancelButtonText: "لأ"
+        }).then(result => {
+            if (result.value) {
+                SMSGridView.StartEditRow(id);
+            }
+        });
+    }
+
+    function RefreshTemapltes(s, e) {
+        debugger;
+    }
+</script>
+<div class="container-fluid container-fullw">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel bg-white">
+                <div class="breadcrumb-wrapper text-right">
+                    <h4 class="no-margin">الربط مع نماذج الرسائل</h4>
+                </div>
+                <div class="panel-body">
+                    @using (Ajax.BeginForm("SaveSmsTemplateConfig", new AjaxOptions {}))
+                    {
+                        @Html.DevExpress().FormLayout(settings =>
+                        {
+                            settings.Name = "AdvancedSearchFormLayout";
+                            settings.SettingsItems.ShowCaption = DefaultBoolean.True;
+                            settings.RightToLeft = DefaultBoolean.True;
+                            settings.AlignItemCaptionsInAllGroups = true;
+                            settings.AlignItemCaptions = true;
+                            settings.SettingsAdaptivity.AdaptivityMode = FormLayoutAdaptivityMode.SingleColumnWindowLimit;
+                            settings.SettingsAdaptivity.SwitchToSingleColumnAtWindowInnerWidth = 500;
+                            settings.Width = Unit.Percentage(100);
+                            settings.UseDefaultPaddings = false;
+                            settings.EncodeHtml = false;
+                            settings.UseDefaultPaddings = false;
+                            settings.ColCount = 1;
+                            var groupItem = settings.Items.AddGroupItem(i =>
+                            {
+                                i.Caption = "نماذج الرسائل";
+                                i.ColCount = 7;
+                                i.GroupBoxStyle.Caption.Font.Bold = true;
+                                i.GroupBoxStyle.Caption.Font.Size = 16;
+                                i.Width = Unit.Percentage(100);
+                                i.GroupBoxDecoration = GroupBoxDecoration.None;
+                            });
+                            groupItem.Items.Add(i =>
+                            {
+                                i.Caption = "رسالة انتهاء الاقامة";
+                                i.Width = Unit.Percentage(25);
+                                i.NestedExtension().ComboBox(s =>
+                                {
+                                    s.Name = "residenceExpiration";
+                                    s.Width = Unit.Percentage(25);
+                                    s.Properties.DropDownStyle = DropDownStyle.DropDownList;
+                                    s.Properties.IncrementalFilteringMode = IncrementalFilteringMode.StartsWith;
+                                    s.Properties.DataSource = ConfigController.GetSmsTemplates();
+                                    s.Properties.ValueField = "Value";
+                                    s.Properties.TextField = "Text";
+                                    s.ShowModelErrors = false;
+                                    s.PreRender = (sender, e) =>
+                                    {
+                                        MVCxComboBox cb = (MVCxComboBox) sender;
+                                        cb.Value = ViewData["residenceExpirationValue"];
+                                        cb.Text = ViewData["residenceExpirationText"].ToString();
+                                    };
+                                });
+                            });
+                            groupItem.Items.Add(i =>
+                            {
+                                i.Caption = "رسالة انتهاء الجواز";
+                                i.Width = Unit.Percentage(25);
+                                i.NestedExtension().ComboBox(s =>
+                                {
+                                    s.Name = "passportExpiration";
+                                    s.Width = Unit.Percentage(25);
+                                    s.Properties.DropDownStyle = DropDownStyle.DropDownList;
+                                    s.Properties.IncrementalFilteringMode = IncrementalFilteringMode.StartsWith;
+                                    s.Properties.DataSource = ConfigController.GetSmsTemplates();
+                                    s.Properties.ValueField = "Value";
+                                    s.Properties.TextField = "Text";
+                                    s.PreRender = (sender, e) =>
+                                    {
+                                        MVCxComboBox cb = (MVCxComboBox) sender;
+                                        cb.Value = ViewData["passportValue"];
+                                        cb.Text = ViewData["passportText"].ToString();
+                                    };
+                                });
+                            });
+                            groupItem.Items.Add(i =>
+                            {
+                                i.Caption = "رسالة المخالفات المرورية";
+                                i.Width = Unit.Percentage(25);
+                                i.NestedExtension().ComboBox(s =>
+                                {
+                                    s.Name = "trafficIssues";
+                                    s.Properties.DropDownStyle = DropDownStyle.DropDownList;
+                                    s.Properties.IncrementalFilteringMode = IncrementalFilteringMode.StartsWith;
+                                    s.Properties.DataSource = ConfigController.GetSmsTemplates();
+                                    s.Properties.ValueField = "Value";
+                                    s.Properties.TextField = "Text";
+                                    s.Properties.ValueType = typeof(string);
+                                    s.PreRender = (sender, e) =>
+                                    {
+                                        MVCxComboBox cb = (MVCxComboBox) sender;
+                                        cb.Value = ViewData["trafficIssuesValue"];
+                                        cb.Text = ViewData["trafficIssuesText"].ToString();
+                                    };
+                                });
+                            });
+                            groupItem.Items.Add(i =>
+                            {
+                                i.ShowCaption = DefaultBoolean.False;
+                                i.Width = Unit.Percentage(25);
+                                i.HorizontalAlign = FormLayoutHorizontalAlign.Left;
+                                i.NestedExtension().Button(s =>
+                                {
+                                    s.Name = "save";
+                                    s.Styles.Style.CssClass = "ActionsSearch_button";
+                                    s.RightToLeft = DefaultBoolean.True;
+                                    s.Text = "حفظ";
+                                    s.Images.Image.IconID = IconID.SaveSave16x16;
+                                    s.UseSubmitBehavior = true;
+                                });
+                            });
+                        }).GetHtml()
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid container-fullw">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel bg-white">
+                <div class="breadcrumb-wrapper text-right">
+                    <h4 class="no-margin">تعديل / اضافة نماذج الرسائل</h4>
+                </div>
+                <div class="panel-body">
+                    @Html.Action("SMSGridViewPartial")
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

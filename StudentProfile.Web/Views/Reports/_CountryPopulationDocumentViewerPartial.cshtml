@@ -1,0 +1,26 @@
+@using StudentProfile.Reports
+@Html.DevExpress().DocumentViewer(settings =>
+{
+	settings.Name = "TravelStudentsDocumentViewer";
+	settings.CallbackRouteValues = new {Controller = "Reports", Action = "TravelStudentsDocumentViewerPartial"};
+	settings.ExportRouteValues = new {Controller = "Reports", Action = "TravelStudentsDocumentViewerPartialExport"};
+	settings.Report = (StudentsTravel) Model;
+	settings.ToolbarMode = DocumentViewerToolbarMode.Ribbon;
+	settings.SettingsReportViewer.UseIFrame = true;
+	settings.SettingsReportViewer.TableLayout = false;
+	settings.SettingsLoadingPanel.Text = "�����";
+	settings.AutoHeight = true;
+	settings.CacheReportDocument = (sender, e) =>
+	{
+		e.Key = Guid.NewGuid().ToString();
+		Session[e.Key] = e.SaveDocumentToMemoryStream();
+	};
+	settings.RestoreReportDocumentFromCache = (sender, e) =>
+	{
+		Stream stream = Session[e.Key] as Stream;
+		if (stream != null)
+			e.RestoreDocumentFromStream(stream);
+	};
+	settings.ClientSideEvents.BeforeExportRequest = "TravelStudentsDocumentViewerBeforeExportRequest";
+    settings.ClientSideEvents.Init = "onDocumetnViewerInit";
+}).GetHtml()

@@ -1,0 +1,253 @@
+﻿
+@using System.Drawing
+@using System.Web.UI.WebControls
+@{
+    ViewBag.Title = "تقرير  كشف حساب البنود المصروفه";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    table.dxeRoot_MetropolisBlue {
+        width: 100%;
+    }
+</style>
+
+<script>
+
+    //multiselect Combobox
+    var textSeparator = ";";
+
+
+    function GetSelectedItemsText(items) {
+        var texts = [];
+        for (var i = 0; i < items.length; i++)
+            if (items[i].index !== -1)
+                texts.push(items[i].text);
+        return texts.join(textSeparator);
+    }
+
+    //Users
+    function UsersOnListBoxSelectionChanged(listBox, args) {
+        if (args.index === -1) {
+            args.isSelected ? listBox.SelectAll() : listBox.UnselectAll();
+        }
+        UsersUpdateSelectAllItemState();
+        UsersUpdateText();
+    }
+
+    function UsersUpdateSelectAllItemState() {
+        UsersIsAllSelected()
+            ? usersCheckListBox.SelectIndices([-1])
+            : usersCheckListBox.UnselectIndices([-1]);
+    }
+
+
+    function UsersIsAllSelected() {
+        for (var i = 1; i < usersCheckListBox.GetItemCount(); i++)
+            if (!usersCheckListBox.GetItem(i).selected) {
+                return false;
+            }
+        return true;
+    }
+
+    function UsersUpdateText() {
+        var selectedItems = usersCheckListBox.GetSelectedItems();
+        UsersComboBox.SetText(GetSelectedItemsText(selectedItems));
+    }
+
+    function UsersSynchronizeListBoxValues(dropDown, args) {
+        usersCheckListBox.UnselectAll();
+        var texts = dropDown.GetText().split(textSeparator);
+        var values = UsersGetValuesByTexts(texts);
+        usersCheckListBox.SelectValues(values);
+        UsersUpdateSelectAllItemState();
+        UsersUpdateText(); // for remove non-existing texts
+    }
+
+    function UsersGetValuesByTexts(texts) {
+        var actualValues = [];
+        var item;
+        for (var i = 0; i < texts.length; i++) {
+            item = usersCheckListBox.FindItemByText(texts[i]);
+            if (item != null)
+                actualValues.push(item.value);
+        }
+        return actualValues;
+    }
+
+
+    function AdvancesPaymentByUsersReportExportRequest(s, e) {
+        e.customArgs["UsersCheckListBox"] = usersCheckListBox.GetSelectedValues().join();
+        e.customArgs["txtDocNumber"] = txtDocNumber.GetValue();
+        e.customArgs["TypeComboBox"] = TypeComboBox.GetValue();
+        e.customArgs["DateFrom"] = DateFrom.GetValue();
+        e.customArgs["DateTo"] = DateTo.GetValue();
+    }
+
+</script>
+
+<div class="container-fluid container-fullw">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel bg-white">
+                <div class="breadcrumb-wrapper text-right">
+                    <h4 class="no-margin">تقرير  كشف حساب البنود المصروفه</h4>
+                </div>
+                <div class="panel-body">
+                    @using (Ajax.BeginForm("AdvancesPaymentByUsers", new AjaxOptions
+                    {
+                        UpdateTargetId = "AdvancesPaymentByUsersReportDesigner"
+                    }))
+                    {
+
+                        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 form-group">
+                            <label>تاريخ الصرف من</label>
+                            <div class="editor">
+                                @Html.DevExpress().DateEdit(settings =>
+                           {
+                               settings.Name = "DateFrom";
+                               settings.Properties.NullText = "MM/dd/yyyy";
+                               settings.Properties.EditFormat = EditFormat.Custom;
+                               settings.Properties.EditFormatString = "MM/dd/yyyy";
+                               settings.Width = Unit.Percentage(100);
+                               settings.Properties.CalendarProperties.FastNavProperties.DisplayMode = FastNavigationDisplayMode.Inline;
+                               //settings.Properties.ValidationSettings.RequiredField.IsRequired = true;
+                               //settings.Date = DateTime.Now;
+                               settings.Width = Unit.Percentage(100);
+                           }).GetHtml()
+                            </div>
+
+                        </div>
+
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 form-group">
+                                <label>تاريخ الصرف الي</label>
+                                <div class="editor">
+                                    @Html.DevExpress().DateEdit(settings =>
+                           {
+                               settings.Name = "DateTo";
+                               settings.Properties.NullText = "MM/dd/yyyy";
+                               settings.Properties.EditFormat = EditFormat.Custom;
+                               settings.Properties.EditFormatString = "MM/dd/yyyy";
+                               settings.Width = Unit.Percentage(100);
+                               settings.Properties.CalendarProperties.FastNavProperties.DisplayMode = FastNavigationDisplayMode.Inline;
+                               //settings.Properties.ValidationSettings.RequiredField.IsRequired = true;
+                               //settings.Date = DateTime.Now;
+                               settings.Width = Unit.Percentage(100);
+                           }).GetHtml()
+                                </div>
+
+                            </div>
+
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 form-group">
+                                <label>رقم السند</label>
+                                @Html.DevExpress().SpinEdit(settings =>
+                        {
+                            settings.Name = "txtDocNumber";
+                            settings.Width = Unit.Percentage(100);
+                            settings.Properties.ValidationSettings.Display = Display.Dynamic;
+                        }).GetHtml()
+                            </div>
+
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 form-group">
+                                <label>نوع البند</label>
+                                @Html.DevExpress().ComboBox(settings =>
+                       {
+                           settings.Name = "TypeComboBox";
+                           settings.Width = Unit.Percentage(100);
+                           settings.SelectedIndex = -1;
+                           settings.Properties.NullText = "اختر";
+                           //settings.Properties.ValidationSettings.RequiredField.IsRequired = true;
+                           settings.Properties.ValidationSettings.ErrorTextPosition = ErrorTextPosition.Bottom;
+                           settings.Properties.Items.Add("الكل", null);
+                           settings.Properties.Items.Add("سلفة", "A");
+                           settings.Properties.Items.Add("إعانة", "S");
+                       }).GetHtml()
+                            </div>
+
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 form-group">
+                                <label>الموظفين</label>
+                                @Html.DevExpress().DropDownEdit(
+                                settings =>
+                                {
+                                    settings.Name = "UsersComboBox";
+                                    settings.Properties.DropDownWindowStyle.BackColor = Color.FromArgb(0xEDEDED);
+                                    settings.Properties.NullText = "اختر";
+                                    settings.Properties.ClearButton.DisplayMode = ClearButtonDisplayMode.OnHover;
+                                    settings.Properties.ClientSideEvents.TextChanged = "UsersSynchronizeListBoxValues";
+                                    settings.Properties.ClientSideEvents.DropDown = "UsersSynchronizeListBoxValues";
+                                    settings.Properties.ValidationSettings.ErrorTextPosition = ErrorTextPosition.Bottom;
+                                    //settings.Properties.ValidationSettings.RequiredField.IsRequired = true;
+                                    settings.SetDropDownWindowTemplateContent(c =>
+                                    {
+                                        @Html.DevExpress().ListBox(listBoxSettings =>
+                                        {
+                                            listBoxSettings.Name = "usersCheckListBox";
+                                            listBoxSettings.ControlStyle.Border.BorderWidth = 0;
+                                            listBoxSettings.ControlStyle.BorderBottom.BorderWidth = 1;
+                                            listBoxSettings.ControlStyle.BorderBottom.BorderColor = Color.FromArgb(0xDCDCDC);
+                                            listBoxSettings.Width = Unit.Percentage(100);
+                                            listBoxSettings.Properties.SelectionMode = ListEditSelectionMode.CheckColumn;
+                                            listBoxSettings.Properties.EnableSelectAll = true;
+                                            listBoxSettings.Properties.FilteringSettings.ShowSearchUI = true;
+                                            listBoxSettings.Properties.SelectAllText = "اختيار الكل";
+                                            listBoxSettings.Properties.ValueField = "Value";
+                                            listBoxSettings.Properties.ValueType = typeof(int);
+                                            listBoxSettings.Properties.TextField = "Text";
+                                            listBoxSettings.Properties.ClientSideEvents.SelectedIndexChanged = "UsersOnListBoxSelectionChanged";
+                                        }).BindList(ViewBag.Users).Render();
+                                        ViewContext.Writer.Write("<div style=\"margin: 6px; overflow: hidden;\">");
+                                        @Html.DevExpress().Button(
+                                         buttonSettings =>
+                                         {
+                                             buttonSettings.Name = "UsersbuttonClose";
+                                             buttonSettings.Text = "اغلاق";
+                                             buttonSettings.Style.Add("float", "right");
+                                             buttonSettings.ClientSideEvents.Click = "function(s, e){ UsersComboBox.HideDropDown(); }";
+                                             buttonSettings.Height = 26;
+                                         }).Render();
+                                        ViewContext.Writer.Write("</div>");
+                                    });
+                                }).GetHtml()
+                            </div>
+
+
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 form-group">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="margin-bottom:6px">
+                                    <br />
+                                </div>
+                                @Html.DevExpress().Button(settings =>
+                       {
+                           settings.Name = "btnView";
+                           settings.ControlStyle.CssClass = "btn btn-success";
+                           settings.Text = "عرض";
+                           settings.UseSubmitBehavior = true;
+                       }).GetHtml()
+                            </div>
+
+
+                                <div class="row">
+                                    <br />
+                                    <br />
+                                    <br />
+                                    <div id="AdvancesPaymentByUsersReportDesigner">
+                                    </div>
+                                </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .dxbButton_MetropolisBlue.btn-success {
+        background-color: #26B99A !important;
+        border: 1px solid #169F85 !important;
+        color: #fff !important
+    }
+
+    .dxbButton_MetropolisBlue {
+        padding: 5px !important;
+        font-family: "JF Flat Regular" !important;
+    }
+</style>
+

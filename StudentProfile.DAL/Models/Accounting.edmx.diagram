@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="6b9a164014264ee5b833c64a52b410da" Name="Diagram1" ZoomLevel="49">
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.AccountSecurity" Width="1.5" PointX="5.25" PointY="37.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.Ast_Location" Width="1.5" PointX="3" PointY="19.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.Ast_LocationClass" Width="1.5" PointX="0.75" PointY="17.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.AstNames" Width="1.5" PointX="7.5" PointY="29.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.BCD" Width="1.5" PointX="6" PointY="41.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.CashMovement" Width="1.5" PointX="10.5" PointY="26.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.CAT" Width="1.5" PointX="5.25" PointY="28.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.COA" Width="1.5" PointX="3" PointY="24.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.COM" Width="1.5" PointX="0.75" PointY="20.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.Con_Company" Width="1.5" PointX="5.25" PointY="34.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.Dafters" Width="1.5" PointX="6" PointY="18.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.DaftersDocuments" Width="1.5" PointX="8.25" PointY="16.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.DafterType" Width="1.5" PointX="3.75" PointY="16.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.FSY" Width="1.5" PointX="9" PointY="19.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.GJD" Width="1.5" PointX="5.25" PointY="23.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.GJH" Width="1.5" PointX="8.25" PointY="33.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.JOB" Width="1.5" PointX="3" PointY="32.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.Treasuries" Width="1.5" PointX="8.25" PointY="24.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.Users" Width="1.5" PointX="3" PointY="49.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.AssetLocationsWithLevelsSelect_Vw" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.CoaTree_Vw" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_AccountsSecuirity_COA" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_AccountsSecuirity_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_Ast_Location_Ast_LocationClass" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_Ast_Location_COM" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_Ast_LocationClass_Ast_LocationClass" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_AstNames_CAT" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_CashMovement_BCD" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_GJH_BCD" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_CashMovement_DaftersDocuments" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_CashMovement_GJH" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_CashMovement_Treasuries" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_CAT_COA" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_CAT_COA1" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_CAT_COA2" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_COA_COA" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_COA_COM" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_GJD_COA" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_Treasuries_COA" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_Treasuries_COA1" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_Con_Company_COM" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_Dafters_COM" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_FSY_COM" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_GJD_COM" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_GJH_COM" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_Treasuries_COM" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_Users_COM" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_Con_Company_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_Dafters_Dafters" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_Dafters_DafterType" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_Dafters_FSY" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_DaftersDocuments_Dafters" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_FSY_GJH" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_GJD_FSY" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_GJD_GJH" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_GJD_JOB" ManuallyRouted="false" />
+        <AssociationConnector Association="StudentProfile.DAL.Models.FK_GJH_Users" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="StudentProfile.DAL.Models.VW_UnitParents" Width="1.5" PointX="3.375" PointY="4.75" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

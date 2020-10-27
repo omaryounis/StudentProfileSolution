@@ -1,0 +1,210 @@
+﻿@{
+    ViewBag.Title = "إلغاء الشيكات";
+    Layout = "~/Views/Shared/_DevextremeLayout.cshtml";
+}
+
+<script src="~/Scripts/PayRollStudents/CancelChecksService.js"></script>
+<script src="~/Scripts/PayRollStudents/CancelChecksController.js"></script>
+<div class="container-fluid container-fullw">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel bg-white">
+                <div class="breadcrumb-wrapper text-right">
+                    <h4 class="no-margin">إلغاء الشيكات</h4>
+                </div>
+                <div class="panel-body">
+                    <div ng-controller="CancelChecksCtrl">
+                        <div class="row">
+                            <label class="col-lg-1 col-sm-12 col-xs-12 control-label">المسير</label>
+                            <div class="col-lg-3 col-sm-12 col-xs-12 ">
+                                <div id="Payroll" dx-select-box="PayrollSelectBox"
+                                     dx-validator="validationRequired"></div>
+                            </div>
+                        </div>
+
+
+
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div dx-scroll-view="{
+                                                 height: 800,
+                                                 direction: 'both'
+                                             }">
+                                <div class="row" style="padding-top:15px;padding-bottom:0px">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div ng-if="isFacultyMsgShow" class="alert alert-danger col-md-12 col-sm-12 col-xs-12">
+                                                {{faculty}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 dx-tree-st dx-tree-st-green form-group" style="padding-bottom:15px">
+
+                                        <div class="tb-title">التفاصيل المسير النقدي مع مناديب الصرف</div>
+                                        <div dx-data-grid="PayRollsMoneyDataGrid()"></div>
+                                    </div>
+                                    <div class="clearfix"></div>
+
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                        <div class="popup" dx-popup="PayRollsMoneyUserDetailsPopup">
+                            <div dx-scroll-view="{
+                                                height: 600,
+                                                direction: 'both'
+                                            }">
+                                <div class="row">
+                                    <div class="form-group col-md-12 col-sm-12 col-xs-12">
+                                        <div class="dx-tree-st dx-tree-st22" dx-data-grid="PayRollsMoneyUserDetailsGrid()"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                        <div class="popup" id="ConfirmCancelCheckPopup" dx-popup="ConfirmCancelCheckPopup">
+                            <div dx-scroll-view="{
+                                                 height: 200,
+                                                 direction: 'both'
+                                             }">
+                                <div class="row">
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 dx-tree-st dx-tree-st-green form-group" style="padding-bottom:15px">
+                                        <div class="tb-title">هل أنت متأكد من الإلغاء</div>
+                                    </div>
+                                </div>
+                                <div class="row" style="padding-top:15px;padding-bottom:0px">
+                                    <div class="clearfix"></div>
+                                    <div class="form-group col-md-12 col-sm-12 col-xs-12 text-center">
+                                        <div dx-button="saveBtn"></div>
+                                        <div dx-button="cancelBtn"></div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+
+
+
+                        <div class="popup" dx-popup="PayRollChecksPopup">
+                            <div data-options="dxTemplate: { name:'PayRollsCheckContent' }">
+                                <div dx-scroll-view="{
+                                                height: 800,
+                                                direction: 'both'
+                                            }">
+
+                                    <div class="row">
+                                        <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+                                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                                <label class="control-label">
+
+                                                    اسم مندوب الصرف
+                                                </label>
+                                                <div dx-text-box="txtBenfName" style="width:100%"></div>
+                                            </div>
+
+                                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                                <label class="control-label">
+
+                                                    مبالغ بدون شيكات
+                                                </label>
+                                                <div dx-text-box="txtTotalValueWithoutChecksName" style="width:100%"></div>
+                                            </div>
+                                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                                <label class="control-label">
+                                                    رقم الشيك
+                                                </label>
+                                                <div dx-text-box="txtCheckNumberName" style="width:100%" dx-validator="CheckNumberValidationRules"></div>
+                                            </div>
+
+                                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                                <label class="control-label">
+                                                    مبلغ الشيك
+                                                </label>
+                                                <div style="width:100%" dx-number-box="txtCheckValueName" dx-validator="CheckValueValidationRules"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+                                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                                <label class="control-label">
+                                                    الكليات
+                                                </label>
+                                                <div id="FacultionSelectBox" dx-tag-box="FacultionSelectBox" style="width:100%;height: 34px;"
+                                                     dx-validator="validationRequired"></div>
+                                            </div>
+                                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                                <div dx-text-area="byanTextArea"
+                                                     dx-validator="validationRequired"></div>
+                                            </div>
+                                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                                <div dx-button="btnSave"></div>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+
+                                    <div class="clearfix"></div>
+                                    <div class="row">
+                                        <div class="form-group col-md-12 col-sm-12 col-xs-12">
+                                            <div class="dx-tree-st dx-tree-st22" dx-data-grid="PayRollsChecksGrid()"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                        <div id="UploadPopUpShow1" dx-popup="PayRollChecksPopup.UploadFilePopupOptions1">
+                            <div data-options="dxTemplate: { name : 'UploadFileContent1' }">
+                                <div class="panel panel-default">
+                                    <div class="panel-body">
+                                        <div dx-file-uploader="FileUploadingOptions1">
+                                            @*<span class="note">Allowed file extensions: <span>.Pdf</span>.</span>*@
+                                        </div>
+                                        <div>
+                                            <div class="text-right" ng-if="MDL_UploadingFilesvalue1.length > 0">
+                                                <h4>الملفات المختارة</h4>
+                                            </div>
+                                            <div ng-repeat="val in MDL_UploadingFilesvalue1">
+                                                <div class="selected-item selected-item-ds text-right">
+                                                    <ul class="list-unstyled" dir="rtl">
+                                                        <li><span class="pull-right"> اسم الملف:</span> <span>{{val.name}}</span></li>
+                                                        <li><span class="pull-right">حجم الملف:</span> <span>{{val.size}}</span> bytes</li>
+                                                        <li><span class="pull-right">نوع الملف:</span>  <span>{{val.type}}</span></li>
+                                                    </ul>
+                                                    <a class="btn btn-danger" href="" ng-click="RemoveUploadingFile1(val.$$hashKey)">
+                                                        حذف الملف <i class="fa fa-trash-o"></i>
+                                                    </a> <a class="btn btn-primary" href="" ng-click="SaveUploadingFile1(val.$$hashKey)">
+                                                        حفظ الملف <i class="fa fa-save"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    .dx-popup-content .table-striped a.btn-info {
+        color: #fff !important;
+    }
+
+    .dx-popup-content {
+        overflow-y: scroll;
+    }
+</style>

@@ -1,0 +1,184 @@
+﻿
+@{
+    ViewBag.Title = "صلاحيات نظام مسافر";
+    Layout = "~/Views/Shared/_DevextremeLayout.cshtml";
+}
+<script src="~/Scripts/TravelOrderPhases/TravelOrderPhasesService.js"></script>
+<script src="~/Scripts/TravelOrderPhases/TravelOrderPhasesController.js"></script>
+
+<div class="container-fluid container-fullw">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel bg-white">
+                <div class="breadcrumb-wrapper text-right">
+                    <h4 class="no-margin">صلاحيات نظام مسافر</h4>
+                </div>
+                <div class="panel-body">
+                    <div id="TravelOrderPhasesContent" ng-controller="TravelOrderPhasesCtrl">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-sx-12">
+                            <!--Send Request-->
+                            <div id="SendRequest" class="text-right">
+                                <form id="form" class="row" ng-submit="SavePhasesUsers($event)">
+                                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 form-group">
+                                        <label class="col-lg-12 col-sm-12 col-xs-12 control-label">المسؤول</label>
+                                        <div class="col-lg-12 col-sm-12 col-xs-12 ">
+                                            <div id="Users" dx-select-box="UsersSelectBox"
+                                                 dx-validator="validationRequired"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 form-group">
+                                        <label class="col-lg-12 col-sm-12 col-xs-12 control-label">المرحلة</label>
+                                        <div class="col-lg-12 col-sm-12 col-xs-12 ">
+                                            <div id="Phases" dx-select-box="PhasesSelectBox"
+                                                 dx-validator="validationRequired"></div>
+                                        </div>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 form-group text-center">
+                                        <div class="bo-block">
+                                            <label class="col-lg-12 col-sm-12 col-xs-12 control-label">التوفيع</label>
+                                            <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">
+                                                <img id="imgSignature" src="/assets/images/imgSignature.png" class="img-thumbnail" style="height:150px;width:150px;">
+                                            </div>
+                                            <div class="widget-container text-center">
+                                                <div id="fileUploadSignature" dx-file-uploader="fileUploadSignature">
+                                                    <span class="note">Allowed file extensions: <span>image</span>.</span>
+                                                </div>
+                                                @*<div class="content">
+                                                        <div ng-if="AcceptedSignatureFilesvalue.length > 0">
+                                                            <h4>الملفات المختارة</h4>
+                                                        </div>
+                                                        <div ng-repeat="val in AcceptedSignatureFilesvalue">
+                                                            <div class="selected-item">
+                                                                اسم الملف:
+                                                                <span>{{val.name}}</span><br />
+                                                                حجم الملف:
+                                                                <span>{{val.size}}</span>bytes<br />
+                                                                نوع الملف:
+                                                                <span>{{val.type}}</span><br />
+                                                                <a href="" ng-click="RemoveAcceptedSignatureFile(val.$$hashKey)">
+                                                                    <i class="fa fa-remove"></i>
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    </div>*@
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 form-group text-center">
+                                        <div class="bo-block">
+                                            <label class="col-lg-12 col-sm-12 col-xs-12 control-label">الختم الاول</label>
+                                            <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">
+                                                <img id="imgStampOne" src="/assets/images/imgStampOne.png" class="img-thumbnail" style="height:150px;width:150px;">
+                                            </div>
+                                            <div class="widget-container text-center">
+                                                <div id="fileUploadStampOne" dx-file-uploader="fileUploadStampOne">
+                                                    <span class="note">Allowed file extensions: <span>image</span>.</span>
+                                                </div>
+                                                @*<div class="content">
+                                                        <div ng-if="AcceptedStampOneFilesvalue.length > 0">
+                                                            <h4>الملفات المختارة</h4>
+                                                        </div>
+                                                        <div ng-repeat="val in AcceptedStampOneFilesvalue">
+                                                            <div class="selected-item">
+                                                                اسم الملف:
+                                                                <span>{{val.name}}</span><br />
+                                                                حجم الملف:
+                                                                <span>{{val.size}}</span>bytes<br />
+                                                                نوع الملف:
+                                                                <span>{{val.type}}</span><br />
+                                                                <a href="" ng-click="RemoveAcceptedStampOneFile(val.$$hashKey)">
+                                                                    <i class="fa fa-remove"></i>
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    </div>*@
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 form-group text-center">
+                                        <div class="bo-block">
+                                            <label class="col-lg-12 col-sm-12 col-xs-12 control-label">الختم الثاني</label>
+                                            <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">
+                                                <img id="imgStampTow" src="/assets/images/imgStampTow.png" class="img-thumbnail" style="height:150px;width:150px;">
+                                            </div>
+                                            <div class="widget-container text-center">
+                                                <div id="fileUploadStampTow" dx-file-uploader="fileUploadStampTow">
+                                                    <span class="note">Allowed file extensions: <span>image</span>.</span>
+                                                </div>
+                                                @*<div class="content">
+                                                        <div ng-if="AcceptedStampTowFilesvalue.length > 0">
+                                                            <h4>الملفات المختارة</h4>
+                                                        </div>
+                                                        <div ng-repeat="val in AcceptedStampTowFilesvalue">
+                                                            <div class="selected-item">
+                                                                اسم الملف:
+                                                                <span>{{val.name}}</span><br />
+                                                                حجم الملف:
+                                                                <span>{{val.size}}</span>bytes<br />
+                                                                نوع الملف:
+                                                                <span>{{val.type}}</span><br />
+                                                                <a href="" ng-click="RemoveAcceptedStampTowFile(val.$$hashKey)">
+                                                                    <i class="fa fa-remove"></i>
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    </div>*@
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @if (ViewBag.Create != null)
+                                    {
+                                        if (ViewBag.Create)
+                                        {
+                                            <div class="clearfix"></div>
+                                            <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12 form-group text-left" style="float:left;">
+                                                <label class="col-lg-12 col-sm-12 col-xs-12 control-label"><br /> </label>
+                                                <div class="col-lg-12 col-sm-12 col-xs-12 ">
+                                                    <div id="btnSave" class="btn btn-success" dx-button="btnSave"></div>
+                                                </div>
+                                            </div>
+                                        }
+                                    }
+                                </form>
+                                <div class="clearfix"></div>
+                                <div id="List">
+                                    <div class="col-lg-12 col-sm-12 col-xs-12">
+                                        <div class="table-responsive">
+                                            <div class="dx-viewport dx-tree-st">
+                                                <div class="demo-container">
+                                                    <div id="gridPhasesUsers" dx-data-grid="gridPhasesUsers"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    .widget-container {
+        margin-right: 0;
+    }
+
+    .dx-fileuploader-input-wrapper {
+        padding: 0;
+        border: 0;
+    }
+
+    .dx-fileuploader-wrapper {
+        padding: 0 7px;
+    }
+
+    .widget-container .content {
+        margin-top: 0;
+        margin-right: 10px;
+    }
+</style>

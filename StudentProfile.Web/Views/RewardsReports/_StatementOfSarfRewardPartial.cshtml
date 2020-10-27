@@ -1,0 +1,22 @@
+﻿
+@model  StudentProfile.Web.Reports.StatementOfSarfRewardRPT
+
+@Html.DevExpress().WebDocumentViewer(settings => {
+    settings.Name = "_StatementOfSarfRewardPartial";
+}).Bind(Model).GetHtml()
+
+
+@*@Html.DevExpress().DocumentViewer(settings =>
+    {
+        settings.Name = "_StatementOfSarfRewardPartial";
+        settings.CallbackRouteValues = new { Controller = "RewardsReports", Action = "StatementOfSarfRewardReport" };
+        settings.ExportRouteValues = new { Controller = "RewardsReports", Action = "StatementOfSarfRewardRPTExport" };
+        settings.Report = Model;
+        settings.ToolbarMode = DocumentViewerToolbarMode.Ribbon;
+        settings.SettingsReportViewer.UseIFrame = false;
+        settings.SettingsReportViewer.TableLayout = false;
+        settings.ClientSideEvents.BeforeExportRequest = "StatementOfSarfRewardDocumentViewerBeforeExportRequest";
+        settings.ClientSideEvents.BeginCallback = "StatementOfSarfRewardDocumentViewerBeforeExportRequest";
+        settings.ClientSideEvents.Init = "onDocumetnViewerInit";
+    }).GetHtml()*@
+

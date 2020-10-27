@@ -1,0 +1,206 @@
+﻿@model List<StudentProfile.DAL.Models.AdvanceRequest>
+@using System.Web.UI.WebControls
+@using StudentProfile.DAL.Models
+@{
+    SchoolAccGam3aEntities db = new SchoolAccGam3aEntities();
+    string idNumber = "";
+    INTEGRATION_All_Students studentSC = new INTEGRATION_All_Students();
+}
+@Html.DevExpress().GridView(settings =>
+{
+    settings.Name = "AdvancesData";
+    settings.KeyFieldName = "ID";
+    settings.Styles.Table.CssClass = "dx-table-ds";
+    // settings.Theme= r.
+    settings.Width = Unit.Percentage(100);
+    settings.RightToLeft = DefaultBoolean.True;
+    settings.SettingsDetail.AllowOnlyOneMasterRowExpanded = false;
+    settings.SettingsDetail.ShowDetailRow = true;
+    settings.SettingsPager.PageSize = 25;
+    settings.CallbackRouteValues = new {Action = "_AdvancesRequestsList", Controller = "Advances"};
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "نوع السلفة";
+        column.FieldName = "AdvanceName";
+    });
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "رقم الهوية";
+        column.SetDataItemTemplateContent(c =>
+        {
+            idNumber = "";
+            var empID = DataBinder.Eval(c.DataItem, "EmpID");
+            if (empID != null)
+            {
+                using (var dbHR = new HRMadinaEntities())
+                {
+                    var student = dbHR.Employees.Where(x => x.ID == (int) empID).FirstOrDefault();
+                    if (student != null)
+                    {
+                        idNumber = student.IDNumber;
+                        if (idNumber != null)
+                        {
+                            studentSC = db.INTEGRATION_All_Students.Where(x => x.NATIONAL_ID == idNumber && x.STATUS_CODE == 1).FirstOrDefault();
+                        }
+                        else
+                        {
+                            studentSC = new INTEGRATION_All_Students();
+                        }
+                    }
+                }
+            }
+            ViewContext.Writer.Write(idNumber);
+        });
+    });
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "الكلية";
+        column.SetDataItemTemplateContent(c =>
+        {
+            string faculty = "";
+            if (studentSC != null)
+            {
+                faculty = studentSC.FACULTY_NAME;
+            }
+            ViewContext.Writer.Write(faculty);
+        });
+    });
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "الدرجة العلمية";
+        column.SetDataItemTemplateContent(c =>
+        {
+            string degree = "";
+            if (studentSC != null)
+            {
+                degree = studentSC.DEGREE_DESC;
+            }
+            ViewContext.Writer.Write(degree);
+        });
+    });
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "المستوى";
+        column.SetDataItemTemplateContent(c =>
+        {
+            string level = "";
+            if (studentSC != null)
+            {
+                level = studentSC.LEVEL_DESC;
+            }
+            ViewContext.Writer.Write(level);
+        });
+    });
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "المعدل";
+        column.SetDataItemTemplateContent(c =>
+        {
+            string gpa = "";
+            if (studentSC != null)
+            {
+                var totalrecords = db.ESOL_ACADEMIC_RECORDS.Where(x => x.student_id == studentSC.STUDENT_ID && x.cum_gpa != null);
+                if (totalrecords != null && totalrecords.Count() > 0)
+                {
+                    var degree = totalrecords.OrderByDescending(x => x.semester).FirstOrDefault().cum_gpa;
+                    if (degree != null && degree > 0)
+                        gpa = degree.Value.ToString();
+                }
+            }
+            ViewContext.Writer.Write(gpa);
+        });
+    });
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "المبلغ";
+        column.FieldName = "AdvanceValue";
+        column.PropertiesEdit.DisplayFormatString = "N2";
+    });
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "أعتمد من";
+        column.SetDataItemTemplateContent(c =>
+        {
+            string username = "";
+            var firstApprove = DataBinder.Eval(c.DataItem, "FirstApprove");
+            var secondApprove = DataBinder.Eval(c.DataItem, "ScondApprove");
+            var approved = DataBinder.Eval(c.DataItem, "ApprovedBy");
+            if (firstApprove != null)
+            {
+                var user = db.DashBoard_Users.Where(x => x.ID == (int) firstApprove).FirstOrDefault();
+                if (user != null)
+                {
+                    username = $"1-{user.Username}";
+                }
+            }
+            if (secondApprove != null)
+            {
+                var user = db.DashBoard_Users.Where(x => x.ID == (int) secondApprove).FirstOrDefault();
+                if (user != null)
+                {
+                    username += $"<br/>2-{user.Username}";
+                }
+            }
+            if (approved != null)
+            {
+                var user = db.DashBoard_Users.Where(x => x.ID == (int) approved).FirstOrDefault();
+                if (user != null)
+                {
+                    username += $"<br/>3-{user.Username}";
+                }
+            }
+            ViewContext.Writer.Write(username);
+        });
+    });
+    if (ViewBag.AcceptRejectPermission != null)
+    {
+        if (ViewBag.AcceptRejectPermission)
+        {
+            settings.Columns.Add(column =>
+            {
+                column.Caption = "#";
+                //column.Width = System.Web.UI.WebControls.Unit.Percentage(15);
+                column.SetDataItemTemplateContent(c =>
+                {
+                    var id = DataBinder.Eval(c.DataItem, "ID");
+                    var approved = DataBinder.Eval(c.DataItem, "ApprovedBy");
+                    var refuesed = DataBinder.Eval(c.DataItem, "RefusedBy");
+                    var firstApprove = DataBinder.Eval(c.DataItem, "FirstApprove");
+                    var secondApprove = DataBinder.Eval(c.DataItem, "ScondApprove");
+                    var paid = DataBinder.Eval(c.DataItem, "PaidBy");
+                    if (refuesed == null)
+                    {
+                        ViewBag.CurrentLevel = 0;
+                        if (firstApprove == null && secondApprove == null)
+                        {
+                            ViewBag.CurrentLevel = 1;
+                        }
+                        else if (firstApprove != null && secondApprove == null)
+                        {
+                            ViewBag.CurrentLevel = 2;
+                        }
+                        else if (firstApprove != null && secondApprove != null && approved == null)
+                        {
+                            ViewBag.CurrentLevel = 3;
+                        }
+                        else if (firstApprove != null && secondApprove != null && approved != null)
+                        {
+                            ViewBag.CurrentLevel = 4;
+                        }
+                        Html.RenderPartial("_AdvancesActions", id);
+                    }
+                });
+            });
+        }
+    }
+    settings.SetDetailRowTemplateContent(c => { Html.RenderAction("_AdvanceRequestDetails", "Advances", new {id = int.Parse(DataBinder.Eval(c.DataItem, "ID")?.ToString())}); });
+    settings.SettingsLoadingPanel.Mode = GridViewLoadingPanelMode.Disabled;
+    settings.EnableCallbackAnimation = false;
+    settings.SettingsText.EmptyDataRow = "لا توجد بيانات";
+    settings.RightToLeft = DefaultBoolean.True;
+    settings.SettingsPager.Position = PagerPosition.TopAndBottom;
+    settings.SettingsPager.FirstPageButton.Visible = true;
+    settings.SettingsPager.LastPageButton.Visible = true;
+    settings.SettingsPager.PageSizeItemSettings.Visible = true;
+    settings.SettingsPager.PageSizeItemSettings.Items = new string[] { "10", "20", "50" };
+}).Bind(Model).GetHtml()

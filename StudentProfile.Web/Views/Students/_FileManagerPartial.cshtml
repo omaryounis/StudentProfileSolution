@@ -1,0 +1,37 @@
+@model string
+@if (ViewBag.AttachmentsDataRead != null)
+{
+    if (ViewBag.AttachmentsDataRead == true)
+    {
+
+        @Html.DevExpress().FileManager(settings =>
+{
+    settings.Name = "FileManager";
+    settings.CallbackRouteValues = new { Controller = "Students", Action = "FileManagerPartial", stID = ViewBag.StudentID };
+
+    settings.DownloadRouteValues = new { Controller = "Students", Action = "FileManagerPartialDownload", stID = ViewBag.StudentID };
+    settings.SettingsEditing.AllowDownload = true;
+    settings.SettingsFileList.ShowParentFolder = false;
+    settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+
+    //settings.Height = System.Web.UI.WebControls.Unit.Pixel(250);
+    settings.SettingsFolders.Visible = true;
+    settings.SettingsToolbar.ShowPath = false;
+    settings.SettingsEditing.AllowCreate = false;
+    settings.SettingsEditing.AllowRename = false;
+    settings.SettingsEditing.AllowMove = false;
+    settings.SettingsEditing.AllowDelete = false;
+    settings.SettingsUpload.Enabled = false;
+    settings.SettingsUpload.UseAdvancedUploadMode = false;
+
+    settings.Settings.EnableMultiSelect = true;
+
+    settings.Settings.ThumbnailFolder = Url.Content("~/Content/UserFiles/" + ViewBag.StudentID.ToString());
+
+    settings.ClientSideEvents.SelectedFileOpened = "OnSelectedFileOpened";
+    //settings.ClientSideEvents.SelectedFileChanged = "OnSelectedFileChanged";
+    settings.SettingsFileList.View = DevExpress.Web.FileListView.Thumbnails;
+}).BindToFolder(Model).GetHtml()
+
+    }
+}

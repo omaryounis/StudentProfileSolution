@@ -1,0 +1,880 @@
+﻿@using System.Drawing
+@using System.Web.UI.WebControls
+@model int
+@{
+    ViewBag.Title = "تعديل بيانات الطالب";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using StudentProfile.Components.Security;
+@{
+    Html.EnableClientValidation(true);
+    Html.EnableUnobtrusiveJavaScript(true);
+
+    var EncryptUserId = EncryptDecrypt.Encrypt(Model.ToString(), false).ToString();
+   
+}
+<style>
+    .ActionsSearch_button {
+        margin-top: 25px;
+        height: 38px;
+        width: 85px !important;
+        background: #309ad4;
+        color: #fff;
+        border: 0;
+        font-weight: bold;
+    }
+
+    .myBtn {
+        width: 300px;
+        height: 100px;
+        color: white;
+        background-color: green;
+        margin-right: 40%;
+        font-size: larger
+    }
+
+    .dxGridView_gvHeaderSortUp_MetropolisBlue.dx-vam {
+        margin-left: 0;
+        margin-right: 10px;
+        filter: brightness(90);
+    }
+    /*.dxpc-contentWrapper{
+        height:700px;
+    }*/
+    .dxgvCustDialogDragArea_MetropolisBlue {
+        height: 600px;
+        overflow-y: auto;
+    }
+
+    .plusminus span.dxflCaption_MetropolisBlue {
+        font-size: 21px !important;
+    }
+
+    .alert-success.dxh1 {
+    background-color: rgba(40, 167, 69, 0.3) !important;
+    border-color: rgb(40, 167, 69) !important;
+    text-align: center !important;
+    color: #16712b !important;
+    }
+</style>
+<script>
+    /*
+    $(function () {
+        $.ajax({
+            type: 'POST',
+            url: '/Students/GetIdentityImage',
+            dataType: 'json',
+            success: function (data) {
+                debugger
+                console.log(data);
+                $("#IdentityImageName").attr("src", data);
+            }
+        });
+    });*/
+
+    function ischeckedControl(e) {
+        if (e.checked)
+            $('#nextStepBtn').removeClass('disabled');
+        else
+            $('#nextStepBtn').addClass('disabled');
+    }
+    function RenderPersonalData() {
+        $.ajax({
+            url: '/Students/_CurrentData/'+@Model,
+            success: function (data) {
+                $('#updateDataDiv').html(data);
+                enable_tab(2, 1);
+            }
+        });
+    }
+
+     
+    function SubmitForm(formID) {
+        var checkvalidation = false;
+        
+        debugger;
+        if (formID == "StIdentityForm") {
+           // if (IdentityNumber.isValid && IdentityImageName.isValid && IdentityExpiryDate.isValid && formID == "StIdentityForm") {
+            
+                $.ajax({
+                    url: "/Students/CheckIdentityNumber?IdentityNumber=" + $("[name='IdentityNumber']").val()+"&StudentDocumentID="+IdentityID.value+"&StudentID="+@Model+"&IdentityImageName="+$("#IdentityImageName_DXValueKeyInput").val()+"&IdentityExpiryDate="+IdentityExpiryDate.GetText(),
+                    type: "GET",
+                    async:false,
+                    success: function (result)
+                    {
+                        debugger;
+                        if (result.isValid == false)
+                        {
+                            swal("تنبيه", result.msg, "warning");
+                        }
+                        else if (result.isValid == true)
+                        {
+                            checkvalidation = true;
+                            var form = $('#' + formID);
+                            var submit = false;
+                            if (IdentityNumber.isValid && IdentityImageName.isValid && IdentityExpiryDate.isValid && formID == "StIdentityForm")
+                                submit = true;
+                            if (submit && checkvalidation) {
+                                form.submit();
+                                DevExpress.ui.notify({ message: "تم الحفظ بنجاح ", type: "success", displayTime: 3000, closeOnClick: true });
+
+                                $.ajax({
+                                        url: '/Students/CheckExpiration/' +@Model,
+                                        type: "GET",
+                                        async: false,
+                                        success: function (data) {
+                                            if (data.isValid == true) {
+                                            } else if(data.isValid == false) {
+                                                swal("تنبيه",data.msg, "warning")
+                                            }
+                                            if (data.ShowBtn == false) {
+                                                 Finish.SetVisible(false)
+                                                 $("#PassportSave").css("display","none")
+                                                 $("#IdentitySave").css("display","none")
+                                            }
+                                        },
+                                        error: {
+
+                                        }
+                                    });
+
+                                $.ajax({
+                                    url: '/Students/_StudentDocuments/' +@Model,
+                                    success: function (data) {
+                                        $('#StudentDocumentsDiv').html(data);
+                                    },
+                                    error: {
+
+                                    }
+                                });
+                            }
+                        }
+
+                    }, error: function () {
+                        alert(1)
+                    }
+            })
+
+          //  }
+
+        }
+
+            //PassportNo
+        if (formID == "StPasportForm") {
+            if (PassportNumber.isValid && PassportImageName.isValid && PassportExpiryDate.isValid && formID == "StPasportForm") {
+                 $.ajax({
+                     url: "/Students/CheckPassportNumber?PassportNumber=" + $("[name='PassportNumber']").val()+"&StudentDocumentID="+IdentityID.value+"&StudentID="+@Model+"&PassportImageName="+$("#PassportImageName_DXValueKeyInput").val()+"&PassportExpiryDate="+PassportExpiryDate.GetText(),
+                        type: "GET",
+                        async:false,
+                     success: function (result) {
+                            debugger;
+                            if (result.isValid==false) {
+                                isvalid = false;
+                                swal("تنبيه", result.msg, "warning");
+                            } else if (result.isValid==true) {
+                                isvalid = true;
+                                var form = $('#' + formID);
+                                var submit = false;
+                                if (PassportNumber.isValid && PassportImageName.isValid && PassportExpiryDate.isValid && formID == "StPasportForm")
+                                    submit = true;
+                                if (submit && isvalid) {
+                                    form.submit();
+                                    DevExpress.ui.notify({ message: "تم الحفظ بنجاح ", type: "success", displayTime: 3000, closeOnClick: true });
+                                     $.ajax({
+                                        url: '/Students/CheckExpiration/' +@Model,
+                                        type: "GET",
+                                        async: false,
+                                        success: function (data) {
+                                            if (data.isValid == true) {
+                                            } else if(data.isValid == false) {
+                                                swal("تنبيه", data.msg, "warning")
+                                            }
+                                            if (data.ShowBtn == false) {
+                                                 Finish.SetVisible(false)
+                                                 $("#PassportSave").css("display","none")
+                                                 $("#IdentitySave").css("display","none")
+                                            }
+                                        },
+                                        error: {
+
+                                        }
+                                    });
+                                    $.ajax({
+                                        url: '/Students/_StudentDocuments/' +@Model,
+                                        success: function (data) {
+                                            $('#StudentDocumentsDiv').html(data);
+                                        },
+                                        error: {
+
+                                        }
+                                    });
+                                }
+                            }
+
+                        }, error: function () {
+
+                        }
+                    })
+            }
+
+        }
+
+        @*var form = $('#' + formID);
+        var submit = false;
+        if (IdentityNumber.isValid && IdentityImageName.isValid && IdentityExpiryDate.isValid && formID == "StIdentityForm")
+            submit = true;
+        if (PassportNumber.isValid && PassportImageName.isValid && PassportExpiryDate.isValid && formID == "StPasportForm")
+            submit = true;
+        if (submit && isvalid) {
+            form.submit();
+            DevExpress.ui.notify({ message: "تم الحفظ بنجاح ", type: "success", displayTime: 3000, closeOnClick: true });
+
+            $.ajax({
+                url: '/Students/_StudentDocuments/'+@Model,
+                success: function (data) {
+                    $('#StudentDocumentsDiv').html(data);
+                },
+                error: {
+
+                }
+            });
+        }*@
+
+    }
+    function EditStudentdocument(id) {
+        swal({
+            title: "تعديل المستند ",
+            text: "هل تريد تعديل المستند",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonClass: "btn btn-success",
+            cancelButtonClass: "btn btn-danger",
+            buttonsStyling: false,
+            reverseButtons: true,
+            confirmButtonText: "نعم",
+            cancelButtonText: "لأ"
+        }).then(result => {
+            if (result.value) {
+                StudentDocumentGridView.StartEditRow(id);
+            }
+        });
+    };
+    function DeleteStudentDocument(docId) {
+        debugger;
+        swal({
+            title: 'تأكيد الحذف',
+            text: "هل تريد حذف هذا المستند؟!",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'نعم',
+            cancelButtonText: 'لأ'
+        }).then((result) => {
+            if (result.value) {
+                $.ajax({
+                    url: "@Url.Action("DeleteStudentDocument", "Students")",
+                    method: "POST",
+                    data: { id: docId }
+                }).success(function (data) {
+                    if (data === "1") {
+                        swal(
+                            'تم الحذف!',
+                            'تم الحذف بنجاح',
+                            'success'
+                        );
+                        StudentDocumentGridView.PerformCallback();
+                    } else {
+                        swal({
+                            title: 'خطأ',
+                            text: data,
+                            type: 'warning',
+                            showCloseButton: true,
+                            showCancelButton: true,
+                            focusConfirm: false,
+                            confirmButtonColor: '#3085d6',
+                            cancelButtonColor: '#d33',
+                            confirmButtonText: 'نعم',
+                            cancelButtonText: 'لأ'
+                        });
+                    }
+                });
+            }
+        });
+    }
+    function eventFire(el, etype) {
+        if (el.fireEvent) {
+            el.fireEvent('on' + etype);
+        } else {
+            var evObj = document.createEvent('Events');
+            evObj.initEvent(etype, true, false);
+            el.dispatchEvent(evObj);
+        }
+    }
+    function verifyInfo(s, e) {
+        debugger;
+        $("#StDataFormLayout").submit();
+        //if (ASPxClientEdit.AreEditorsValid()) {
+        //    var name = NamePerPassport_Ar.GetText();
+        //    var mail = UniversityEmail.GetText();
+        //    var mobile = MobileNumber.GetText();
+        //    $.ajax({
+        //        url: '/Students/StMailVerificationCode',
+        //        data: { mailTo: mail, name: name },
+        //        success: function (data) {
+        //            var notify = data;
+        //            DevExpress.ui.notify({ message: notify.Message, type: notify.Type, displayTime: 3000, closeOnClick: true });
+        //            if (notify.status == 200) {
+        //                pcStudentCodeConfirmation.Show();
+
+
+        //            }
+        //            else {
+        //                pcStudentCodeConfirmation.Hide();
+        //            }
+        //        },
+        //        error: function () {
+        //            pcStudentCodeConfirmation.Hide();
+        //            DevExpress.ui.notify({ message: "حدث خطأ أثناء التحقق", type: "error", displayTime: 3000, closeOnClick: true });
+        //            return false;
+        //        }
+        //    });
+        //    $.ajax({
+        //        url: '/Students/StSMSVerificationCode',
+        //        data: { mobileNumber: mobile },
+        //        success: function (data) {
+        //            var notify = data;
+        //            DevExpress.ui.notify({ message: notify.Message, type: notify.Type, displayTime: 3000, closeOnClick: true });
+        //            if (notify.status == 200) {
+        //                pcStudentCodeConfirmation.Show();
+        //            }
+        //            else {
+        //                pcStudentCodeConfirmation.Hide();
+        //            }
+        //        },
+        //        error: function () {
+        //            pcStudentCodeConfirmation.Hide();
+        //            smscode = null;
+        //            DevExpress.ui.notify({ message: "حدث خطأ أثناء التحقق", type: "error", displayTime: 3000, closeOnClick: true });
+        //            return false;
+        //        }
+        //    });
+        //}
+        return false;
+    }
+    function CodeConfirmation(data) {
+        debugger;
+
+        if (data.responseText == "1") {
+            $("#StDataFormLayout").submit();
+        }
+        else {
+            DevExpress.ui.notify({ message: "حدث خطأ أثناء التحقق برجاء مراجعة البيانات واعادة التحقق", type: "error", displayTime: 3000, closeOnClick: true });
+            //pcStudentCodeConfirmation.Hide();
+        }
+    }
+    function EscapeStep(s, e) {
+      //check document is expired
+        @*$.ajax({
+            url: '/Students/CheckExpiration/' +@Model,
+            type:"GET",
+            success: function (data) {
+                if (data.isValid == true) {
+                } else if(data.isValid == false) {
+                    swal("تنبيه",data.msg, "error")
+                }
+            },
+            error: {
+
+            }
+        });*@
+
+        $.ajax({
+            url: '/Students/_StudentDocuments/' +@Model,
+            async: false,
+            success: function (data) {
+                $('#StudentDocumentsDiv').html(data);
+                $.ajax({
+                    url: '/Students/_IdentityDocuments/' +@Model,
+                    async: false,
+                    success: function (data) {
+                        $('#updateDataDiv').html(data);
+                        enable_tab(3, 2);
+                        Finish.SetVisible(true);
+                    },
+                    error: {
+
+                    }
+                });
+
+
+                 $.ajax({
+                        url: '/Students/CheckExpiration/' +@Model,
+                        type: "GET",
+                        async: false,
+                        success: function (data) {
+                            if (data.isValid == true) {
+                            } else if(data.isValid == false) {
+                                swal("تنبيه", data.msg, "warning")
+                            }
+                            if (data.ShowBtn == false) {
+                                 Finish.SetVisible(false)
+                                 $("#PassportSave").css("display","none")
+                                 $("#IdentitySave").css("display","none")
+                            }
+                        },
+                        error: {
+
+                        }
+                    });
+
+            },
+            error: {
+
+            }
+        });
+
+    }
+
+    var arr = [];
+    function SelectionChanged(s, e) {
+        s.GetSelectedFieldValues("ID", GetSelectedFieldValuesCallback);
+    }
+    function GetSelectedFieldValuesCallback(values) {
+            for (var i = 0; i < values.length; i++) {
+                arr.push(values[i]);
+            }
+
+    }
+
+    function FnishStudentData() {
+        debugger;
+        var submit = false;
+        $.ajax({
+            url: "/Students/CheckData?IDS=" + arr,
+            type: "GET",
+            async: false,
+            success: function (result) {
+                debugger;
+                if (result.isValid == true) {
+                    submit = true;
+                } else if (result.isValid == false) {
+                    submit = false;
+                    swal("تنبيه", result.msg, "warning");
+                }
+            }, error: function () {
+
+            }
+        })
+        if (submit) {
+            $.ajax({
+                    //url: "/Students/SendData?IdentityID=" + IdentityID.value + "&PassportID=" + PassportID.value,
+                    url: "/Students/SendData?IDS=" + arr,
+                    type: "POST",
+                    success: function (result) {
+                        debugger;
+                        if (result==true) {
+                            DevExpress.ui.notify({ message: "تم التحديث بنجاح وسوف يتم مراجعة بياناتكم ", type: "success", displayTime: 3000, closeOnClick: true });
+                            window.location.reload();
+                        } else if(result==false){
+                            DevExpress.ui.notify({ message: "يرجي تحديث البيانات أولا  ", type: "error", displayTime: 3000, closeOnClick: true });
+                        }
+                        else if (result == "invaliddata") {
+                            swal("خطأ","يرجي إختيار الوثائق للإعتماد", "error");
+                        }
+                    },
+                    error: function () {
+
+                    }
+                })
+
+            }
+    }
+
+
+
+
+    function StepOver(data) {
+        debugger;
+        var notify = { Message: '', Type: '', status: 0 };
+        var response = data.responseJSON;
+        notify.Message = response['Message'];
+        notify.Type = response['Type'];
+        notify.status = response['status'];
+        pcStudentCodeConfirmation.Hide();
+        DevExpress.ui.notify({ message: notify.Message, type: notify.Type, displayTime: 3000, closeOnClick: true });
+        if (notify.status == 200) {
+            $.ajax({
+                url: '/Students/_IdentityDocuments/'+@Model,
+                success: function (data) {
+                    $('#updateDataDiv').html(data);
+                    Finish.SetVisible(true);
+                    enable_tab(3, 2);
+                },
+                error: {
+
+                }
+            })
+        }
+        else {
+
+        }
+    }
+    //ENABLE WIZARD TAB
+    function enable_tab(activeID, oldID) {
+        $("#step" + activeID + "_tab").attr('data-toggle', 'tab');
+        $("#step" + activeID + "_tab").attr('aria-controls', 'step' + activeID);
+        $("#step" + activeID + "_tab").attr('role', 'tab');
+        $("#step" + activeID + "_tab").attr('title', 'Step ' + activeID);
+        eventFire(document.getElementById("step" + activeID + "_tab"), 'click');
+        $("#step" + oldID + "_tab span").addClass('success-step');
+    }
+    function validateSAID(id) {
+
+        id = id.trim();
+        if (isNaN(parseInt(id))) {
+            return -1;
+        }
+        if (id.length !== 10) {
+            return -1;
+        }
+        var type = id.substr(0, 1);
+        if (type !== '2' && type !== '1') {
+            return -1;
+        }
+        var sum = 0;
+        for (var i = 0; i < 10; i++) {
+            if (i % 2 === 0) {
+                var ZFOdd = String('00' + String(Number(id.substr(i, 1)) * 2)).slice(-2);
+                sum += Number(ZFOdd.substr(0, 1)) + Number(ZFOdd.substr(1, 1));
+            } else {
+                sum += Number(id.substr(i, 1));
+            }
+
+        }
+        return (sum % 10 !== 0) ? -1 : type;
+    }
+    function validateNationalID(s, e) {
+        //debugger;
+        ////if (Document_ID.GetValue() == 1) {
+        //    if (validateSAID(s.GetText()) == -1) {
+        //        e.isValid = false;
+        //        e.errorText = 'من فضلك ادخل رقم هوية صالح';
+        //    }
+        //}
+    }
+    function validateDate(s, e) {
+        var start = IssueDate.GetDate();
+        var end = ExpiryDate.GetDate();
+        if (start >= end) {
+            e.isValid = false;
+            e.errorText = 'من فضلك ادخل تاريخ إصدار يسبق تاريخ انتهاء';
+        }
+    }
+
+
+    function EditDocumentByStudent(DocumentId)
+    {
+        $.ajax({
+            url: '/Students/_IdentityDocumentForEdie',
+            data:{id:@Model , docId: DocumentId },
+            success: function (data) {
+                $('#updateDataDiv').html(data);
+                enable_tab(3, 2);
+                Finish.SetVisible(true);
+            },
+            error: {
+
+            }
+        });
+    }
+
+     function DeleteDocumentByStudent(DocumentId)
+    {
+        $.ajax({
+            url: '/Students/_IdentityDocumentForDelete',
+            data:{id:@Model , docId: DocumentId },
+            success: function (data) {
+               $('#StudentDocumentsDiv').html(data);
+            },
+            error: {
+
+            }
+        });
+    }
+
+
+    function getDetailsErrorInfoHtml(s,e) {
+        debugger;
+        console.log(s);
+        console.log(e);
+    }
+
+</script>
+
+<div class="container-fluid container-fullw">
+    <div class="row">
+        <div class="col-lg-12 col-xs-12 col-sm-12 col-md-12">
+            <div class="panel bg-white">
+                <div class="breadcrumb-wrapper text-right">
+                    <h4 class="no-margin">تعديل البيانات </h4>
+                </div>
+                <div class="panel-body">
+                    <div id="UpdateDataContent">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-sx-12">
+                            <section>
+                                <div class="wizard">
+                                    <div class="wizard-inner">
+                                        <div class="connecting-line"></div>
+                                        <ul class="nav nav-tabs" role="tablist">
+                                            @*data-toggle="tab" aria-controls="step1" role="tab"*@
+
+                                            <li id="LiStep1" role="presentation" class="active">
+                                                <a href="#step1" id="step1_tab" title="Step 1">
+
+                                                    @using (Ajax.BeginForm("", "", new AjaxOptions { }))
+                                                    {
+                                                        <span class="round-tab ">
+                                                            <!-- success-step -->
+                                                            1
+                                                        </span>
+                                                    }
+                                                </a>
+
+                                            </li>
+
+                                            <li id="LiStep2" role="presentation" class="disabled">
+                                                <a href="#step2" id="step2_tab">
+                                                    @using (Ajax.BeginForm("", "", new AjaxOptions { }))
+                                                    {
+
+                                                        <span class="round-tab">
+                                                            2
+                                                        </span>
+                                                    }
+                                                </a>
+                                            </li>
+
+
+                                            <li id="LiStep3" role="presentation" class="disabled">
+                                                <a href="#step3" id="step3_tab">
+                                                    @using (Ajax.BeginForm("", "", new AjaxOptions { }))
+                                                    {
+
+                                                        <span class="round-tab">
+                                                            3
+                                                        </span>
+                                                    }
+                                                </a>
+                                            </li>
+
+                                        </ul>
+                                    </div>
+                                    <div class="tab-content">
+                                        <div class="tab-pane active" role="tabpanel" id="updateDataDiv">
+                                            <div class="col-md-12 col-sm-12 col-xs-12 form-group text-center">
+                                                <div class="radio">
+                                                    <label class="container-check" style="display:inline-block">
+                                                        أتعهد بأن البيانات المدخلة صحيحة وأتحمل كامل المسؤولية في حالة عدم صحتها
+                                                        <input type="checkbox" onchange="ischeckedControl(this)" />
+                                                        <span class="checkmark"></span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12 col-sm-12 col-xs-12 form-group text-left">
+
+                                                <a href="#" id="nextStepBtn" class="btn btn-success disabled" onclick="RenderPersonalData()">التالي<i class="fa fa-arrow-circle-left"></i></a>
+                                                @*@{ Html.RenderAction("_IdentityDocuments","Students");}*@
+                                                @*@{ Html.RenderAction("_CurrentData");}*@
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                        <div class="col-md-12 col-sm-12 col-xs-12 form-group text-center">
+
+                                            @Html.DevExpress().Button(s =>
+                                       {
+                                           s.Name = "Finish";
+                                           s.Styles.Style.CssClass = "btn btn-success btn-lg";
+                                           //s.Styles.Style.CssClass = "text-left col-lg-12";
+                                           s.RightToLeft = DefaultBoolean.Default;
+                                           s.Text = "إرسال البيانات لإعتمادها";
+                                           s.ClientVisible = (bool)Session["DataIsDone"];
+                                           //s.RouteValues = new { Action = "StudentAdvertisement", Controller = "Musafer" };
+                                           s.ClientSideEvents.Click = "FnishStudentData";
+                                           //s.Images.Image.IconID = IconID.SnapFinishmerge16x16;
+                                           s.UseSubmitBehavior = false;
+                                       }).GetHtml();
+                                            <br /><br />
+                                        </div>
+                                        <!--Student Documents List-->
+
+                                    </div>
+                                </div>
+                            </section>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@Html.DevExpress().PopupControl(
+settings =>
+{
+    settings.Name = "pcStudentCodeConfirmation";
+    settings.Width = 600;
+    settings.AllowDragging = true;
+    settings.CloseAction = CloseAction.CloseButton;
+    // settings.RightToLeft = true;
+    settings.CloseOnEscape = true;
+    settings.PopupAnimationType = AnimationType.None;
+    settings.HeaderText = "ادخال رموز التحقق";
+    settings.Modal = true;
+    settings.AutoUpdatePosition = true;
+    settings.PopupHorizontalAlign = PopupHorizontalAlign.WindowCenter;
+    settings.PopupVerticalAlign = PopupVerticalAlign.WindowCenter;
+    settings.SetContent(() =>
+    {
+        using (Ajax.BeginForm("ConfirmCodes", "Students", new AjaxOptions { OnComplete = "CodeConfirmation" }))
+        {
+            Html.DevExpress().FormLayout(s =>
+            {
+                s.Name = "verificationModalModeFormLayout";
+                s.RequiredMarkDisplayMode = RequiredMarkMode.None;
+                s.Width = Unit.Percentage(100);
+                s.Height = Unit.Percentage(100);
+
+                s.NestedExtensionWidth = Unit.Percentage(100);
+                s.Items.Add(i =>
+                {
+                    i.Name = "SmsVerificationCode";
+                    i.Caption = "رمز تحقق الجوال";
+                    i.NestedExtensionType = FormLayoutNestedExtensionItemType.TextBox;
+                    i.NestedExtension().TextBox(x =>
+                    {
+                        x.Name = "smsCode";
+                        x.Properties.ValidationSettings.RequiredField.IsRequired = true;
+                        x.Properties.ValidationSettings.RequiredField.ErrorText = "نص اجباري";
+                        x.ShowModelErrors = false;
+                    });
+                });
+                s.Items.Add(i =>
+                {
+                    i.Name = "emailVerificationCode";
+                    i.Caption = "رمز تحقق البريد الالكتروني";
+                    i.NestedExtensionType = FormLayoutNestedExtensionItemType.TextBox;
+                    i.NestedExtension().TextBox(x =>
+                    {
+                        x.Name = "emailCode";
+                        x.Properties.ValidationSettings.RequiredField.IsRequired = true;
+                        x.Properties.ValidationSettings.RequiredField.ErrorText = "نص اجباري";
+                        x.ShowModelErrors = false;
+                    });
+                });
+                s.Items.Add(i =>
+                {
+                    i.ShowCaption = DefaultBoolean.False;
+                    i.SetNestedContent(() =>
+                    {
+                        Html.DevExpress().Button(
+                            buttonSettings =>
+                            {
+                                buttonSettings.Name = "btnCheckCode";
+                                buttonSettings.ControlStyle.CssClass = "button";
+                                buttonSettings.Width = 80;
+                                buttonSettings.Text = "تأكيد";
+                                //buttonSettings.Images.Image.IconID = IconID.SaveSave32x32;
+
+                                buttonSettings.UseSubmitBehavior = true;
+                            }
+                            ).Render();
+                        //Html.DevExpress().Button(
+                        //    buttonSettings =>
+                        //    {
+                        //        buttonSettings.Name = "btnCancel";
+                        //        buttonSettings.ControlStyle.CssClass = "button";
+                        //        buttonSettings.Width = 80;
+                        //        buttonSettings.Text = "الغاء";
+                        //        buttonSettings.Images.Image.IconID = IconID.ActionsClose32x32;
+                        //        buttonSettings.ClientSideEvents.Click = "function(s, e){ pcStudentCodeConfirmation.Hide(); }";
+                        //    }
+                        //    ).Render();
+                    });
+                });
+            }).Render();
+        }
+    });
+
+    //settings.ClientSideEvents.CloseUp = "function(s, e){ ASPxClientEdit.ClearEditorsInContainer(null, '', true); }";
+}).GetHtml()
+<style>
+    .ActionsSearch_button {
+        margin-top: 30px !important;
+        width: 107px !important;
+        margin-bottom: 10px;
+    }
+
+    *[dir="rtl"] .dxflFloatedElConSys > div {
+        margin-bottom: 6px;
+    }
+
+    div.dxflCLTSys .dxflCaptionCellSys, div.dxflCLBSys .dxflCaptionCellSys {
+        text-align: right !important;
+    }
+
+    .dxflChildInFirstRowSys {
+    }
+
+    label, .dxDefaultCursor {
+        font-weight: bold !important;
+        font-size: 17px !important;
+    }
+
+    #AdvancedSearchFormLayout_0_4 label {
+        color: #309ad4;
+        font-weight: bolder !important;
+        font-size: 19px !important;
+    }
+
+    .test2 .dxgvTable_MetropolisBlue td {
+        border: none !important;
+        text-align: right !important;
+        vertical-align: top;
+        padding: 1px !important;
+    }
+
+    .test2 .dxgvTable_MetropolisBlue {
+        padding: 10px !important;
+    }
+
+        .test2 .dxgvTable_MetropolisBlue > tbody {
+            padding: 10px !important;
+            max-height: 200px;
+            overflow-x: scroll;
+        }
+
+    .dxflGroupCell_MetropolisBlue {
+        vertical-align: top;
+    }
+
+    .wizard .dxeTextBoxDefaultWidthSys, .wizard .dxeRoot_MetropolisBlue, .dxflItem_MetropolisBlue.text-left.col-lg-12 {
+        width: 100% !important;
+    }
+
+        .dxflItem_MetropolisBlue.text-left.col-lg-12 .dxbButton_MetropolisBlue {
+            float: left;
+        }
+
+    .dxbButton_MetropolisBlue.btn-success {
+        font-family: "JF Flat Regular";
+        color: #fff
+    }
+
+        .dxbButton_MetropolisBlue.btn-success div.dxb {
+            padding: 8px 10px 9px;
+            font-size: 20px;
+        }
+</style>

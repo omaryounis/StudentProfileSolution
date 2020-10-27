@@ -1,0 +1,35 @@
+﻿@model List<SelectListItem>
+
+@Html.DevExpress().ComboBox(settings =>
+{
+    settings.Name = "StudentId";
+    settings.Properties.IncrementalFilteringMode = IncrementalFilteringMode.StartsWith;
+    settings.CallbackRouteValues = new {Controller = "Students", Action = "_StudentsSearch"};
+    settings.Properties.CallbackPageSize = 15;
+    settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    //settings.Properties.ClientSideEvents.ValueChanged = "OnTextBoxChange";
+    //settings.Properties.DropDownStyle = DropDownStyle.DropDown;
+    settings.Properties.IncrementalFilteringMode = IncrementalFilteringMode.Contains;
+    settings.Properties.TextField = "Text";
+    settings.Properties.ValueField = "Value";
+    //settings.Properties.ValueType = typeof(int?);
+    settings.Properties.FilterMinLength = 2;
+    settings.Properties.CallbackPageSize = 25;
+    settings.Properties.ClearButton.Visibility = AutoBoolean.True;
+    settings.Properties.ClearButton.DisplayMode = ClearButtonDisplayMode.Auto;
+    settings.Properties.ClearButton.Enabled = true; 
+    settings.Properties.ValidationSettings.RequiredField.IsRequired = false;
+    settings.Properties.ClientSideEvents.BeginCallback = "OnBeginCallback";
+    //settings.Properties.ClientSideEvents.ValueChanged = "StudentIdChanged";
+
+    settings.Properties.NullText = "ادخل اسم الطالب";
+
+    //settings.Properties.NullText = "ادخل اسم الطالب";
+    settings.TabIndex = 1;
+    settings.PreRender = (sender, e) =>
+    {
+        MVCxComboBox cmb = sender as MVCxComboBox;
+        cmb.Value = ViewBag.StudentID;
+        cmb.Text = ViewBag.StudentName;
+    };
+}).BindList(Model).GetHtml()

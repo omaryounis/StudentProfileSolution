@@ -1,0 +1,63 @@
+﻿@using System.Drawing
+@using System.Web.UI.WebControls
+@{
+    ViewBag.Title = "معاينة الشيك قبل الطباعه";
+    //Layout = "~/Views/Shared/_Layout.cshtml";
+    int CheckID = int.Parse(Session["CheckID"].ToString());
+}
+<style>
+    table.dxeRoot_MetropolisBlue {
+        width: 100%;
+    }
+</style>
+
+<script>
+    function CheckReportExportRequest(s, e) {
+        e.customArgs["CheckID"] = @CheckID;
+    }
+    $(function () {
+        $('form').submit();
+    });
+</script>
+
+<div class="container-fluid container-fullw">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel bg-white">
+                <div class="breadcrumb-wrapper text-right">
+                    <h4 class="no-margin">@*معاينة الشيك قبل الطباعه*@</h4>
+                </div>
+                <div class="panel-body">
+                    @using (Ajax.BeginForm("CheckReport", "Reports",new { CheckID = int.Parse(Session["CheckID"].ToString()) }, new AjaxOptions
+                    {
+                        UpdateTargetId = "CheckReportDesigner"
+                    }))
+                    {
+                        <div class="row">
+
+                            <br />
+                            <br />
+                            <br />
+                            <div id="CheckReportDesigner">
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .dxbButton_MetropolisBlue.btn-success {
+        background-color: #26B99A !important;
+        border: 1px solid #169F85 !important;
+        color: #fff !important
+    }
+
+    .dxbButton_MetropolisBlue {
+        padding: 5px !important;
+        font-family: "JF Flat Regular" !important;
+    }
+</style>
+

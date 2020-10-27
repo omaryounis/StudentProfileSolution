@@ -1,0 +1,90 @@
+﻿@using System.Web.UI.WebControls
+@Html.DevExpress().FormLayout(settings =>
+{
+    settings.Name = "AdvancedSearchFormLayout";
+    settings.SettingsItems.ShowCaption = DefaultBoolean.True;
+    settings.SettingsItemCaptions.Location = LayoutItemCaptionLocation.Top;
+
+    settings.AlignItemCaptionsInAllGroups = true;
+    settings.SettingsAdaptivity.AdaptivityMode = FormLayoutAdaptivityMode.SingleColumnWindowLimit;
+    settings.SettingsAdaptivity.SwitchToSingleColumnAtWindowInnerWidth = 500;
+    settings.Width = Unit.Percentage(100);
+    settings.UseDefaultPaddings = false;
+    settings.EncodeHtml = false;
+    settings.UseDefaultPaddings = false;
+    settings.Styles.LayoutGroupBox.Caption.CssClass = "layoutGroupBoxCaption";
+    settings.RightToLeft = DefaultBoolean.True;
+    settings.ColCount = 1;
+
+
+    var groupItem = settings.Items.AddGroupItem(i =>
+    {
+        i.Caption = "اضافة نموذج رسالة";
+        i.ColCount = 2;
+        i.GroupBoxStyle.Caption.Font.Bold = true;
+        i.GroupBoxStyle.Caption.Font.Size = 16;
+        i.VerticalAlign = FormLayoutVerticalAlign.Top;
+        i.SettingsItemHelpTexts.Position = HelpTextPosition.Bottom;
+        i.GroupBoxDecoration = GroupBoxDecoration.None;
+    });
+
+    groupItem.Items.Add(itemSettings =>
+    {
+        itemSettings.ShowCaption = DefaultBoolean.True;
+        itemSettings.HorizontalAlign = FormLayoutHorizontalAlign.Right;
+        settings.Width = Unit.Percentage(100);
+        itemSettings.ParentContainerStyle.CssClass = "mobileAlign";
+        itemSettings.Caption = "العنوان";
+        itemSettings.NestedExtension().TextBox(s =>
+        {
+            s.Name = "title";
+            s.RightToLeft = DefaultBoolean.True;
+        });
+    });
+
+    groupItem.Items.Add(itemSettings =>
+    {
+        itemSettings.ShowCaption = DefaultBoolean.True;
+        itemSettings.HorizontalAlign = FormLayoutHorizontalAlign.Right;
+        itemSettings.ParentContainerStyle.CssClass = "mobileAlign";
+        itemSettings.Caption = "النص";
+        settings.Width = Unit.Percentage(100);
+
+
+        itemSettings.NestedExtension().TextBox(s =>
+        {
+            s.Name = "text";
+            s.RightToLeft = DefaultBoolean.True;
+        });
+    });
+
+    groupItem.Items.Add(itemSettings =>
+    {
+        itemSettings.ShowCaption = DefaultBoolean.False;
+        itemSettings.HorizontalAlign = FormLayoutHorizontalAlign.Right;
+        itemSettings.ParentContainerStyle.CssClass = "mobileAlign";
+        itemSettings.NestedExtension().Button(s =>
+        {
+            s.Name = "btnAdd";
+            s.Text = "اضافة";
+            s.RightToLeft = DefaultBoolean.True;
+            s.Images.Image.IconID = IconID.SaveSave16x16;
+            s.UseSubmitBehavior = true;
+        });
+    });
+    groupItem.Items.Add(itemSettings =>
+    {
+        itemSettings.ShowCaption = DefaultBoolean.False;
+        itemSettings.HorizontalAlign = FormLayoutHorizontalAlign.Right;
+        itemSettings.ParentContainerStyle.CssClass = "mobileAlign";
+        itemSettings.NestedExtension().Button(s =>
+        {
+            s.Name = "btnclose";
+            s.Text = "اغلاق";
+            s.ClientSideEvents.Click = "function(s, e){ ASPxClientEdit.ClearEditorsInContainer();pcModalMode.Hide(); }";
+            s.RightToLeft = DefaultBoolean.True;
+            s.Images.Image.IconID = IconID.ActionsClose16x16;
+            s.UseSubmitBehavior = false;
+        });
+    });
+}).GetHtml()

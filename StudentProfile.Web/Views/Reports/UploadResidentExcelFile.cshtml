@@ -1,0 +1,611 @@
+﻿@{
+    ViewBag.Title = "تحديث مستندات الطلاب";
+    Layout = "~/Views/Shared/_DevextremeLayout.cshtml";
+}
+
+@using System.Web.UI.WebControls
+@using StudentProfile.Web.Controllers
+<script type="text/javascript">
+    function OnFilesUploadComplete(s, e) {
+
+        debugger;
+        if (e.callbackData !== "" && e.errorText === "") {
+            DevExpress.ui.notify({
+                message: e.callbackData,
+                type: "success",
+                displayTime: 3000,
+                closeOnClick: true
+            });
+        } else {
+            DevExpress.ui.notify({
+                message: e.errorText,
+                type: "error",
+                displayTime: 3000,
+                closeOnClick: true
+            });
+        }
+    };
+    function OnFileUploadComplete(s, e) {
+    };
+    function OnDeleted(data) {
+        debugger;
+
+        DevExpress.ui.notify(data, "success", 600);
+        return false;
+    };
+    function InsureDeleting(action) {
+        debugger;
+        pcCustomFields.Show();
+        if (action == "DeleteOldCustomFields") {
+            $('#customFieldInteger').val(customFileID.GetValue());
+        }
+        else {
+            $('#customFieldInteger').val('');
+        }
+        $('#ActionName').val(action);
+    }
+    function OnDelete() {
+        var id = null;
+        var field = $('#ActionName').val();
+        if (field == "DeleteOldCustomFields") {
+            id = $('#customFieldInteger').val();
+        }
+
+        $.ajax({
+            url: '/Reports/' + field,
+            data: { Id: id },
+            success: function (data) {
+                $('#customFieldInteger').val('');
+                $('#ActionName').val('');
+                if (data > 0) {
+                    var message = "تم حذف عدد " + data + "";
+                    DevExpress.ui.notify(message, "success", 600);
+
+                }
+                else {
+                    DevExpress.ui.notify("لا توجد بيانات للحذف", "success", 600);
+                }
+            },
+            error: function (data) {
+                DevExpress.ui.notify("حدث خطأ أثناء الحذف", "success", 600);
+                $('#customFieldInteger').val('');
+                $('#ActionName').val('');
+            }
+        })
+        pcCustomFields.Hide();
+    }
+</script>
+
+<div class="container-fluid container-fullw">
+    <div class="row">
+        @*<div class="col-md-12">
+
+            @{Html.RenderAction("UpdateDate", "Home");}
+
+
+        </div>*@
+        <div class="col-md-4">
+            <div class="panel bg-white">
+                <div class="breadcrumb-wrapper text-right">
+                    <h4 class="no-margin">رفع ملفات المقيمين</h4>
+                </div>
+                <div class="panel-body">
+                    <div class="form-group col-md-12 col-sm-12 col-xs-12 text-right file-ds">
+                        @using (Html.BeginForm("UploadResidencyFiles", "Reports"))
+                        {
+
+
+                            @Html.DevExpress().UploadControl(
+     settings =>
+     {
+         settings.Name = "ErResidencyFiles";
+         settings.Width = Unit.Pixel(320);
+         settings.ShowUploadButton = true;
+         settings.ShowProgressPanel = true;
+         settings.RightToLeft = DefaultBoolean.True;
+         settings.AdvancedModeSettings.EnableMultiSelect = false;
+         settings.AdvancedModeSettings.EnableFileList = false;
+         settings.AdvancedModeSettings.EnableDragAndDrop = true;
+         settings.UploadButton.Text = "رفع الملف";
+         settings.CancelButton.Text = "الغاء";
+         settings.BrowseButton.Text = "استعراض...";
+         settings.ShowClearFileSelectionButton = true;
+         settings.UploadButton.Image.IconID = IconID.ActionsUp232x32;
+         settings.UploadMode = UploadControlUploadMode.Advanced;
+         settings.ValidationSettings.Assign(MyUploadControlValidationSettings.Settings);
+         settings.ClientSideEvents.FilesUploadComplete = "OnFilesUploadComplete";
+         //settings.ClientSideEvents.FileUploadComplete = "OnFileUploadComplete";
+         settings.ValidationSettings.AllowedFileExtensions = new[] { ".xls", ".xlsx" };
+         settings.NullText = "اختر ملفات .xls, .xlsx فقط";
+     }).GetHtml()
+                            @*<div class="form-group text-left">
+                                @Html.DevExpress().Button
+                                    (
+                                 settings =>
+                                 {
+                                     settings.Name = "IsDeleteResidency";
+                                     settings.UseSubmitBehavior = false;
+                                     settings.ControlStyle.CssClass = "btn btn-danger dx-danger-btn";
+                                     settings.Text = "حذف البيانات السابقة";
+                                     settings.ClientSideEvents.Click = "function(s,e){InsureDeleting('DeleteOldValidResidents');}";
+                                 }).GetHtml()
+                            </div>*@
+                        }
+
+                    </div>
+                    <br />
+                    <div class="alert alert-info text-right col-lg-12">
+                        @Html.DevExpress().Label(
+ settings =>
+ {
+     settings.Name = "AllowedFileExtensionsLabel6";
+     settings.Text = "الملفات المسموح بها هى: .xls, .xlsx";
+     settings.ControlStyle.Font.Size = FontUnit.Point(8);
+ }).GetHtml()
+                        <br />
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="panel bg-white">
+                <div class="breadcrumb-wrapper text-right">
+                    <h4 class="no-margin">رفع ملفات المخالفات</h4>
+                </div>
+                <div class="panel-body">
+                    <div class="form-group col-md-12 col-xs-12 col-xs-12 text-right file-ds">
+                        @using (Html.BeginForm("UploadResidentViolationsExcelFiles", "Reports"))
+                        {
+                            @Html.DevExpress().UploadControl(
+             settings =>
+             {
+                 settings.Name = "ResidentViolationsFiles";
+                 settings.Width = Unit.Pixel(320);
+                 settings.ShowUploadButton = true;
+                 settings.ShowProgressPanel = true;
+                 settings.RightToLeft = DefaultBoolean.True;
+                 settings.AdvancedModeSettings.EnableMultiSelect = false;
+                 settings.AdvancedModeSettings.EnableFileList = false;
+                 settings.AdvancedModeSettings.EnableDragAndDrop = true;
+                 settings.UploadButton.Text = "رفع الملف";
+                 settings.CancelButton.Text = "الغاء";
+                 settings.BrowseButton.Text = "استعراض...";
+                 settings.ShowClearFileSelectionButton = true;
+                 settings.UploadButton.Image.IconID = IconID.ActionsUp232x32;
+                 settings.UploadMode = UploadControlUploadMode.Advanced;
+                 settings.ValidationSettings.Assign(MyUploadControlValidationSettings.Settings);
+                 settings.ClientSideEvents.FilesUploadComplete = "OnFilesUploadComplete";
+                 //settings.ClientSideEvents.FileUploadComplete = "OnFileUploadComplete";
+                 settings.ValidationSettings.AllowedFileExtensions = new[] { ".xls", ".xlsx" };
+                 settings.NullText = "اختر ملفات .xls, .xlsx فقط";
+             }).GetHtml()
+                            <div class="form-group text-left">
+                                @Html.DevExpress().Button(
+         settings =>
+         {
+             settings.Name = "IsDeleteRViolations";
+             settings.UseSubmitBehavior = false;
+             settings.ControlStyle.CssClass = "btn btn-danger dx-danger-btn";
+             settings.Text = "حذف البيانات السابقة";
+             settings.ClientSideEvents.Click = "function(s,e){InsureDeleting('DeleteOldResidentViolations');}";
+         }).GetHtml()
+                            </div>
+                        }
+                    </div>
+                    <br />
+                    <div class="alert alert-info text-right col-lg-12">
+                        @Html.DevExpress().Label(
+         settings =>
+         {
+             settings.Name = "AllowedFileExtensionsLabel1";
+             settings.Text = "الملفات المسموح بها هى: .xls, .xlsx";
+             settings.ControlStyle.Font.Size = FontUnit.Point(8);
+         }).GetHtml()
+                        <br />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="panel bg-white">
+                <div class="breadcrumb-wrapper text-right">
+                    <h4 class="no-margin">رفع ملفات الهاربين</h4>
+                </div>
+                <div class="panel-body">
+                    <div class="form-group col-md-12 col-xs-12 col-xs-12 text-right file-ds">
+                        @using (Html.BeginForm("UploadRunwayRecordsExcelFiles", "Reports"))
+                        {
+                            @Html.DevExpress().UploadControl(
+             settings =>
+             {
+                 settings.Name = "RunwayRecordsFiles";
+                 settings.Width = Unit.Pixel(320);
+                 settings.ShowUploadButton = true;
+                 settings.ShowProgressPanel = true;
+                 settings.RightToLeft = DefaultBoolean.True;
+                 settings.AdvancedModeSettings.EnableMultiSelect = false;
+                 settings.AdvancedModeSettings.EnableFileList = false;
+                 settings.AdvancedModeSettings.EnableDragAndDrop = true;
+                 settings.UploadButton.Text = "رفع الملف";
+                 settings.CancelButton.Text = "الغاء";
+                 settings.BrowseButton.Text = "استعراض...";
+                 settings.ShowClearFileSelectionButton = true;
+                 settings.UploadButton.Image.IconID = IconID.ActionsUp232x32;
+                 settings.UploadMode = UploadControlUploadMode.Advanced;
+                 settings.ValidationSettings.Assign(MyUploadControlValidationSettings.Settings);
+                 settings.ClientSideEvents.FilesUploadComplete = "OnFilesUploadComplete";
+                 //settings.ClientSideEvents.FileUploadComplete = "OnFileUploadComplete";
+                 settings.ValidationSettings.AllowedFileExtensions = new[] { ".xls", ".xlsx" };
+                 settings.NullText = "اختر ملفات .xls, .xlsx فقط";
+             }).GetHtml()
+                            <div class="form-group text-left">
+                                @Html.DevExpress().Button(
+         settings =>
+         {
+             settings.Name = "IsDeleteRunwayRecords";
+             settings.UseSubmitBehavior = false;
+             settings.ControlStyle.CssClass = "btn btn-danger dx-danger-btn";
+             settings.Text = "حذف البيانات السابقة";
+             settings.ClientSideEvents.Click = "function(s,e){InsureDeleting('DeleteOldRunWayRecords');}";
+         }).GetHtml()
+                            </div>
+                        }
+                    </div>
+                    <br />
+                    <div class="alert alert-info text-right col-lg-12">
+                        @Html.DevExpress().Label(
+         settings =>
+         {
+             settings.Name = "AllowedRunwayFileExtensionsLabel";
+             settings.Text = "الملفات المسموح بها هى: .xls, .xlsx";
+             settings.ControlStyle.Font.Size = FontUnit.Point(8);
+         }).GetHtml()
+                        <br />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="panel bg-white">
+                <div class="breadcrumb-wrapper text-right">
+                    <h4 class="no-margin">تحديث الخروج النهائي</h4>
+                </div>
+                <div class="panel-body">
+                    <div class="form-group col-md-12 col-sm-12 col-xs-12 text-right file-ds">
+                        @using (Html.BeginForm("UploadFinalExitFiles", "Reports"))
+                        {
+
+
+                            @Html.DevExpress().UploadControl(
+             settings =>
+             {
+                 settings.Name = "ErFinalExitFiles";
+                 settings.Width = Unit.Pixel(320);
+                 settings.ShowUploadButton = true;
+                 settings.ShowProgressPanel = true;
+                 settings.RightToLeft = DefaultBoolean.True;
+                 settings.AdvancedModeSettings.EnableMultiSelect = false;
+                 settings.AdvancedModeSettings.EnableFileList = false;
+                 settings.AdvancedModeSettings.EnableDragAndDrop = true;
+                 settings.UploadButton.Text = "رفع الملف";
+                 settings.CancelButton.Text = "الغاء";
+                 settings.BrowseButton.Text = "استعراض...";
+                 settings.ShowClearFileSelectionButton = true;
+                 settings.UploadButton.Image.IconID = IconID.ActionsUp232x32;
+                 settings.UploadMode = UploadControlUploadMode.Advanced;
+                 settings.ValidationSettings.Assign(MyUploadControlValidationSettings.Settings);
+                 settings.ClientSideEvents.FilesUploadComplete = "OnFilesUploadComplete";
+                 //settings.ClientSideEvents.FileUploadComplete = "OnFileUploadComplete";
+                 settings.ValidationSettings.AllowedFileExtensions = new[] { ".xls", ".xlsx" };
+                 settings.NullText = "اختر ملفات .xls, .xlsx فقط";
+             }).GetHtml()
+                            <div class="form-group text-left">
+                                @Html.DevExpress().Button(
+         settings =>
+         {
+             settings.Name = "IsDeleteFinalExit";
+             settings.UseSubmitBehavior = false;
+             settings.ControlStyle.CssClass = "btn btn-danger dx-danger-btn";
+             settings.Text = "حذف البيانات السابقة";
+             settings.ClientSideEvents.Click = "function(s,e){InsureDeleting('DeleteOldFinalExit');}";
+         }).GetHtml()
+                            </div>
+
+                        }
+
+                    </div>
+                    <br />
+                    <div class="alert alert-info text-right col-lg-12">
+                        @Html.DevExpress().Label(
+         settings =>
+         {
+             settings.Name = "AllowedFileExtensionsLabel7";
+             settings.Text = "الملفات المسموح بها هى: .xls, .xlsx";
+             settings.ControlStyle.Font.Size = FontUnit.Point(8);
+         }).GetHtml()
+                        <br />
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        @*<div class="col-md-4">
+            <div class="panel bg-white">
+                <div class="breadcrumb-wrapper text-right">
+                    <h4 class="no-margin">رفع ملفات الأقارب</h4>
+                </div>
+                <div class="panel-body">
+                    <div class="form-group col-lg-6 text-right file-ds">
+                        @using (Html.BeginForm("UploadResidentRelativesExcelFiles", "Reports"))
+                        {
+                            @Html.DevExpress().UploadControl(
+             settings =>
+             {
+                 settings.Name = "ResidentRelativesFiles";
+                 settings.Width = Unit.Pixel(320);
+                 settings.ShowUploadButton = true;
+                 settings.ShowProgressPanel = true;
+                 settings.RightToLeft = DefaultBoolean.True;
+                 settings.AdvancedModeSettings.EnableMultiSelect = false;
+                 settings.AdvancedModeSettings.EnableFileList = false;
+                 settings.AdvancedModeSettings.EnableDragAndDrop = true;
+                 settings.UploadButton.Text = "رفع الملف";
+                 settings.CancelButton.Text = "الغاء";
+                 settings.BrowseButton.Text = "استعراض...";
+                 settings.ShowClearFileSelectionButton = true;
+                 settings.UploadButton.Image.IconID = IconID.ActionsUp232x32;
+                 settings.UploadMode = UploadControlUploadMode.Advanced;
+                 settings.ValidationSettings.Assign(MyUploadControlValidationSettings.Settings);
+                 settings.ClientSideEvents.FilesUploadComplete = "OnFilesUploadComplete";
+                 //settings.ClientSideEvents.FileUploadComplete = "OnFileUploadComplete";
+                 settings.ValidationSettings.AllowedFileExtensions = new[] { ".xls", ".xlsx" };
+                 settings.NullText = "اختر ملفات .xls, .xlsx فقط";
+             }).GetHtml()
+                        }
+                    </div>
+                    <br />
+                    <div class="alert alert-info text-right col-lg-12">
+                        @Html.DevExpress().Label(
+         settings =>
+         {
+             settings.Name = "AllowedFileExtensionsLabel3";
+             settings.Text = "الملفات المسموح بها هى: .xls, .xlsx";
+             settings.ControlStyle.Font.Size = FontUnit.Point(8);
+         }).GetHtml()
+                        <br />
+                    </div>
+                </div>
+            </div>
+        </div>*@
+
+        <div class="col-md-4">
+            <div class="panel bg-white">
+                <div class="breadcrumb-wrapper text-right">
+                    <h4 class="no-margin">رفع تأشيرات الخروج و العودة</h4>
+                </div>
+                <div class="panel-body">
+                    <div class="form-group col-md-12 col-sm-12 col-xs-12 text-right file-ds">
+                        @using (Html.BeginForm("UploadERVisaRecordsExcelFiles", "Reports"))
+                        {
+                            @Html.DevExpress().UploadControl(
+             settings =>
+             {
+                 settings.Name = "ERVisaRecordsFiles";
+                 settings.Width = Unit.Pixel(320);
+                 settings.ShowUploadButton = true;
+                 settings.ShowProgressPanel = true;
+                 settings.RightToLeft = DefaultBoolean.True;
+                 settings.AdvancedModeSettings.EnableMultiSelect = false;
+                 settings.AdvancedModeSettings.EnableFileList = false;
+                 settings.AdvancedModeSettings.EnableDragAndDrop = true;
+                 settings.UploadButton.Text = "رفع الملف";
+                 settings.CancelButton.Text = "الغاء";
+                 settings.BrowseButton.Text = "استعراض...";
+                 settings.ShowClearFileSelectionButton = true;
+                 settings.UploadButton.Image.IconID = IconID.ActionsUp232x32;
+                 settings.UploadMode = UploadControlUploadMode.Advanced;
+                 settings.ValidationSettings.Assign(MyUploadControlValidationSettings.Settings);
+                 settings.ClientSideEvents.FilesUploadComplete = "OnFilesUploadComplete";
+                 //settings.ClientSideEvents.FileUploadComplete = "OnFileUploadComplete";
+                 settings.ValidationSettings.AllowedFileExtensions = new[] { ".xls", ".xlsx" };
+                 settings.NullText = "اختر ملفات .xls, .xlsx فقط";
+             }).GetHtml()
+                            <div class="form-group text-left">
+                                @Html.DevExpress().Button(
+         settings =>
+         {
+             settings.Name = "IsDeleteRVisa";
+             settings.UseSubmitBehavior = false;
+             settings.ControlStyle.CssClass = "btn btn-danger dx-danger-btn";
+             settings.Text = "حذف البيانات السابقة";
+             settings.ClientSideEvents.Click = "function(s,e){InsureDeleting('DeleteOldReservedVisa');}";
+         }).GetHtml()
+                            </div>
+                        }
+
+                    </div>
+
+                    <br />
+                    <div class="alert alert-info text-right col-lg-12">
+                        @Html.DevExpress().Label(
+     settings =>
+     {
+         settings.Name = "AllowedFileExtensionsLabel4";
+         settings.Text = "الملفات المسموح بها هى: .xls, .xlsx";
+         settings.ControlStyle.Font.Size = FontUnit.Point(8);
+     }).GetHtml()
+                        <br />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="panel bg-white">
+                <div class="breadcrumb-wrapper text-right">
+                    <h4 class="no-margin">اسناد حقل مخصص لطلاب</h4>
+                </div>
+                <div class="panel-body">
+                    <div class="form-group col-md-12 col-sm-12 col-xs-12 text-right file-ds">
+                        @using (Html.BeginForm("UploadCustomFiles", "Reports", new { id = "customFilesForm" }))
+                        {
+                            <div class="form-group col-lg-12">
+                                <div class="row">
+                                    @Html.DevExpress().ComboBox(
+     settings =>
+     {
+         settings.Name = "customFileID";
+         settings.Properties.NullText = "الحقل المخصص";
+         settings.Properties.ClearButton.DisplayMode = ClearButtonDisplayMode.OnHover;
+         settings.Properties.ValueField = "Value";
+         settings.Properties.TextField = "Text";
+         settings.Width = Unit.Percentage(100);
+         settings.Properties.ValidationSettings.RequiredField.IsRequired = true;
+         settings.Properties.ValidationSettings.RequiredField.ErrorText = "حقل مطلوب";
+         settings.Properties.ValidationSettings.ValidateOnLeave = true;
+         settings.ClientEnabled = true;
+     }).BindList(ReportsController.GetCustomFiles()).GetHtml()
+                                </div>
+                            </div>
+                            @Html.DevExpress().UploadControl(
+                            settings =>
+     {
+         settings.Name = "ERcustomFiles";
+         settings.Width = Unit.Pixel(320);
+         settings.ShowUploadButton = true;
+         settings.ShowProgressPanel = true;
+         settings.RightToLeft = DefaultBoolean.True;
+         settings.AdvancedModeSettings.EnableMultiSelect = false;
+         settings.AdvancedModeSettings.EnableFileList = false;
+         settings.AdvancedModeSettings.EnableDragAndDrop = true;
+         settings.UploadButton.Text = "رفع الملف";
+         settings.CancelButton.Text = "الغاء";
+         settings.BrowseButton.Text = "استعراض...";
+         settings.ShowClearFileSelectionButton = true;
+         settings.UploadButton.Image.IconID = IconID.ActionsUp232x32;
+         settings.UploadMode = UploadControlUploadMode.Advanced;
+         settings.ValidationSettings.Assign(MyUploadControlValidationSettings.Settings);
+         settings.ClientSideEvents.FilesUploadComplete = "OnFilesUploadComplete";
+         //settings.ClientSideEvents.FileUploadComplete = "OnFileUploadComplete";
+         settings.ValidationSettings.AllowedFileExtensions = new[] { ".xls", ".xlsx" };
+         settings.NullText = "اختر ملفات .xls, .xlsx فقط";
+     }).GetHtml()
+                            <div class="form-group text-left">
+                                @Html.DevExpress().Button(
+ settings =>
+ {
+     settings.Name = "IsDeletecustomFields";
+     settings.UseSubmitBehavior = false;
+     settings.ControlStyle.CssClass = "btn btn-danger dx-danger-btn";
+     settings.Text = "حذف البيانات السابقة";
+     settings.ClientSideEvents.Click = "function(s,e){InsureDeleting('DeleteOldCustomFields');}";
+ }).GetHtml()
+                            </div>
+                        }
+
+                    </div>
+                    <br />
+                    <div class="alert alert-info text-right col-lg-12">
+                        @Html.DevExpress().Label(
+ settings =>
+ {
+     settings.Name = "AllowedFileExtensionsLabel5";
+     settings.Text = "الملفات المسموح بها هى: .xls, .xlsx";
+     settings.ControlStyle.Font.Size = FontUnit.Point(8);
+ }).GetHtml()
+                        <br />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+    </div>
+</div>
+
+@using (Ajax.BeginForm("", "", new AjaxOptions { }))
+{
+    Html.DevExpress().PopupControl(
+                         settings =>
+                         {
+                             settings.Name = "pcCustomFields";
+                             settings.Width = 320;
+                             settings.AllowDragging = true;
+                             settings.CloseAction = CloseAction.CloseButton;
+                             settings.CloseOnEscape = true;
+                             settings.PopupAnimationType = AnimationType.None;
+                             settings.HeaderText = "تأكيد الحذف";
+                             settings.Modal = true;
+                             settings.AutoUpdatePosition = true;
+                             settings.PopupHorizontalAlign = PopupHorizontalAlign.WindowCenter;
+                             settings.PopupVerticalAlign = PopupVerticalAlign.WindowCenter;
+                             settings.SetContent(() =>
+                             {
+                                 using (Ajax.BeginForm("", "", new AjaxOptions { OnSuccess = "OnDeleted" }))
+                                 {
+                                     Html.DevExpress().FormLayout(s =>
+                                     {
+                                         s.Name = "CustomFieldsModalFormLayout";
+                                         s.RequiredMarkDisplayMode = RequiredMarkMode.None;
+                                         s.Width = Unit.Percentage(100);
+                                         s.Height = Unit.Percentage(100);
+
+                                         s.NestedExtensionWidth = Unit.Percentage(100);
+                                         s.Items.Add(i =>
+                                         {
+                                             i.Name = "customFieldText";
+                                             i.Caption = "تأكيد";
+                                             i.SetNestedContent(() =>
+                                             {
+                                                 ViewContext.Writer.Write("<label>هل أنت متأكد من الحذف؟</label>"
+                                                     + "<input type='Hidden' Value='' id='customFieldInteger' name='customFieldInteger'/>"
+                                                      + "<input type='Hidden' Value='' id='ActionName' name='ActionName'/>"
+                                                     );
+                                             });
+                                         });
+                                         s.Items.Add(i =>
+                                         {
+                                             i.ShowCaption = DefaultBoolean.False;
+                                             i.SetNestedContent(() =>
+                                             {
+                                                 Html.DevExpress().Button(
+                                                     buttonSettings =>
+                                                     {
+                                                         buttonSettings.Name = "btnSaveCustom";
+                                                         buttonSettings.ControlStyle.CssClass = "button";
+                                                         buttonSettings.Width = 80;
+                                                         buttonSettings.Text = "مسح";
+                                                         buttonSettings.Images.Image.IconID = IconID.SaveSave32x32;
+                                                         buttonSettings.ClientSideEvents.Click = "OnDelete";
+                                                     //buttonSettings.UseSubmitBehavior = true;
+                                                 }
+                                                     ).Render();
+                                                 Html.DevExpress().Button(
+                                                     buttonSettings =>
+                                                     {
+                                                         buttonSettings.Name = "btnCancelCustomField";
+                                                         buttonSettings.ControlStyle.CssClass = "button";
+                                                         buttonSettings.Width = 80;
+                                                         buttonSettings.Text = "الغاء";
+                                                         buttonSettings.Images.Image.IconID = IconID.ActionsClose32x32;
+                                                         buttonSettings.ClientSideEvents.Click = "function(s, e){ pcCustomFields.Hide(); }";
+
+                                                     }
+                                                     ).Render();
+                                             });
+                                         });
+                                     }).Render();
+                                 }
+                             });
+                             settings.ClientSideEvents.CloseUp = "function(s, e){ ASPxClientEdit.ClearEditorsInContainer(null, '', true); }";
+                         }).GetHtml();
+}
+
+<style>
+    .file-ds > form {
+        min-height: 165px;
+    }
+</style>

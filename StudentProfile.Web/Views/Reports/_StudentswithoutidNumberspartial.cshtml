@@ -1,0 +1,15 @@
+﻿@model  StudentProfile.Web.Reports.StudentsWithoutIdNumbers
+
+@Html.DevExpress().WebDocumentViewer(settings => { settings.Name = "StudentsWithoutIdNumbers";
+}).Bind(Model).GetHtml()
+    
+@*DocumentViewer(settings =>
+{
+    settings.Name = "studentswithoutIdNumbers";
+    settings.CallbackRouteValues = new { Controller = "Reports", Action = "StudentsWithoutBankNumberRPT"};
+    settings.ExportRouteValues = new { Controller = "Reports", Action = "StudentsWithoutBankNumberRPTExport"};
+    settings.Report = Model;
+    settings.ToolbarMode = DocumentViewerToolbarMode.Ribbon;
+    settings.SettingsReportViewer.UseIFrame = false;
+    settings.SettingsReportViewer.TableLayout = false;
+}).GetHtml()*@

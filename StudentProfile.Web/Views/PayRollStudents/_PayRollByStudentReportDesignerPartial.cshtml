@@ -1,0 +1,14 @@
+﻿@model  StudentProfile.Web.Reports.PayRollStudentsByStudentRPT
+
+@Html.DevExpress().DocumentViewer(settings =>
+{
+    settings.Name = "PrintPayRollStudentsByStudent";
+    settings.CallbackRouteValues = new { Controller = "PayRollStudents", Action = "PayRollByStudentReportCallBack" };
+    settings.ExportRouteValues = new { Controller = "PayRollStudents", Action = "PayRollByStudentReportExport" };
+    settings.Report = Model;
+    settings.ToolbarMode = DocumentViewerToolbarMode.Ribbon;
+    settings.SettingsReportViewer.UseIFrame = false;
+    settings.SettingsReportViewer.TableLayout = false;
+    settings.ClientSideEvents.BeforeExportRequest = "PayRollByStudentDocumentViewerBeforeExportRequest";
+    settings.ClientSideEvents.Init = "onDocumetnViewerInit";
+}).GetHtml()

@@ -1,0 +1,26 @@
+﻿@{
+    ViewBag.Title = "filterGroups";
+    Layout = "~/Views/Shared/_DevextremeLayout.cshtml";
+}
+<script src="~/Scripts/FilterGroups/filterGroup.js"></script>
+<script src="~/Scripts/FilterGroups/filterGroupService.js"></script>
+<h2>filterGroups</h2>
+<div class="container" ng-controller="filterGroupsCtrl">
+    <div class="row">
+        <div class="col-xs-4">
+            <span>اسم مجموعة الفرز</span>
+            <div dx-select-box="groupFilterNameSelectedItems"></div>
+        </div>
+        <div class="col-xs-4">
+            <span>المستخدمين</span>
+            @* <div dx-select-box="UsersSelectedItems"></div>*@
+            <div dx-tag-box="UsersTagBox"></div>
+        </div>
+        <div class="col-xs-4">
+            <div dx-button="filterGroupsSaveBtn"></div>
+        </div>
+    </div>
+    <div class="row">
+        <div id="filterGroupGridContainer" dx-data-grid="filterGroupGridOptions" data-bind="dxDataGrid: { columns: columns, dataSource: dataSource}"></div>
+    </div>
+</div>

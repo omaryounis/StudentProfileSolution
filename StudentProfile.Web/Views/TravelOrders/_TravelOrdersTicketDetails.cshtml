@@ -1,0 +1,110 @@
+﻿@model List<StudentProfile.DAL.Models.Usp_GetTravelOrderDetails_Result>
+@using System.Web.UI.WebControls;
+@if (Model.Count > 0)
+{
+    @Html.DevExpress().GridView(settings =>
+{
+    settings.Name = "TravelOrdersTicketDetails";
+    settings.KeyFieldName = "ID";
+    settings.Styles.Table.CssClass = "dx-table-ds dx-table-ds-in editRow";
+    // settings.Theme= r.
+    settings.Width = Unit.Percentage(100);
+    //settings.CallbackRouteValues = new { Action = "ReturnGrid", Controller = "TravelOrders", Model };
+
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "الرقم الاكاديمي";
+        column.Width = Unit.Percentage(15);
+        column.FieldName = "StudentID";
+    });
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "رقم الهوية";
+        column.Width = Unit.Percentage(15);
+        column.FieldName = "National_ID";
+
+    });
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "اسم الطالب";
+        column.Width = Unit.Percentage(15);
+        column.FieldName = "Student_Name";
+
+    });
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "اسم الطالب لاتيني";
+        column.Width = Unit.Percentage(15);
+        column.FieldName = "Student_Name_S";
+
+    });
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "الجنسية";
+        column.Width = Unit.Percentage(15);
+        column.FieldName = "NATIONALITY_DESC";
+
+    });
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "جهة الدراسة";
+        column.Width = Unit.Percentage(15);
+        column.FieldName = "Faculty_Name";
+
+    });
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "المستوى";
+        column.Width = Unit.Percentage(15);
+        column.FieldName = "Level_Desc";
+
+    });
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "تاريخ بداية الرحلة";
+        column.Width = Unit.Percentage(15);
+        column.FieldName = "FromDate";
+        column.PropertiesEdit.DisplayFormatString = "dd/MM/yyyy";
+    });
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "تاريخ نهاية الرحلة";
+        column.Width = Unit.Percentage(15);
+        column.FieldName = "ToDate";
+        column.PropertiesEdit.DisplayFormatString = "dd/MM/yyyy";
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "رقم التذكرة";
+        //column.Width = Unit.Percentage(15);
+        column.FieldName = "TicketNumber";
+        column.SetDataItemTemplateContent((c) =>
+        {
+            string ticket = DataBinder.Eval(c.DataItem, "TicketNumber")?.ToString();
+
+            string Name = "TicketNumber_" + c.KeyValue;
+
+            ViewContext.Writer.Write("<input type='text' id='" + Name + "' , name = '" + Name + "' value='" + ticket + "'/>");
+
+        });
+    });
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "القيمة المعتمدة";
+        column.FieldName = "GivenAmount";
+
+        column.SetDataItemTemplateContent((c) =>
+        {
+            string Approvedvalue = DataBinder.Eval(c.DataItem, "GivenAmount")?.ToString();
+            string Name = "ApprovedAmount_" + c.KeyValue;
+            ViewContext.Writer.Write("<input type='number' min='0' id ='" + Name + "' , name = '" + Name + "' value='" + Approvedvalue + "' onchange= 'changeApprovedAmount(" + c.KeyValue + "," + Approvedvalue + ")' class='numberOnley' onkeypress ='numberOnley(event)'/> ");
+
+        });
+
+    });
+
+    settings.SettingsLoadingPanel.Mode = GridViewLoadingPanelMode.Default;
+    settings.EnableCallbackAnimation = false;
+}).Bind(Model).GetHtml()
+}

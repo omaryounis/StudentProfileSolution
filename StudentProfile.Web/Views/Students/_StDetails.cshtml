@@ -1,0 +1,333 @@
+﻿@using System.Web.UI.WebControls;
+@model string
+
+@if (Session["StudentId"] != null && int.Parse(Session["StudentId"].ToString()) > 0)
+{
+    var studentId = int.Parse(Session["StudentId"].ToString());
+    string idNumber = ViewBag.NationalID;
+    @Html.DevExpress().PageControl(C =>
+{
+    C.Name = "PageControl";
+    C.Width = Unit.Percentage(100);
+    C.ControlStyle.CssClass = "PageControl";
+    //C.Styles.Tab.BackColor = System.Drawing.Color.WhiteSmoke;
+    //C.Styles.Tab.Font.Bold = true;
+    C.EnableTabScrolling = true;
+    C.SettingsLoadingPanel.ShowImage = false;
+    //C.TabPages.
+    C.ActiveTabIndex = 0;
+    C.CallbackRouteValues = new {Controller = "Students", Action = "_StDetails", studentId};
+    C.ActivateTabPageAction = ActivateTabPageAction.Click;
+    if (ViewBag.basicDataRead != null)
+    {
+        if (ViewBag.basicDataRead == true)
+        {
+            C.TabPages.Add("البيانات الأساسية").SetContent(() => { ViewContext.Writer.Write("<div id='StBasicData'>" + Html.Action("_StBasicData", "Students", new {Id = studentId.ToString()}) + "</div>"); });
+        }
+    }
+    if (ViewBag.academicHistoryRead != null)
+    {
+        if (ViewBag.academicHistoryRead == true)
+        {
+            C.TabPages.Add("السجل الأكاديمي").SetContent(() =>
+            {
+                {
+                    Html.RenderAction("_AcademicHistory", "Students", new {studentid = Session["StudentId"]?.ToString()});
+                }
+            });
+        }
+    }
+    if (ViewBag.residenceDataRead != null)
+    {
+        if (ViewBag.residenceDataRead == true)
+        {
+            C.TabPages.Add("بيانات السكن").SetContent(() => { Html.RenderAction("_ResidenceData", "Students", new {studentid = studentId.ToString()}); });
+        }
+    }
+    if (ViewBag.relativesRead != null)
+    {
+        if (ViewBag.relativesRead == true)
+        {
+            C.TabPages.Add("بيانات المرافقين").SetContent(() => { Html.RenderAction("RelativesGridViewPartial", "Students", new {ViewBag.idNumber}); });
+        }
+    }
+    if (ViewBag.empDocumentRead != null)
+    {
+        if (ViewBag.empDocumentRead == true)
+        {
+            var notetab = C.TabPages.Add("مستندات الطالب");
+            notetab.SetTabTemplateContent(cc => { ViewContext.Writer.Write("<a class='dxtc-link'> <span class='badge badge-ds22'>" + ViewBag.DocumentsExpirationNumber + "</span> <span class='dx-vam'>" + cc.TabPage.Text + "</span></a>"); });
+            notetab.SetContent(() =>
+            {
+                ViewContext.Writer.Write("<img class=\"dxtmImage\" alt=\"\" src=\"" + Url.Content("~/Content/TabControl/Hands/CrossProcess.jpg") + "\" />");
+                Html.RenderAction("StudentDocumentsGridViewPartial", "Students", new {ViewBag.idNumber});
+            });
+
+            //C.TabPages.Add("مستندات الطالب").SetContent(() => { Html.RenderAction("EmpDocumentGridViewPartial", "Students", new {ViewBag.idNumber}); });
+        }
+    }
+    if (ViewBag.empCoursesRead != null)
+    {
+        if (ViewBag.empCoursesRead == true)
+        {
+
+            C.TabPages.Add("السجل المهاري").SetContent(() =>
+            {
+                using (Html.BeginForm())
+                { Html.RenderAction("EmpCoursesGridViewPartial", "Students", new { studentId }); }
+            });
+
+        }
+    }
+    if (ViewBag.violationDataRead != null || ViewBag.studentNotesRead != null)
+    {
+        if (ViewBag.violationDataRead == true || ViewBag.studentNotesRead == true)
+        {
+            int violationscount = ViewBag.ViolationsNumber + ViewBag.NotesNumber;
+            //C.TabPages.Add("المساهمات").SetContent(() => { Html.RenderAction("Course", "Students", new {idNumber}); });
+            var viotab = C.TabPages.Add("السجل السلوكي");
+            viotab.SetTabTemplateContent(cc => { ViewContext.Writer.Write("<a class='dxtc-link'> <span class='badge badge-ds22'>" + violationscount + "</span> <span class='dx-vam'>" + cc.TabPage.Text + "</span></a>"); });
+            viotab.SetContent(() =>
+            {
+                //if (ViewBag.violationDataRead != null)
+                //{
+                //    if (ViewBag.violationDataRead == true)
+                //    {
+                //        //ViewContext.Writer.Write("<fieldset><legend>السجل السلوكي الخارجي</legend>");
+                //       // Html.RenderAction("_ViolationData", "Students", new {studentid = studentId.ToString()});
+                //       // ViewContext.Writer.Write("</field>");
+                //    }
+                //}
+                if (ViewBag.studentNotesRead != null)
+                {
+                    if (ViewBag.studentNotesRead == true)
+                    {
+                        ViewContext.Writer.Write("<div class='clear-fix'></div><fieldset><legend>الملاحظات</legend>");
+                        ViewContext.Writer.Write("<img class=\"dxtmImage\" alt=\"\" src=\"" + Url.Content("~/Content/TabControl/Hands/CrossProcess.jpg") + "\" />");
+                        Html.RenderAction("StudentNotesGridViewPartial", "Students", new {idNumber = idNumber});
+                        ViewContext.Writer.Write("</field>");
+                    }
+                }
+            });
+        }
+    }
+    if (ViewBag.ViewCustomFields != null)
+    {
+        if (ViewBag.ViewCustomFields == true)
+        {
+            //C.TabPages.Add("الحقول المخصصة").SetContent(() => { Html.RenderPartial("CustomFields", "Students"); });
+
+            var csfieldstab = C.TabPages.Add("الحقول المخصصة");
+            csfieldstab.SetTabTemplateContent(cc => { ViewContext.Writer.Write("<a class='dxtc-link'> <span class='badge badge-ds22'>" + ViewBag.CustomFieldNumber + "</span> <span class='dx-vam'>" + cc.TabPage.Text + "</span></a>"); });
+            csfieldstab.SetContent(() =>
+            {
+                ViewContext.Writer.Write("<img class=\"dxtmImage\" alt=\"\" src=\"" + Url.Content("~/Content/TabControl/Hands/CrossProcess.jpg") + "\" />");
+                Html.RenderPartial("CustomFields", idNumber);
+            });
+
+        }
+    }
+    //if (ViewBag.studentNotesRead != null)
+    //{
+    //    if (ViewBag.studentNotesRead == true)
+    //    {
+    //        //C.TabPages.Add("الملاحظات").SetContent(() => { Html.RenderAction("StudentNotesGridViewPartial", "Students", new {idNumber = idNumber}); });
+    //        var notetab = C.TabPages.Add("الملاحظات");
+    //        notetab.SetTabTemplateContent(cc => { ViewContext.Writer.Write("<a class='dxtc-link'> <span class='badge badge-ds22'>" + ViewBag.NotesNumber + "</span> <span class='dx-vam'>" + cc.TabPage.Text + "</span></a>"); });
+    //        notetab.SetContent(() =>
+    //        {
+    //            ViewContext.Writer.Write("<img class=\"dxtmImage\" alt=\"\" src=\"" + Url.Content("~/Content/TabControl/Hands/CrossProcess.jpg") + "\" />");
+    //            Html.RenderAction("StudentNotesGridViewPartial", "Students", new {idNumber = idNumber});
+    //        });
+    //    }
+    //}
+    if (ViewBag.clinicDataRead != null)
+    {
+        if (ViewBag.clinicDataRead == true)
+        {
+            C.TabPages.Add("السجل الصحي").SetContent(() => { Html.RenderAction("_ClinicData", "Students", new {nationalid = idNumber}); });
+        }
+    }
+    if (ViewBag.financesRead != null)
+    {
+        if (ViewBag.financesRead == true)
+        {
+            C.TabPages.Add("السجل المالي").SetContent(() => { Html.RenderAction("Finances", "Students", new {idNumber}); });
+        }
+    }
+    if (ViewBag.traficViolationsRead != null)
+    {
+        if (ViewBag.traficViolationsRead == true)
+        {
+            var traficViolationsNumber = (int) ViewBag.TraficViolationsNumber;
+            var runawayAlertsNumber = (int) ViewBag.RunawayAlertsNumber;
+            var visaAlertsNumber = (int) ViewBag.VisaAlertsNumber;
+            var notetab = C.TabPages.Add("الإشعارات");
+            notetab.SetTabTemplateContent(cc => { ViewContext.Writer.Write("<a class='dxtc-link'> <span class='badge badge-ds22'>" + +(traficViolationsNumber + runawayAlertsNumber + visaAlertsNumber) + "</span> <span class='dx-vam'>" + cc.TabPage.Text + "</span></a>"); });
+            notetab.SetContent(() =>
+            {
+                studentId = int.Parse(Session["StudentId"].ToString());
+                ViewContext.Writer.Write("<div class='clear-fix'></div><fieldset><legend>المخالفات المرورية</legend>");
+                Html.RenderAction("TraficViolationsGridViewPartial", "Students", new {idNumber = studentId});
+                ViewContext.Writer.Write("</field>");
+                ViewContext.Writer.Write("<div class='clear-fix'></div>");
+                ViewContext.Writer.Write("<div class='clear-fix'></div><fieldset><legend>اشعارات الهروب</legend>");
+                Html.RenderAction("_RunawayAlerts", "Home", new {idNumber = studentId});
+                ViewContext.Writer.Write("</field>");
+                ViewContext.Writer.Write("<div class='clear-fix'></div>");
+
+                ViewContext.Writer.Write("<div class='clear-fix'></div><fieldset><legend>اشعارات التأشيرات</legend>");
+                if (!string.IsNullOrEmpty(idNumber))
+                {
+                    Html.RenderAction("_VisaAlerts", "Home", new {idNumber = idNumber});
+                }
+                ViewContext.Writer.Write("</field>");
+            });
+        }
+    }
+    if (ViewBag.FileManagerRead != null)
+    {
+        if (ViewBag.FileManagerRead == true)
+        {
+            C.TabPages.Add("المرفقات").SetContent(() =>
+            {
+                using (Html.BeginForm())
+                {
+                    Html.RenderAction("FileManagerPartial", new { stID=studentId });
+                }
+            });
+        }
+    }
+}).GetHtml()
+}
+    <script>
+    function SendSMS(s, e) {
+        debugger;
+        var type = s.name;
+        console.log(selectedRows);
+        if (selectedRows.length > 0) {
+            $.ajax({
+                type: 'GET',
+                url: "/Home/smsPopUp/",
+                data: {
+                    type: type
+                },
+                success: function(data) {
+                    swal({
+                        width: 850,
+                        title: "هل تريد إرسال رسالة نصية؟",
+                        html: data,
+                        type: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: "#3085d6",
+                        cancelButtonColor: "#d33",
+                        confirmButtonClass: "btn btn-success",
+                        cancelButtonClass: "btn btn-danger",
+                        buttonsStyling: false,
+                        reverseButtons: true,
+                        confirmButtonText: "رسالة نصية",
+                        cancelButtonText: "إلغاء",
+                        preConfirm: () => {
+
+                            debugger;
+                            var msg = document.getElementsByName("MessageBody")[0].value;
+                            var list = JSON.stringify(selectedRows);
+                            $.ajax(
+                                {
+                                    type: "post",
+                                    url: "/Home/send_Message",
+                                    data: { message: msg, students: selectedRows },
+                                    success: function(data) {
+                                        debugger;
+                                        if (data == "True") {
+                                            swal("تأكيد", "تم إرسال الرسالة بنجاح", "success");
+                                        } else {
+                                            swal("تأكيد", "حدث خطأ أثناء الإرسال", "error");
+                                        }
+                                    },
+                                    error: function(data) {
+                                        swal("تأكيد", "حدث خطأ أثناء الإرسال", "error");
+                                    }
+
+                                }
+                            );
+
+                        }
+                    });
+                }
+            });
+            debugger;
+
+        } else {
+            swal({
+                title: "تذكير",
+                text: "من فضلك اختر طلاب أولا",
+                type: "warning",
+                showCancelButton: true,
+                showConfirmButton: false,
+                //confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                //confirmButtonClass: "btn btn-success",
+                cancelButtonClass: "btn btn-danger",
+                buttonsStyling: false,
+                //reverseButtons: true,
+                //confirmButtonText: "رسالة نصية",
+                cancelButtonText: "إغلاق"
+            });
+        }
+
+    }
+
+    function SelectionChanged(s, e) {
+        debugger;
+        if (s.name == "TrafficData") {
+            s.GetSelectedFieldValues('student_id;student_name;IdNumber;mobile_phone', SelectionCallback);
+        } else if (s.name == "ViolationData") {
+            s.GetSelectedFieldValues('STUDENT_ID;STUDENT_NAME;NATIONAL_ID;MOBILE_PHONE', SelectionCallback);
+        } else {
+            s.GetSelectedFieldValues('studentid;EmpName;IdNumber;PhoneNo', SelectionCallback);
+        }
+    }
+
+
+    function SelectionCallback(values) {
+        selectedRows = [];
+        for (var i = 0; i < values.length; i++) {
+            var student = { Id: values[i][0], Name: values[i][1], IdNumber: values[i][2], Phone: values[i][3] }
+            selectedRows.push(student);
+        }
+
+    }
+
+    $(document).ajaxComplete(function(event, request, settings) {
+
+
+        //if (FileManager != undefined){
+        //var id = StudentLbl.GetText();
+        //var path = settings.url;
+        //if(!path.includes('FileManagerPartial')){
+        //FileManager.callbackCustomArgs["stID"] = id;
+        //FileManager.Refresh();
+        //}
+        //}
+    });
+    $(document).ready(function() {
+
+    });
+        function DeleteDocument(DocumentId, studentId) {
+         $.ajax({
+             url: '/Students/DeleteDocumentByAdmin',
+             type:"post",
+             data: { DocumentId: DocumentId, StudentId: '@Session["StudentId"]' },
+             success: function (data) {
+                 debugger;
+                 if (data.delete == true) {
+                     location.reload();
+                 }
+            },
+            error: {
+
+            }
+        });
+    }
+    </script>

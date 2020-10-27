@@ -1,0 +1,159 @@
+﻿@using System.Drawing
+@using System.Web.UI.WebControls
+
+@{
+    ViewBag.Title = "تقرير بمخالفات الطلاب السلوكية";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script type="text/javascript">
+    //function TravelStudentsDocumentViewerBeforeExportRequest(s, e) {
+    //    debugger;
+    //    e.customArgs["nationalitiesCheckListBox"] = nationalitiesCheckListBox.GetSelectedValues();
+    //    e.customArgs["studentId"] = studentId.GetValue();
+    //}
+
+    //multiselect Combobox
+    var textSeparator = ";";
+
+    function OnListBoxSelectionChanged(listBox, args) {
+        if (args.index === -1) {
+            args.isSelected ? listBox.SelectAll() : listBox.UnselectAll();
+        }
+        UpdateSelectAllItemState();
+        UpdateText();
+    }
+
+    function UpdateSelectAllItemState() {
+        IsAllSelected()
+            ? issuesCheckListBox.SelectIndices([-1])
+            : issuesCheckListBox.UnselectIndices([-1]);
+    }
+
+    function IsAllSelected() {
+        for (var i = 1; i < issuesCheckListBox.GetItemCount(); i++)
+            if (!issuesCheckListBox.GetItem(i).selected) {
+                return false;
+            }
+        return true;
+    }
+
+    function UpdateText() {
+        var selectedItems = issuesCheckListBox.GetSelectedItems();
+        IssuesComboBox.SetText(GetSelectedItemsText(selectedItems));
+    }
+
+    function SynchronizeListBoxValues(dropDown, args) {
+        issuesCheckListBox.UnselectAll();
+        var texts = dropDown.GetText().split(textSeparator);
+        var values = GetValuesByTexts(texts);
+        issuesCheckListBox.SelectValues(values);
+        UpdateSelectAllItemState();
+        UpdateText(); // for remove non-existing texts
+    }
+
+    function GetSelectedItemsText(items) {
+        var texts = [];
+        for (var i = 0; i < items.length; i++)
+            if (items[i].index !== -1)
+                texts.push(items[i].text);
+        return texts.join(textSeparator);
+    }
+
+    function GetValuesByTexts(texts) {
+        var actualValues = [];
+        var item;
+        for (var i = 0; i < texts.length; i++) {
+            item = issuesCheckListBox.FindItemByText(texts[i]);
+            if (item != null)
+                actualValues.push(item.value);
+        }
+        return actualValues;
+    }
+</script>
+
+<div class="container-fluid container-fullw">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel bg-white">
+
+                <div class="breadcrumb-wrapper text-right">
+                    <h4 class="no-margin">تقرير بمخالفات الطلاب السلوكية</h4>
+                </div>
+                <div class="panel-body">
+                    @using (Ajax.BeginForm("_StudentNotesRPT", new AjaxOptions { UpdateTargetId = "NotesReportDesigner" }))
+                    {
+                        <div class="col-lg-3 col-lg-3 col-sm-12 col-xs-12">
+                            @Html.DevExpress().DropDownEdit(
+                                 settings =>
+                                 {
+                                     settings.Name = "IssuesComboBox";
+                                     settings.Properties.DropDownWindowStyle.BackColor = Color.FromArgb(0xEDEDED);
+                                     settings.Properties.NullText = "اختر";
+                                     settings.Properties.ClearButton.DisplayMode = ClearButtonDisplayMode.OnHover;
+                                     settings.Properties.ClientSideEvents.TextChanged = "SynchronizeListBoxValues";
+                                     settings.Properties.ClientSideEvents.DropDown = "SynchronizeListBoxValues";
+                                     settings.SetDropDownWindowTemplateContent(c =>
+                                     {
+                                         @Html.DevExpress().ListBox(listBoxSettings =>
+                                         {
+                                             listBoxSettings.Name = "issuesCheckListBox";
+                                             listBoxSettings.ControlStyle.Border.BorderWidth = 0;
+                                             listBoxSettings.ControlStyle.BorderBottom.BorderWidth = 1;
+                                             listBoxSettings.ControlStyle.BorderBottom.BorderColor = Color.FromArgb(0xDCDCDC);
+                                             listBoxSettings.Height = Unit.Pixel(200);
+                                             listBoxSettings.Width = Unit.Percentage(100);
+                                             listBoxSettings.Properties.SelectionMode = ListEditSelectionMode.CheckColumn;
+                                             listBoxSettings.Properties.EnableSelectAll = true;
+                                             //listBoxSettings.Properties.DataSource = ReportsController.GetNationalities();
+                                             listBoxSettings.Properties.SelectAllText = "اختيار الكل";
+                                             listBoxSettings.Properties.ValueField = "Id";
+                                             listBoxSettings.Properties.ValueType = typeof(int);
+                                             listBoxSettings.Properties.TextField = "IssueDescription";
+                                             listBoxSettings.Properties.ClientSideEvents.SelectedIndexChanged = "OnListBoxSelectionChanged";
+                                         }).BindList(ViewBag.Issues).Render();
+                                         ViewContext.Writer.Write("<div style=\"margin: 6px; overflow: hidden;\">");
+                                         @Html.DevExpress().Button(
+                                             buttonSettings =>
+                                             {
+                                                 buttonSettings.Name = "buttonClose";
+                                                 buttonSettings.Text = "اغلاق";
+                                                 buttonSettings.Style.Add("float", "right");
+                                                 buttonSettings.ClientSideEvents.Click = "function(s, e){ IssuesComboBox.HideDropDown(); }";
+                                                 buttonSettings.Height = 26;
+                                             }).Render();
+                                         ViewContext.Writer.Write("</div>");
+                                     });
+                                 }).GetHtml()
+                        </div>
+                        if (ViewBag.Read != null)
+                        {
+                            if (ViewBag.Read)
+                            {
+                                <div class="form-group col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                    <div class="pull-left">
+                                        @Html.DevExpress().Button(settings =>
+                                   {
+                                       settings.Name = "btnSearch";
+                                       settings.ControlStyle.CssClass = "btn btn-primary";
+                                       settings.Text = "بحث";
+                                       settings.Images.Image.IconID = IconID.ActionsSearch16x16devav;
+                                       settings.UseSubmitBehavior = true;
+                                   }).GetHtml()
+                                    </div>
+                                </div>
+                            }
+                        }
+                        <div class="row">
+                            <br />
+                            <br />
+                            <br />
+                            <div class="dx-clearfix"></div>
+                            <div id="NotesReportDesigner">
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

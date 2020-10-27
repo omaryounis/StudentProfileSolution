@@ -1,0 +1,124 @@
+﻿
+@{
+    ViewBag.Title = "تعديل رغبات السفر";
+    Layout = "~/Views/Shared/_DevextremeLayout.cshtml";
+}
+
+<script src="~/Scripts/TravelAdvertisement/TravelAdvertisementService.js"></script>
+
+<script src="~/Scripts/Musafer/MusaferService.js"></script>
+<script src="~/Scripts/Musafer/StudentsDesiresByAdminServices.js"></script>
+<script src="~/Scripts/Musafer/EditStudentDesiresByAdminController.js"></script>
+
+@*<h2>رغبات الطلبة بواسطة الادمن</h2>*@
+
+<div class="container-fluid container-fullw">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel bg-white">
+                <div class="breadcrumb-wrapper text-right">
+                    <h4 class="no-margin">تعديل رغبات السفر للطلبة عن طريق مدير النظام </h4>
+                </div>
+                <div class="panel-body">
+                    <div id="MusaferContent" ng-controller="EditStudentDesiresByAdminCtrl" ng-init="GetData(@ViewBag.StudentDesireId)">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-sx-12">
+                            <!--Send Request-->
+                            <div id="SendRequest">
+                                <form id="form" class="row">
+
+
+
+
+                                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 form-group">
+                                        <label class="col-lg-12 col-sm-12 col-xs-12 label-control text-right">الاعلان</label>
+                                        <div class="col-lg-12 col-sm-12 col-xs-12 ">
+                                            <div id="Advertisments" dx-select-box="AdvertismentSelectBox"
+                                                 dx-validator="validationRequired"></div>
+                                        </div>
+                                    </div>
+
+
+
+                                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 form-group">
+                                        <label class="col-lg-12 col-sm-12 col-xs-12 label-control text-right">اسم الطالب</label>
+                                        <div class="col-lg-12 col-sm-12 col-xs-12 ">
+                                            <div id="Students" dx-select-box="StudentsSelectBox"
+                                                 dx-validator="validationRequired"></div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 form-group">
+                                        <label class="col-lg-12 col-sm-12 col-xs-12 control-label text-right">طريقة الحجز</label>
+                                        <div class="col-lg-12 col-sm-12 col-xs-12 ">
+                                            <span id="radioTravelWay" dx-radio-group="radioTravelWay"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 form-group">
+                                        <label class="col-lg-12 col-sm-12 col-xs-12 label-contro text-righl">خطوط السير</label>
+                                        <div class="col-lg-12 col-sm-12 col-xs-12 ">
+                                            <div dx-select-box="TransportaionTrackingSelectBox"
+                                                 dx-validator="validationRequired"></div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 form-group">
+                                        <label class="col-lg-12 col-sm-12 col-xs-12 label-control text-right">تاريخ الذهاب</label>
+                                        <div class="col-lg-12 col-sm-12 col-xs-12 ">
+                                            <div dx-date-box="dateBoxFrom" style="width: 100%"></div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 form-group">
+                                        <label class="col-lg-12 col-sm-12 col-xs-12 label-control text-right">تاريخ العودة</label>
+                                        <div class="col-lg-12 col-sm-12 col-xs-12 ">
+                                            <div dx-date-box="dateBoxTo" style="width: 100%"></div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 form-group">
+                                        <label class="col-lg-12 col-sm-12 col-xs-12 label-control text-right">درجة السفر</label>
+                                        <div class="col-lg-12 col-sm-12 col-xs-12 ">
+                                            <div id="Levels" dx-select-box="LevelSelectBox"
+                                                 dx-validator="validationRequired"></div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 form-group">
+                                        <label class="col-lg-12 col-sm-12 col-xs-12 label-control text-right">غرض السفر</label>
+                                        <div class="col-lg-12 col-sm-12 col-xs-12 ">
+                                            <div id="Purpose" dx-select-box="PurposeSelectBox"
+                                                 dx-validator="validationRequired"></div>
+                                        </div>
+                                    </div>
+
+
+
+
+
+
+                                    <div class="col-lg-3 col-md-6 col-sm-3 col-xs-6 form-group text-right">
+                                        <label class="col-lg-12 col-sm-12 col-xs-12 control-label text-right"></label>
+                                        <br />
+                                        <div class="col-lg-12 col-sm-12 col-xs-12 ">
+                                            <div dx-check-box="passportValidCheckBox"></div>
+                                        </div>
+                                    </div>
+
+
+
+                                    <div id="btnSave" class="btn btn-success" dx-button="btnSave"></div>
+                                </form>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

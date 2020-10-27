@@ -1,0 +1,35 @@
+﻿
+@{
+    ViewBag.Title = "Advertisement";
+    Layout = "~/Views/Shared/_DevextremeLayout.cshtml";
+}
+
+<script src="~/Scripts/Musafer/MusaferService.js"></script>
+<script src="~/Scripts/TravelAdvertisement/TravelAdvertisementService.js"></script>
+<script src="~/Scripts/TravelAdvertisement/TravelAdvertisementController.js"></script>
+
+<div class="container-fluid container-fullw">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel bg-white">
+                <div class="breadcrumb-wrapper text-right">
+                    <h4 class="no-margin">الاعلانات</h4>
+                </div>
+                <div class="panel-body">
+                    <div ng-controller="TravelAdvertisementCtrl">
+                        <div id="List" class="col-lg-12 col-sm-12 col-xs-12">
+                            <div class="dx-viewport dx-tree-st">
+                                <div class="dx-viewport dx-tree-st">
+                                    <div class="demo-container">
+                                        <div id="gridAdvertisement" dx-data-grid="gridAdvertisement"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

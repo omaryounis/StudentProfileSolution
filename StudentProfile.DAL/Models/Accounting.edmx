@@ -1,0 +1,2631 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="StudentProfile.DAL.Models.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="AccountSecurity">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AccountId" Type="int" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Ast_Location">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="LocationName" Type="nvarchar" MaxLength="50" />
+          <Property Name="ParentID" Type="int" />
+          <Property Name="IsDefault" Type="bit" />
+          <Property Name="IsShown" Type="bit" />
+          <Property Name="IsMain" Type="bit" />
+          <Property Name="Com_ID" Type="int" />
+          <Property Name="IsResidential" Type="bit" />
+          <Property Name="MaxCount" Type="int" />
+          <Property Name="ClassID" Type="int" />
+          <Property Name="width" Type="int" />
+          <Property Name="Height" Type="int" />
+          <Property Name="Depth" Type="int" />
+          <Property Name="IsFamilial" Type="bit" Nullable="false" />
+          <Property Name="UnitNumber" Type="nvarchar" MaxLength="10" />
+          <Property Name="BedsPerRoom" Type="int" />
+        </EntityType>
+        <EntityType Name="Ast_LocationClass">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AstNames">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" />
+          <Property Name="Cat_Id" Type="int" />
+          <Property Name="ComID" Type="int" />
+        </EntityType>
+        <EntityType Name="BCD">
+          <Key>
+            <PropertyRef Name="BCDID" />
+          </Key>
+          <Property Name="BCDID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BCDArValue" Type="nvarchar" MaxLength="250" Nullable="false" />
+          <Property Name="BCDEnValue" Type="nvarchar" MaxLength="250" />
+          <Property Name="BCDStatus" Type="bit" />
+          <Property Name="BCDIsSystem" Type="bit" />
+          <Property Name="BCDOrder" Type="int" />
+          <Property Name="BCDExp1" Type="nvarchar" MaxLength="50" />
+          <Property Name="BCDExp2" Type="nvarchar" MaxLength="50" />
+          <Property Name="BCDExp3" Type="nchar" MaxLength="10" />
+          <Property Name="BSC_ID" Type="int" />
+          <Property Name="Prefix" Type="nvarchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="CashMovement">
+          <Key>
+            <PropertyRef Name="CashMovementId" />
+          </Key>
+          <Property Name="CashMovementId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TreasuryId" Type="int" Nullable="false" />
+          <Property Name="GJHID" Type="bigint" Nullable="false" />
+          <Property Name="DocId" Type="int" />
+          <Property Name="Amount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="MovementDate" Type="date" Nullable="false" />
+          <Property Name="BCD_ID" Type="int" Nullable="false" />
+          <Property Name="PatchDate" Type="date" />
+          <Property Name="BeneficiaryName" Type="nvarchar" MaxLength="300" Nullable="false" />
+          <Property Name="Notes" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CAT">
+          <Key>
+            <PropertyRef Name="CAT_ID" />
+          </Key>
+          <Property Name="CAT_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CAT_Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="COA_ID" Type="int" Nullable="false" />
+          <Property Name="MainDepAcc" Type="int" Nullable="false" />
+          <Property Name="MainTotalDepAcc" Type="int" Nullable="false" />
+          <Property Name="DEP_ID" Type="int" />
+          <Property Name="DEP_Percent" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="DepYears" Type="int" />
+        </EntityType>
+        <EntityType Name="COA">
+          <Key>
+            <PropertyRef Name="COAID" />
+          </Key>
+          <Property Name="COAID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="COA_ID" Type="int" />
+          <Property Name="COACode" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="COADescription" Type="nvarchar" MaxLength="250" />
+          <Property Name="COAPlusSide" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="COASystemPlusSide" Type="smallint" Nullable="false" />
+          <Property Name="COAStatus" Type="bit" Nullable="false" />
+          <Property Name="COASystemAccount" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="COM_ID" Type="int" />
+          <Property Name="COAAccountType" Type="int" />
+          <Property Name="COANotes" Type="nvarchar" MaxLength="50" />
+          <Property Name="ACC_MainType" Type="int" />
+          <Property Name="COA_Type" Type="nchar" MaxLength="1" />
+          <Property Name="OpenDebit" Type="decimal" Precision="18" Scale="3" />
+          <Property Name="OpenCredit" Type="decimal" Precision="18" Scale="3" />
+          <Property Name="DebitAmount" Type="decimal" Precision="18" Scale="3" />
+          <Property Name="CreditAmount" Type="decimal" Precision="18" Scale="3" />
+        </EntityType>
+        <EntityType Name="COM">
+          <Key>
+            <PropertyRef Name="COMID" />
+          </Key>
+          <Property Name="COMID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="COMName" Type="nvarchar" MaxLength="250" Nullable="false" />
+          <Property Name="COMDescription" Type="nvarchar" MaxLength="500" />
+          <Property Name="COMAddress" Type="nvarchar" MaxLength="500" />
+          <Property Name="COMUrl" Type="nvarchar" MaxLength="250" />
+          <Property Name="COMLogo" Type="image" />
+          <Property Name="COMPhone" Type="varchar" MaxLength="50" />
+          <Property Name="COMFax" Type="varchar" MaxLength="50" />
+          <Property Name="COMStatus" Type="bit" Nullable="false" />
+          <Property Name="DocFooter" Type="nvarchar" MaxLength="500" />
+          <Property Name="COM_ID" Type="int" />
+          <Property Name="Accountant_Name" Type="nvarchar" MaxLength="250" />
+          <Property Name="FM_Name" Type="nvarchar" MaxLength="250" />
+          <Property Name="GM_Name" Type="nvarchar" MaxLength="250" />
+          <Property Name="Is_Multiple_owner" Type="bit" />
+          <Property Name="ParentID" Type="int" />
+          <Property Name="Current_AccountID" Type="int" />
+          <Property Name="CompanyId" Type="int" Nullable="false" />
+          <Property Name="ComNameEn" Type="nvarchar" MaxLength="1000" />
+          <Property Name="ComMobile" Type="nvarchar" MaxLength="600" />
+          <Property Name="ComEmail" Type="nvarchar" MaxLength="200" />
+          <Property Name="RevenueAccountID" Type="int" />
+          <Property Name="TaxNo" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="Con_Company">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CON_ID" Type="int" />
+          <Property Name="ComID" Type="int" />
+        </EntityType>
+        <EntityType Name="Dafters">
+          <Key>
+            <PropertyRef Name="DafterId" />
+          </Key>
+          <Property Name="DafterId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DafterNo" Type="int" Nullable="false" />
+          <Property Name="DafterTypeId" Type="int" Nullable="false" />
+          <Property Name="BranchId" Type="int" Nullable="false" />
+          <Property Name="StartFrom" Type="int" Nullable="false" />
+          <Property Name="EndTo" Type="int" Nullable="false" />
+          <Property Name="FsyId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DaftersDocuments">
+          <Key>
+            <PropertyRef Name="DocId" />
+          </Key>
+          <Property Name="DocId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DafterId" Type="int" Nullable="false" />
+          <Property Name="DocNum" Type="int" Nullable="false" />
+          <Property Name="IsUsed" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DafterType">
+          <Key>
+            <PropertyRef Name="TypeId" />
+          </Key>
+          <Property Name="TypeId" Type="int" Nullable="false" />
+          <Property Name="TypeName" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="FSY">
+          <Key>
+            <PropertyRef Name="FSYID" />
+          </Key>
+          <Property Name="FSYID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FSYStartDate" Type="date" Nullable="false" />
+          <Property Name="FSYEndDate" Type="date" Nullable="false" />
+          <Property Name="FSYStatus" Type="bit" Nullable="false" />
+          <Property Name="COM_ID" Type="int" Nullable="false" />
+          <Property Name="Is_Open" Type="bit" />
+          <Property Name="Fsy_Name" Type="nvarchar" MaxLength="50" />
+          <Property Name="FsyPrefix" Type="nvarchar" MaxLength="50" />
+          <Property Name="GJHID" Type="bigint" />
+        </EntityType>
+        <EntityType Name="GJD">
+          <Key>
+            <PropertyRef Name="GJDID" />
+          </Key>
+          <Property Name="GJDID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="GJH_ID" Type="bigint" Nullable="false" />
+          <Property Name="GJDDebitAmount" Type="decimal" Precision="18" Scale="3" Nullable="false" />
+          <Property Name="GJDCreditAmount" Type="decimal" Precision="18" Scale="3" Nullable="false" />
+          <Property Name="COA_ID" Type="int" Nullable="false" />
+          <Property Name="GJDDescrition" Type="nvarchar(max)" />
+          <Property Name="JOB_ID" Type="int" />
+          <Property Name="GJDStatus" Type="bit" />
+          <Property Name="Fsy_ID" Type="int" />
+          <Property Name="Com_ID" Type="int" />
+          <Property Name="Notes" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="GJH">
+          <Key>
+            <PropertyRef Name="GJHID" />
+          </Key>
+          <Property Name="GJHID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="JournalNo" Type="int" Nullable="false" />
+          <Property Name="COM_ID" Type="int" />
+          <Property Name="GJHOperationDate" Type="date" Nullable="false" />
+          <Property Name="GJHPostedDate" Type="date" />
+          <Property Name="GJHDescription" Type="nvarchar(max)" />
+          <Property Name="GJHAmount" Type="decimal" Precision="18" Scale="3" Nullable="false" />
+          <Property Name="OPT_ID" Type="int" Nullable="false" />
+          <Property Name="GJHSourceType" Type="char" MaxLength="2" />
+          <Property Name="GJHSource_ID" Type="int" />
+          <Property Name="GJHSourceNumber" Type="nvarchar" MaxLength="200" />
+          <Property Name="USR_ID" Type="int" Nullable="false" />
+          <Property Name="GJHSubAccount_ID" Type="int" />
+          <Property Name="GJHSubAccountType" Type="char" MaxLength="1" />
+          <Property Name="GJHRefranceNumber" Type="nvarchar" MaxLength="50" />
+          <Property Name="GJHSystemNumber" Type="nvarchar" MaxLength="50" />
+          <Property Name="GJHPreviousBalance" Type="decimal" Precision="18" Scale="3" />
+          <Property Name="GJHStatus" Type="bit" />
+          <Property Name="ISONumber" Type="nvarchar" MaxLength="1000" />
+          <Property Name="InsertDate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="JOB">
+          <Key>
+            <PropertyRef Name="JOBID" />
+          </Key>
+          <Property Name="JOBID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="JOBDescription" Type="nvarchar" MaxLength="250" Nullable="false" />
+          <Property Name="Parent_ID" Type="int" />
+          <Property Name="Level" Type="int" />
+          <Property Name="JOBCode" Type="nvarchar" MaxLength="50" />
+          <Property Name="JOBIsMain" Type="bit" />
+          <Property Name="ComID" Type="int" />
+          <Property Name="IsDefault" Type="bit" />
+        </EntityType>
+        <EntityType Name="Treasuries">
+          <Key>
+            <PropertyRef Name="TreasuryId" />
+          </Key>
+          <Property Name="TreasuryId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BranchId" Type="int" Nullable="false" />
+          <Property Name="TreasuryName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="CashAccount" Type="int" Nullable="false" />
+          <Property Name="CheckAccount" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Acc_Name" Type="nvarchar" MaxLength="200" />
+          <Property Name="Name" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="Password" Type="nvarchar" MaxLength="15" Nullable="false" />
+          <Property Name="School_ID" Type="int" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="EnableDocDate" Type="bit" />
+          <Property Name="BirthDate" Type="date" />
+          <Property Name="EnableUserAccounts" Type="bit" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'Accounting.dbo.AssetLocationsWithLevelsSelect_Vw' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="AssetLocationsWithLevelsSelect_Vw">
+          <Key>
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="IsFamilial" />
+            <PropertyRef Name="level" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="LocationName" Type="nvarchar" MaxLength="50" />
+          <Property Name="ParentID" Type="int" />
+          <Property Name="IsDefault" Type="bit" />
+          <Property Name="IsShown" Type="bit" />
+          <Property Name="IsMain" Type="bit" />
+          <Property Name="Com_ID" Type="int" />
+          <Property Name="IsResidential" Type="bit" />
+          <Property Name="MaxCount" Type="int" />
+          <Property Name="ClassID" Type="int" />
+          <Property Name="width" Type="int" />
+          <Property Name="Height" Type="int" />
+          <Property Name="Depth" Type="int" />
+          <Property Name="IsFamilial" Type="bit" Nullable="false" />
+          <Property Name="UnitNumber" Type="nvarchar" MaxLength="10" />
+          <Property Name="BedsPerRoom" Type="int" />
+          <Property Name="level" Type="int" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'Accounting.dbo.CoaTree_Vw' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="CoaTree_Vw">
+          <Key>
+            <PropertyRef Name="COAID" />
+            <PropertyRef Name="COACode" />
+            <PropertyRef Name="AccountNatureName" />
+            <PropertyRef Name="AccountTypeName" />
+          </Key>
+          <Property Name="COAID" Type="int" Nullable="false" />
+          <Property Name="COA_ID" Type="int" />
+          <Property Name="COACode" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="COADescription" Type="nvarchar" MaxLength="250" />
+          <Property Name="AccountNatureName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="AccountTypeName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="COAAccountType" Type="int" />
+          <Property Name="COANotes" Type="nvarchar" MaxLength="50" />
+          <Property Name="COA_Type" Type="nvarchar" MaxLength="5" />
+          <Property Name="COMName" Type="nvarchar" MaxLength="250" />
+          <Property Name="COMID" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'Accounting.dbo.VW_UnitParents' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="VW_UnitParents">
+          <Key>
+            <PropertyRef Name="SiteId" />
+            <PropertyRef Name="FloorId" />
+            <PropertyRef Name="DepartmentId" />
+            <PropertyRef Name="IsFamilial" />
+            <PropertyRef Name="CompanyId" />
+          </Key>
+          <Property Name="SiteId" Type="int" Nullable="false" />
+          <Property Name="SiteName" Type="nvarchar" MaxLength="50" />
+          <Property Name="MaxCount" Type="int" />
+          <Property Name="FloorId" Type="int" Nullable="false" />
+          <Property Name="FloorName" Type="nvarchar" MaxLength="50" />
+          <Property Name="DepartmentId" Type="int" Nullable="false" />
+          <Property Name="IsResidential" Type="bit" />
+          <Property Name="IsFamilial" Type="bit" Nullable="false" />
+          <Property Name="DepartementName" Type="nvarchar" MaxLength="50" />
+          <Property Name="CompanyId" Type="int" Nullable="false" />
+          <Property Name="CompanyName" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <Association Name="FK_AccountsSecuirity_COA">
+          <End Role="COA" Type="Self.COA" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AccountSecurity" Type="Self.AccountSecurity" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="COA">
+              <PropertyRef Name="COAID" />
+            </Principal>
+            <Dependent Role="AccountSecurity">
+              <PropertyRef Name="AccountId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AccountsSecuirity_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AccountSecurity" Type="Self.AccountSecurity" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="AccountSecurity">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Ast_Location_Ast_LocationClass">
+          <End Role="Ast_LocationClass" Type="Self.Ast_LocationClass" Multiplicity="0..1" />
+          <End Role="Ast_Location" Type="Self.Ast_Location" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ast_LocationClass">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Ast_Location">
+              <PropertyRef Name="ClassID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Ast_Location_COM">
+          <End Role="COM" Type="Self.COM" Multiplicity="0..1" />
+          <End Role="Ast_Location" Type="Self.Ast_Location" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="COM">
+              <PropertyRef Name="COMID" />
+            </Principal>
+            <Dependent Role="Ast_Location">
+              <PropertyRef Name="Com_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Ast_LocationClass_Ast_LocationClass">
+          <End Role="Ast_LocationClass" Type="Self.Ast_LocationClass" Multiplicity="1" />
+          <End Role="Ast_LocationClass1" Type="Self.Ast_LocationClass" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Ast_LocationClass">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Ast_LocationClass1">
+              <PropertyRef Name="ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AstNames_CAT">
+          <End Role="CAT" Type="Self.CAT" Multiplicity="0..1" />
+          <End Role="AstNames" Type="Self.AstNames" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CAT">
+              <PropertyRef Name="CAT_ID" />
+            </Principal>
+            <Dependent Role="AstNames">
+              <PropertyRef Name="Cat_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CashMovement_BCD">
+          <End Role="BCD" Type="Self.BCD" Multiplicity="1" />
+          <End Role="CashMovement" Type="Self.CashMovement" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BCD">
+              <PropertyRef Name="BCDID" />
+            </Principal>
+            <Dependent Role="CashMovement">
+              <PropertyRef Name="BCD_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CashMovement_DaftersDocuments">
+          <End Role="DaftersDocuments" Type="Self.DaftersDocuments" Multiplicity="0..1" />
+          <End Role="CashMovement" Type="Self.CashMovement" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DaftersDocuments">
+              <PropertyRef Name="DocId" />
+            </Principal>
+            <Dependent Role="CashMovement">
+              <PropertyRef Name="DocId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CashMovement_GJH">
+          <End Role="GJH" Type="Self.GJH" Multiplicity="1" />
+          <End Role="CashMovement" Type="Self.CashMovement" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GJH">
+              <PropertyRef Name="GJHID" />
+            </Principal>
+            <Dependent Role="CashMovement">
+              <PropertyRef Name="GJHID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CashMovement_Treasuries">
+          <End Role="Treasuries" Type="Self.Treasuries" Multiplicity="1" />
+          <End Role="CashMovement" Type="Self.CashMovement" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Treasuries">
+              <PropertyRef Name="TreasuryId" />
+            </Principal>
+            <Dependent Role="CashMovement">
+              <PropertyRef Name="TreasuryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CAT_COA">
+          <End Role="COA" Type="Self.COA" Multiplicity="1" />
+          <End Role="CAT" Type="Self.CAT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="COA">
+              <PropertyRef Name="COAID" />
+            </Principal>
+            <Dependent Role="CAT">
+              <PropertyRef Name="COA_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CAT_COA1">
+          <End Role="COA" Type="Self.COA" Multiplicity="1" />
+          <End Role="CAT" Type="Self.CAT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="COA">
+              <PropertyRef Name="COAID" />
+            </Principal>
+            <Dependent Role="CAT">
+              <PropertyRef Name="MainDepAcc" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CAT_COA2">
+          <End Role="COA" Type="Self.COA" Multiplicity="1" />
+          <End Role="CAT" Type="Self.CAT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="COA">
+              <PropertyRef Name="COAID" />
+            </Principal>
+            <Dependent Role="CAT">
+              <PropertyRef Name="MainTotalDepAcc" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_COA_COA">
+          <End Role="COA" Type="Self.COA" Multiplicity="0..1" />
+          <End Role="COA1" Type="Self.COA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="COA">
+              <PropertyRef Name="COAID" />
+            </Principal>
+            <Dependent Role="COA1">
+              <PropertyRef Name="COA_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_COA_COM">
+          <End Role="COM" Type="Self.COM" Multiplicity="0..1" />
+          <End Role="COA" Type="Self.COA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="COM">
+              <PropertyRef Name="COMID" />
+            </Principal>
+            <Dependent Role="COA">
+              <PropertyRef Name="COM_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Con_Company_COM">
+          <End Role="COM" Type="Self.COM" Multiplicity="0..1" />
+          <End Role="Con_Company" Type="Self.Con_Company" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="COM">
+              <PropertyRef Name="COMID" />
+            </Principal>
+            <Dependent Role="Con_Company">
+              <PropertyRef Name="ComID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Con_Company_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Con_Company" Type="Self.Con_Company" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Con_Company">
+              <PropertyRef Name="CON_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Dafters_COM">
+          <End Role="COM" Type="Self.COM" Multiplicity="1" />
+          <End Role="Dafters" Type="Self.Dafters" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="COM">
+              <PropertyRef Name="COMID" />
+            </Principal>
+            <Dependent Role="Dafters">
+              <PropertyRef Name="BranchId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Dafters_Dafters">
+          <End Role="Dafters" Type="Self.Dafters" Multiplicity="1" />
+          <End Role="Dafters1" Type="Self.Dafters" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Dafters">
+              <PropertyRef Name="DafterId" />
+            </Principal>
+            <Dependent Role="Dafters1">
+              <PropertyRef Name="DafterId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Dafters_DafterType">
+          <End Role="DafterType" Type="Self.DafterType" Multiplicity="1" />
+          <End Role="Dafters" Type="Self.Dafters" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DafterType">
+              <PropertyRef Name="TypeId" />
+            </Principal>
+            <Dependent Role="Dafters">
+              <PropertyRef Name="DafterTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Dafters_FSY">
+          <End Role="FSY" Type="Self.FSY" Multiplicity="1" />
+          <End Role="Dafters" Type="Self.Dafters" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FSY">
+              <PropertyRef Name="FSYID" />
+            </Principal>
+            <Dependent Role="Dafters">
+              <PropertyRef Name="FsyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DaftersDocuments_Dafters">
+          <End Role="Dafters" Type="Self.Dafters" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="DaftersDocuments" Type="Self.DaftersDocuments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Dafters">
+              <PropertyRef Name="DafterId" />
+            </Principal>
+            <Dependent Role="DaftersDocuments">
+              <PropertyRef Name="DafterId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FSY_COM">
+          <End Role="COM" Type="Self.COM" Multiplicity="1" />
+          <End Role="FSY" Type="Self.FSY" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="COM">
+              <PropertyRef Name="COMID" />
+            </Principal>
+            <Dependent Role="FSY">
+              <PropertyRef Name="COM_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FSY_GJH">
+          <End Role="GJH" Type="Self.GJH" Multiplicity="0..1" />
+          <End Role="FSY" Type="Self.FSY" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GJH">
+              <PropertyRef Name="GJHID" />
+            </Principal>
+            <Dependent Role="FSY">
+              <PropertyRef Name="GJHID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GJD_COA">
+          <End Role="COA" Type="Self.COA" Multiplicity="1" />
+          <End Role="GJD" Type="Self.GJD" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="COA">
+              <PropertyRef Name="COAID" />
+            </Principal>
+            <Dependent Role="GJD">
+              <PropertyRef Name="COA_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GJD_COM">
+          <End Role="COM" Type="Self.COM" Multiplicity="0..1" />
+          <End Role="GJD" Type="Self.GJD" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="COM">
+              <PropertyRef Name="COMID" />
+            </Principal>
+            <Dependent Role="GJD">
+              <PropertyRef Name="Com_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GJD_FSY">
+          <End Role="FSY" Type="Self.FSY" Multiplicity="0..1" />
+          <End Role="GJD" Type="Self.GJD" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FSY">
+              <PropertyRef Name="FSYID" />
+            </Principal>
+            <Dependent Role="GJD">
+              <PropertyRef Name="Fsy_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GJD_GJH">
+          <End Role="GJH" Type="Self.GJH" Multiplicity="1" />
+          <End Role="GJD" Type="Self.GJD" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GJH">
+              <PropertyRef Name="GJHID" />
+            </Principal>
+            <Dependent Role="GJD">
+              <PropertyRef Name="GJH_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GJD_JOB">
+          <End Role="JOB" Type="Self.JOB" Multiplicity="0..1" />
+          <End Role="GJD" Type="Self.GJD" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="JOB">
+              <PropertyRef Name="JOBID" />
+            </Principal>
+            <Dependent Role="GJD">
+              <PropertyRef Name="JOB_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GJH_BCD">
+          <End Role="BCD" Type="Self.BCD" Multiplicity="1" />
+          <End Role="GJH" Type="Self.GJH" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BCD">
+              <PropertyRef Name="BCDID" />
+            </Principal>
+            <Dependent Role="GJH">
+              <PropertyRef Name="OPT_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GJH_COM">
+          <End Role="COM" Type="Self.COM" Multiplicity="0..1" />
+          <End Role="GJH" Type="Self.GJH" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="COM">
+              <PropertyRef Name="COMID" />
+            </Principal>
+            <Dependent Role="GJH">
+              <PropertyRef Name="COM_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GJH_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="GJH" Type="Self.GJH" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="GJH">
+              <PropertyRef Name="USR_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Treasuries_COA">
+          <End Role="COA" Type="Self.COA" Multiplicity="1" />
+          <End Role="Treasuries" Type="Self.Treasuries" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="COA">
+              <PropertyRef Name="COAID" />
+            </Principal>
+            <Dependent Role="Treasuries">
+              <PropertyRef Name="CashAccount" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Treasuries_COA1">
+          <End Role="COA" Type="Self.COA" Multiplicity="1" />
+          <End Role="Treasuries" Type="Self.Treasuries" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="COA">
+              <PropertyRef Name="COAID" />
+            </Principal>
+            <Dependent Role="Treasuries">
+              <PropertyRef Name="CheckAccount" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Treasuries_COM">
+          <End Role="COM" Type="Self.COM" Multiplicity="1" />
+          <End Role="Treasuries" Type="Self.Treasuries" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="COM">
+              <PropertyRef Name="COMID" />
+            </Principal>
+            <Dependent Role="Treasuries">
+              <PropertyRef Name="BranchId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Users_COM">
+          <End Role="COM" Type="Self.COM" Multiplicity="0..1" />
+          <End Role="Users" Type="Self.Users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="COM">
+              <PropertyRef Name="COMID" />
+            </Principal>
+            <Dependent Role="Users">
+              <PropertyRef Name="School_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="usp_GetConfigValues" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Dashboard">
+          <Parameter Name="SearchKey" Type="nvarchar(max)" Mode="In" />
+        </Function>
+        <Function Name="FilterAssets_Sp" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ComId" Type="int" Mode="In" />
+          <Parameter Name="DepartmentId" Type="int" Mode="In" />
+          <Parameter Name="FloorId" Type="int" Mode="In" />
+          <Parameter Name="SiteId" Type="int" Mode="In" />
+          <Parameter Name="CatId" Type="int" Mode="In" />
+          <Parameter Name="StartDate" Type="date" Mode="In" />
+          <Parameter Name="EndDate" Type="date" Mode="In" />
+        </Function>
+        <Function Name="FloorDepComForSiteSelect_Sp" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="SiteId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="GetComsBasedOnIsFamilial_Sp" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IsFamilial" Type="bit" Mode="In" />
+        </Function>
+        <Function Name="GetLocationsTree_Sp" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="NextJournalEntryNo_Sp" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="COM_ID" Type="int" Mode="In" />
+          <Parameter Name="Fsy_ID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="SelectBranchesInAssetLocations_Sp" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="UserId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="SelectBranchesNotInAssetLocations_Sp" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="UserId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="SiteInsert_Sp" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="BranchId" Type="int" Mode="In" />
+          <Parameter Name="FloorId" Type="int" Mode="In" />
+          <Parameter Name="LocationName" Type="nvarchar" Mode="In" />
+          <Parameter Name="ClassID" Type="int" Mode="In" />
+          <Parameter Name="width" Type="int" Mode="In" />
+          <Parameter Name="Height" Type="int" Mode="In" />
+          <Parameter Name="Depth" Type="int" Mode="In" />
+        </Function>
+        <Function Name="Usp_Company_Select_ByUserID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="userID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="usp_GetLastGJHSystemNumber" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="FsyID" Type="int" Mode="In" />
+          <Parameter Name="OptID" Type="int" Mode="In" />
+          <Parameter Name="Prefix" Type="nvarchar" Mode="In" />
+        </Function>
+        <EntityContainer Name="StudentProfileDALModelsStoreContainer">
+          <EntitySet Name="AccountSecurity" EntityType="Self.AccountSecurity" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Ast_Location" EntityType="Self.Ast_Location" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Ast_LocationClass" EntityType="Self.Ast_LocationClass" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AstNames" EntityType="Self.AstNames" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BCD" EntityType="Self.BCD" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CashMovement" EntityType="Self.CashMovement" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CAT" EntityType="Self.CAT" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="COA" EntityType="Self.COA" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="COM" EntityType="Self.COM" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Con_Company" EntityType="Self.Con_Company" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Dafters" EntityType="Self.Dafters" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DaftersDocuments" EntityType="Self.DaftersDocuments" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DafterType" EntityType="Self.DafterType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FSY" EntityType="Self.FSY" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="GJD" EntityType="Self.GJD" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="GJH" EntityType="Self.GJH" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="JOB" EntityType="Self.JOB" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Treasuries" EntityType="Self.Treasuries" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AssetLocationsWithLevelsSelect_Vw" EntityType="Self.AssetLocationsWithLevelsSelect_Vw" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [AssetLocationsWithLevelsSelect_Vw].[ID] AS [ID], 
+    [AssetLocationsWithLevelsSelect_Vw].[LocationName] AS [LocationName], 
+    [AssetLocationsWithLevelsSelect_Vw].[ParentID] AS [ParentID], 
+    [AssetLocationsWithLevelsSelect_Vw].[IsDefault] AS [IsDefault], 
+    [AssetLocationsWithLevelsSelect_Vw].[IsShown] AS [IsShown], 
+    [AssetLocationsWithLevelsSelect_Vw].[IsMain] AS [IsMain], 
+    [AssetLocationsWithLevelsSelect_Vw].[Com_ID] AS [Com_ID], 
+    [AssetLocationsWithLevelsSelect_Vw].[IsResidential] AS [IsResidential], 
+    [AssetLocationsWithLevelsSelect_Vw].[MaxCount] AS [MaxCount], 
+    [AssetLocationsWithLevelsSelect_Vw].[ClassID] AS [ClassID], 
+    [AssetLocationsWithLevelsSelect_Vw].[width] AS [width], 
+    [AssetLocationsWithLevelsSelect_Vw].[Height] AS [Height], 
+    [AssetLocationsWithLevelsSelect_Vw].[Depth] AS [Depth], 
+    [AssetLocationsWithLevelsSelect_Vw].[IsFamilial] AS [IsFamilial], 
+    [AssetLocationsWithLevelsSelect_Vw].[UnitNumber] AS [UnitNumber], 
+    [AssetLocationsWithLevelsSelect_Vw].[BedsPerRoom] AS [BedsPerRoom], 
+    [AssetLocationsWithLevelsSelect_Vw].[level] AS [level]
+    FROM [dbo].[AssetLocationsWithLevelsSelect_Vw] AS [AssetLocationsWithLevelsSelect_Vw]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="CoaTree_Vw" EntityType="Self.CoaTree_Vw" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [CoaTree_Vw].[COAID] AS [COAID], 
+    [CoaTree_Vw].[COA_ID] AS [COA_ID], 
+    [CoaTree_Vw].[COACode] AS [COACode], 
+    [CoaTree_Vw].[COADescription] AS [COADescription], 
+    [CoaTree_Vw].[AccountNatureName] AS [AccountNatureName], 
+    [CoaTree_Vw].[AccountTypeName] AS [AccountTypeName], 
+    [CoaTree_Vw].[COAAccountType] AS [COAAccountType], 
+    [CoaTree_Vw].[COANotes] AS [COANotes], 
+    [CoaTree_Vw].[COA_Type] AS [COA_Type], 
+    [CoaTree_Vw].[COMName] AS [COMName], 
+    [CoaTree_Vw].[COMID] AS [COMID]
+    FROM [dbo].[CoaTree_Vw] AS [CoaTree_Vw]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="VW_UnitParents" EntityType="Self.VW_UnitParents" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [VW_UnitParents].[SiteId] AS [SiteId], 
+    [VW_UnitParents].[SiteName] AS [SiteName], 
+    [VW_UnitParents].[MaxCount] AS [MaxCount], 
+    [VW_UnitParents].[FloorId] AS [FloorId], 
+    [VW_UnitParents].[FloorName] AS [FloorName], 
+    [VW_UnitParents].[DepartmentId] AS [DepartmentId], 
+    [VW_UnitParents].[IsResidential] AS [IsResidential], 
+    [VW_UnitParents].[IsFamilial] AS [IsFamilial], 
+    [VW_UnitParents].[DepartementName] AS [DepartementName], 
+    [VW_UnitParents].[CompanyId] AS [CompanyId], 
+    [VW_UnitParents].[CompanyName] AS [CompanyName]
+    FROM [dbo].[VW_UnitParents] AS [VW_UnitParents]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK_AccountsSecuirity_COA" Association="Self.FK_AccountsSecuirity_COA">
+            <End Role="COA" EntitySet="COA" />
+            <End Role="AccountSecurity" EntitySet="AccountSecurity" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AccountsSecuirity_Users" Association="Self.FK_AccountsSecuirity_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="AccountSecurity" EntitySet="AccountSecurity" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Ast_Location_Ast_LocationClass" Association="Self.FK_Ast_Location_Ast_LocationClass">
+            <End Role="Ast_LocationClass" EntitySet="Ast_LocationClass" />
+            <End Role="Ast_Location" EntitySet="Ast_Location" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Ast_Location_COM" Association="Self.FK_Ast_Location_COM">
+            <End Role="COM" EntitySet="COM" />
+            <End Role="Ast_Location" EntitySet="Ast_Location" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Ast_LocationClass_Ast_LocationClass" Association="Self.FK_Ast_LocationClass_Ast_LocationClass">
+            <End Role="Ast_LocationClass" EntitySet="Ast_LocationClass" />
+            <End Role="Ast_LocationClass1" EntitySet="Ast_LocationClass" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AstNames_CAT" Association="Self.FK_AstNames_CAT">
+            <End Role="CAT" EntitySet="CAT" />
+            <End Role="AstNames" EntitySet="AstNames" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CashMovement_BCD" Association="Self.FK_CashMovement_BCD">
+            <End Role="BCD" EntitySet="BCD" />
+            <End Role="CashMovement" EntitySet="CashMovement" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CashMovement_DaftersDocuments" Association="Self.FK_CashMovement_DaftersDocuments">
+            <End Role="DaftersDocuments" EntitySet="DaftersDocuments" />
+            <End Role="CashMovement" EntitySet="CashMovement" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CashMovement_GJH" Association="Self.FK_CashMovement_GJH">
+            <End Role="GJH" EntitySet="GJH" />
+            <End Role="CashMovement" EntitySet="CashMovement" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CashMovement_Treasuries" Association="Self.FK_CashMovement_Treasuries">
+            <End Role="Treasuries" EntitySet="Treasuries" />
+            <End Role="CashMovement" EntitySet="CashMovement" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CAT_COA" Association="Self.FK_CAT_COA">
+            <End Role="COA" EntitySet="COA" />
+            <End Role="CAT" EntitySet="CAT" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CAT_COA1" Association="Self.FK_CAT_COA1">
+            <End Role="COA" EntitySet="COA" />
+            <End Role="CAT" EntitySet="CAT" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CAT_COA2" Association="Self.FK_CAT_COA2">
+            <End Role="COA" EntitySet="COA" />
+            <End Role="CAT" EntitySet="CAT" />
+          </AssociationSet>
+          <AssociationSet Name="FK_COA_COA" Association="Self.FK_COA_COA">
+            <End Role="COA" EntitySet="COA" />
+            <End Role="COA1" EntitySet="COA" />
+          </AssociationSet>
+          <AssociationSet Name="FK_COA_COM" Association="Self.FK_COA_COM">
+            <End Role="COM" EntitySet="COM" />
+            <End Role="COA" EntitySet="COA" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Con_Company_COM" Association="Self.FK_Con_Company_COM">
+            <End Role="COM" EntitySet="COM" />
+            <End Role="Con_Company" EntitySet="Con_Company" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Con_Company_Users" Association="Self.FK_Con_Company_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Con_Company" EntitySet="Con_Company" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Dafters_COM" Association="Self.FK_Dafters_COM">
+            <End Role="COM" EntitySet="COM" />
+            <End Role="Dafters" EntitySet="Dafters" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Dafters_Dafters" Association="Self.FK_Dafters_Dafters">
+            <End Role="Dafters" EntitySet="Dafters" />
+            <End Role="Dafters1" EntitySet="Dafters" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Dafters_DafterType" Association="Self.FK_Dafters_DafterType">
+            <End Role="DafterType" EntitySet="DafterType" />
+            <End Role="Dafters" EntitySet="Dafters" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Dafters_FSY" Association="Self.FK_Dafters_FSY">
+            <End Role="FSY" EntitySet="FSY" />
+            <End Role="Dafters" EntitySet="Dafters" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DaftersDocuments_Dafters" Association="Self.FK_DaftersDocuments_Dafters">
+            <End Role="Dafters" EntitySet="Dafters" />
+            <End Role="DaftersDocuments" EntitySet="DaftersDocuments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FSY_COM" Association="Self.FK_FSY_COM">
+            <End Role="COM" EntitySet="COM" />
+            <End Role="FSY" EntitySet="FSY" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FSY_GJH" Association="Self.FK_FSY_GJH">
+            <End Role="GJH" EntitySet="GJH" />
+            <End Role="FSY" EntitySet="FSY" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GJD_COA" Association="Self.FK_GJD_COA">
+            <End Role="COA" EntitySet="COA" />
+            <End Role="GJD" EntitySet="GJD" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GJD_COM" Association="Self.FK_GJD_COM">
+            <End Role="COM" EntitySet="COM" />
+            <End Role="GJD" EntitySet="GJD" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GJD_FSY" Association="Self.FK_GJD_FSY">
+            <End Role="FSY" EntitySet="FSY" />
+            <End Role="GJD" EntitySet="GJD" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GJD_GJH" Association="Self.FK_GJD_GJH">
+            <End Role="GJH" EntitySet="GJH" />
+            <End Role="GJD" EntitySet="GJD" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GJD_JOB" Association="Self.FK_GJD_JOB">
+            <End Role="JOB" EntitySet="JOB" />
+            <End Role="GJD" EntitySet="GJD" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GJH_BCD" Association="Self.FK_GJH_BCD">
+            <End Role="BCD" EntitySet="BCD" />
+            <End Role="GJH" EntitySet="GJH" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GJH_COM" Association="Self.FK_GJH_COM">
+            <End Role="COM" EntitySet="COM" />
+            <End Role="GJH" EntitySet="GJH" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GJH_Users" Association="Self.FK_GJH_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="GJH" EntitySet="GJH" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Treasuries_COA" Association="Self.FK_Treasuries_COA">
+            <End Role="COA" EntitySet="COA" />
+            <End Role="Treasuries" EntitySet="Treasuries" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Treasuries_COA1" Association="Self.FK_Treasuries_COA1">
+            <End Role="COA" EntitySet="COA" />
+            <End Role="Treasuries" EntitySet="Treasuries" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Treasuries_COM" Association="Self.FK_Treasuries_COM">
+            <End Role="COM" EntitySet="COM" />
+            <End Role="Treasuries" EntitySet="Treasuries" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Users_COM" Association="Self.FK_Users_COM">
+            <End Role="COM" EntitySet="COM" />
+            <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="StudentProfile.DAL.Models" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="AccountSecurity">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AccountId" Type="Int32" Nullable="false" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="COA" Relationship="Self.FK_AccountsSecuirity_COA" FromRole="AccountSecurity" ToRole="COA" />
+          <NavigationProperty Name="Users" Relationship="Self.FK_AccountsSecuirity_Users" FromRole="AccountSecurity" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="Ast_Location">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LocationName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ParentID" Type="Int32" />
+          <Property Name="IsDefault" Type="Boolean" />
+          <Property Name="IsShown" Type="Boolean" />
+          <Property Name="IsMain" Type="Boolean" />
+          <Property Name="Com_ID" Type="Int32" />
+          <Property Name="IsResidential" Type="Boolean" />
+          <Property Name="MaxCount" Type="Int32" />
+          <Property Name="ClassID" Type="Int32" />
+          <Property Name="width" Type="Int32" />
+          <Property Name="Height" Type="Int32" />
+          <Property Name="Depth" Type="Int32" />
+          <Property Name="IsFamilial" Type="Boolean" Nullable="false" />
+          <Property Name="UnitNumber" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="BedsPerRoom" Type="Int32" />
+          <NavigationProperty Name="Ast_LocationClass" Relationship="Self.FK_Ast_Location_Ast_LocationClass" FromRole="Ast_Location" ToRole="Ast_LocationClass" />
+          <NavigationProperty Name="COM" Relationship="Self.FK_Ast_Location_COM" FromRole="Ast_Location" ToRole="COM" />
+        </EntityType>
+        <EntityType Name="Ast_LocationClass">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Ast_Location" Relationship="Self.FK_Ast_Location_Ast_LocationClass" FromRole="Ast_LocationClass" ToRole="Ast_Location" />
+          <NavigationProperty Name="Ast_LocationClass1" Relationship="Self.FK_Ast_LocationClass_Ast_LocationClass" FromRole="Ast_LocationClass" ToRole="Ast_LocationClass1" />
+          <NavigationProperty Name="Ast_LocationClass2" Relationship="Self.FK_Ast_LocationClass_Ast_LocationClass" FromRole="Ast_LocationClass1" ToRole="Ast_LocationClass" />
+        </EntityType>
+        <EntityType Name="AstNames">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Cat_Id" Type="Int32" />
+          <Property Name="ComID" Type="Int32" />
+          <NavigationProperty Name="CAT" Relationship="Self.FK_AstNames_CAT" FromRole="AstNames" ToRole="CAT" />
+        </EntityType>
+        <EntityType Name="BCD">
+          <Key>
+            <PropertyRef Name="BCDID" />
+          </Key>
+          <Property Name="BCDID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BCDArValue" Type="String" MaxLength="250" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="BCDEnValue" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="BCDStatus" Type="Boolean" />
+          <Property Name="BCDIsSystem" Type="Boolean" />
+          <Property Name="BCDOrder" Type="Int32" />
+          <Property Name="BCDExp1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="BCDExp2" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="BCDExp3" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="BSC_ID" Type="Int32" />
+          <Property Name="Prefix" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="CashMovement" Relationship="Self.FK_CashMovement_BCD" FromRole="BCD" ToRole="CashMovement" />
+          <NavigationProperty Name="GJH" Relationship="Self.FK_GJH_BCD" FromRole="BCD" ToRole="GJH" />
+        </EntityType>
+        <EntityType Name="CashMovement">
+          <Key>
+            <PropertyRef Name="CashMovementId" />
+          </Key>
+          <Property Name="CashMovementId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TreasuryId" Type="Int32" Nullable="false" />
+          <Property Name="GJHID" Type="Int64" Nullable="false" />
+          <Property Name="DocId" Type="Int32" />
+          <Property Name="Amount" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="MovementDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="BCD_ID" Type="Int32" Nullable="false" />
+          <Property Name="PatchDate" Type="DateTime" Precision="0" />
+          <Property Name="BeneficiaryName" Type="String" MaxLength="300" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Notes" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="BCD" Relationship="Self.FK_CashMovement_BCD" FromRole="CashMovement" ToRole="BCD" />
+          <NavigationProperty Name="DaftersDocuments" Relationship="Self.FK_CashMovement_DaftersDocuments" FromRole="CashMovement" ToRole="DaftersDocuments" />
+          <NavigationProperty Name="GJH" Relationship="Self.FK_CashMovement_GJH" FromRole="CashMovement" ToRole="GJH" />
+          <NavigationProperty Name="Treasuries" Relationship="Self.FK_CashMovement_Treasuries" FromRole="CashMovement" ToRole="Treasuries" />
+        </EntityType>
+        <EntityType Name="CAT">
+          <Key>
+            <PropertyRef Name="CAT_ID" />
+          </Key>
+          <Property Name="CAT_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CAT_Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="COA_ID" Type="Int32" Nullable="false" />
+          <Property Name="MainDepAcc" Type="Int32" Nullable="false" />
+          <Property Name="MainTotalDepAcc" Type="Int32" Nullable="false" />
+          <Property Name="DEP_ID" Type="Int32" />
+          <Property Name="DEP_Percent" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="DepYears" Type="Int32" />
+          <NavigationProperty Name="AstNames" Relationship="Self.FK_AstNames_CAT" FromRole="CAT" ToRole="AstNames" />
+          <NavigationProperty Name="COA" Relationship="Self.FK_CAT_COA" FromRole="CAT" ToRole="COA" />
+          <NavigationProperty Name="COA1" Relationship="Self.FK_CAT_COA1" FromRole="CAT" ToRole="COA" />
+          <NavigationProperty Name="COA2" Relationship="Self.FK_CAT_COA2" FromRole="CAT" ToRole="COA" />
+        </EntityType>
+        <EntityType Name="COA">
+          <Key>
+            <PropertyRef Name="COAID" />
+          </Key>
+          <Property Name="COAID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="COA_ID" Type="Int32" />
+          <Property Name="COACode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="COADescription" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="COAPlusSide" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="COASystemPlusSide" Type="Int16" Nullable="false" />
+          <Property Name="COAStatus" Type="Boolean" Nullable="false" />
+          <Property Name="COASystemAccount" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="COM_ID" Type="Int32" />
+          <Property Name="COAAccountType" Type="Int32" />
+          <Property Name="COANotes" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ACC_MainType" Type="Int32" />
+          <Property Name="COA_Type" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
+          <Property Name="OpenDebit" Type="Decimal" Precision="18" Scale="3" />
+          <Property Name="OpenCredit" Type="Decimal" Precision="18" Scale="3" />
+          <Property Name="DebitAmount" Type="Decimal" Precision="18" Scale="3" />
+          <Property Name="CreditAmount" Type="Decimal" Precision="18" Scale="3" />
+          <NavigationProperty Name="AccountSecurity" Relationship="Self.FK_AccountsSecuirity_COA" FromRole="COA" ToRole="AccountSecurity" />
+          <NavigationProperty Name="CAT" Relationship="Self.FK_CAT_COA" FromRole="COA" ToRole="CAT" />
+          <NavigationProperty Name="CAT1" Relationship="Self.FK_CAT_COA1" FromRole="COA" ToRole="CAT" />
+          <NavigationProperty Name="CAT2" Relationship="Self.FK_CAT_COA2" FromRole="COA" ToRole="CAT" />
+          <NavigationProperty Name="COA1" Relationship="Self.FK_COA_COA" FromRole="COA" ToRole="COA1" />
+          <NavigationProperty Name="COA2" Relationship="Self.FK_COA_COA" FromRole="COA1" ToRole="COA" />
+          <NavigationProperty Name="COM" Relationship="Self.FK_COA_COM" FromRole="COA" ToRole="COM" />
+          <NavigationProperty Name="GJD" Relationship="Self.FK_GJD_COA" FromRole="COA" ToRole="GJD" />
+          <NavigationProperty Name="Treasuries" Relationship="Self.FK_Treasuries_COA" FromRole="COA" ToRole="Treasuries" />
+          <NavigationProperty Name="Treasuries1" Relationship="Self.FK_Treasuries_COA1" FromRole="COA" ToRole="Treasuries" />
+        </EntityType>
+        <EntityType Name="COM">
+          <Key>
+            <PropertyRef Name="COMID" />
+          </Key>
+          <Property Name="COMID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="COMName" Type="String" MaxLength="250" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="COMDescription" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="COMAddress" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="COMUrl" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="COMLogo" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="COMPhone" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="COMFax" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="COMStatus" Type="Boolean" Nullable="false" />
+          <Property Name="DocFooter" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="COM_ID" Type="Int32" />
+          <Property Name="Accountant_Name" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="FM_Name" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="GM_Name" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Is_Multiple_owner" Type="Boolean" />
+          <Property Name="ParentID" Type="Int32" />
+          <Property Name="Current_AccountID" Type="Int32" />
+          <Property Name="CompanyId" Type="Int32" Nullable="false" />
+          <Property Name="ComNameEn" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="ComMobile" Type="String" MaxLength="600" FixedLength="false" Unicode="true" />
+          <Property Name="ComEmail" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="RevenueAccountID" Type="Int32" />
+          <Property Name="TaxNo" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Ast_Location" Relationship="Self.FK_Ast_Location_COM" FromRole="COM" ToRole="Ast_Location" />
+          <NavigationProperty Name="COA" Relationship="Self.FK_COA_COM" FromRole="COM" ToRole="COA" />
+          <NavigationProperty Name="Con_Company" Relationship="Self.FK_Con_Company_COM" FromRole="COM" ToRole="Con_Company" />
+          <NavigationProperty Name="Dafters" Relationship="Self.FK_Dafters_COM" FromRole="COM" ToRole="Dafters" />
+          <NavigationProperty Name="FSY" Relationship="Self.FK_FSY_COM" FromRole="COM" ToRole="FSY" />
+          <NavigationProperty Name="GJD" Relationship="Self.FK_GJD_COM" FromRole="COM" ToRole="GJD" />
+          <NavigationProperty Name="GJH" Relationship="Self.FK_GJH_COM" FromRole="COM" ToRole="GJH" />
+          <NavigationProperty Name="Treasuries" Relationship="Self.FK_Treasuries_COM" FromRole="COM" ToRole="Treasuries" />
+          <NavigationProperty Name="Users" Relationship="Self.FK_Users_COM" FromRole="COM" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="Con_Company">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CON_ID" Type="Int32" />
+          <Property Name="ComID" Type="Int32" />
+          <NavigationProperty Name="COM" Relationship="Self.FK_Con_Company_COM" FromRole="Con_Company" ToRole="COM" />
+          <NavigationProperty Name="Users" Relationship="Self.FK_Con_Company_Users" FromRole="Con_Company" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="Dafters">
+          <Key>
+            <PropertyRef Name="DafterId" />
+          </Key>
+          <Property Name="DafterId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DafterNo" Type="Int32" Nullable="false" />
+          <Property Name="DafterTypeId" Type="Int32" Nullable="false" />
+          <Property Name="BranchId" Type="Int32" Nullable="false" />
+          <Property Name="StartFrom" Type="Int32" Nullable="false" />
+          <Property Name="EndTo" Type="Int32" Nullable="false" />
+          <Property Name="FsyId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="COM" Relationship="Self.FK_Dafters_COM" FromRole="Dafters" ToRole="COM" />
+          <NavigationProperty Name="Dafters1" Relationship="Self.FK_Dafters_Dafters" FromRole="Dafters" ToRole="Dafters1" />
+          <NavigationProperty Name="Dafters2" Relationship="Self.FK_Dafters_Dafters" FromRole="Dafters1" ToRole="Dafters" />
+          <NavigationProperty Name="DafterType" Relationship="Self.FK_Dafters_DafterType" FromRole="Dafters" ToRole="DafterType" />
+          <NavigationProperty Name="FSY" Relationship="Self.FK_Dafters_FSY" FromRole="Dafters" ToRole="FSY" />
+          <NavigationProperty Name="DaftersDocuments" Relationship="Self.FK_DaftersDocuments_Dafters" FromRole="Dafters" ToRole="DaftersDocuments" />
+        </EntityType>
+        <EntityType Name="DaftersDocuments">
+          <Key>
+            <PropertyRef Name="DocId" />
+          </Key>
+          <Property Name="DocId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DafterId" Type="Int32" Nullable="false" />
+          <Property Name="DocNum" Type="Int32" Nullable="false" />
+          <Property Name="IsUsed" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="CashMovement" Relationship="Self.FK_CashMovement_DaftersDocuments" FromRole="DaftersDocuments" ToRole="CashMovement" />
+          <NavigationProperty Name="Dafters" Relationship="Self.FK_DaftersDocuments_Dafters" FromRole="DaftersDocuments" ToRole="Dafters" />
+        </EntityType>
+        <EntityType Name="DafterType">
+          <Key>
+            <PropertyRef Name="TypeId" />
+          </Key>
+          <Property Name="TypeId" Type="Int32" Nullable="false" />
+          <Property Name="TypeName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Dafters" Relationship="Self.FK_Dafters_DafterType" FromRole="DafterType" ToRole="Dafters" />
+        </EntityType>
+        <EntityType Name="FSY">
+          <Key>
+            <PropertyRef Name="FSYID" />
+          </Key>
+          <Property Name="FSYID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FSYStartDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="FSYEndDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="FSYStatus" Type="Boolean" Nullable="false" />
+          <Property Name="COM_ID" Type="Int32" Nullable="false" />
+          <Property Name="Is_Open" Type="Boolean" />
+          <Property Name="Fsy_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="FsyPrefix" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="GJHID" Type="Int64" />
+          <NavigationProperty Name="COM" Relationship="Self.FK_FSY_COM" FromRole="FSY" ToRole="COM" />
+          <NavigationProperty Name="Dafters" Relationship="Self.FK_Dafters_FSY" FromRole="FSY" ToRole="Dafters" />
+          <NavigationProperty Name="GJH" Relationship="Self.FK_FSY_GJH" FromRole="FSY" ToRole="GJH" />
+          <NavigationProperty Name="GJD" Relationship="Self.FK_GJD_FSY" FromRole="FSY" ToRole="GJD" />
+        </EntityType>
+        <EntityType Name="GJD">
+          <Key>
+            <PropertyRef Name="GJDID" />
+          </Key>
+          <Property Name="GJDID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="GJH_ID" Type="Int64" Nullable="false" />
+          <Property Name="GJDDebitAmount" Type="Decimal" Precision="18" Scale="3" Nullable="false" />
+          <Property Name="GJDCreditAmount" Type="Decimal" Precision="18" Scale="3" Nullable="false" />
+          <Property Name="COA_ID" Type="Int32" Nullable="false" />
+          <Property Name="GJDDescrition" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="JOB_ID" Type="Int32" />
+          <Property Name="GJDStatus" Type="Boolean" />
+          <Property Name="Fsy_ID" Type="Int32" />
+          <Property Name="Com_ID" Type="Int32" />
+          <Property Name="Notes" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="COA" Relationship="Self.FK_GJD_COA" FromRole="GJD" ToRole="COA" />
+          <NavigationProperty Name="COM" Relationship="Self.FK_GJD_COM" FromRole="GJD" ToRole="COM" />
+          <NavigationProperty Name="FSY" Relationship="Self.FK_GJD_FSY" FromRole="GJD" ToRole="FSY" />
+          <NavigationProperty Name="GJH" Relationship="Self.FK_GJD_GJH" FromRole="GJD" ToRole="GJH" />
+          <NavigationProperty Name="JOB" Relationship="Self.FK_GJD_JOB" FromRole="GJD" ToRole="JOB" />
+        </EntityType>
+        <EntityType Name="GJH">
+          <Key>
+            <PropertyRef Name="GJHID" />
+          </Key>
+          <Property Name="GJHID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="JournalNo" Type="Int32" Nullable="false" />
+          <Property Name="COM_ID" Type="Int32" />
+          <Property Name="GJHOperationDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="GJHPostedDate" Type="DateTime" Precision="0" />
+          <Property Name="GJHDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="GJHAmount" Type="Decimal" Precision="18" Scale="3" Nullable="false" />
+          <Property Name="OPT_ID" Type="Int32" Nullable="false" />
+          <Property Name="GJHSourceType" Type="String" MaxLength="2" FixedLength="true" Unicode="false" />
+          <Property Name="GJHSource_ID" Type="Int32" />
+          <Property Name="GJHSourceNumber" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="USR_ID" Type="Int32" Nullable="false" />
+          <Property Name="GJHSubAccount_ID" Type="Int32" />
+          <Property Name="GJHSubAccountType" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="GJHRefranceNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="GJHSystemNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="GJHPreviousBalance" Type="Decimal" Precision="18" Scale="3" />
+          <Property Name="GJHStatus" Type="Boolean" />
+          <Property Name="ISONumber" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="InsertDate" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="BCD" Relationship="Self.FK_GJH_BCD" FromRole="GJH" ToRole="BCD" />
+          <NavigationProperty Name="CashMovement" Relationship="Self.FK_CashMovement_GJH" FromRole="GJH" ToRole="CashMovement" />
+          <NavigationProperty Name="COM" Relationship="Self.FK_GJH_COM" FromRole="GJH" ToRole="COM" />
+          <NavigationProperty Name="FSY" Relationship="Self.FK_FSY_GJH" FromRole="GJH" ToRole="FSY" />
+          <NavigationProperty Name="GJD" Relationship="Self.FK_GJD_GJH" FromRole="GJH" ToRole="GJD" />
+          <NavigationProperty Name="Users" Relationship="Self.FK_GJH_Users" FromRole="GJH" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="JOB">
+          <Key>
+            <PropertyRef Name="JOBID" />
+          </Key>
+          <Property Name="JOBID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="JOBDescription" Type="String" MaxLength="250" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Parent_ID" Type="Int32" />
+          <Property Name="Level" Type="Int32" />
+          <Property Name="JOBCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="JOBIsMain" Type="Boolean" />
+          <Property Name="ComID" Type="Int32" />
+          <Property Name="IsDefault" Type="Boolean" />
+          <NavigationProperty Name="GJD" Relationship="Self.FK_GJD_JOB" FromRole="JOB" ToRole="GJD" />
+        </EntityType>
+        <EntityType Name="Treasuries">
+          <Key>
+            <PropertyRef Name="TreasuryId" />
+          </Key>
+          <Property Name="TreasuryId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BranchId" Type="Int32" Nullable="false" />
+          <Property Name="TreasuryName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CashAccount" Type="Int32" Nullable="false" />
+          <Property Name="CheckAccount" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="CashMovement" Relationship="Self.FK_CashMovement_Treasuries" FromRole="Treasuries" ToRole="CashMovement" />
+          <NavigationProperty Name="COA" Relationship="Self.FK_Treasuries_COA" FromRole="Treasuries" ToRole="COA" />
+          <NavigationProperty Name="COA1" Relationship="Self.FK_Treasuries_COA1" FromRole="Treasuries" ToRole="COA" />
+          <NavigationProperty Name="COM" Relationship="Self.FK_Treasuries_COM" FromRole="Treasuries" ToRole="COM" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Acc_Name" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="15" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="School_ID" Type="Int32" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="EnableDocDate" Type="Boolean" />
+          <Property Name="BirthDate" Type="DateTime" Precision="0" />
+          <Property Name="EnableUserAccounts" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="AccountSecurity" Relationship="Self.FK_AccountsSecuirity_Users" FromRole="Users" ToRole="AccountSecurity" />
+          <NavigationProperty Name="COM" Relationship="Self.FK_Users_COM" FromRole="Users" ToRole="COM" />
+          <NavigationProperty Name="Con_Company" Relationship="Self.FK_Con_Company_Users" FromRole="Users" ToRole="Con_Company" />
+          <NavigationProperty Name="GJH" Relationship="Self.FK_GJH_Users" FromRole="Users" ToRole="GJH" />
+        </EntityType>
+        <EntityType Name="AssetLocationsWithLevelsSelect_Vw">
+          <Key>
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="IsFamilial" />
+            <PropertyRef Name="level" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="LocationName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ParentID" Type="Int32" />
+          <Property Name="IsDefault" Type="Boolean" />
+          <Property Name="IsShown" Type="Boolean" />
+          <Property Name="IsMain" Type="Boolean" />
+          <Property Name="Com_ID" Type="Int32" />
+          <Property Name="IsResidential" Type="Boolean" />
+          <Property Name="MaxCount" Type="Int32" />
+          <Property Name="ClassID" Type="Int32" />
+          <Property Name="width" Type="Int32" />
+          <Property Name="Height" Type="Int32" />
+          <Property Name="Depth" Type="Int32" />
+          <Property Name="IsFamilial" Type="Boolean" Nullable="false" />
+          <Property Name="UnitNumber" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="BedsPerRoom" Type="Int32" />
+          <Property Name="level" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CoaTree_Vw">
+          <Key>
+            <PropertyRef Name="COAID" />
+            <PropertyRef Name="COACode" />
+            <PropertyRef Name="AccountNatureName" />
+            <PropertyRef Name="AccountTypeName" />
+          </Key>
+          <Property Name="COAID" Type="Int32" Nullable="false" />
+          <Property Name="COA_ID" Type="Int32" />
+          <Property Name="COACode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="COADescription" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="AccountNatureName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="AccountTypeName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="COAAccountType" Type="Int32" />
+          <Property Name="COANotes" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="COA_Type" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+          <Property Name="COMName" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="COMID" Type="Int32" />
+        </EntityType>
+        <Association Name="FK_AccountsSecuirity_COA">
+          <End Role="COA" Type="Self.COA" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AccountSecurity" Type="Self.AccountSecurity" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="COA">
+              <PropertyRef Name="COAID" />
+            </Principal>
+            <Dependent Role="AccountSecurity">
+              <PropertyRef Name="AccountId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AccountsSecuirity_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AccountSecurity" Type="Self.AccountSecurity" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="AccountSecurity">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Ast_Location_Ast_LocationClass">
+          <End Role="Ast_LocationClass" Type="Self.Ast_LocationClass" Multiplicity="0..1" />
+          <End Role="Ast_Location" Type="Self.Ast_Location" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ast_LocationClass">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Ast_Location">
+              <PropertyRef Name="ClassID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Ast_Location_COM">
+          <End Role="COM" Type="Self.COM" Multiplicity="0..1" />
+          <End Role="Ast_Location" Type="Self.Ast_Location" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="COM">
+              <PropertyRef Name="COMID" />
+            </Principal>
+            <Dependent Role="Ast_Location">
+              <PropertyRef Name="Com_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Ast_LocationClass_Ast_LocationClass">
+          <End Role="Ast_LocationClass" Type="Self.Ast_LocationClass" Multiplicity="1" />
+          <End Role="Ast_LocationClass1" Type="Self.Ast_LocationClass" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Ast_LocationClass">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Ast_LocationClass1">
+              <PropertyRef Name="ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AstNames_CAT">
+          <End Role="CAT" Type="Self.CAT" Multiplicity="0..1" />
+          <End Role="AstNames" Type="Self.AstNames" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CAT">
+              <PropertyRef Name="CAT_ID" />
+            </Principal>
+            <Dependent Role="AstNames">
+              <PropertyRef Name="Cat_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CashMovement_BCD">
+          <End Role="BCD" Type="Self.BCD" Multiplicity="1" />
+          <End Role="CashMovement" Type="Self.CashMovement" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BCD">
+              <PropertyRef Name="BCDID" />
+            </Principal>
+            <Dependent Role="CashMovement">
+              <PropertyRef Name="BCD_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GJH_BCD">
+          <End Role="BCD" Type="Self.BCD" Multiplicity="1" />
+          <End Role="GJH" Type="Self.GJH" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BCD">
+              <PropertyRef Name="BCDID" />
+            </Principal>
+            <Dependent Role="GJH">
+              <PropertyRef Name="OPT_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CashMovement_DaftersDocuments">
+          <End Role="DaftersDocuments" Type="Self.DaftersDocuments" Multiplicity="0..1" />
+          <End Role="CashMovement" Type="Self.CashMovement" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DaftersDocuments">
+              <PropertyRef Name="DocId" />
+            </Principal>
+            <Dependent Role="CashMovement">
+              <PropertyRef Name="DocId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CashMovement_GJH">
+          <End Role="GJH" Type="Self.GJH" Multiplicity="1" />
+          <End Role="CashMovement" Type="Self.CashMovement" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GJH">
+              <PropertyRef Name="GJHID" />
+            </Principal>
+            <Dependent Role="CashMovement">
+              <PropertyRef Name="GJHID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CashMovement_Treasuries">
+          <End Role="Treasuries" Type="Self.Treasuries" Multiplicity="1" />
+          <End Role="CashMovement" Type="Self.CashMovement" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Treasuries">
+              <PropertyRef Name="TreasuryId" />
+            </Principal>
+            <Dependent Role="CashMovement">
+              <PropertyRef Name="TreasuryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CAT_COA">
+          <End Role="COA" Type="Self.COA" Multiplicity="1" />
+          <End Role="CAT" Type="Self.CAT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="COA">
+              <PropertyRef Name="COAID" />
+            </Principal>
+            <Dependent Role="CAT">
+              <PropertyRef Name="COA_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CAT_COA1">
+          <End Role="COA" Type="Self.COA" Multiplicity="1" />
+          <End Role="CAT" Type="Self.CAT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="COA">
+              <PropertyRef Name="COAID" />
+            </Principal>
+            <Dependent Role="CAT">
+              <PropertyRef Name="MainDepAcc" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CAT_COA2">
+          <End Role="COA" Type="Self.COA" Multiplicity="1" />
+          <End Role="CAT" Type="Self.CAT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="COA">
+              <PropertyRef Name="COAID" />
+            </Principal>
+            <Dependent Role="CAT">
+              <PropertyRef Name="MainTotalDepAcc" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_COA_COA">
+          <End Role="COA" Type="Self.COA" Multiplicity="0..1" />
+          <End Role="COA1" Type="Self.COA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="COA">
+              <PropertyRef Name="COAID" />
+            </Principal>
+            <Dependent Role="COA1">
+              <PropertyRef Name="COA_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_COA_COM">
+          <End Role="COM" Type="Self.COM" Multiplicity="0..1" />
+          <End Role="COA" Type="Self.COA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="COM">
+              <PropertyRef Name="COMID" />
+            </Principal>
+            <Dependent Role="COA">
+              <PropertyRef Name="COM_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GJD_COA">
+          <End Role="COA" Type="Self.COA" Multiplicity="1" />
+          <End Role="GJD" Type="Self.GJD" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="COA">
+              <PropertyRef Name="COAID" />
+            </Principal>
+            <Dependent Role="GJD">
+              <PropertyRef Name="COA_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Treasuries_COA">
+          <End Role="COA" Type="Self.COA" Multiplicity="1" />
+          <End Role="Treasuries" Type="Self.Treasuries" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="COA">
+              <PropertyRef Name="COAID" />
+            </Principal>
+            <Dependent Role="Treasuries">
+              <PropertyRef Name="CashAccount" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Treasuries_COA1">
+          <End Role="COA" Type="Self.COA" Multiplicity="1" />
+          <End Role="Treasuries" Type="Self.Treasuries" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="COA">
+              <PropertyRef Name="COAID" />
+            </Principal>
+            <Dependent Role="Treasuries">
+              <PropertyRef Name="CheckAccount" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Con_Company_COM">
+          <End Role="COM" Type="Self.COM" Multiplicity="0..1" />
+          <End Role="Con_Company" Type="Self.Con_Company" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="COM">
+              <PropertyRef Name="COMID" />
+            </Principal>
+            <Dependent Role="Con_Company">
+              <PropertyRef Name="ComID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Dafters_COM">
+          <End Role="COM" Type="Self.COM" Multiplicity="1" />
+          <End Role="Dafters" Type="Self.Dafters" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="COM">
+              <PropertyRef Name="COMID" />
+            </Principal>
+            <Dependent Role="Dafters">
+              <PropertyRef Name="BranchId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FSY_COM">
+          <End Role="COM" Type="Self.COM" Multiplicity="1" />
+          <End Role="FSY" Type="Self.FSY" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="COM">
+              <PropertyRef Name="COMID" />
+            </Principal>
+            <Dependent Role="FSY">
+              <PropertyRef Name="COM_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GJD_COM">
+          <End Role="COM" Type="Self.COM" Multiplicity="0..1" />
+          <End Role="GJD" Type="Self.GJD" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="COM">
+              <PropertyRef Name="COMID" />
+            </Principal>
+            <Dependent Role="GJD">
+              <PropertyRef Name="Com_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GJH_COM">
+          <End Role="COM" Type="Self.COM" Multiplicity="0..1" />
+          <End Role="GJH" Type="Self.GJH" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="COM">
+              <PropertyRef Name="COMID" />
+            </Principal>
+            <Dependent Role="GJH">
+              <PropertyRef Name="COM_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Treasuries_COM">
+          <End Role="COM" Type="Self.COM" Multiplicity="1" />
+          <End Role="Treasuries" Type="Self.Treasuries" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="COM">
+              <PropertyRef Name="COMID" />
+            </Principal>
+            <Dependent Role="Treasuries">
+              <PropertyRef Name="BranchId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Users_COM">
+          <End Role="COM" Type="Self.COM" Multiplicity="0..1" />
+          <End Role="Users" Type="Self.Users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="COM">
+              <PropertyRef Name="COMID" />
+            </Principal>
+            <Dependent Role="Users">
+              <PropertyRef Name="School_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Con_Company_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Con_Company" Type="Self.Con_Company" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Con_Company">
+              <PropertyRef Name="CON_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Dafters_Dafters">
+          <End Role="Dafters" Type="Self.Dafters" Multiplicity="1" />
+          <End Role="Dafters1" Type="Self.Dafters" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Dafters">
+              <PropertyRef Name="DafterId" />
+            </Principal>
+            <Dependent Role="Dafters1">
+              <PropertyRef Name="DafterId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Dafters_DafterType">
+          <End Role="DafterType" Type="Self.DafterType" Multiplicity="1" />
+          <End Role="Dafters" Type="Self.Dafters" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DafterType">
+              <PropertyRef Name="TypeId" />
+            </Principal>
+            <Dependent Role="Dafters">
+              <PropertyRef Name="DafterTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Dafters_FSY">
+          <End Role="FSY" Type="Self.FSY" Multiplicity="1" />
+          <End Role="Dafters" Type="Self.Dafters" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FSY">
+              <PropertyRef Name="FSYID" />
+            </Principal>
+            <Dependent Role="Dafters">
+              <PropertyRef Name="FsyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DaftersDocuments_Dafters">
+          <End Role="Dafters" Type="Self.Dafters" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="DaftersDocuments" Type="Self.DaftersDocuments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Dafters">
+              <PropertyRef Name="DafterId" />
+            </Principal>
+            <Dependent Role="DaftersDocuments">
+              <PropertyRef Name="DafterId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FSY_GJH">
+          <End Role="GJH" Type="Self.GJH" Multiplicity="0..1" />
+          <End Role="FSY" Type="Self.FSY" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GJH">
+              <PropertyRef Name="GJHID" />
+            </Principal>
+            <Dependent Role="FSY">
+              <PropertyRef Name="GJHID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GJD_FSY">
+          <End Role="FSY" Type="Self.FSY" Multiplicity="0..1" />
+          <End Role="GJD" Type="Self.GJD" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FSY">
+              <PropertyRef Name="FSYID" />
+            </Principal>
+            <Dependent Role="GJD">
+              <PropertyRef Name="Fsy_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GJD_GJH">
+          <End Role="GJH" Type="Self.GJH" Multiplicity="1" />
+          <End Role="GJD" Type="Self.GJD" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GJH">
+              <PropertyRef Name="GJHID" />
+            </Principal>
+            <Dependent Role="GJD">
+              <PropertyRef Name="GJH_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GJD_JOB">
+          <End Role="JOB" Type="Self.JOB" Multiplicity="0..1" />
+          <End Role="GJD" Type="Self.GJD" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="JOB">
+              <PropertyRef Name="JOBID" />
+            </Principal>
+            <Dependent Role="GJD">
+              <PropertyRef Name="JOB_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GJH_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="GJH" Type="Self.GJH" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="GJH">
+              <PropertyRef Name="USR_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="EsolERPEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="AccountSecurity" EntityType="Self.AccountSecurity" />
+          <EntitySet Name="Ast_Location" EntityType="Self.Ast_Location" />
+          <EntitySet Name="Ast_LocationClass" EntityType="Self.Ast_LocationClass" />
+          <EntitySet Name="AstNames" EntityType="Self.AstNames" />
+          <EntitySet Name="BCD" EntityType="Self.BCD" />
+          <EntitySet Name="CashMovement" EntityType="Self.CashMovement" />
+          <EntitySet Name="CAT" EntityType="Self.CAT" />
+          <EntitySet Name="COA" EntityType="Self.COA" />
+          <EntitySet Name="COM" EntityType="Self.COM" />
+          <EntitySet Name="Con_Company" EntityType="Self.Con_Company" />
+          <EntitySet Name="Dafters" EntityType="Self.Dafters" />
+          <EntitySet Name="DaftersDocuments" EntityType="Self.DaftersDocuments" />
+          <EntitySet Name="DafterType" EntityType="Self.DafterType" />
+          <EntitySet Name="FSY" EntityType="Self.FSY" />
+          <EntitySet Name="GJD" EntityType="Self.GJD" />
+          <EntitySet Name="GJH" EntityType="Self.GJH" />
+          <EntitySet Name="JOB" EntityType="Self.JOB" />
+          <EntitySet Name="Treasuries" EntityType="Self.Treasuries" />
+          <EntitySet Name="Users" EntityType="Self.Users" />
+          <EntitySet Name="AssetLocationsWithLevelsSelect_Vw" EntityType="Self.AssetLocationsWithLevelsSelect_Vw" />
+          <EntitySet Name="CoaTree_Vw" EntityType="Self.CoaTree_Vw" />
+          <AssociationSet Name="FK_AccountsSecuirity_COA" Association="Self.FK_AccountsSecuirity_COA">
+            <End Role="COA" EntitySet="COA" />
+            <End Role="AccountSecurity" EntitySet="AccountSecurity" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AccountsSecuirity_Users" Association="Self.FK_AccountsSecuirity_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="AccountSecurity" EntitySet="AccountSecurity" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Ast_Location_Ast_LocationClass" Association="Self.FK_Ast_Location_Ast_LocationClass">
+            <End Role="Ast_LocationClass" EntitySet="Ast_LocationClass" />
+            <End Role="Ast_Location" EntitySet="Ast_Location" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Ast_Location_COM" Association="Self.FK_Ast_Location_COM">
+            <End Role="COM" EntitySet="COM" />
+            <End Role="Ast_Location" EntitySet="Ast_Location" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Ast_LocationClass_Ast_LocationClass" Association="Self.FK_Ast_LocationClass_Ast_LocationClass">
+            <End Role="Ast_LocationClass" EntitySet="Ast_LocationClass" />
+            <End Role="Ast_LocationClass1" EntitySet="Ast_LocationClass" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AstNames_CAT" Association="Self.FK_AstNames_CAT">
+            <End Role="CAT" EntitySet="CAT" />
+            <End Role="AstNames" EntitySet="AstNames" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CashMovement_BCD" Association="Self.FK_CashMovement_BCD">
+            <End Role="BCD" EntitySet="BCD" />
+            <End Role="CashMovement" EntitySet="CashMovement" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GJH_BCD" Association="Self.FK_GJH_BCD">
+            <End Role="BCD" EntitySet="BCD" />
+            <End Role="GJH" EntitySet="GJH" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CashMovement_DaftersDocuments" Association="Self.FK_CashMovement_DaftersDocuments">
+            <End Role="DaftersDocuments" EntitySet="DaftersDocuments" />
+            <End Role="CashMovement" EntitySet="CashMovement" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CashMovement_GJH" Association="Self.FK_CashMovement_GJH">
+            <End Role="GJH" EntitySet="GJH" />
+            <End Role="CashMovement" EntitySet="CashMovement" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CashMovement_Treasuries" Association="Self.FK_CashMovement_Treasuries">
+            <End Role="Treasuries" EntitySet="Treasuries" />
+            <End Role="CashMovement" EntitySet="CashMovement" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CAT_COA" Association="Self.FK_CAT_COA">
+            <End Role="COA" EntitySet="COA" />
+            <End Role="CAT" EntitySet="CAT" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CAT_COA1" Association="Self.FK_CAT_COA1">
+            <End Role="COA" EntitySet="COA" />
+            <End Role="CAT" EntitySet="CAT" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CAT_COA2" Association="Self.FK_CAT_COA2">
+            <End Role="COA" EntitySet="COA" />
+            <End Role="CAT" EntitySet="CAT" />
+          </AssociationSet>
+          <AssociationSet Name="FK_COA_COA" Association="Self.FK_COA_COA">
+            <End Role="COA" EntitySet="COA" />
+            <End Role="COA1" EntitySet="COA" />
+          </AssociationSet>
+          <AssociationSet Name="FK_COA_COM" Association="Self.FK_COA_COM">
+            <End Role="COM" EntitySet="COM" />
+            <End Role="COA" EntitySet="COA" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GJD_COA" Association="Self.FK_GJD_COA">
+            <End Role="COA" EntitySet="COA" />
+            <End Role="GJD" EntitySet="GJD" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Treasuries_COA" Association="Self.FK_Treasuries_COA">
+            <End Role="COA" EntitySet="COA" />
+            <End Role="Treasuries" EntitySet="Treasuries" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Treasuries_COA1" Association="Self.FK_Treasuries_COA1">
+            <End Role="COA" EntitySet="COA" />
+            <End Role="Treasuries" EntitySet="Treasuries" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Con_Company_COM" Association="Self.FK_Con_Company_COM">
+            <End Role="COM" EntitySet="COM" />
+            <End Role="Con_Company" EntitySet="Con_Company" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Dafters_COM" Association="Self.FK_Dafters_COM">
+            <End Role="COM" EntitySet="COM" />
+            <End Role="Dafters" EntitySet="Dafters" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FSY_COM" Association="Self.FK_FSY_COM">
+            <End Role="COM" EntitySet="COM" />
+            <End Role="FSY" EntitySet="FSY" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GJD_COM" Association="Self.FK_GJD_COM">
+            <End Role="COM" EntitySet="COM" />
+            <End Role="GJD" EntitySet="GJD" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GJH_COM" Association="Self.FK_GJH_COM">
+            <End Role="COM" EntitySet="COM" />
+            <End Role="GJH" EntitySet="GJH" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Treasuries_COM" Association="Self.FK_Treasuries_COM">
+            <End Role="COM" EntitySet="COM" />
+            <End Role="Treasuries" EntitySet="Treasuries" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Users_COM" Association="Self.FK_Users_COM">
+            <End Role="COM" EntitySet="COM" />
+            <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Con_Company_Users" Association="Self.FK_Con_Company_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Con_Company" EntitySet="Con_Company" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Dafters_Dafters" Association="Self.FK_Dafters_Dafters">
+            <End Role="Dafters" EntitySet="Dafters" />
+            <End Role="Dafters1" EntitySet="Dafters" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Dafters_DafterType" Association="Self.FK_Dafters_DafterType">
+            <End Role="DafterType" EntitySet="DafterType" />
+            <End Role="Dafters" EntitySet="Dafters" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Dafters_FSY" Association="Self.FK_Dafters_FSY">
+            <End Role="FSY" EntitySet="FSY" />
+            <End Role="Dafters" EntitySet="Dafters" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DaftersDocuments_Dafters" Association="Self.FK_DaftersDocuments_Dafters">
+            <End Role="Dafters" EntitySet="Dafters" />
+            <End Role="DaftersDocuments" EntitySet="DaftersDocuments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FSY_GJH" Association="Self.FK_FSY_GJH">
+            <End Role="GJH" EntitySet="GJH" />
+            <End Role="FSY" EntitySet="FSY" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GJD_FSY" Association="Self.FK_GJD_FSY">
+            <End Role="FSY" EntitySet="FSY" />
+            <End Role="GJD" EntitySet="GJD" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GJD_GJH" Association="Self.FK_GJD_GJH">
+            <End Role="GJH" EntitySet="GJH" />
+            <End Role="GJD" EntitySet="GJD" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GJD_JOB" Association="Self.FK_GJD_JOB">
+            <End Role="JOB" EntitySet="JOB" />
+            <End Role="GJD" EntitySet="GJD" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GJH_Users" Association="Self.FK_GJH_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="GJH" EntitySet="GJH" />
+          </AssociationSet>
+          <FunctionImport Name="FilterAssets_Sp" ReturnType="Collection(StudentProfile.DAL.Models.FilterAssets_Sp_Result)">
+            <Parameter Name="ComId" Mode="In" Type="Int32" />
+            <Parameter Name="DepartmentId" Mode="In" Type="Int32" />
+            <Parameter Name="FloorId" Mode="In" Type="Int32" />
+            <Parameter Name="SiteId" Mode="In" Type="Int32" />
+            <Parameter Name="CatId" Mode="In" Type="Int32" />
+            <Parameter Name="StartDate" Mode="In" Type="DateTime" />
+            <Parameter Name="EndDate" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="FloorDepComForSiteSelect_Sp" ReturnType="Collection(StudentProfile.DAL.Models.FloorDepComForSiteSelect_Sp_Result)">
+          <Parameter Name="SiteId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="GetComsBasedOnIsFamilial_Sp" ReturnType="Collection(StudentProfile.DAL.Models.GetComsBasedOnIsFamilial_Sp_Result)">
+          <Parameter Name="IsFamilial" Mode="In" Type="Boolean" />
+          </FunctionImport>
+          <FunctionImport Name="GetLocationsTree_Sp" ReturnType="Collection(StudentProfile.DAL.Models.GetLocationsTree_Sp_Result)" />
+          <FunctionImport Name="NextJournalEntryNo_Sp" ReturnType="Collection(Int32)">
+            <Parameter Name="COM_ID" Mode="In" Type="Int32" />
+            <Parameter Name="Fsy_ID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SelectBranchesInAssetLocations_Sp" ReturnType="Collection(StudentProfile.DAL.Models.SelectBranchesInAssetLocations_Sp_Result)">
+          <Parameter Name="UserId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SelectBranchesNotInAssetLocations_Sp" ReturnType="Collection(StudentProfile.DAL.Models.SelectBranchesNotInAssetLocations_Sp_Result)">
+          <Parameter Name="UserId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SiteInsert_Sp">
+            <Parameter Name="BranchId" Mode="In" Type="Int32" />
+            <Parameter Name="FloorId" Mode="In" Type="Int32" />
+            <Parameter Name="LocationName" Mode="In" Type="String" />
+            <Parameter Name="ClassID" Mode="In" Type="Int32" />
+            <Parameter Name="width" Mode="In" Type="Int32" />
+            <Parameter Name="Height" Mode="In" Type="Int32" />
+            <Parameter Name="Depth" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="Usp_Company_Select_ByUserID" ReturnType="Collection(StudentProfile.DAL.Models.Usp_Company_Select_ByUserID_Result)">
+          <Parameter Name="userID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="usp_GetLastGJHSystemNumber" ReturnType="Collection(String)">
+            <Parameter Name="FsyID" Mode="In" Type="Int32" />
+            <Parameter Name="OptID" Mode="In" Type="Int32" />
+            <Parameter Name="Prefix" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="usp_GetConfigValues" ReturnType="Collection(StudentProfile.DAL.Models.usp_GetConfigValues_Result)">
+          <Parameter Name="SearchKey" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="VW_UnitParents" EntityType="StudentProfile.DAL.Models.VW_UnitParents" />
+        </EntityContainer>
+        <ComplexType Name="FilterAssets_Sp_Result">
+          <Property Type="Int32" Name="AstNameId" Nullable="false" />
+          <Property Type="String" Name="AstName" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="CAT_ID" Nullable="false" />
+          <Property Type="String" Name="CAT_Name" Nullable="false" MaxLength="100" />
+          <Property Type="Int32" Name="COMID" Nullable="false" />
+          <Property Type="Int32" Name="SiteId" Nullable="false" />
+          <Property Type="Int32" Name="FloorId" Nullable="false" />
+          <Property Type="Int32" Name="DepartmentId" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="FloorDepComForSiteSelect_Sp_Result">
+          <Property Type="Int32" Name="SiteId" Nullable="false" />
+          <Property Type="String" Name="SiteName" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="FloorId" Nullable="false" />
+          <Property Type="String" Name="FloorName" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="DepartmentId" Nullable="false" />
+          <Property Type="String" Name="DepartementName" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="CompanyId" Nullable="false" />
+          <Property Type="String" Name="CompanyName" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="width" Nullable="true" />
+          <Property Type="Int32" Name="ClassID" Nullable="false" />
+          <Property Type="String" Name="ClassName" Nullable="false" MaxLength="100" />
+          <Property Type="Int32" Name="Height" Nullable="true" />
+          <Property Type="Int32" Name="Depth" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="GetComsBasedOnIsFamilial_Sp_Result">
+          <Property Type="Int32" Name="ID" Nullable="true" />
+          <Property Type="String" Name="LocationName" Nullable="true" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="GetLocationsTree_Sp_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="LocationName" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="Parentid" Nullable="true" />
+          <Property Type="Int32" Name="width" Nullable="true" />
+          <Property Type="Int32" Name="Height" Nullable="true" />
+          <Property Type="Int32" Name="Depth" Nullable="true" />
+          <Property Type="String" Name="IsMain" Nullable="true" MaxLength="5" />
+          <Property Type="String" Name="COMName" Nullable="true" MaxLength="250" />
+        </ComplexType>
+        <ComplexType Name="SelectBranchesInAssetLocations_Sp_Result">
+          <Property Type="Int32" Name="COMID" Nullable="false" />
+          <Property Type="String" Name="COMName" Nullable="false" MaxLength="250" />
+        </ComplexType>
+        <ComplexType Name="SelectBranchesNotInAssetLocations_Sp_Result">
+          <Property Type="Int32" Name="COMID" Nullable="false" />
+          <Property Type="String" Name="COMName" Nullable="false" MaxLength="250" />
+        </ComplexType>
+        <ComplexType Name="Usp_Company_Select_ByUserID_Result">
+          <Property Type="Int32" Name="COMID" Nullable="false" />
+          <Property Type="String" Name="COMName" Nullable="false" MaxLength="250" />
+          <Property Type="String" Name="Accountant_Name" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="FM_Name" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="GM_Name" Nullable="true" MaxLength="250" />
+        </ComplexType>
+        <ComplexType Name="usp_GetConfigValues_Result">
+          <Property Type="String" Name="ConfigKey" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="ConfigValue" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="ConfigKeyAr" Nullable="true" MaxLength="50" />
+        </ComplexType>
+        <EntityType Name="VW_UnitParents">
+          <Key>
+            <PropertyRef Name="SiteId" />
+            <PropertyRef Name="FloorId" />
+            <PropertyRef Name="DepartmentId" />
+            <PropertyRef Name="IsFamilial" />
+            <PropertyRef Name="CompanyId" />
+          </Key>
+          <Property Name="SiteId" Type="Int32" Nullable="false" />
+          <Property Name="SiteName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="MaxCount" Type="Int32" />
+          <Property Name="FloorId" Type="Int32" Nullable="false" />
+          <Property Name="FloorName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="DepartmentId" Type="Int32" Nullable="false" />
+          <Property Name="IsResidential" Type="Boolean" />
+          <Property Name="IsFamilial" Type="Boolean" Nullable="false" />
+          <Property Name="DepartementName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CompanyId" Type="Int32" Nullable="false" />
+          <Property Name="CompanyName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="StudentProfileDALModelsStoreContainer" CdmEntityContainer="EsolERPEntities">
+          <EntitySetMapping Name="AccountSecurity">
+            <EntityTypeMapping TypeName="StudentProfile.DAL.Models.AccountSecurity">
+              <MappingFragment StoreEntitySet="AccountSecurity">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="AccountId" ColumnName="AccountId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Ast_Location">
+            <EntityTypeMapping TypeName="StudentProfile.DAL.Models.Ast_Location">
+              <MappingFragment StoreEntitySet="Ast_Location">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="LocationName" ColumnName="LocationName" />
+                <ScalarProperty Name="ParentID" ColumnName="ParentID" />
+                <ScalarProperty Name="IsDefault" ColumnName="IsDefault" />
+                <ScalarProperty Name="IsShown" ColumnName="IsShown" />
+                <ScalarProperty Name="IsMain" ColumnName="IsMain" />
+                <ScalarProperty Name="Com_ID" ColumnName="Com_ID" />
+                <ScalarProperty Name="IsResidential" ColumnName="IsResidential" />
+                <ScalarProperty Name="MaxCount" ColumnName="MaxCount" />
+                <ScalarProperty Name="ClassID" ColumnName="ClassID" />
+                <ScalarProperty Name="width" ColumnName="width" />
+                <ScalarProperty Name="Height" ColumnName="Height" />
+                <ScalarProperty Name="Depth" ColumnName="Depth" />
+                <ScalarProperty Name="IsFamilial" ColumnName="IsFamilial" />
+                <ScalarProperty Name="UnitNumber" ColumnName="UnitNumber" />
+                <ScalarProperty Name="BedsPerRoom" ColumnName="BedsPerRoom" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Ast_LocationClass">
+            <EntityTypeMapping TypeName="StudentProfile.DAL.Models.Ast_LocationClass">
+              <MappingFragment StoreEntitySet="Ast_LocationClass">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AstNames">
+            <EntityTypeMapping TypeName="StudentProfile.DAL.Models.AstNames">
+              <MappingFragment StoreEntitySet="AstNames">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Cat_Id" ColumnName="Cat_Id" />
+                <ScalarProperty Name="ComID" ColumnName="ComID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BCD">
+            <EntityTypeMapping TypeName="StudentProfile.DAL.Models.BCD">
+              <MappingFragment StoreEntitySet="BCD">
+                <ScalarProperty Name="BCDID" ColumnName="BCDID" />
+                <ScalarProperty Name="BCDArValue" ColumnName="BCDArValue" />
+                <ScalarProperty Name="BCDEnValue" ColumnName="BCDEnValue" />
+                <ScalarProperty Name="BCDStatus" ColumnName="BCDStatus" />
+                <ScalarProperty Name="BCDIsSystem" ColumnName="BCDIsSystem" />
+                <ScalarProperty Name="BCDOrder" ColumnName="BCDOrder" />
+                <ScalarProperty Name="BCDExp1" ColumnName="BCDExp1" />
+                <ScalarProperty Name="BCDExp2" ColumnName="BCDExp2" />
+                <ScalarProperty Name="BCDExp3" ColumnName="BCDExp3" />
+                <ScalarProperty Name="BSC_ID" ColumnName="BSC_ID" />
+                <ScalarProperty Name="Prefix" ColumnName="Prefix" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CashMovement">
+            <EntityTypeMapping TypeName="StudentProfile.DAL.Models.CashMovement">
+              <MappingFragment StoreEntitySet="CashMovement">
+                <ScalarProperty Name="CashMovementId" ColumnName="CashMovementId" />
+                <ScalarProperty Name="TreasuryId" ColumnName="TreasuryId" />
+                <ScalarProperty Name="GJHID" ColumnName="GJHID" />
+                <ScalarProperty Name="DocId" ColumnName="DocId" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="MovementDate" ColumnName="MovementDate" />
+                <ScalarProperty Name="BCD_ID" ColumnName="BCD_ID" />
+                <ScalarProperty Name="PatchDate" ColumnName="PatchDate" />
+                <ScalarProperty Name="BeneficiaryName" ColumnName="BeneficiaryName" />
+                <ScalarProperty Name="Notes" ColumnName="Notes" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CAT">
+            <EntityTypeMapping TypeName="StudentProfile.DAL.Models.CAT">
+              <MappingFragment StoreEntitySet="CAT">
+                <ScalarProperty Name="CAT_ID" ColumnName="CAT_ID" />
+                <ScalarProperty Name="CAT_Name" ColumnName="CAT_Name" />
+                <ScalarProperty Name="COA_ID" ColumnName="COA_ID" />
+                <ScalarProperty Name="MainDepAcc" ColumnName="MainDepAcc" />
+                <ScalarProperty Name="MainTotalDepAcc" ColumnName="MainTotalDepAcc" />
+                <ScalarProperty Name="DEP_ID" ColumnName="DEP_ID" />
+                <ScalarProperty Name="DEP_Percent" ColumnName="DEP_Percent" />
+                <ScalarProperty Name="DepYears" ColumnName="DepYears" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="COA">
+            <EntityTypeMapping TypeName="StudentProfile.DAL.Models.COA">
+              <MappingFragment StoreEntitySet="COA">
+                <ScalarProperty Name="COAID" ColumnName="COAID" />
+                <ScalarProperty Name="COA_ID" ColumnName="COA_ID" />
+                <ScalarProperty Name="COACode" ColumnName="COACode" />
+                <ScalarProperty Name="COADescription" ColumnName="COADescription" />
+                <ScalarProperty Name="COAPlusSide" ColumnName="COAPlusSide" />
+                <ScalarProperty Name="COASystemPlusSide" ColumnName="COASystemPlusSide" />
+                <ScalarProperty Name="COAStatus" ColumnName="COAStatus" />
+                <ScalarProperty Name="COASystemAccount" ColumnName="COASystemAccount" />
+                <ScalarProperty Name="COM_ID" ColumnName="COM_ID" />
+                <ScalarProperty Name="COAAccountType" ColumnName="COAAccountType" />
+                <ScalarProperty Name="COANotes" ColumnName="COANotes" />
+                <ScalarProperty Name="ACC_MainType" ColumnName="ACC_MainType" />
+                <ScalarProperty Name="COA_Type" ColumnName="COA_Type" />
+                <ScalarProperty Name="OpenDebit" ColumnName="OpenDebit" />
+                <ScalarProperty Name="OpenCredit" ColumnName="OpenCredit" />
+                <ScalarProperty Name="DebitAmount" ColumnName="DebitAmount" />
+                <ScalarProperty Name="CreditAmount" ColumnName="CreditAmount" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="COM">
+            <EntityTypeMapping TypeName="StudentProfile.DAL.Models.COM">
+              <MappingFragment StoreEntitySet="COM">
+                <ScalarProperty Name="COMID" ColumnName="COMID" />
+                <ScalarProperty Name="COMName" ColumnName="COMName" />
+                <ScalarProperty Name="COMDescription" ColumnName="COMDescription" />
+                <ScalarProperty Name="COMAddress" ColumnName="COMAddress" />
+                <ScalarProperty Name="COMUrl" ColumnName="COMUrl" />
+                <ScalarProperty Name="COMLogo" ColumnName="COMLogo" />
+                <ScalarProperty Name="COMPhone" ColumnName="COMPhone" />
+                <ScalarProperty Name="COMFax" ColumnName="COMFax" />
+                <ScalarProperty Name="COMStatus" ColumnName="COMStatus" />
+                <ScalarProperty Name="DocFooter" ColumnName="DocFooter" />
+                <ScalarProperty Name="COM_ID" ColumnName="COM_ID" />
+                <ScalarProperty Name="Accountant_Name" ColumnName="Accountant_Name" />
+                <ScalarProperty Name="FM_Name" ColumnName="FM_Name" />
+                <ScalarProperty Name="GM_Name" ColumnName="GM_Name" />
+                <ScalarProperty Name="Is_Multiple_owner" ColumnName="Is_Multiple_owner" />
+                <ScalarProperty Name="ParentID" ColumnName="ParentID" />
+                <ScalarProperty Name="Current_AccountID" ColumnName="Current_AccountID" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="ComNameEn" ColumnName="ComNameEn" />
+                <ScalarProperty Name="ComMobile" ColumnName="ComMobile" />
+                <ScalarProperty Name="ComEmail" ColumnName="ComEmail" />
+                <ScalarProperty Name="RevenueAccountID" ColumnName="RevenueAccountID" />
+                <ScalarProperty Name="TaxNo" ColumnName="TaxNo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Con_Company">
+            <EntityTypeMapping TypeName="StudentProfile.DAL.Models.Con_Company">
+              <MappingFragment StoreEntitySet="Con_Company">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="CON_ID" ColumnName="CON_ID" />
+                <ScalarProperty Name="ComID" ColumnName="ComID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Dafters">
+            <EntityTypeMapping TypeName="StudentProfile.DAL.Models.Dafters">
+              <MappingFragment StoreEntitySet="Dafters">
+                <ScalarProperty Name="DafterId" ColumnName="DafterId" />
+                <ScalarProperty Name="DafterNo" ColumnName="DafterNo" />
+                <ScalarProperty Name="DafterTypeId" ColumnName="DafterTypeId" />
+                <ScalarProperty Name="BranchId" ColumnName="BranchId" />
+                <ScalarProperty Name="StartFrom" ColumnName="StartFrom" />
+                <ScalarProperty Name="EndTo" ColumnName="EndTo" />
+                <ScalarProperty Name="FsyId" ColumnName="FsyId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DaftersDocuments">
+            <EntityTypeMapping TypeName="StudentProfile.DAL.Models.DaftersDocuments">
+              <MappingFragment StoreEntitySet="DaftersDocuments">
+                <ScalarProperty Name="DocId" ColumnName="DocId" />
+                <ScalarProperty Name="DafterId" ColumnName="DafterId" />
+                <ScalarProperty Name="DocNum" ColumnName="DocNum" />
+                <ScalarProperty Name="IsUsed" ColumnName="IsUsed" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DafterType">
+            <EntityTypeMapping TypeName="StudentProfile.DAL.Models.DafterType">
+              <MappingFragment StoreEntitySet="DafterType">
+                <ScalarProperty Name="TypeId" ColumnName="TypeId" />
+                <ScalarProperty Name="TypeName" ColumnName="TypeName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FSY">
+            <EntityTypeMapping TypeName="StudentProfile.DAL.Models.FSY">
+              <MappingFragment StoreEntitySet="FSY">
+                <ScalarProperty Name="FSYID" ColumnName="FSYID" />
+                <ScalarProperty Name="FSYStartDate" ColumnName="FSYStartDate" />
+                <ScalarProperty Name="FSYEndDate" ColumnName="FSYEndDate" />
+                <ScalarProperty Name="FSYStatus" ColumnName="FSYStatus" />
+                <ScalarProperty Name="COM_ID" ColumnName="COM_ID" />
+                <ScalarProperty Name="Is_Open" ColumnName="Is_Open" />
+                <ScalarProperty Name="Fsy_Name" ColumnName="Fsy_Name" />
+                <ScalarProperty Name="FsyPrefix" ColumnName="FsyPrefix" />
+                <ScalarProperty Name="GJHID" ColumnName="GJHID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GJD">
+            <EntityTypeMapping TypeName="StudentProfile.DAL.Models.GJD">
+              <MappingFragment StoreEntitySet="GJD">
+                <ScalarProperty Name="GJDID" ColumnName="GJDID" />
+                <ScalarProperty Name="GJH_ID" ColumnName="GJH_ID" />
+                <ScalarProperty Name="GJDDebitAmount" ColumnName="GJDDebitAmount" />
+                <ScalarProperty Name="GJDCreditAmount" ColumnName="GJDCreditAmount" />
+                <ScalarProperty Name="COA_ID" ColumnName="COA_ID" />
+                <ScalarProperty Name="GJDDescrition" ColumnName="GJDDescrition" />
+                <ScalarProperty Name="JOB_ID" ColumnName="JOB_ID" />
+                <ScalarProperty Name="GJDStatus" ColumnName="GJDStatus" />
+                <ScalarProperty Name="Fsy_ID" ColumnName="Fsy_ID" />
+                <ScalarProperty Name="Com_ID" ColumnName="Com_ID" />
+                <ScalarProperty Name="Notes" ColumnName="Notes" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GJH">
+            <EntityTypeMapping TypeName="StudentProfile.DAL.Models.GJH">
+              <MappingFragment StoreEntitySet="GJH">
+                <ScalarProperty Name="GJHID" ColumnName="GJHID" />
+                <ScalarProperty Name="JournalNo" ColumnName="JournalNo" />
+                <ScalarProperty Name="COM_ID" ColumnName="COM_ID" />
+                <ScalarProperty Name="GJHOperationDate" ColumnName="GJHOperationDate" />
+                <ScalarProperty Name="GJHPostedDate" ColumnName="GJHPostedDate" />
+                <ScalarProperty Name="GJHDescription" ColumnName="GJHDescription" />
+                <ScalarProperty Name="GJHAmount" ColumnName="GJHAmount" />
+                <ScalarProperty Name="OPT_ID" ColumnName="OPT_ID" />
+                <ScalarProperty Name="GJHSourceType" ColumnName="GJHSourceType" />
+                <ScalarProperty Name="GJHSource_ID" ColumnName="GJHSource_ID" />
+                <ScalarProperty Name="GJHSourceNumber" ColumnName="GJHSourceNumber" />
+                <ScalarProperty Name="USR_ID" ColumnName="USR_ID" />
+                <ScalarProperty Name="GJHSubAccount_ID" ColumnName="GJHSubAccount_ID" />
+                <ScalarProperty Name="GJHSubAccountType" ColumnName="GJHSubAccountType" />
+                <ScalarProperty Name="GJHRefranceNumber" ColumnName="GJHRefranceNumber" />
+                <ScalarProperty Name="GJHSystemNumber" ColumnName="GJHSystemNumber" />
+                <ScalarProperty Name="GJHPreviousBalance" ColumnName="GJHPreviousBalance" />
+                <ScalarProperty Name="GJHStatus" ColumnName="GJHStatus" />
+                <ScalarProperty Name="ISONumber" ColumnName="ISONumber" />
+                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="JOB">
+            <EntityTypeMapping TypeName="StudentProfile.DAL.Models.JOB">
+              <MappingFragment StoreEntitySet="JOB">
+                <ScalarProperty Name="JOBID" ColumnName="JOBID" />
+                <ScalarProperty Name="JOBDescription" ColumnName="JOBDescription" />
+                <ScalarProperty Name="Parent_ID" ColumnName="Parent_ID" />
+                <ScalarProperty Name="Level" ColumnName="Level" />
+                <ScalarProperty Name="JOBCode" ColumnName="JOBCode" />
+                <ScalarProperty Name="JOBIsMain" ColumnName="JOBIsMain" />
+                <ScalarProperty Name="ComID" ColumnName="ComID" />
+                <ScalarProperty Name="IsDefault" ColumnName="IsDefault" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Treasuries">
+            <EntityTypeMapping TypeName="StudentProfile.DAL.Models.Treasuries">
+              <MappingFragment StoreEntitySet="Treasuries">
+                <ScalarProperty Name="TreasuryId" ColumnName="TreasuryId" />
+                <ScalarProperty Name="BranchId" ColumnName="BranchId" />
+                <ScalarProperty Name="TreasuryName" ColumnName="TreasuryName" />
+                <ScalarProperty Name="CashAccount" ColumnName="CashAccount" />
+                <ScalarProperty Name="CheckAccount" ColumnName="CheckAccount" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="StudentProfile.DAL.Models.Users">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Acc_Name" ColumnName="Acc_Name" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="School_ID" ColumnName="School_ID" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="EnableDocDate" ColumnName="EnableDocDate" />
+                <ScalarProperty Name="BirthDate" ColumnName="BirthDate" />
+                <ScalarProperty Name="EnableUserAccounts" ColumnName="EnableUserAccounts" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AssetLocationsWithLevelsSelect_Vw">
+            <EntityTypeMapping TypeName="StudentProfile.DAL.Models.AssetLocationsWithLevelsSelect_Vw">
+              <MappingFragment StoreEntitySet="AssetLocationsWithLevelsSelect_Vw">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="LocationName" ColumnName="LocationName" />
+                <ScalarProperty Name="ParentID" ColumnName="ParentID" />
+                <ScalarProperty Name="IsDefault" ColumnName="IsDefault" />
+                <ScalarProperty Name="IsShown" ColumnName="IsShown" />
+                <ScalarProperty Name="IsMain" ColumnName="IsMain" />
+                <ScalarProperty Name="Com_ID" ColumnName="Com_ID" />
+                <ScalarProperty Name="IsResidential" ColumnName="IsResidential" />
+                <ScalarProperty Name="MaxCount" ColumnName="MaxCount" />
+                <ScalarProperty Name="ClassID" ColumnName="ClassID" />
+                <ScalarProperty Name="width" ColumnName="width" />
+                <ScalarProperty Name="Height" ColumnName="Height" />
+                <ScalarProperty Name="Depth" ColumnName="Depth" />
+                <ScalarProperty Name="IsFamilial" ColumnName="IsFamilial" />
+                <ScalarProperty Name="UnitNumber" ColumnName="UnitNumber" />
+                <ScalarProperty Name="BedsPerRoom" ColumnName="BedsPerRoom" />
+                <ScalarProperty Name="level" ColumnName="level" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CoaTree_Vw">
+            <EntityTypeMapping TypeName="StudentProfile.DAL.Models.CoaTree_Vw">
+              <MappingFragment StoreEntitySet="CoaTree_Vw">
+                <ScalarProperty Name="COAID" ColumnName="COAID" />
+                <ScalarProperty Name="COA_ID" ColumnName="COA_ID" />
+                <ScalarProperty Name="COACode" ColumnName="COACode" />
+                <ScalarProperty Name="COADescription" ColumnName="COADescription" />
+                <ScalarProperty Name="AccountNatureName" ColumnName="AccountNatureName" />
+                <ScalarProperty Name="AccountTypeName" ColumnName="AccountTypeName" />
+                <ScalarProperty Name="COAAccountType" ColumnName="COAAccountType" />
+                <ScalarProperty Name="COANotes" ColumnName="COANotes" />
+                <ScalarProperty Name="COA_Type" ColumnName="COA_Type" />
+                <ScalarProperty Name="COMName" ColumnName="COMName" />
+                <ScalarProperty Name="COMID" ColumnName="COMID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="FilterAssets_Sp" FunctionName="StudentProfile.DAL.Models.Store.FilterAssets_Sp">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="StudentProfile.DAL.Models.FilterAssets_Sp_Result">
+                <ScalarProperty Name="AstNameId" ColumnName="AstNameId" />
+                <ScalarProperty Name="AstName" ColumnName="AstName" />
+                <ScalarProperty Name="CAT_ID" ColumnName="CAT_ID" />
+                <ScalarProperty Name="CAT_Name" ColumnName="CAT_Name" />
+                <ScalarProperty Name="COMID" ColumnName="COMID" />
+                <ScalarProperty Name="SiteId" ColumnName="SiteId" />
+                <ScalarProperty Name="FloorId" ColumnName="FloorId" />
+                <ScalarProperty Name="DepartmentId" ColumnName="DepartmentId" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="FloorDepComForSiteSelect_Sp" FunctionName="StudentProfile.DAL.Models.Store.FloorDepComForSiteSelect_Sp">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="StudentProfile.DAL.Models.FloorDepComForSiteSelect_Sp_Result">
+                <ScalarProperty Name="SiteId" ColumnName="SiteId" />
+                <ScalarProperty Name="SiteName" ColumnName="SiteName" />
+                <ScalarProperty Name="FloorId" ColumnName="FloorId" />
+                <ScalarProperty Name="FloorName" ColumnName="FloorName" />
+                <ScalarProperty Name="DepartmentId" ColumnName="DepartmentId" />
+                <ScalarProperty Name="DepartementName" ColumnName="DepartementName" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
+                <ScalarProperty Name="width" ColumnName="width" />
+                <ScalarProperty Name="ClassID" ColumnName="ClassID" />
+                <ScalarProperty Name="ClassName" ColumnName="ClassName" />
+                <ScalarProperty Name="Height" ColumnName="Height" />
+                <ScalarProperty Name="Depth" ColumnName="Depth" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetComsBasedOnIsFamilial_Sp" FunctionName="StudentProfile.DAL.Models.Store.GetComsBasedOnIsFamilial_Sp">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="StudentProfile.DAL.Models.GetComsBasedOnIsFamilial_Sp_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="LocationName" ColumnName="LocationName" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetLocationsTree_Sp" FunctionName="StudentProfile.DAL.Models.Store.GetLocationsTree_Sp">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="StudentProfile.DAL.Models.GetLocationsTree_Sp_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="LocationName" ColumnName="LocationName" />
+                <ScalarProperty Name="Parentid" ColumnName="Parentid" />
+                <ScalarProperty Name="width" ColumnName="width" />
+                <ScalarProperty Name="Height" ColumnName="Height" />
+                <ScalarProperty Name="Depth" ColumnName="Depth" />
+                <ScalarProperty Name="IsMain" ColumnName="IsMain" />
+                <ScalarProperty Name="COMName" ColumnName="COMName" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="NextJournalEntryNo_Sp" FunctionName="StudentProfile.DAL.Models.Store.NextJournalEntryNo_Sp" />
+          <FunctionImportMapping FunctionImportName="SelectBranchesInAssetLocations_Sp" FunctionName="StudentProfile.DAL.Models.Store.SelectBranchesInAssetLocations_Sp">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="StudentProfile.DAL.Models.SelectBranchesInAssetLocations_Sp_Result">
+                <ScalarProperty Name="COMID" ColumnName="COMID" />
+                <ScalarProperty Name="COMName" ColumnName="COMName" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SelectBranchesNotInAssetLocations_Sp" FunctionName="StudentProfile.DAL.Models.Store.SelectBranchesNotInAssetLocations_Sp">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="StudentProfile.DAL.Models.SelectBranchesNotInAssetLocations_Sp_Result">
+                <ScalarProperty Name="COMID" ColumnName="COMID" />
+                <ScalarProperty Name="COMName" ColumnName="COMName" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SiteInsert_Sp" FunctionName="StudentProfile.DAL.Models.Store.SiteInsert_Sp" />
+          <FunctionImportMapping FunctionImportName="Usp_Company_Select_ByUserID" FunctionName="StudentProfile.DAL.Models.Store.Usp_Company_Select_ByUserID">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="StudentProfile.DAL.Models.Usp_Company_Select_ByUserID_Result">
+                <ScalarProperty Name="COMID" ColumnName="COMID" />
+                <ScalarProperty Name="COMName" ColumnName="COMName" />
+                <ScalarProperty Name="Accountant_Name" ColumnName="Accountant_Name" />
+                <ScalarProperty Name="FM_Name" ColumnName="FM_Name" />
+                <ScalarProperty Name="GM_Name" ColumnName="GM_Name" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="usp_GetLastGJHSystemNumber" FunctionName="StudentProfile.DAL.Models.Store.usp_GetLastGJHSystemNumber" />
+          <FunctionImportMapping FunctionImportName="usp_GetConfigValues" FunctionName="StudentProfile.DAL.Models.Store.usp_GetConfigValues">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="StudentProfile.DAL.Models.usp_GetConfigValues_Result">
+                <ScalarProperty Name="ConfigKey" ColumnName="ConfigKey" />
+                <ScalarProperty Name="ConfigValue" ColumnName="ConfigValue" />
+                <ScalarProperty Name="ConfigKeyAr" ColumnName="ConfigKeyAr" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="VW_UnitParents">
+            <EntityTypeMapping TypeName="StudentProfile.DAL.Models.VW_UnitParents">
+              <MappingFragment StoreEntitySet="VW_UnitParents">
+                <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="DepartementName" ColumnName="DepartementName" />
+                <ScalarProperty Name="IsFamilial" ColumnName="IsFamilial" />
+                <ScalarProperty Name="IsResidential" ColumnName="IsResidential" />
+                <ScalarProperty Name="DepartmentId" ColumnName="DepartmentId" />
+                <ScalarProperty Name="FloorName" ColumnName="FloorName" />
+                <ScalarProperty Name="FloorId" ColumnName="FloorId" />
+                <ScalarProperty Name="MaxCount" ColumnName="MaxCount" />
+                <ScalarProperty Name="SiteName" ColumnName="SiteName" />
+                <ScalarProperty Name="SiteId" ColumnName="SiteId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
